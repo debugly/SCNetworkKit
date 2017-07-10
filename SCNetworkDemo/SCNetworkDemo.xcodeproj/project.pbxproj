@@ -1,0 +1,464 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C321D6881F138DE700322215 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D6871F138DE700322215 /* main.m */; };
+		C321D68B1F138DE700322215 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D68A1F138DE700322215 /* AppDelegate.m */; };
+		C321D68E1F138DE700322215 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D68D1F138DE700322215 /* ViewController.m */; };
+		C321D6911F138DE700322215 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C321D68F1F138DE700322215 /* Main.storyboard */; };
+		C321D6931F138DE700322215 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C321D6921F138DE700322215 /* Assets.xcassets */; };
+		C321D6961F138DE700322215 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C321D6941F138DE700322215 /* LaunchScreen.storyboard */; };
+		C321D6FA1F13904A00322215 /* SCNetworkRequest+Chain.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D6D51F13904A00322215 /* SCNetworkRequest+Chain.m */; };
+		C321D6FB1F13904A00322215 /* SCNJSONResponseParser+Chain.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D6D71F13904A00322215 /* SCNJSONResponseParser+Chain.m */; };
+		C321D6FC1F13904A00322215 /* SCNModelResponseParser+Chain.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D6D91F13904A00322215 /* SCNModelResponseParser+Chain.m */; };
+		C321D6FD1F13904A00322215 /* SCNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D6DC1F13904A00322215 /* SCNetworkRequest.m */; };
+		C321D6FE1F13904A00322215 /* SCNBlockResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D6E01F13904A00322215 /* SCNBlockResponseParser.m */; };
+		C321D6FF1F13904A00322215 /* SCNHTTPResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D6E21F13904A00322215 /* SCNHTTPResponseParser.m */; };
+		C321D7001F13904A00322215 /* SCNImageResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D6E41F13904A00322215 /* SCNImageResponseParser.m */; };
+		C321D7011F13904A00322215 /* SCNJSONResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D6E61F13904A00322215 /* SCNJSONResponseParser.m */; };
+		C321D7021F13904A00322215 /* SCNModelResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D6E91F13904A00322215 /* SCNModelResponseParser.m */; };
+		C321D7031F13904A00322215 /* SCNetworkService+Shared.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D6EE1F13904A00322215 /* SCNetworkService+Shared.m */; };
+		C321D7041F13904A00322215 /* SCNetworkService.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D6F01F13904A00322215 /* SCNetworkService.m */; };
+		C321D7051F13904A00322215 /* SCNetWorkSessionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D6F21F13904A00322215 /* SCNetWorkSessionDelegate.m */; };
+		C321D7061F13904A00322215 /* NSDictionary+SCAddtions.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D6F51F13904A00322215 /* NSDictionary+SCAddtions.m */; };
+		C321D7071F13904A00322215 /* NSObject+SCCancelRef.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D6F71F13904A00322215 /* NSObject+SCCancelRef.m */; };
+		C321D7081F13904A00322215 /* NSString+SCAddtions.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D6F91F13904A00322215 /* NSString+SCAddtions.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		C321D6831F138DE700322215 /* SCNetworkDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SCNetworkDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C321D6871F138DE700322215 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C321D6891F138DE700322215 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		C321D68A1F138DE700322215 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		C321D68C1F138DE700322215 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		C321D68D1F138DE700322215 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		C321D6901F138DE700322215 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C321D6921F138DE700322215 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C321D6951F138DE700322215 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C321D6971F138DE700322215 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C321D6D41F13904A00322215 /* SCNetworkRequest+Chain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SCNetworkRequest+Chain.h"; sourceTree = "<group>"; };
+		C321D6D51F13904A00322215 /* SCNetworkRequest+Chain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SCNetworkRequest+Chain.m"; sourceTree = "<group>"; };
+		C321D6D61F13904A00322215 /* SCNJSONResponseParser+Chain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SCNJSONResponseParser+Chain.h"; sourceTree = "<group>"; };
+		C321D6D71F13904A00322215 /* SCNJSONResponseParser+Chain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SCNJSONResponseParser+Chain.m"; sourceTree = "<group>"; };
+		C321D6D81F13904A00322215 /* SCNModelResponseParser+Chain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SCNModelResponseParser+Chain.h"; sourceTree = "<group>"; };
+		C321D6D91F13904A00322215 /* SCNModelResponseParser+Chain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SCNModelResponseParser+Chain.m"; sourceTree = "<group>"; };
+		C321D6DB1F13904A00322215 /* SCNetworkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNetworkRequest.h; sourceTree = "<group>"; };
+		C321D6DC1F13904A00322215 /* SCNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNetworkRequest.m; sourceTree = "<group>"; };
+		C321D6DD1F13904A00322215 /* SCNetworkRequestInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNetworkRequestInternal.h; sourceTree = "<group>"; };
+		C321D6DF1F13904A00322215 /* SCNBlockResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNBlockResponseParser.h; sourceTree = "<group>"; };
+		C321D6E01F13904A00322215 /* SCNBlockResponseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNBlockResponseParser.m; sourceTree = "<group>"; };
+		C321D6E11F13904A00322215 /* SCNHTTPResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNHTTPResponseParser.h; sourceTree = "<group>"; };
+		C321D6E21F13904A00322215 /* SCNHTTPResponseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNHTTPResponseParser.m; sourceTree = "<group>"; };
+		C321D6E31F13904A00322215 /* SCNImageResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNImageResponseParser.h; sourceTree = "<group>"; };
+		C321D6E41F13904A00322215 /* SCNImageResponseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNImageResponseParser.m; sourceTree = "<group>"; };
+		C321D6E51F13904A00322215 /* SCNJSONResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNJSONResponseParser.h; sourceTree = "<group>"; };
+		C321D6E61F13904A00322215 /* SCNJSONResponseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNJSONResponseParser.m; sourceTree = "<group>"; };
+		C321D6E71F13904A00322215 /* SCNModelParserProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNModelParserProtocol.h; sourceTree = "<group>"; };
+		C321D6E81F13904A00322215 /* SCNModelResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNModelResponseParser.h; sourceTree = "<group>"; };
+		C321D6E91F13904A00322215 /* SCNModelResponseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNModelResponseParser.m; sourceTree = "<group>"; };
+		C321D6EA1F13904A00322215 /* SCNetworkKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNetworkKit.h; sourceTree = "<group>"; };
+		C321D6EB1F13904A00322215 /* SCNHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNHeader.h; sourceTree = "<group>"; };
+		C321D6ED1F13904A00322215 /* SCNetworkService+Shared.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SCNetworkService+Shared.h"; sourceTree = "<group>"; };
+		C321D6EE1F13904A00322215 /* SCNetworkService+Shared.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SCNetworkService+Shared.m"; sourceTree = "<group>"; };
+		C321D6EF1F13904A00322215 /* SCNetworkService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNetworkService.h; sourceTree = "<group>"; };
+		C321D6F01F13904A00322215 /* SCNetworkService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNetworkService.m; sourceTree = "<group>"; };
+		C321D6F11F13904A00322215 /* SCNetWorkSessionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNetWorkSessionDelegate.h; sourceTree = "<group>"; };
+		C321D6F21F13904A00322215 /* SCNetWorkSessionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNetWorkSessionDelegate.m; sourceTree = "<group>"; };
+		C321D6F41F13904A00322215 /* NSDictionary+SCAddtions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+SCAddtions.h"; sourceTree = "<group>"; };
+		C321D6F51F13904A00322215 /* NSDictionary+SCAddtions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+SCAddtions.m"; sourceTree = "<group>"; };
+		C321D6F61F13904A00322215 /* NSObject+SCCancelRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SCCancelRef.h"; sourceTree = "<group>"; };
+		C321D6F71F13904A00322215 /* NSObject+SCCancelRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SCCancelRef.m"; sourceTree = "<group>"; };
+		C321D6F81F13904A00322215 /* NSString+SCAddtions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SCAddtions.h"; sourceTree = "<group>"; };
+		C321D6F91F13904A00322215 /* NSString+SCAddtions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SCAddtions.m"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C321D6801F138DE700322215 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C321D67A1F138DE700322215 = {
+			isa = PBXGroup;
+			children = (
+				C321D6D21F13904A00322215 /* SCNetworkKit */,
+				C321D6851F138DE700322215 /* SCNetworkDemo */,
+				C321D6841F138DE700322215 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C321D6841F138DE700322215 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C321D6831F138DE700322215 /* SCNetworkDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C321D6851F138DE700322215 /* SCNetworkDemo */ = {
+			isa = PBXGroup;
+			children = (
+				C321D6891F138DE700322215 /* AppDelegate.h */,
+				C321D68A1F138DE700322215 /* AppDelegate.m */,
+				C321D68C1F138DE700322215 /* ViewController.h */,
+				C321D68D1F138DE700322215 /* ViewController.m */,
+				C321D68F1F138DE700322215 /* Main.storyboard */,
+				C321D6921F138DE700322215 /* Assets.xcassets */,
+				C321D6941F138DE700322215 /* LaunchScreen.storyboard */,
+				C321D6971F138DE700322215 /* Info.plist */,
+				C321D6861F138DE700322215 /* Supporting Files */,
+			);
+			path = SCNetworkDemo;
+			sourceTree = "<group>";
+		};
+		C321D6861F138DE700322215 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C321D6871F138DE700322215 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C321D6D21F13904A00322215 /* SCNetworkKit */ = {
+			isa = PBXGroup;
+			children = (
+				C321D6EA1F13904A00322215 /* SCNetworkKit.h */,
+				C321D6EB1F13904A00322215 /* SCNHeader.h */,
+				C321D6DA1F13904A00322215 /* Request */,
+				C321D6DE1F13904A00322215 /* Response */,
+				C321D6EC1F13904A00322215 /* Service */,
+				C321D6D31F13904A00322215 /* Chain */,
+				C321D6F31F13904A00322215 /* Util */,
+			);
+			path = SCNetworkKit;
+			sourceTree = "<group>";
+		};
+		C321D6D31F13904A00322215 /* Chain */ = {
+			isa = PBXGroup;
+			children = (
+				C321D6D41F13904A00322215 /* SCNetworkRequest+Chain.h */,
+				C321D6D51F13904A00322215 /* SCNetworkRequest+Chain.m */,
+				C321D6D61F13904A00322215 /* SCNJSONResponseParser+Chain.h */,
+				C321D6D71F13904A00322215 /* SCNJSONResponseParser+Chain.m */,
+				C321D6D81F13904A00322215 /* SCNModelResponseParser+Chain.h */,
+				C321D6D91F13904A00322215 /* SCNModelResponseParser+Chain.m */,
+			);
+			path = Chain;
+			sourceTree = "<group>";
+		};
+		C321D6DA1F13904A00322215 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				C321D6DB1F13904A00322215 /* SCNetworkRequest.h */,
+				C321D6DC1F13904A00322215 /* SCNetworkRequest.m */,
+				C321D6DD1F13904A00322215 /* SCNetworkRequestInternal.h */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		C321D6DE1F13904A00322215 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				C321D6DF1F13904A00322215 /* SCNBlockResponseParser.h */,
+				C321D6E01F13904A00322215 /* SCNBlockResponseParser.m */,
+				C321D6E11F13904A00322215 /* SCNHTTPResponseParser.h */,
+				C321D6E21F13904A00322215 /* SCNHTTPResponseParser.m */,
+				C321D6E31F13904A00322215 /* SCNImageResponseParser.h */,
+				C321D6E41F13904A00322215 /* SCNImageResponseParser.m */,
+				C321D6E51F13904A00322215 /* SCNJSONResponseParser.h */,
+				C321D6E61F13904A00322215 /* SCNJSONResponseParser.m */,
+				C321D6E71F13904A00322215 /* SCNModelParserProtocol.h */,
+				C321D6E81F13904A00322215 /* SCNModelResponseParser.h */,
+				C321D6E91F13904A00322215 /* SCNModelResponseParser.m */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		C321D6EC1F13904A00322215 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				C321D6ED1F13904A00322215 /* SCNetworkService+Shared.h */,
+				C321D6EE1F13904A00322215 /* SCNetworkService+Shared.m */,
+				C321D6EF1F13904A00322215 /* SCNetworkService.h */,
+				C321D6F01F13904A00322215 /* SCNetworkService.m */,
+				C321D6F11F13904A00322215 /* SCNetWorkSessionDelegate.h */,
+				C321D6F21F13904A00322215 /* SCNetWorkSessionDelegate.m */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		C321D6F31F13904A00322215 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				C321D6F41F13904A00322215 /* NSDictionary+SCAddtions.h */,
+				C321D6F51F13904A00322215 /* NSDictionary+SCAddtions.m */,
+				C321D6F61F13904A00322215 /* NSObject+SCCancelRef.h */,
+				C321D6F71F13904A00322215 /* NSObject+SCCancelRef.m */,
+				C321D6F81F13904A00322215 /* NSString+SCAddtions.h */,
+				C321D6F91F13904A00322215 /* NSString+SCAddtions.m */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C321D6821F138DE700322215 /* SCNetworkDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C321D69A1F138DE700322215 /* Build configuration list for PBXNativeTarget "SCNetworkDemo" */;
+			buildPhases = (
+				C321D67F1F138DE700322215 /* Sources */,
+				C321D6801F138DE700322215 /* Frameworks */,
+				C321D6811F138DE700322215 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SCNetworkDemo;
+			productName = SCNetworkDemo;
+			productReference = C321D6831F138DE700322215 /* SCNetworkDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C321D67B1F138DE700322215 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = xuqianlong;
+				TargetAttributes = {
+					C321D6821F138DE700322215 = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = C321D67E1F138DE700322215 /* Build configuration list for PBXProject "SCNetworkDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C321D67A1F138DE700322215;
+			productRefGroup = C321D6841F138DE700322215 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C321D6821F138DE700322215 /* SCNetworkDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C321D6811F138DE700322215 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C321D6961F138DE700322215 /* LaunchScreen.storyboard in Resources */,
+				C321D6931F138DE700322215 /* Assets.xcassets in Resources */,
+				C321D6911F138DE700322215 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C321D67F1F138DE700322215 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C321D7021F13904A00322215 /* SCNModelResponseParser.m in Sources */,
+				C321D7001F13904A00322215 /* SCNImageResponseParser.m in Sources */,
+				C321D7061F13904A00322215 /* NSDictionary+SCAddtions.m in Sources */,
+				C321D7031F13904A00322215 /* SCNetworkService+Shared.m in Sources */,
+				C321D6FB1F13904A00322215 /* SCNJSONResponseParser+Chain.m in Sources */,
+				C321D7081F13904A00322215 /* NSString+SCAddtions.m in Sources */,
+				C321D6FF1F13904A00322215 /* SCNHTTPResponseParser.m in Sources */,
+				C321D68E1F138DE700322215 /* ViewController.m in Sources */,
+				C321D7071F13904A00322215 /* NSObject+SCCancelRef.m in Sources */,
+				C321D68B1F138DE700322215 /* AppDelegate.m in Sources */,
+				C321D7011F13904A00322215 /* SCNJSONResponseParser.m in Sources */,
+				C321D7051F13904A00322215 /* SCNetWorkSessionDelegate.m in Sources */,
+				C321D7041F13904A00322215 /* SCNetworkService.m in Sources */,
+				C321D6FA1F13904A00322215 /* SCNetworkRequest+Chain.m in Sources */,
+				C321D6FC1F13904A00322215 /* SCNModelResponseParser+Chain.m in Sources */,
+				C321D6FD1F13904A00322215 /* SCNetworkRequest.m in Sources */,
+				C321D6FE1F13904A00322215 /* SCNBlockResponseParser.m in Sources */,
+				C321D6881F138DE700322215 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		C321D68F1F138DE700322215 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C321D6901F138DE700322215 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		C321D6941F138DE700322215 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C321D6951F138DE700322215 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C321D6981F138DE700322215 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C321D6991F138DE700322215 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C321D69B1F138DE700322215 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = SCNetworkDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sohu.SCNetworkDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C321D69C1F138DE700322215 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = SCNetworkDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sohu.SCNetworkDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C321D67E1F138DE700322215 /* Build configuration list for PBXProject "SCNetworkDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C321D6981F138DE700322215 /* Debug */,
+				C321D6991F138DE700322215 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C321D69A1F138DE700322215 /* Build configuration list for PBXNativeTarget "SCNetworkDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C321D69B1F138DE700322215 /* Debug */,
+				C321D69C1F138DE700322215 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C321D67B1F138DE700322215 /* Project object */;
+}
