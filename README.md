@@ -19,6 +19,6 @@ SCNetworkKit is a simple but powerful iOS network framework based on NSURLSessio
 
 设计图:
 
-<img src="https://github.com/debugly/SCNetworkKit/blob/master/asset/SCNetworkKit.png">
+<img src="http://github.com/debugly/SCNetworkKit/blob/master/asset/SCNetworkKit.png">
 
 - 为了方便，提供了可用于整个 App 的共享 Service 对象发送请求；当然你也可以为不同的业务创建不同的网路请求 Service；一个 Service 则对应了一个 NSURLSession 对象！
