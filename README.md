@@ -15,6 +15,10 @@ SCNetworkKit is a simple but powerful iOS network framework based on NSURLSessio
 
 # 架构设计
 
-- 综合参考了 MKNetwork2.0 和 AFNetwork 2.0 的设计，精简了他们的精华，去掉了冗余的设计，将网络请求抽象为 Request 对象，由 Service 管理，Service 为 Request 分配代理对象 --- 处理传输数据、请求结束，请求失败等事件，请求结束后通过改变 Rquest 的 state 属性，告知 Request 请求结束，然后根据配置的响应解析器，异步解析数据，结果可能是 data, string, json, model, image 等等；最终通过我们添加到 Request 对象上的 completionBlock 回调给调用层。
+- 综合参考了 MKNetwork2.0 和 AFNetwork 2.0 的设计，精简了他们的精华，去掉了冗余的设计，将网络请求抽象为 Request 对象，并由 Service 管理，Service 为 Request 分配代理对象 --- 处理传输数据、请求结束，请求失败等事件，请求结束后通过改变 Rquest 的 state 属性，告知 Request 请求结束，然后根据配置的响应解析器，异步解析数据，结果可能是 data, string, json, model, image 等等；最终通过我们添加到 Request 对象上的 completionBlock 回调给调用层。
+
+设计图:
+
+<img src="/asset/SCNetworkKit.png" width="1250" height="1038">
 
 - 为了方便，提供了可用于整个 App 的共享 Service 对象发送请求；当然你也可以为不同的业务创建不同的网路请求 Service；一个 Service 则对应了一个 NSURLSession 对象！
