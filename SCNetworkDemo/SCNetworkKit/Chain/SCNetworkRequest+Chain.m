@@ -34,9 +34,9 @@
     };
 }
 
-- (SCNetworkRequest *(^)(id<SCNHTTPResponseParser> responseParser))c_ResponseParser
+- (SCNetworkRequest *(^)(id<SCNResponseParser> responseParser))c_ResponseParser
 {
-    return ^ SCNetworkRequest * (id<SCNHTTPResponseParser> responseParser){
+    return ^ SCNetworkRequest * (id<SCNResponseParser> responseParser){
         [self setResponseParser:responseParser];
         return self;
     };

@@ -75,6 +75,7 @@
 		C321D6F71F13904A00322215 /* NSObject+SCCancelRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SCCancelRef.m"; sourceTree = "<group>"; };
 		C321D6F81F13904A00322215 /* NSString+SCAddtions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SCAddtions.h"; sourceTree = "<group>"; };
 		C321D6F91F13904A00322215 /* NSString+SCAddtions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SCAddtions.m"; sourceTree = "<group>"; };
+		C321D7191F14BEB400322215 /* SCNResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNResponseParser.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +172,7 @@
 			children = (
 				C321D6DF1F13904A00322215 /* SCNBlockResponseParser.h */,
 				C321D6E01F13904A00322215 /* SCNBlockResponseParser.m */,
+				C321D7191F14BEB400322215 /* SCNResponseParser.h */,
 				C321D6E11F13904A00322215 /* SCNHTTPResponseParser.h */,
 				C321D6E21F13904A00322215 /* SCNHTTPResponseParser.m */,
 				C321D6E31F13904A00322215 /* SCNImageResponseParser.h */,
@@ -457,6 +459,7 @@
 				C321D69C1F138DE700322215 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

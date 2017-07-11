@@ -18,6 +18,6 @@
 ///追加参数
 - (SCNetworkRequest *(^)(NSDictionary *parameters))c_Parameters;
 ///设置响应解析器
-- (SCNetworkRequest *(^)(id<SCNHTTPResponseParser> responseParser))c_ResponseParser;
+- (SCNetworkRequest *(^)(id<SCNResponseParser> responseParser))c_ResponseParser;
 
 @end

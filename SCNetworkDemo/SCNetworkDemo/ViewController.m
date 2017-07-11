@@ -23,7 +23,7 @@
     
     req.responseParser = [SCNJSONResponseParser parser];
     [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
-        
+        NSLog(@"get json:%@",result);
     }];
     [[SCNetworkService sharedService]sendRequest:req];
     
