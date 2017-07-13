@@ -28,6 +28,9 @@
 		C321D7061F13904A00322215 /* NSDictionary+SCAddtions.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D6F51F13904A00322215 /* NSDictionary+SCAddtions.m */; };
 		C321D7071F13904A00322215 /* NSObject+SCCancelRef.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D6F71F13904A00322215 /* NSObject+SCCancelRef.m */; };
 		C321D7081F13904A00322215 /* NSString+SCAddtions.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D6F91F13904A00322215 /* NSString+SCAddtions.m */; };
+		C321D7271F17720C00322215 /* SCJSONUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D7261F17720C00322215 /* SCJSONUtil.m */; };
+		C321D72A1F17726400322215 /* SCNModelParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D7291F17726400322215 /* SCNModelParser.m */; };
+		C321D72D1F17784500322215 /* TestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C321D72C1F17784500322215 /* TestModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +79,12 @@
 		C321D6F81F13904A00322215 /* NSString+SCAddtions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SCAddtions.h"; sourceTree = "<group>"; };
 		C321D6F91F13904A00322215 /* NSString+SCAddtions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SCAddtions.m"; sourceTree = "<group>"; };
 		C321D7191F14BEB400322215 /* SCNResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNResponseParser.h; sourceTree = "<group>"; };
+		C321D7251F17720C00322215 /* SCJSONUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCJSONUtil.h; sourceTree = "<group>"; };
+		C321D7261F17720C00322215 /* SCJSONUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCJSONUtil.m; sourceTree = "<group>"; };
+		C321D7281F17726400322215 /* SCNModelParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNModelParser.h; sourceTree = "<group>"; };
+		C321D7291F17726400322215 /* SCNModelParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNModelParser.m; sourceTree = "<group>"; };
+		C321D72B1F17784500322215 /* TestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestModel.h; sourceTree = "<group>"; };
+		C321D72C1F17784500322215 /* TestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,10 +118,13 @@
 		C321D6851F138DE700322215 /* SCNetworkDemo */ = {
 			isa = PBXGroup;
 			children = (
+				C321D7241F17720C00322215 /* JSONUtil */,
 				C321D6891F138DE700322215 /* AppDelegate.h */,
 				C321D68A1F138DE700322215 /* AppDelegate.m */,
 				C321D68C1F138DE700322215 /* ViewController.h */,
 				C321D68D1F138DE700322215 /* ViewController.m */,
+				C321D72B1F17784500322215 /* TestModel.h */,
+				C321D72C1F17784500322215 /* TestModel.m */,
 				C321D68F1F138DE700322215 /* Main.storyboard */,
 				C321D6921F138DE700322215 /* Assets.xcassets */,
 				C321D6941F138DE700322215 /* LaunchScreen.storyboard */,
@@ -212,6 +224,17 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
+		C321D7241F17720C00322215 /* JSONUtil */ = {
+			isa = PBXGroup;
+			children = (
+				C321D7251F17720C00322215 /* SCJSONUtil.h */,
+				C321D7261F17720C00322215 /* SCJSONUtil.m */,
+				C321D7281F17726400322215 /* SCNModelParser.h */,
+				C321D7291F17726400322215 /* SCNModelParser.m */,
+			);
+			path = JSONUtil;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -295,10 +318,13 @@
 				C321D68B1F138DE700322215 /* AppDelegate.m in Sources */,
 				C321D7011F13904A00322215 /* SCNJSONResponseParser.m in Sources */,
 				C321D7051F13904A00322215 /* SCNetWorkSessionDelegate.m in Sources */,
+				C321D72D1F17784500322215 /* TestModel.m in Sources */,
+				C321D7271F17720C00322215 /* SCJSONUtil.m in Sources */,
 				C321D7041F13904A00322215 /* SCNetworkService.m in Sources */,
 				C321D6FA1F13904A00322215 /* SCNetworkRequest+Chain.m in Sources */,
 				C321D6FC1F13904A00322215 /* SCNModelResponseParser+Chain.m in Sources */,
 				C321D6FD1F13904A00322215 /* SCNetworkRequest.m in Sources */,
+				C321D72A1F17726400322215 /* SCNModelParser.m in Sources */,
 				C321D6FE1F13904A00322215 /* SCNBlockResponseParser.m in Sources */,
 				C321D6881F138DE700322215 /* main.m in Sources */,
 			);

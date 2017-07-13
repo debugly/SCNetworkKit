@@ -2,6 +2,95 @@
 
 SCNetworkKit is a simple but powerful iOS network framework based on NSURLSession and NSURLSessionConfiguration, written by Objective-C, Support iOS 7+ ;
 
+# 使用范例
+
+假设服务器返回的数据格式如下：
+
+```json
+{ 
+  code = 0;
+  content =     {
+     entrance =         (
+         {
+         isFlagship = 0;
+         name = "\U65f6\U5c1a\U6f6e\U65f6\U5c1a";
+         pic = "http://pic12.shangpin.com/e/s/15/03/03/20150303151320537363-10-10.jpg";
+         refContent = "http://m.shangpin.com/meet/185";
+         type = 5;
+         },
+         {
+            //....
+         }
+       )
+     }
+ }
+
+```
+
+下面演示下如何通过配置不同的解析器，达到从着陆 block 里获取不同的结果的效果:
+
+
+- 从服务器获取原始Data对象
+
+```objc
+SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:@"http://debugly.cn/dist/json/test.json" params:nil httpMethod:@"GET"];
+    ///因为默认解析器是SCNJSONResponseParser；会解析成JSON对象；所以这里不指定解析器，让框架返回data！
+    req.responseParser = nil;
+    [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+        
+        if (completion) {
+            completion(result);
+        }
+    }];
+[[SCNetworkService sharedService]sendRequest:req];
+```
+
+- 从服务器获取解析后的JOSN对象
+
+```objc
+SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:@"http://debugly.cn/dist/json/test.json" params:nil httpMethod:@"GET"];
+    
+SCNJSONResponseParser *responseParser = [SCNJSONResponseParser parser];
+///框架会检查接口返回的 code 是不是 0 ，如果不是 0 ，那么返回给你一个err，并且result是 nil;
+responseParser.checkKeyPath = @"code";
+responseParser.okValue = @"0";
+req.responseParser = responseParser;
+    
+[req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+    
+    if (completion) {
+        completion(result);
+    }
+}];
+[[SCNetworkService sharedService]sendRequest:req];
+```
+
+- 从服务器获取解析并转化后的Model对象
+
+```objc
+SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:@"http://debugly.cn/dist/json/test.json" params:nil httpMethod:@"GET"];
+    
+SCNModelResponseParser *responseParser = [SCNModelResponseParser parser];
+///解析前会检查下JSON是否正确；
+responseParser.checkKeyPath = @"code";
+responseParser.okValue = @"0";
+///根据服务器返回数据的格式和想要解析结构对应的Model配置解析器
+responseParser.modelName = @"TestModel";
+responseParser.modelKeyPath = @"content/entrance";
+req.responseParser = responseParser;
+    
+[req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+    
+    if (completion) {
+        completion(result);
+    }
+}];
+[[SCNetworkService sharedService]sendRequest:req];
+```
+
+> 由于上面有 JSON 转 Model 的过程，因此在使用之前需要注册一个对应的解析器，你可以到 demo 里搜下 **[SCNModelResponseParser registerModelParser:[SCNModelParser class]];** 具体看下究竟。继续往下看，你会了解为何这么设计！
+
+
 # 为什么创建这个轮子 ？
 
 因为我在做 SDK，而不是 App;我要确保提供出去的 SDK 不对外产生依赖，以防由于依赖的环境问题影响到了SDK的功能！因此我需要一个稳定的网络请求框架，能够为 SDK 提供可靠的网络服务！
