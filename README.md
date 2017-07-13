@@ -6,7 +6,7 @@ SCNetworkKit is a simple but powerful iOS network framework based on NSURLSessio
 
 假设服务器返回的数据格式如下：
 
-```json
+```
 { 
   code = 0;
   content =     {
