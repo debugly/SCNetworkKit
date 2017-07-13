@@ -91,6 +91,31 @@ req.responseParser = responseParser;
 > 由于上面有 JSON 转 Model 的过程，因此在使用之前需要注册一个对应的解析器，你可以到 demo 里搜下 **[SCNModelResponseParser registerModelParser:[SCNModelParser class]];** 具体看下究竟。继续往下看，你会了解为何这么设计！
 
 
+# 链式编程
+
+```
+SCNJSONResponseParser *responseParser = [SCNJSONResponseParser parser];
+///框架会检查接口返回的 code 是不是 0 ，如果不是 0 ，那么返回给你一个err，并且result是 nil;
+responseParser.checkKeyPath = @"code";
+responseParser.okValue = @"0";
+    
+///support chain
+    
+SCNetworkRequest *req = [[SCNetworkRequest alloc]init];
+    
+req.c_URL(@"http://debugly.cn/dist/json/test.json")
+   .c_Method(@"GET")
+   .c_ResponseParser(responseParser);
+    
+[req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+    
+    if (completion) {
+        completion(result);
+    }
+}];
+[[SCNetworkService sharedService]sendRequest:req];
+```
+
 # 为什么创建这个轮子 ？
 
 因为我在做 SDK，而不是 App;我要确保提供出去的 SDK 不对外产生依赖，以防由于依赖的环境问题影响到了SDK的功能！因此我需要一个稳定的网络请求框架，能够为 SDK 提供可靠的网络服务！

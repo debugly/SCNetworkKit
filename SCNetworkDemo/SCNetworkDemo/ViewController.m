@@ -53,14 +53,19 @@
 
 - (void)testRequestWithJSONCompletion:(void(^)(id json))completion
 {
-    SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:@"http://debugly.cn/dist/json/test.json" params:nil httpMethod:@"GET"];
-    
     SCNJSONResponseParser *responseParser = [SCNJSONResponseParser parser];
     ///框架会检查接口返回的 code 是不是 0 ，如果不是 0 ，那么返回给你一个err，并且result是 nil;
     responseParser.checkKeyPath = @"code";
     responseParser.okValue = @"0";
-    req.responseParser = responseParser;
     
+    ///support chain
+    
+    SCNetworkRequest *req = [[SCNetworkRequest alloc]init];
+    
+    req.c_URL(@"http://debugly.cn/dist/json/test.json")
+       .c_Method(@"GET")
+       .c_ResponseParser(responseParser);
+
     [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
         if (completion) {
