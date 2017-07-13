@@ -27,7 +27,7 @@ SCNetworkKit is a simple but powerful iOS network framework based on NSURLSessio
 
 ```
 
-下面演示下如何通过配置不同的解析器，达到从着陆 block 里获取不同的结果的效果:
+下面演示如何通过配置不同的解析器，从而达到着陆 block 回调不同结果的效果:
 
 
 - 从服务器获取原始Data对象
@@ -45,7 +45,7 @@ SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:@"http://debu
 [[SCNetworkService sharedService]sendRequest:req];
 ```
 
-- 从服务器获取解析后的JOSN对象
+- 从服务器获取到数据后，异步解析为JOSN对象
 
 ```objc
 SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:@"http://debugly.cn/dist/json/test.json" params:nil httpMethod:@"GET"];
@@ -65,7 +65,7 @@ req.responseParser = responseParser;
 [[SCNetworkService sharedService]sendRequest:req];
 ```
 
-- 从服务器获取解析并转化后的Model对象
+- 从服务器获取到数据后，先异步解析为JOSN对象，然后转化为指定的Model对象
 
 ```objc
 SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:@"http://debugly.cn/dist/json/test.json" params:nil httpMethod:@"GET"];
