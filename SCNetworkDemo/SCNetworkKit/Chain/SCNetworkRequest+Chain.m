@@ -42,4 +42,12 @@
     };
 }
 
+- (SCNetworkRequest *(^)(SCNetWorkHandler completionHandler))c_CompletionHandler
+{
+    return ^ SCNetworkRequest * (SCNetWorkHandler completionHandler){
+        [self addCompletionHandler:completionHandler];
+        return self;
+    };
+}
+
 @end

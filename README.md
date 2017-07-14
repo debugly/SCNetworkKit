@@ -106,13 +106,12 @@ SCNetworkRequest *req = [[SCNetworkRequest alloc]init];
 req.c_URL(@"http://debugly.cn/dist/json/test.json")
    .c_Method(@"GET")
    .c_ResponseParser(responseParser);
-    
-[req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
-    
-    if (completion) {
-        completion(result);
-    }
-}];
+   .c_CompletionHandler(^(SCNetworkRequest *request, id result, NSError *err) {
+        
+            if (completion) {
+                completion(result);
+            }
+       });
 [[SCNetworkService sharedService]sendRequest:req];
 ```
 

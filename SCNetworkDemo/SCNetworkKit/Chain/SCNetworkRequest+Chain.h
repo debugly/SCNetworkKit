@@ -19,5 +19,7 @@
 - (SCNetworkRequest *(^)(NSDictionary *parameters))c_Parameters;
 ///设置响应解析器
 - (SCNetworkRequest *(^)(id<SCNResponseParser> responseParser))c_ResponseParser;
+///设置回调
+- (SCNetworkRequest *(^)(SCNetWorkHandler completionHandler))c_CompletionHandler;
 
 @end
