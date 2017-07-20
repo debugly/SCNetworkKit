@@ -34,18 +34,10 @@
     };
 }
 
-- (SCNetworkRequest *(^)(id<SCNResponseParser> responseParser))c_ResponseParser
+- (SCNetworkRequest *(^)(id<SCNHTTPResponseParser> responseParser))c_ResponseParser
 {
-    return ^ SCNetworkRequest * (id<SCNResponseParser> responseParser){
+    return ^ SCNetworkRequest * (id<SCNHTTPResponseParser> responseParser){
         [self setResponseParser:responseParser];
-        return self;
-    };
-}
-
-- (SCNetworkRequest *(^)(SCNetWorkHandler completionHandler))c_CompletionHandler
-{
-    return ^ SCNetworkRequest * (SCNetWorkHandler completionHandler){
-        [self addCompletionHandler:completionHandler];
         return self;
     };
 }

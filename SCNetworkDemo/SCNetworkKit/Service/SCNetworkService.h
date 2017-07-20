@@ -22,9 +22,9 @@
 - (instancetype)initWithSessionConfiguration:(NSURLSessionConfiguration *)configure;
 
 ///开始请求；
-- (void) sendRequest:(SCNetworkRequest *)request;
+- (void) startRequest:(SCNetworkRequest *)request;
 
 ///开始下载请求，并指定文件路径；
-- (void)sendRequest:(SCNetworkRequest *)request downloadFileTargetUrl:(NSURL *)targetURL;
+- (void)startRequest:(SCNetworkRequest *)request downloadFileTargetUrl:(NSURL *)targetURL;
 
 @end

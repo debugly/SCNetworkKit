@@ -78,7 +78,7 @@
     return self;
 }
 
-- (void) sendRequest:(SCNetworkRequest *)request
+- (void) startRequest:(SCNetworkRequest *)request
 {
     NSMutableURLRequest * urlRequest = request.request;
     if(!request || !urlRequest) {
@@ -105,7 +105,7 @@
     request.state = SCNKRequestStateStarted;
 }
 
-- (void)sendRequest:(SCNetworkRequest *)request downloadFileTargetUrl:(NSURL *)targetURL
+- (void)startRequest:(SCNetworkRequest *)request downloadFileTargetUrl:(NSURL *)targetURL
 {
     NSMutableURLRequest * urlRequest = request.request;
     if(!request || !urlRequest || !targetURL) {
