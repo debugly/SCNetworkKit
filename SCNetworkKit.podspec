@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "SCNetworkKit"
-  s.version      = "1.0.2"
+  s.version      = "1.0.3"
   s.summary      = "SCNetworkKit is a simple but powerful iOS network framework."
 
   # This description is used to generate tags and improve search results.

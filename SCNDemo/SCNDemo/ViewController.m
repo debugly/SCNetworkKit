@@ -19,10 +19,23 @@
 
 @implementation ViewController
 
+- (void)showIndicator
+{
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    indicator.color = [UIColor lightGrayColor];
+    [self.view addSubview:indicator];
+    indicator.center = self.view.center;
+    [indicator startAnimating];
+    indicator.tag = 10000;
+    indicator.hidesWhenStopped = YES;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    [self showIndicator];
+
     ///发送网路请求，框架将data返回给我
     [self testRequestWithDataCompletion:^(NSData *data) {
         NSLog(@"get data:%@",data);
@@ -30,13 +43,15 @@
     
     ///发送网路请求，框架将JSON对象返回给我
     __weak typeof(self)weakself = self;
-    [self testRequestWithJSONCompletion:^(id json) {
+    [self testRequestWithJSONCompletion:^(id json, NSError *err) {
         __strong typeof(weakself)self = weakself;
         if (json) {
-            self.textView.text = [result description];
+            self.textView.text = [json description];
         }else{
             self.textView.text = [err description];
         }
+        UIActivityIndicatorView *indicator = [self.view viewWithTag:10000];
+        [indicator stopAnimating];
     }];
     
     ///发送网路请求，框架将Model对象返回给我
@@ -44,7 +59,6 @@
         NSLog(@"get models:%@",modelArr);
     }];
 
-    
 }
 
 - (void)testRequestWithDataCompletion:(void(^)(NSData *data))completion
@@ -62,7 +76,7 @@
     [[SCNetworkService sharedService]sendRequest:req];
 }
 
-- (void)testRequestWithJSONCompletion:(void(^)(id json))completion
+- (void)testRequestWithJSONCompletion:(void(^)(id json, NSError *err))completion
 {
     SCNJSONResponseParser *responseParser = [SCNJSONResponseParser parser];
     ///框架会检查接口返回的 code 是不是 0 ，如果不是 0 ，那么返回给你一个err，并且result是 nil;
@@ -73,13 +87,14 @@
     
     SCNetworkRequest *req = [[SCNetworkRequest alloc]init];
     
-    req.c_URL(@"http://debugly.cn/dist/json/test.json")
+    req
+    .c_URL(@"http://debugly.cn/dist/json/test.json")
     .c_Method(@"GET")
     .c_ResponseParser(responseParser)
     .c_CompletionHandler(^(SCNetworkRequest *request, id result, NSError *err) {
         
         if (completion) {
-            completion(result);
+            completion(result,err);
         }
     });
     [[SCNetworkService sharedService]sendRequest:req];
@@ -90,21 +105,21 @@
     /*
      ////服务器响应数据结构////
      
-     {code = 0;
-     content =     {
-     entrance =         (
-     {
-     isFlagship = 0;
-     name = "\U65f6\U5c1a\U6f6e\U65f6\U5c1a";
-     pic = "http://pic12.shangpin.com/e/s/15/03/03/20150303151320537363-10-10.jpg";
-     refContent = "http://m.shangpin.com/meet/185";
-     type = 5;
-     },
-     {
-     //....
-     }
-     )
-     }
+     {   code = 0;
+         content =     {
+             entrance =         (
+                 {
+                     isFlagship = 0;
+                     name = "\U65f6\U5c1a\U6f6e\U65f6\U5c1a";
+                     pic = "http://pic12.shangpin.com/e/s/15/03/03/20150303151320537363-10-10.jpg";
+                     refContent = "http://m.shangpin.com/meet/185";
+                     type = 5;
+                 },
+                 {
+                    //....
+                 }
+             )
+         }
      }
      */
     SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:@"http://debugly.cn/dist/json/test.json" params:nil httpMethod:@"GET"];

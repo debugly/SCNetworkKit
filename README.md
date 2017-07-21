@@ -11,7 +11,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '7.0'
 
 target 'TargetName' do
-pod 'SCNetworkKit', '~> 1.0'
+pod 'SCNetworkKit', '~> 1.0.4'
 end
 ```
 
@@ -25,11 +25,11 @@ end
   content =     {
      entrance =         (
          {
-         isFlagship = 0;
-         name = "\U65f6\U5c1a\U6f6e\U65f6\U5c1a";
-         pic = "http://pic12.shangpin.com/e/s/15/03/03/20150303151320537363-10-10.jpg";
-         refContent = "http://m.shangpin.com/meet/185";
-         type = 5;
+	         isFlagship = 0;
+	         name = "\U65f6\U5c1a\U6f6e\U65f6\U5c1a";
+	         pic = "http://pic12.shangpin.com/e/s/15/03/03/20150303151320537363-10-10.jpg";
+	         refContent = "http://m.shangpin.com/meet/185";
+	         type = 5;
          },
          {
             //....
@@ -159,7 +159,6 @@ req.c_URL(@"http://debugly.cn/dist/json/test.json")
 @required;
 + (id)fetchSubJSON:(id)json keyPath:(NSString *)keypath;
 + (id)JSON2Model:(id)json modelName:(NSString *)mName;
-+ (id)JSON2StringValueJSON:(id)json;
 
 @end
 
