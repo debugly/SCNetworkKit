@@ -11,7 +11,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '7.0'
 
 target 'TargetName' do
-pod 'SCNetworkKit', '~> 1.0.4'
+pod 'SCNetworkKit', '~> 1.0.3'
 end
 ```
 
