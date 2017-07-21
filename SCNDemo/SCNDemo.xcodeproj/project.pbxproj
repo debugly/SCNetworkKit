@@ -15,6 +15,7 @@
 		C342B2871F217C54007F04FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C342B2861F217C54007F04FC /* Assets.xcassets */; };
 		C342B28A1F217C54007F04FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C342B2881F217C54007F04FC /* LaunchScreen.storyboard */; };
 		C342B2DB1F218AC8007F04FC /* SCNModelParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C342B2DA1F218AC8007F04FC /* SCNModelParser.m */; };
+		C37FB6901F21D66A0002ACB3 /* TestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C37FB68F1F21D66A0002ACB3 /* TestModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,8 @@
 		C342B28B1F217C54007F04FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C342B2D91F218AC8007F04FC /* SCNModelParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNModelParser.h; sourceTree = "<group>"; };
 		C342B2DA1F218AC8007F04FC /* SCNModelParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNModelParser.m; sourceTree = "<group>"; };
+		C37FB68E1F21D66A0002ACB3 /* TestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestModel.h; sourceTree = "<group>"; };
+		C37FB68F1F21D66A0002ACB3 /* TestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +94,8 @@
 				C342B27E1F217C54007F04FC /* AppDelegate.m */,
 				C342B2801F217C54007F04FC /* ViewController.h */,
 				C342B2811F217C54007F04FC /* ViewController.m */,
+				C37FB68E1F21D66A0002ACB3 /* TestModel.h */,
+				C37FB68F1F21D66A0002ACB3 /* TestModel.m */,
 				C342B2831F217C54007F04FC /* Main.storyboard */,
 				C342B2861F217C54007F04FC /* Assets.xcassets */,
 				C342B2881F217C54007F04FC /* LaunchScreen.storyboard */,
@@ -232,6 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C342B2821F217C54007F04FC /* ViewController.m in Sources */,
+				C37FB6901F21D66A0002ACB3 /* TestModel.m in Sources */,
 				C342B2DB1F218AC8007F04FC /* SCNModelParser.m in Sources */,
 				C342B27F1F217C54007F04FC /* AppDelegate.m in Sources */,
 				C342B27C1F217C54007F04FC /* main.m in Sources */,
