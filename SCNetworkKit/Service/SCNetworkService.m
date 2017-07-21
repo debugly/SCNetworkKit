@@ -39,7 +39,7 @@
 {
     NSURLSessionConfiguration *configure = nil;
     configure = [NSURLSessionConfiguration defaultSessionConfiguration];
-    
+
     configure.discretionary = YES;
     configure.networkServiceType = NSURLNetworkServiceTypeDefault;
     configure.timeoutIntervalForRequest = 60;
@@ -59,16 +59,16 @@
 - (instancetype)initWithSessionConfiguration:(NSURLSessionConfiguration *)configure
 {
     NSAssert(configure, @"URLSessionConfiguration 不能为空！");
-    
+
     if([self isOSVersonGreaterThanOrEqualNice]){
         configure.shouldUseExtendedBackgroundIdleMode = YES;
     }
-    
+
     self = [super init];
     if (self) {
         self.taskSynzQueue = dispatch_queue_create("com.sohu.live", DISPATCH_QUEUE_SERIAL);
         self.taskDelegateMap = [NSMutableDictionary dictionary];
-        
+
         NSOperationQueue *delegateQueue =  [[NSOperationQueue alloc]init];
         delegateQueue.maxConcurrentOperationCount = 3;
         self.session = [NSURLSession sessionWithConfiguration:configure
@@ -78,11 +78,11 @@
     return self;
 }
 
-- (void) startRequest:(SCNetworkRequest *)request
+- (void)sendRequest:(SCNetworkRequest *)request
 {
     NSMutableURLRequest * urlRequest = request.request;
     if(!request || !urlRequest) {
-        
+
         NSAssert((request && urlRequest),
                  @"Request is nil, check your URL and other parameters you use to build your request");
         return;
@@ -91,7 +91,7 @@
 //    Completion handler blocks are not supported in background sessions. Use a delegate instead.
 //    NSURLSessionDataTask *task = [self.defaultSession dataTaskWithRequest:urlRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
 //    }];
-    
+
     if(request.isPOSTRequest){
         NSData *formData = [request multipartFormData];
         ///在这里设置下内容的长度，这个问题处理的不够优雅，但是提升了性能。。。
@@ -105,11 +105,11 @@
     request.state = SCNKRequestStateStarted;
 }
 
-- (void)startRequest:(SCNetworkRequest *)request downloadFileTargetUrl:(NSURL *)targetURL
+- (void)sendRequest:(SCNetworkRequest *)request downloadFileTargetUrl:(NSURL *)targetURL
 {
     NSMutableURLRequest * urlRequest = request.request;
     if(!request || !urlRequest || !targetURL) {
-        
+
         NSAssert((request && urlRequest),
                  @"Request is nil, check your URL and other parameters you use to build your request");
         return;
@@ -149,7 +149,7 @@
 - (void)URLSession:(NSURLSession *)session
               task:(NSURLSessionTask *)task
 didCompleteWithError:(NSError *)error {
-    
+
     SCNetWorkSessionDelegate *delegate = [self delegateForTask:task];
     if (delegate) {
         [delegate URLSession:session task:task didCompleteWithError:error];
@@ -215,7 +215,7 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
 
 - (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error
 {
-    
+
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
@@ -252,7 +252,7 @@ NSError * SCNErrorWithOriginErr(NSError *originError,NSInteger newcode)
         }
         [mulInfo setObject:@(originError.code) forKey:@"origin-errcode"];
     }
-    
+
     return SCNError(newcode, mulInfo);
 }
 

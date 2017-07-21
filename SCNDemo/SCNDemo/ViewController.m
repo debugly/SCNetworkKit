@@ -32,7 +32,7 @@
             self.textView.text = [err description];
         }
     }];
-    [[SCNetworkService sharedService]startRequest:req];
+    [[SCNetworkService sharedService]sendRequest:req];
     
     
     [NSString sc_instanceFormDic:nil];

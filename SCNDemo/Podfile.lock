@@ -1,15 +1,15 @@
 PODS:
   - SCJSONUtil (2.4.1)
-  - SCNetworkKit (1.0.0)
+  - SCNetworkKit (1.0.1)
 
 DEPENDENCIES:
   - SCJSONUtil (~> 2.4.1)
-  - SCNetworkKit (~> 1.0)
+  - SCNetworkKit (~> 1.0.1)
 
 SPEC CHECKSUMS:
   SCJSONUtil: 1ac6901dc50d5167bac6474c7cbd8d22be31b49d
-  SCNetworkKit: 2e59803a45c85f73773e419608e4cc141e8be1df
+  SCNetworkKit: e45cb7a403caf399e7408ca964988ade4dcd0f3d
 
-PODFILE CHECKSUM: 07955978ef5bf9ab29cd30c19b98049d2945a25b
+PODFILE CHECKSUM: f233604db9550f98f79446f31afbd0834bec3805
 
 COCOAPODS: 1.2.1

@@ -2,6 +2,19 @@
 
 SCNetworkKit is a simple but powerful iOS network framework based on NSURLSession and NSURLSessionConfiguration, written by Objective-C, Support iOS 7+ ;
 
+# Installation with CocoaPods
+
+在你的 `Podfile` 文件里添加:
+
+```
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '7.0'
+
+target 'TargetName' do
+pod 'SCNetworkKit', '~> 1.0'
+end
+```
+
 # 使用范例
 
 假设服务器返回的数据格式如下：

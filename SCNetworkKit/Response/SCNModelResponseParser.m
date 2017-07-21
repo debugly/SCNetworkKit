@@ -36,43 +36,39 @@ static Class <SCNModelParserProtocol> MParser;
     }
     // 获取解析后的 JSON ；
     id repJOSN = [super parseredObjectForResponse:response data:data error:error];
-    
+
     if (!repJOSN) {
         return nil;
     }
-    
+
     id result = repJOSN;
-    
+
     if (self.debugWatch) {
         self.debugWatch(result);
     }
-    
+
     //查找目标JSON
     if (self.modelKeyPath.length > 0) {
         result = [MParser fetchSubJSON:repJOSN keyPath:self.modelKeyPath];
         //SCFindJSONwithKeyPath(self.modelKeyPath, repJOSN);
     }
-    
+
     if (result) {
         if (self.modelName.length > 0) {
             //解析目标JSON
             result = [MParser JSON2Model:result modelName:self.modelName];
             //SCJSON2Model(result,self.modelName);
-        }else{
-            //不需要解析为Model；
-            result = [MParser JSON2StringValueJSON:result];
-            //SCJSON2StringJOSN(result);
         }
     }else{
         ///result is nil;
         NSDictionary *info = @{@"reason":@"SCN:根据keypath不能找到目标json",
                                @"origin":repJOSN};
-        
+
         NSInteger code = SCNResponseErrCannotFindTargetJson;
-        
+
         *error = SCNError(code,info);
     }
-    
+
     return result;
 }
 

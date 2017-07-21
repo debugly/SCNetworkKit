@@ -13,13 +13,11 @@
 
 + (id)fetchSubJSON:(id)json keyPath:(NSString *)keypath
 {
-//    return nil;
     return SCFindJSONwithKeyPath(keypath, json);
 }
 
 + (id)JSON2Model:(id)json modelName:(NSString *)mName
 {
-//    return nil;
     return SCJSON2Model(json, mName);
 }
 
