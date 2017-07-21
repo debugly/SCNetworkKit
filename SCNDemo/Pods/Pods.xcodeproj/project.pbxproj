@@ -1,0 +1,752 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0E872741215608C022A2BD21FC7D02C6 /* SCNetworkService+Shared.h in Headers */ = {isa = PBXBuildFile; fileRef = 473A8118F9523CF824BA881140F5227C /* SCNetworkService+Shared.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		10D2BD62C2D838542B63E69947077511 /* SCNetworkService.h in Headers */ = {isa = PBXBuildFile; fileRef = D418D91DDAF8C998E136C75B565385CB /* SCNetworkService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		10DB067DB48AA50D971A4B59707048A3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		11BC691906A45D272722B22EE25341A9 /* SCNModelParserProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = F936875520140F56806558BFA41C779D /* SCNModelParserProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		15F8E94A29DE2FA32D8AA88A4B5365A1 /* SCNetworkService+Shared.m in Sources */ = {isa = PBXBuildFile; fileRef = 7513A53943C07A9F276C407B758D2F93 /* SCNetworkService+Shared.m */; };
+		186EE8F611FE1937A088AF7820F216D0 /* SCNJSONResponseParser+Chain.h in Headers */ = {isa = PBXBuildFile; fileRef = 59250968CDAD65DFC6769B16E52A9DDF /* SCNJSONResponseParser+Chain.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		187C335BA0A43DE36FAF07718F298D1F /* SCNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DF3DA379BB18A8D1779B4AD302D418F9 /* SCNetworkRequest.m */; };
+		19228823A0FC3F0E39996494AE1B499A /* SCNModelResponseParser.h in Headers */ = {isa = PBXBuildFile; fileRef = AB2D77C2C00E4C8638A81A04760D2667 /* SCNModelResponseParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B1E798A0701C5D9E21DC2E7E9C7779F /* SCNetworkRequestInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FEB73456CB7B46ECA3BD2E8130757B6 /* SCNetworkRequestInternal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		20A4A912743058BFC57D69C941B87EE3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		25A5296FA25222768D2E585221A42719 /* Pods-SCNDemo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D261AF1CDA32D09B01D496E35C91F91 /* Pods-SCNDemo-dummy.m */; };
+		3024ED48370D7CCD162DD33F5F61FB64 /* SCJSONUtil-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0378C6302F54F9F001EAE654AB5F62F7 /* SCJSONUtil-dummy.m */; };
+		3319668395EF92377CC6E7371B04AD9A /* SCNetworkRequest+Chain.m in Sources */ = {isa = PBXBuildFile; fileRef = 642E748139431BFE076A981A84C3299D /* SCNetworkRequest+Chain.m */; };
+		35BA17327C178599DD94F219239F3C5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		388AC81A511CE52AFE960751BF3D81B2 /* SCNJSONResponseParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AEB93075A6FF08E87B0CF31235AD1FD /* SCNJSONResponseParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		41E2215C6003CCD967D363128C96F015 /* SCNBlockResponseParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7443C76EE4F49E759BC0E66324DAC4 /* SCNBlockResponseParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		45EC5C257BF59869ADB3F4FB8C8E1487 /* NSObject+SCCancelRef.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE8ADD0E3381DCB58243EB6793E04B4 /* NSObject+SCCancelRef.m */; };
+		49C9211588769A7C2408CC132941019A /* SCNHTTPResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B941D9684D939B4F597DA97B741E5A6 /* SCNHTTPResponseParser.m */; };
+		51D33E887A7A10E43EABA49415E17A17 /* SCNJSONResponseParser+Chain.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BD5F63D3C7950D579C90255F06A3F5 /* SCNJSONResponseParser+Chain.m */; };
+		54B5CC3826D2A232C0324D1F95D3F3E5 /* NSString+SCAddtions.h in Headers */ = {isa = PBXBuildFile; fileRef = 68A10181ECB151947FE325A50F7B1CAF /* NSString+SCAddtions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5C36D1E790B297F274ED074692DC2AE5 /* NSObject+SCCancelRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FBF885D6A54A43C0C20EAE0E5314196 /* NSObject+SCCancelRef.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6CF8963D66D6474A7C3E609D9B4357D7 /* SCNetWorkSessionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB52C777F8E2D07BE110426D688AF59 /* SCNetWorkSessionDelegate.m */; };
+		6DE2DE45B643CA20F4692292E01C10F4 /* SCNModelResponseParser+Chain.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A548B9465CBDE54EEBFB07032B557B /* SCNModelResponseParser+Chain.m */; };
+		7BBCC37F30BC86C332521873F033DA30 /* SCNetworkService.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D8BC84188A8C73E7E99C0F238C2CF1 /* SCNetworkService.m */; };
+		7BF521A8879EFD4377CCD1B9795825A4 /* SCNetworkKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC4C0219BC400AA8F6DE81200EB7979 /* SCNetworkKit-dummy.m */; };
+		A087E5E52CFF015EA7D933FD09C622FF /* NSDictionary+SCAddtions.m in Sources */ = {isa = PBXBuildFile; fileRef = F31A58A65710D6E846D4471AA20B269F /* NSDictionary+SCAddtions.m */; };
+		A39F5A8EDB3B0C6BDBF57A0EFE3337D1 /* SCNetworkKit.h in Headers */ = {isa = PBXBuildFile; fileRef = B0C2826F9ED66906A8091D1AE6846A0C /* SCNetworkKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A47192F2D44F17D5828C41151BEB3F84 /* SCNJSONResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5E42183554509A2550B8F9B91DE2CD /* SCNJSONResponseParser.m */; };
+		C38E294BB93E54034305640A20C189E6 /* SCJSONUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 012BAB26898F1D181F2DF6EF0CADE59F /* SCJSONUtil.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		C4E05A32CED61CA90CCB74A66B7B44E7 /* SCNImageResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F9CCE3F663667E081820C0585B1070 /* SCNImageResponseParser.m */; };
+		C8DAB2BBA1F89F411B6F35D857679CFF /* SCNImageResponseParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ABB900E49118CA77C23682CC87B9B27 /* SCNImageResponseParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D207FFB3500FD688037DF5AF3A13AFE1 /* NSDictionary+SCAddtions.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E610C44172BDD6A1D683620CB5EA8E /* NSDictionary+SCAddtions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D4ACD10E9C667270BBA7ABAFE4AFBE0A /* SCNModelResponseParser+Chain.h in Headers */ = {isa = PBXBuildFile; fileRef = C471C082299C86505AD5449BFBDDF8AF /* SCNModelResponseParser+Chain.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D505FA76223207BE4795600EC91BFC7E /* SCNBlockResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = E409E6E3B17F844F918412606E16F037 /* SCNBlockResponseParser.m */; };
+		DB81D5307FA2800BBB49A8488CBB79CA /* SCNModelResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 54D5A0E0A132E0FBAC7F420BA3C7EF9F /* SCNModelResponseParser.m */; };
+		DF0769FAC8B5F65E3699D9FD21AA16B3 /* SCNetworkRequest+Chain.h in Headers */ = {isa = PBXBuildFile; fileRef = DADAEBAA7F7360D1B98C5BFD1A61BB51 /* SCNetworkRequest+Chain.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1BA9EB8786BEF325AB89E1A449C1699 /* SCNetWorkSessionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3E923D3F2FD30DF0FA69185A350E256 /* SCNetWorkSessionDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F0737196318B182A212F0350F22DC24A /* SCNHTTPResponseParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4327D63EE63E93F3A1121AB1D5F243FE /* SCNHTTPResponseParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F4BD7623D86DB70D801F8E84A3B33B2B /* NSString+SCAddtions.m in Sources */ = {isa = PBXBuildFile; fileRef = 17931ABD30FF3978D3591DCA105182CC /* NSString+SCAddtions.m */; };
+		F84F80AE0CE9673229909D02830EA7C4 /* SCNHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = E920538B17A8FBB7FA0CC555CDCFEFD8 /* SCNHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F8BA7B5AE127917495B3B0CD2F075D2E /* SCJSONUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 7A93F95C0CBEA67A83D30C3268FCEF5C /* SCJSONUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FC9DE2611A7A12FE9F4DA24BDF691DA7 /* SCNetworkRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 7984A1E1603765CA1841EF0226146E47 /* SCNetworkRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		56BABF7CB57289CD37FD20D668F39904 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 265C20B09AA7CCD3F64BC0E5A2162670;
+			remoteInfo = SCJSONUtil;
+		};
+		D453859E7423F300DC228ABE7A62D5D2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D9E15339BC86097A8660A099759EDA4C;
+			remoteInfo = SCNetworkKit;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		012BAB26898F1D181F2DF6EF0CADE59F /* SCJSONUtil.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SCJSONUtil.m; path = SCJSONUtil/SCJSONUtil.m; sourceTree = "<group>"; };
+		0378C6302F54F9F001EAE654AB5F62F7 /* SCJSONUtil-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SCJSONUtil-dummy.m"; sourceTree = "<group>"; };
+		04A548B9465CBDE54EEBFB07032B557B /* SCNModelResponseParser+Chain.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SCNModelResponseParser+Chain.m"; path = "SCNetworkKit/Chain/SCNModelResponseParser+Chain.m"; sourceTree = "<group>"; };
+		0AB52C777F8E2D07BE110426D688AF59 /* SCNetWorkSessionDelegate.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SCNetWorkSessionDelegate.m; path = SCNetworkKit/Service/SCNetWorkSessionDelegate.m; sourceTree = "<group>"; };
+		17931ABD30FF3978D3591DCA105182CC /* NSString+SCAddtions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSString+SCAddtions.m"; path = "SCNetworkKit/Util/NSString+SCAddtions.m"; sourceTree = "<group>"; };
+		1F4A13272814A1ECA10001858B46334D /* SCJSONUtil.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SCJSONUtil.xcconfig; sourceTree = "<group>"; };
+		25BD5F63D3C7950D579C90255F06A3F5 /* SCNJSONResponseParser+Chain.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SCNJSONResponseParser+Chain.m"; path = "SCNetworkKit/Chain/SCNJSONResponseParser+Chain.m"; sourceTree = "<group>"; };
+		2D261AF1CDA32D09B01D496E35C91F91 /* Pods-SCNDemo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SCNDemo-dummy.m"; sourceTree = "<group>"; };
+		2E500FB7958B9496AE485A6E583BD3AE /* Pods-SCNDemo-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SCNDemo-resources.sh"; sourceTree = "<group>"; };
+		3C7443C76EE4F49E759BC0E66324DAC4 /* SCNBlockResponseParser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SCNBlockResponseParser.h; path = SCNetworkKit/Response/SCNBlockResponseParser.h; sourceTree = "<group>"; };
+		4327D63EE63E93F3A1121AB1D5F243FE /* SCNHTTPResponseParser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SCNHTTPResponseParser.h; path = SCNetworkKit/Response/SCNHTTPResponseParser.h; sourceTree = "<group>"; };
+		473A8118F9523CF824BA881140F5227C /* SCNetworkService+Shared.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SCNetworkService+Shared.h"; path = "SCNetworkKit/Service/SCNetworkService+Shared.h"; sourceTree = "<group>"; };
+		47D8BC84188A8C73E7E99C0F238C2CF1 /* SCNetworkService.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SCNetworkService.m; path = SCNetworkKit/Service/SCNetworkService.m; sourceTree = "<group>"; };
+		4FEB73456CB7B46ECA3BD2E8130757B6 /* SCNetworkRequestInternal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SCNetworkRequestInternal.h; path = SCNetworkKit/Request/SCNetworkRequestInternal.h; sourceTree = "<group>"; };
+		50F9CCE3F663667E081820C0585B1070 /* SCNImageResponseParser.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SCNImageResponseParser.m; path = SCNetworkKit/Response/SCNImageResponseParser.m; sourceTree = "<group>"; };
+		54D5A0E0A132E0FBAC7F420BA3C7EF9F /* SCNModelResponseParser.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SCNModelResponseParser.m; path = SCNetworkKit/Response/SCNModelResponseParser.m; sourceTree = "<group>"; };
+		59250968CDAD65DFC6769B16E52A9DDF /* SCNJSONResponseParser+Chain.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SCNJSONResponseParser+Chain.h"; path = "SCNetworkKit/Chain/SCNJSONResponseParser+Chain.h"; sourceTree = "<group>"; };
+		642E748139431BFE076A981A84C3299D /* SCNetworkRequest+Chain.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SCNetworkRequest+Chain.m"; path = "SCNetworkKit/Chain/SCNetworkRequest+Chain.m"; sourceTree = "<group>"; };
+		6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		68A10181ECB151947FE325A50F7B1CAF /* NSString+SCAddtions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSString+SCAddtions.h"; path = "SCNetworkKit/Util/NSString+SCAddtions.h"; sourceTree = "<group>"; };
+		6F6E1BA340AEF4C5FA1E2DEEA98F3947 /* SCNetworkKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SCNetworkKit-prefix.pch"; sourceTree = "<group>"; };
+		7513A53943C07A9F276C407B758D2F93 /* SCNetworkService+Shared.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SCNetworkService+Shared.m"; path = "SCNetworkKit/Service/SCNetworkService+Shared.m"; sourceTree = "<group>"; };
+		7984A1E1603765CA1841EF0226146E47 /* SCNetworkRequest.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SCNetworkRequest.h; path = SCNetworkKit/Request/SCNetworkRequest.h; sourceTree = "<group>"; };
+		7A93F95C0CBEA67A83D30C3268FCEF5C /* SCJSONUtil.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SCJSONUtil.h; path = SCJSONUtil/SCJSONUtil.h; sourceTree = "<group>"; };
+		7AE86674D13EAD2A40134D9C0715337F /* libPods-SCNDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-SCNDemo.a"; path = "libPods-SCNDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8159FE66F93508CED0DB22746B315E7E /* Pods-SCNDemo-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SCNDemo-frameworks.sh"; sourceTree = "<group>"; };
+		8ABB900E49118CA77C23682CC87B9B27 /* SCNImageResponseParser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SCNImageResponseParser.h; path = SCNetworkKit/Response/SCNImageResponseParser.h; sourceTree = "<group>"; };
+		8EA6F74663DFA1698E6A3A60DA0D473E /* SCJSONUtil-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SCJSONUtil-prefix.pch"; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9AEB93075A6FF08E87B0CF31235AD1FD /* SCNJSONResponseParser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SCNJSONResponseParser.h; path = SCNetworkKit/Response/SCNJSONResponseParser.h; sourceTree = "<group>"; };
+		9B941D9684D939B4F597DA97B741E5A6 /* SCNHTTPResponseParser.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SCNHTTPResponseParser.m; path = SCNetworkKit/Response/SCNHTTPResponseParser.m; sourceTree = "<group>"; };
+		9FBF885D6A54A43C0C20EAE0E5314196 /* NSObject+SCCancelRef.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSObject+SCCancelRef.h"; path = "SCNetworkKit/Util/NSObject+SCCancelRef.h"; sourceTree = "<group>"; };
+		AAE8ADD0E3381DCB58243EB6793E04B4 /* NSObject+SCCancelRef.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSObject+SCCancelRef.m"; path = "SCNetworkKit/Util/NSObject+SCCancelRef.m"; sourceTree = "<group>"; };
+		AB2D77C2C00E4C8638A81A04760D2667 /* SCNModelResponseParser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SCNModelResponseParser.h; path = SCNetworkKit/Response/SCNModelResponseParser.h; sourceTree = "<group>"; };
+		B0C2826F9ED66906A8091D1AE6846A0C /* SCNetworkKit.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SCNetworkKit.h; path = SCNetworkKit/SCNetworkKit.h; sourceTree = "<group>"; };
+		C471C082299C86505AD5449BFBDDF8AF /* SCNModelResponseParser+Chain.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SCNModelResponseParser+Chain.h"; path = "SCNetworkKit/Chain/SCNModelResponseParser+Chain.h"; sourceTree = "<group>"; };
+		C64AFC1C13B7DF028DDFBBB8CB7CD264 /* SCNetworkKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SCNetworkKit.xcconfig; sourceTree = "<group>"; };
+		C9922BD28261E7EA6B01D4116A12504A /* Pods-SCNDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SCNDemo.release.xcconfig"; sourceTree = "<group>"; };
+		CF5E42183554509A2550B8F9B91DE2CD /* SCNJSONResponseParser.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SCNJSONResponseParser.m; path = SCNetworkKit/Response/SCNJSONResponseParser.m; sourceTree = "<group>"; };
+		D3E923D3F2FD30DF0FA69185A350E256 /* SCNetWorkSessionDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SCNetWorkSessionDelegate.h; path = SCNetworkKit/Service/SCNetWorkSessionDelegate.h; sourceTree = "<group>"; };
+		D418D91DDAF8C998E136C75B565385CB /* SCNetworkService.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SCNetworkService.h; path = SCNetworkKit/Service/SCNetworkService.h; sourceTree = "<group>"; };
+		DADAEBAA7F7360D1B98C5BFD1A61BB51 /* SCNetworkRequest+Chain.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SCNetworkRequest+Chain.h"; path = "SCNetworkKit/Chain/SCNetworkRequest+Chain.h"; sourceTree = "<group>"; };
+		DAF64147BEB0E23BAF1163163AE09532 /* Pods-SCNDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SCNDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		DCC4C0219BC400AA8F6DE81200EB7979 /* SCNetworkKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SCNetworkKit-dummy.m"; sourceTree = "<group>"; };
+		DF3DA379BB18A8D1779B4AD302D418F9 /* SCNetworkRequest.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SCNetworkRequest.m; path = SCNetworkKit/Request/SCNetworkRequest.m; sourceTree = "<group>"; };
+		E409E6E3B17F844F918412606E16F037 /* SCNBlockResponseParser.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SCNBlockResponseParser.m; path = SCNetworkKit/Response/SCNBlockResponseParser.m; sourceTree = "<group>"; };
+		E8ADD3A300E92B14F8FA99643D29AAF4 /* Pods-SCNDemo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SCNDemo-acknowledgements.markdown"; sourceTree = "<group>"; };
+		E920538B17A8FBB7FA0CC555CDCFEFD8 /* SCNHeader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SCNHeader.h; path = SCNetworkKit/SCNHeader.h; sourceTree = "<group>"; };
+		EA031060B8F08F8DF2C406E001AA2965 /* libSCJSONUtil.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libSCJSONUtil.a; path = libSCJSONUtil.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAA27D7CE12CB81232C73E0E356CE720 /* Pods-SCNDemo-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SCNDemo-acknowledgements.plist"; sourceTree = "<group>"; };
+		F31A58A65710D6E846D4471AA20B269F /* NSDictionary+SCAddtions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+SCAddtions.m"; path = "SCNetworkKit/Util/NSDictionary+SCAddtions.m"; sourceTree = "<group>"; };
+		F4E610C44172BDD6A1D683620CB5EA8E /* NSDictionary+SCAddtions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+SCAddtions.h"; path = "SCNetworkKit/Util/NSDictionary+SCAddtions.h"; sourceTree = "<group>"; };
+		F936875520140F56806558BFA41C779D /* SCNModelParserProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SCNModelParserProtocol.h; path = SCNetworkKit/Response/SCNModelParserProtocol.h; sourceTree = "<group>"; };
+		FEAE1E71EFC80D3A8B62400E8A20496A /* libSCNetworkKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libSCNetworkKit.a; path = libSCNetworkKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2147422BBF686307565E4991B5D1A620 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				35BA17327C178599DD94F219239F3C5E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31A9327BB8F65845809F0188BA7765D0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20A4A912743058BFC57D69C941B87EE3 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EEB5BD0A6D482E44D941278350593447 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				10DB067DB48AA50D971A4B59707048A3 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		27B0A342993871FBC29E66AEB220555F /* Pods-SCNDemo */ = {
+			isa = PBXGroup;
+			children = (
+				E8ADD3A300E92B14F8FA99643D29AAF4 /* Pods-SCNDemo-acknowledgements.markdown */,
+				EAA27D7CE12CB81232C73E0E356CE720 /* Pods-SCNDemo-acknowledgements.plist */,
+				2D261AF1CDA32D09B01D496E35C91F91 /* Pods-SCNDemo-dummy.m */,
+				8159FE66F93508CED0DB22746B315E7E /* Pods-SCNDemo-frameworks.sh */,
+				2E500FB7958B9496AE485A6E583BD3AE /* Pods-SCNDemo-resources.sh */,
+				DAF64147BEB0E23BAF1163163AE09532 /* Pods-SCNDemo.debug.xcconfig */,
+				C9922BD28261E7EA6B01D4116A12504A /* Pods-SCNDemo.release.xcconfig */,
+			);
+			name = "Pods-SCNDemo";
+			path = "Target Support Files/Pods-SCNDemo";
+			sourceTree = "<group>";
+		};
+		39C1D691335626B4EF3F35B9966F099F /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				1F4A13272814A1ECA10001858B46334D /* SCJSONUtil.xcconfig */,
+				0378C6302F54F9F001EAE654AB5F62F7 /* SCJSONUtil-dummy.m */,
+				8EA6F74663DFA1698E6A3A60DA0D473E /* SCJSONUtil-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/SCJSONUtil";
+			sourceTree = "<group>";
+		};
+		3D6C757337C6FF96A5CED4825F0A21EE /* SCNetworkKit */ = {
+			isa = PBXGroup;
+			children = (
+				F4E610C44172BDD6A1D683620CB5EA8E /* NSDictionary+SCAddtions.h */,
+				F31A58A65710D6E846D4471AA20B269F /* NSDictionary+SCAddtions.m */,
+				9FBF885D6A54A43C0C20EAE0E5314196 /* NSObject+SCCancelRef.h */,
+				AAE8ADD0E3381DCB58243EB6793E04B4 /* NSObject+SCCancelRef.m */,
+				68A10181ECB151947FE325A50F7B1CAF /* NSString+SCAddtions.h */,
+				17931ABD30FF3978D3591DCA105182CC /* NSString+SCAddtions.m */,
+				3C7443C76EE4F49E759BC0E66324DAC4 /* SCNBlockResponseParser.h */,
+				E409E6E3B17F844F918412606E16F037 /* SCNBlockResponseParser.m */,
+				B0C2826F9ED66906A8091D1AE6846A0C /* SCNetworkKit.h */,
+				7984A1E1603765CA1841EF0226146E47 /* SCNetworkRequest.h */,
+				DF3DA379BB18A8D1779B4AD302D418F9 /* SCNetworkRequest.m */,
+				DADAEBAA7F7360D1B98C5BFD1A61BB51 /* SCNetworkRequest+Chain.h */,
+				642E748139431BFE076A981A84C3299D /* SCNetworkRequest+Chain.m */,
+				4FEB73456CB7B46ECA3BD2E8130757B6 /* SCNetworkRequestInternal.h */,
+				D418D91DDAF8C998E136C75B565385CB /* SCNetworkService.h */,
+				47D8BC84188A8C73E7E99C0F238C2CF1 /* SCNetworkService.m */,
+				473A8118F9523CF824BA881140F5227C /* SCNetworkService+Shared.h */,
+				7513A53943C07A9F276C407B758D2F93 /* SCNetworkService+Shared.m */,
+				D3E923D3F2FD30DF0FA69185A350E256 /* SCNetWorkSessionDelegate.h */,
+				0AB52C777F8E2D07BE110426D688AF59 /* SCNetWorkSessionDelegate.m */,
+				E920538B17A8FBB7FA0CC555CDCFEFD8 /* SCNHeader.h */,
+				4327D63EE63E93F3A1121AB1D5F243FE /* SCNHTTPResponseParser.h */,
+				9B941D9684D939B4F597DA97B741E5A6 /* SCNHTTPResponseParser.m */,
+				8ABB900E49118CA77C23682CC87B9B27 /* SCNImageResponseParser.h */,
+				50F9CCE3F663667E081820C0585B1070 /* SCNImageResponseParser.m */,
+				9AEB93075A6FF08E87B0CF31235AD1FD /* SCNJSONResponseParser.h */,
+				CF5E42183554509A2550B8F9B91DE2CD /* SCNJSONResponseParser.m */,
+				59250968CDAD65DFC6769B16E52A9DDF /* SCNJSONResponseParser+Chain.h */,
+				25BD5F63D3C7950D579C90255F06A3F5 /* SCNJSONResponseParser+Chain.m */,
+				F936875520140F56806558BFA41C779D /* SCNModelParserProtocol.h */,
+				AB2D77C2C00E4C8638A81A04760D2667 /* SCNModelResponseParser.h */,
+				54D5A0E0A132E0FBAC7F420BA3C7EF9F /* SCNModelResponseParser.m */,
+				C471C082299C86505AD5449BFBDDF8AF /* SCNModelResponseParser+Chain.h */,
+				04A548B9465CBDE54EEBFB07032B557B /* SCNModelResponseParser+Chain.m */,
+				E9EDFD83D5A49C7FB9C816483BBE4CB6 /* Support Files */,
+			);
+			name = SCNetworkKit;
+			path = SCNetworkKit;
+			sourceTree = "<group>";
+		};
+		40AE19630B17EAC94E559F39ACA80C42 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7AE86674D13EAD2A40134D9C0715337F /* libPods-SCNDemo.a */,
+				EA031060B8F08F8DF2C406E001AA2965 /* libSCJSONUtil.a */,
+				FEAE1E71EFC80D3A8B62400E8A20496A /* libSCNetworkKit.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7DB346D0F39D3F0E887471402A8071AB = {
+			isa = PBXGroup;
+			children = (
+				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
+				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
+				91160C39F8CE00FAABB32294ED63ED0C /* Pods */,
+				40AE19630B17EAC94E559F39ACA80C42 /* Products */,
+				9B86F1C5BB13266BBD816837619F27FC /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		91160C39F8CE00FAABB32294ED63ED0C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				ADC524BC79AB901687B2A039AE5534F0 /* SCJSONUtil */,
+				3D6C757337C6FF96A5CED4825F0A21EE /* SCNetworkKit */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		9B86F1C5BB13266BBD816837619F27FC /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				27B0A342993871FBC29E66AEB220555F /* Pods-SCNDemo */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		ADC524BC79AB901687B2A039AE5534F0 /* SCJSONUtil */ = {
+			isa = PBXGroup;
+			children = (
+				7A93F95C0CBEA67A83D30C3268FCEF5C /* SCJSONUtil.h */,
+				012BAB26898F1D181F2DF6EF0CADE59F /* SCJSONUtil.m */,
+				39C1D691335626B4EF3F35B9966F099F /* Support Files */,
+			);
+			name = SCJSONUtil;
+			path = SCJSONUtil;
+			sourceTree = "<group>";
+		};
+		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D35AF013A5F0BAD4F32504907A52519E /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D35AF013A5F0BAD4F32504907A52519E /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		E9EDFD83D5A49C7FB9C816483BBE4CB6 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				C64AFC1C13B7DF028DDFBBB8CB7CD264 /* SCNetworkKit.xcconfig */,
+				DCC4C0219BC400AA8F6DE81200EB7979 /* SCNetworkKit-dummy.m */,
+				6F6E1BA340AEF4C5FA1E2DEEA98F3947 /* SCNetworkKit-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/SCNetworkKit";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		7D68319E8E6871BD44FD4306347B3CFE /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F8BA7B5AE127917495B3B0CD2F075D2E /* SCJSONUtil.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2312E804D04E8E67C97757A7EC56FE8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D207FFB3500FD688037DF5AF3A13AFE1 /* NSDictionary+SCAddtions.h in Headers */,
+				5C36D1E790B297F274ED074692DC2AE5 /* NSObject+SCCancelRef.h in Headers */,
+				54B5CC3826D2A232C0324D1F95D3F3E5 /* NSString+SCAddtions.h in Headers */,
+				41E2215C6003CCD967D363128C96F015 /* SCNBlockResponseParser.h in Headers */,
+				A39F5A8EDB3B0C6BDBF57A0EFE3337D1 /* SCNetworkKit.h in Headers */,
+				DF0769FAC8B5F65E3699D9FD21AA16B3 /* SCNetworkRequest+Chain.h in Headers */,
+				FC9DE2611A7A12FE9F4DA24BDF691DA7 /* SCNetworkRequest.h in Headers */,
+				1B1E798A0701C5D9E21DC2E7E9C7779F /* SCNetworkRequestInternal.h in Headers */,
+				0E872741215608C022A2BD21FC7D02C6 /* SCNetworkService+Shared.h in Headers */,
+				10D2BD62C2D838542B63E69947077511 /* SCNetworkService.h in Headers */,
+				E1BA9EB8786BEF325AB89E1A449C1699 /* SCNetWorkSessionDelegate.h in Headers */,
+				F84F80AE0CE9673229909D02830EA7C4 /* SCNHeader.h in Headers */,
+				F0737196318B182A212F0350F22DC24A /* SCNHTTPResponseParser.h in Headers */,
+				C8DAB2BBA1F89F411B6F35D857679CFF /* SCNImageResponseParser.h in Headers */,
+				186EE8F611FE1937A088AF7820F216D0 /* SCNJSONResponseParser+Chain.h in Headers */,
+				388AC81A511CE52AFE960751BF3D81B2 /* SCNJSONResponseParser.h in Headers */,
+				11BC691906A45D272722B22EE25341A9 /* SCNModelParserProtocol.h in Headers */,
+				D4ACD10E9C667270BBA7ABAFE4AFBE0A /* SCNModelResponseParser+Chain.h in Headers */,
+				19228823A0FC3F0E39996494AE1B499A /* SCNModelResponseParser.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		265C20B09AA7CCD3F64BC0E5A2162670 /* SCJSONUtil */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 595BDDA1A24BCA8705D3D3594F0ACB71 /* Build configuration list for PBXNativeTarget "SCJSONUtil" */;
+			buildPhases = (
+				2FDF606014417B2F5F62C586205757D5 /* Sources */,
+				31A9327BB8F65845809F0188BA7765D0 /* Frameworks */,
+				7D68319E8E6871BD44FD4306347B3CFE /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SCJSONUtil;
+			productName = SCJSONUtil;
+			productReference = EA031060B8F08F8DF2C406E001AA2965 /* libSCJSONUtil.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D33B03163D1CE78E61EB96B28E6C6E4A /* Pods-SCNDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 87D1332D821007D2D38C002B86B62D6B /* Build configuration list for PBXNativeTarget "Pods-SCNDemo" */;
+			buildPhases = (
+				5157E74BC5161BF5F7822FA90835E3AF /* Sources */,
+				2147422BBF686307565E4991B5D1A620 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DD164AF59521966B3A83F1CA40F482FB /* PBXTargetDependency */,
+				32A5407263FDE1E2AD82801B107540CA /* PBXTargetDependency */,
+			);
+			name = "Pods-SCNDemo";
+			productName = "Pods-SCNDemo";
+			productReference = 7AE86674D13EAD2A40134D9C0715337F /* libPods-SCNDemo.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D9E15339BC86097A8660A099759EDA4C /* SCNetworkKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 07F3D0B614944CB086F5F9FCC38DF3AF /* Build configuration list for PBXNativeTarget "SCNetworkKit" */;
+			buildPhases = (
+				E682B3FB9A4C98B79857411F622FCC7A /* Sources */,
+				EEB5BD0A6D482E44D941278350593447 /* Frameworks */,
+				E2312E804D04E8E67C97757A7EC56FE8 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SCNetworkKit;
+			productName = SCNetworkKit;
+			productReference = FEAE1E71EFC80D3A8B62400E8A20496A /* libSCNetworkKit.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0700;
+			};
+			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
+			productRefGroup = 40AE19630B17EAC94E559F39ACA80C42 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D33B03163D1CE78E61EB96B28E6C6E4A /* Pods-SCNDemo */,
+				265C20B09AA7CCD3F64BC0E5A2162670 /* SCJSONUtil */,
+				D9E15339BC86097A8660A099759EDA4C /* SCNetworkKit */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2FDF606014417B2F5F62C586205757D5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3024ED48370D7CCD162DD33F5F61FB64 /* SCJSONUtil-dummy.m in Sources */,
+				C38E294BB93E54034305640A20C189E6 /* SCJSONUtil.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5157E74BC5161BF5F7822FA90835E3AF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				25A5296FA25222768D2E585221A42719 /* Pods-SCNDemo-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E682B3FB9A4C98B79857411F622FCC7A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A087E5E52CFF015EA7D933FD09C622FF /* NSDictionary+SCAddtions.m in Sources */,
+				45EC5C257BF59869ADB3F4FB8C8E1487 /* NSObject+SCCancelRef.m in Sources */,
+				F4BD7623D86DB70D801F8E84A3B33B2B /* NSString+SCAddtions.m in Sources */,
+				D505FA76223207BE4795600EC91BFC7E /* SCNBlockResponseParser.m in Sources */,
+				7BF521A8879EFD4377CCD1B9795825A4 /* SCNetworkKit-dummy.m in Sources */,
+				3319668395EF92377CC6E7371B04AD9A /* SCNetworkRequest+Chain.m in Sources */,
+				187C335BA0A43DE36FAF07718F298D1F /* SCNetworkRequest.m in Sources */,
+				15F8E94A29DE2FA32D8AA88A4B5365A1 /* SCNetworkService+Shared.m in Sources */,
+				7BBCC37F30BC86C332521873F033DA30 /* SCNetworkService.m in Sources */,
+				6CF8963D66D6474A7C3E609D9B4357D7 /* SCNetWorkSessionDelegate.m in Sources */,
+				49C9211588769A7C2408CC132941019A /* SCNHTTPResponseParser.m in Sources */,
+				C4E05A32CED61CA90CCB74A66B7B44E7 /* SCNImageResponseParser.m in Sources */,
+				51D33E887A7A10E43EABA49415E17A17 /* SCNJSONResponseParser+Chain.m in Sources */,
+				A47192F2D44F17D5828C41151BEB3F84 /* SCNJSONResponseParser.m in Sources */,
+				6DE2DE45B643CA20F4692292E01C10F4 /* SCNModelResponseParser+Chain.m in Sources */,
+				DB81D5307FA2800BBB49A8488CBB79CA /* SCNModelResponseParser.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		32A5407263FDE1E2AD82801B107540CA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SCNetworkKit;
+			target = D9E15339BC86097A8660A099759EDA4C /* SCNetworkKit */;
+			targetProxy = D453859E7423F300DC228ABE7A62D5D2 /* PBXContainerItemProxy */;
+		};
+		DD164AF59521966B3A83F1CA40F482FB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SCJSONUtil;
+			target = 265C20B09AA7CCD3F64BC0E5A2162670 /* SCJSONUtil */;
+			targetProxy = 56BABF7CB57289CD37FD20D668F39904 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2FA46A648DC86405C61B30AFB3CCAD58 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C9922BD28261E7EA6B01D4116A12504A /* Pods-SCNDemo.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		3890D7C92DE120C2BA762135796CFA80 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		587B8ECC28E3A9FF4796C121925DC113 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		6B4BB5A15E9879DAE878DAF75C8D9F2C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F4A13272814A1ECA10001858B46334D /* SCJSONUtil.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SCJSONUtil/SCJSONUtil-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		893FFC9B504C88448C0A3312F05048A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F4A13272814A1ECA10001858B46334D /* SCJSONUtil.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SCJSONUtil/SCJSONUtil-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		B89F147FDB6C3457614726E7CAC02264 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C64AFC1C13B7DF028DDFBBB8CB7CD264 /* SCNetworkKit.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SCNetworkKit/SCNetworkKit-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		C319449737071409550EA341E914179C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DAF64147BEB0E23BAF1163163AE09532 /* Pods-SCNDemo.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F377DDCD5E29F8964876D18F9B89E000 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C64AFC1C13B7DF028DDFBBB8CB7CD264 /* SCNetworkKit.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SCNetworkKit/SCNetworkKit-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		07F3D0B614944CB086F5F9FCC38DF3AF /* Build configuration list for PBXNativeTarget "SCNetworkKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F377DDCD5E29F8964876D18F9B89E000 /* Debug */,
+				B89F147FDB6C3457614726E7CAC02264 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				587B8ECC28E3A9FF4796C121925DC113 /* Debug */,
+				3890D7C92DE120C2BA762135796CFA80 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		595BDDA1A24BCA8705D3D3594F0ACB71 /* Build configuration list for PBXNativeTarget "SCJSONUtil" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				893FFC9B504C88448C0A3312F05048A7 /* Debug */,
+				6B4BB5A15E9879DAE878DAF75C8D9F2C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		87D1332D821007D2D38C002B86B62D6B /* Build configuration list for PBXNativeTarget "Pods-SCNDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C319449737071409550EA341E914179C /* Debug */,
+				2FA46A648DC86405C61B30AFB3CCAD58 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+}

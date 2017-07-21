@@ -1,0 +1,1 @@
+../../../SCNetworkKit/SCNetworkKit/Chain/SCNModelResponseParser+Chain.h
