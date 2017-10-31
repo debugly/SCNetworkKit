@@ -213,13 +213,13 @@ static UIImage * SCInflatedImageFromResponseWithDataAtScale(NSData *data, CGFloa
     
     // 从字典中获取这一帧持续的时间
     NSNumber *delayTimeUnclampedProp = gifProperties[(NSString *)kCGImagePropertyGIFUnclampedDelayTime];
-    if (delayTimeUnclampedProp) {
+    if (nil != delayTimeUnclampedProp) {
         frameDuration = [delayTimeUnclampedProp floatValue];
     }
     else {
         
         NSNumber *delayTimeProp = gifProperties[(NSString *)kCGImagePropertyGIFDelayTime];
-        if (delayTimeProp) {
+        if (nil != delayTimeProp) {
             frameDuration = [delayTimeProp floatValue];
         }
     }
@@ -257,8 +257,10 @@ static UIImage * SCInflatedImageFromResponseWithDataAtScale(NSData *data, CGFloa
 
 - (UIImage *)parseredObjectForResponse:(NSHTTPURLResponse *)response data:(NSData *)data error:(NSError *__autoreleasing  _Nullable *)error
 {
-    NSData * respData = [super parseredObjectForResponse:response data:data error:error];
-    if (*error) {
+    NSError *e = nil;
+    NSData * respData = [super parseredObjectForResponse:response data:data error:&e];
+    if (e) {
+        *error = e;
         return nil;
     }
     return  [self parserResponseData2Image:respData mimeType:response.MIMEType];

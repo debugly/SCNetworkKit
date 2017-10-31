@@ -11,7 +11,7 @@
 */
 #import <Foundation/Foundation.h>
 #import "NSObject+SCCancelRef.h"
-#import "SCNHTTPResponseParser.h"
+#import "SCNResponseParser.h"
 
 typedef enum : NSUInteger {
     SCNKParameterEncodingURL,
@@ -39,9 +39,11 @@ typedef void(^SCNKProgressHandler)(SCNetworkRequest *request,int64_t transfered,
 @property(nonatomic,assign) SCNKParameterEncoding parameterEncoding;
 @property(nonatomic,strong) NSData *attachedData;//post的时候指定
 ///default is SCNJSONResponseParser
-@property(nonatomic,strong) id<SCNHTTPResponseParser>responseParser;
+@property(nonatomic,strong) id<SCNResponseParser>responseParser;
 ///请求超时时间，默认60s
 @property(nonatomic)NSTimeInterval timeoutInterval;
+
++ (NSString *) SCN_UA;
 
 - (instancetype)initWithURLString:(NSString *)aURL
                            params:(NSDictionary *)params

@@ -18,7 +18,7 @@
 @interface SCNetworkService ()<NSURLSessionDelegate,NSURLSessionTaskDelegate,NSURLSessionDownloadDelegate>
 
 @property(nonatomic, strong) dispatch_queue_t taskSynzQueue;
-@property(nonatomic, strong) NSMutableDictionary *taskDelegateMap;
+@property(nonatomic, strong) NSMutableDictionary *taskMap;
 @property(nonatomic, strong) NSURLSession *session;
 
 @end
@@ -39,7 +39,7 @@
 {
     NSURLSessionConfiguration *configure = nil;
     configure = [NSURLSessionConfiguration defaultSessionConfiguration];
-
+    
     configure.discretionary = YES;
     configure.networkServiceType = NSURLNetworkServiceTypeDefault;
     configure.timeoutIntervalForRequest = 60;
@@ -51,7 +51,9 @@
     configure.HTTPShouldUsePipelining = YES;
     configure.HTTPMaximumConnectionsPerHost = 2;
     configure.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
-
+    configure.URLCache = nil;
+    ///发现每次发送请求，都会被系统存到沙河里，导致沙河持续变大，因此这里清理所有缓存；如果你的工程里使用了 URLCache 请注意！！！
+    [[NSURLCache sharedURLCache]removeAllCachedResponses];
     self = [self initWithSessionConfiguration:configure];
     return self;
 }
@@ -59,16 +61,16 @@
 - (instancetype)initWithSessionConfiguration:(NSURLSessionConfiguration *)configure
 {
     NSAssert(configure, @"URLSessionConfiguration 不能为空！");
-
+    
     if([self isOSVersonGreaterThanOrEqualNice]){
         configure.shouldUseExtendedBackgroundIdleMode = YES;
     }
-
+    
     self = [super init];
     if (self) {
         self.taskSynzQueue = dispatch_queue_create("com.sohu.live", DISPATCH_QUEUE_SERIAL);
-        self.taskDelegateMap = [NSMutableDictionary dictionary];
-
+        self.taskMap = [NSMutableDictionary dictionary];
+        
         NSOperationQueue *delegateQueue =  [[NSOperationQueue alloc]init];
         delegateQueue.maxConcurrentOperationCount = 3;
         self.session = [NSURLSession sessionWithConfiguration:configure
@@ -78,11 +80,11 @@
     return self;
 }
 
-- (void)sendRequest:(SCNetworkRequest *)request
+- (void)startRequest:(SCNetworkRequest *)request
 {
     NSMutableURLRequest * urlRequest = request.request;
     if(!request || !urlRequest) {
-
+        
         NSAssert((request && urlRequest),
                  @"Request is nil, check your URL and other parameters you use to build your request");
         return;
@@ -91,7 +93,7 @@
 //    Completion handler blocks are not supported in background sessions. Use a delegate instead.
 //    NSURLSessionDataTask *task = [self.defaultSession dataTaskWithRequest:urlRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
 //    }];
-
+    
     if(request.isPOSTRequest){
         NSData *formData = [request multipartFormData];
         ///在这里设置下内容的长度，这个问题处理的不够优雅，但是提升了性能。。。
@@ -105,11 +107,11 @@
     request.state = SCNKRequestStateStarted;
 }
 
-- (void)sendRequest:(SCNetworkRequest *)request downloadFileTargetUrl:(NSURL *)targetURL
+- (void)startRequest:(SCNetworkRequest *)request downloadFileTargetUrl:(NSURL *)targetURL
 {
     NSMutableURLRequest * urlRequest = request.request;
     if(!request || !urlRequest || !targetURL) {
-
+        
         NSAssert((request && urlRequest),
                  @"Request is nil, check your URL and other parameters you use to build your request");
         return;
@@ -124,7 +126,7 @@
 {
     __block SCNetWorkSessionDelegate *delegate = nil;
     dispatch_sync(self.taskSynzQueue, ^{
-        delegate = [self.taskDelegateMap objectForKey:@(task.taskIdentifier)];
+        delegate = [self.taskMap objectForKey:@(task.taskIdentifier)];
     });
     return delegate;
 }
@@ -134,7 +136,7 @@
     __block SCNetWorkSessionDelegate *delegate = nil;
     dispatch_sync(self.taskSynzQueue, ^{
         delegate = [[SCNetWorkSessionDelegate alloc]initWithRequest:request];
-        [self.taskDelegateMap setObject:delegate forKey:@(request.task.taskIdentifier)];
+        [self.taskMap setObject:delegate forKey:@(request.task.taskIdentifier)];
     });
     return delegate;
 }
@@ -142,19 +144,20 @@
 - (void)removeDelegateForTask:(NSURLSessionTask *)task
 {
     dispatch_sync(self.taskSynzQueue, ^{
-        [self.taskDelegateMap removeObjectForKey:@(task.taskIdentifier)];
+        [self.taskMap removeObjectForKey:@(task.taskIdentifier)];
     });
 }
 
 - (void)URLSession:(NSURLSession *)session
               task:(NSURLSessionTask *)task
 didCompleteWithError:(NSError *)error {
-
+    
     SCNetWorkSessionDelegate *delegate = [self delegateForTask:task];
     if (delegate) {
         [delegate URLSession:session task:task didCompleteWithError:error];
         [self removeDelegateForTask:task];
     }
+    [[NSURLCache sharedURLCache]removeCachedResponseForRequest:task.currentRequest];
 }
 
 - (void)URLSession:(NSURLSession *)session
@@ -215,7 +218,7 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
 
 - (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error
 {
-
+    
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
@@ -238,7 +241,7 @@ NSError * SCNError(NSInteger code,id info)
     }else{
         infoDic = info;
     }
-    return [[NSError alloc] initWithDomain:@"com.sohu.live" code:code userInfo:infoDic];
+    return [[NSError alloc] initWithDomain:@"com.sohu.sdk.scn" code:code userInfo:infoDic];
 }
 
 NSError * SCNErrorWithOriginErr(NSError *originError,NSInteger newcode)
@@ -252,7 +255,7 @@ NSError * SCNErrorWithOriginErr(NSError *originError,NSInteger newcode)
         }
         [mulInfo setObject:@(originError.code) forKey:@"origin-errcode"];
     }
-
+    
     return SCNError(newcode, mulInfo);
 }
 

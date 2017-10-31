@@ -14,7 +14,7 @@
 
 #import "SCNetworkService.h"
 #import "SCNetworkRequest.h"
-#import "SCNHTTPResponseParser.h"
+#import "SCNResponseParser.h"
 #import "SCNJSONResponseParser.h"
 #import "SCNModelResponseParser.h"
 #import "SCNImageResponseParser.h"
@@ -25,3 +25,5 @@
 #import "SCNetworkRequest+Chain.h"
 #import "SCNJSONResponseParser+Chain.h"
 #import "SCNModelResponseParser+Chain.h"
+
+#import "SCNHeader.h"

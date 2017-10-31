@@ -12,6 +12,8 @@ typedef id(^SCNParserBlock)(NSData *data,NSError * __autoreleasing *error);
 
 @interface SCNBlockResponseParser : SCNHTTPResponseParser
 
-- (void)addParserBlock:(SCNParserBlock)block;
+- (void)resetParserBlock:(SCNParserBlock)block;
+
++ (instancetype)blockParserWithCustomProcess:(SCNParserBlock)block;
 
 @end

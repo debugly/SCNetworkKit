@@ -72,53 +72,66 @@ static id SCNRemoveJSONNullValues(id JSONObject) {
                            data:(NSData *)data
                           error:(NSError *__autoreleasing *)error
 {
-    NSData *respData = [super parseredObjectForResponse:response data:data error:error];
+    NSError *e = nil;
+    NSData *respData = [super parseredObjectForResponse:response data:data error:&e];
     // Workaround for behavior of Rails to return a single space for `head :ok` (a workaround for a bug in Safari), which is not interpreted as valid input by NSJSONSerialization.
     // See https://github.com/rails/rails/issues/1742
-    if (!respData) {
+    if (e) {
+        if(error){
+            *error = e;
+        }
         return nil;
     }
     
+    ///检查数据是否为空
     BOOL isSpace = [respData isEqualToData:[NSData dataWithBytes:" " length:1]];
     
-    if (respData.length == 0 || isSpace) {
+    if (respData.length == 0 || isSpace)
+    {
+        if(error){
+            *error = SCNError(NSURLErrorZeroByteResource,@"SCN:数据为空");
+        }
         return nil;
     }
     
+    ///数据不空，开始解析
     NSError *serializationError = nil;
     
     id responseObject = [NSJSONSerialization JSONObjectWithData:respData options:NSJSONReadingMutableContainers error:&serializationError];
     
-    if (!responseObject)
-    {
-        if (error) {
+    if (serializationError) {
+        if(error){
             *error = SCNErrorWithOriginErr(serializationError, NSURLErrorCannotParseResponse);
         }
         return nil;
     }
     
+    ///正常解析，处理空值
     if (self.autoRemovesNullValues) {
         responseObject = SCNRemoveJSONNullValues(responseObject);
     }
     
-    //验证
+    //验证下服务器返回数据
     if (self.checkKeyPath && self.okValue) {
         id v = [responseObject objectForKey:self.checkKeyPath];
         BOOL isValidate = [[v description] isEqualToString:self.okValue];
         
+        ///验证不通过
         if(!isValidate){
-            NSDictionary *info = @{@"reason":@"SCN:验证错误",
-                                   @"result":responseObject};
-            NSInteger code = SCNResponseErrCannotPassValidate;
-            
-            if ([v respondsToSelector:@selector(intValue)]) {
-                code = [v intValue];//v = @"测试";
-                if(code == 0){
-                    code = SCNResponseErrCannotPassValidate;
+            if(error){
+                NSDictionary *info = @{@"reason":@"SCN:验证错误",
+                                       @"result":responseObject?:@"nil"};
+                NSInteger code = SCNResponseErrCannotPassValidate;
+                
+                if ([v respondsToSelector:@selector(intValue)]) {
+                    code = [v intValue];//v = @"测试";
+                    if(code == 0){
+                        code = SCNResponseErrCannotPassValidate;
+                    }
                 }
+                *error = SCNError(code,info);
             }
-            *error = SCNError(code,info);
-            responseObject = nil;
+            return nil;
         }
     }
     

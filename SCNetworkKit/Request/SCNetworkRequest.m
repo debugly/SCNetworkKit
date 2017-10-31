@@ -25,11 +25,13 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     return scn_response_parser_queue;
 }
 
+@implementation SCNetworkRequest
+
 /*
  发送请求带上默认的UA
  SohuLiveDemo/1.0 (iPhone; iOS 10.2; Scale/2.00)
  */
-static NSString *SCN_UA()
++ (NSString *) SCN_UA
 {
     static NSString *ua;
     static dispatch_once_t onceToken;
@@ -41,8 +43,6 @@ static NSString *SCN_UA()
     });
     return ua;
 }
-
-@implementation SCNetworkRequest
 
 - (NSString *)description
 {
@@ -128,7 +128,7 @@ static NSString *SCN_UA()
     NSMutableDictionary *headers = [[NSMutableDictionary alloc]initWithDictionary:self.headers];
     ///没有指定UA时，设置默认的；
     if (![headers objectForKey:@"User-Agent"]) {
-        NSString *ua = SCN_UA();
+        NSString *ua = [SCNetworkRequest SCN_UA];
         [headers setObject:ua forKey:@"User-Agent"];
     }
     
@@ -313,7 +313,7 @@ static NSString *SCN_UA()
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        [self.completionHandlers enumerateObjectsUsingBlock:^(SCNetWorkHandler handler, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self.completionHandlers enumerateObjectsUsingBlock:^(_Nonnull SCNetWorkHandler handler, NSUInteger idx, BOOL * _Nonnull stop) {
             handler(self,reslut,self.error);
         }];
         
@@ -330,7 +330,7 @@ static NSString *SCN_UA()
           totalBytesExpected:(int64_t)totalBytesExpected
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.progressChangedHandlers enumerateObjectsUsingBlock:^(SCNKProgressHandler handler, NSUInteger idx, BOOL *stop) {
+        [self.progressChangedHandlers enumerateObjectsUsingBlock:^(_Nonnull SCNKProgressHandler handler, NSUInteger idx, BOOL *stop) {
             handler(self,bytes,totalBytes,totalBytesExpected);
         }];
     });
