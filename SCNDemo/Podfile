@@ -1,6 +1,0 @@
-platform :ios, '7.0'
-
-target 'SCNDemo' do
-    pod "SCNetworkKit", '~>1.0.3'
-    pod 'SCJSONUtil', '~>2.4.1'
-end

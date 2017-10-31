@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "SCNModelParser.h"
-#import <SCNetworkKit/SCNModelResponseParser.h>
+#import "SCNModelResponseParser.h"
 
 @interface AppDelegate ()
 

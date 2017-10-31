@@ -1,1 +1,0 @@
-../../../SCNetworkKit/SCNetworkKit/Util/NSString+SCAddtions.h

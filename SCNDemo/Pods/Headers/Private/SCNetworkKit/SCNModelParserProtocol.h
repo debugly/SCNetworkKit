@@ -1,1 +1,0 @@
-../../../SCNetworkKit/SCNetworkKit/Response/SCNModelParserProtocol.h

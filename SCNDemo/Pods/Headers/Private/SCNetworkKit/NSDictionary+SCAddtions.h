@@ -1,1 +1,0 @@
-../../../SCNetworkKit/SCNetworkKit/Util/NSDictionary+SCAddtions.h

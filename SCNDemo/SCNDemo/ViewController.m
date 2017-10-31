@@ -7,9 +7,11 @@
 //
 
 #import "ViewController.h"
-#import <SCNetworkKit/SCNetworkKit.h>
-#import <SCJSONUtil/SCJSONUtil.h>
+#import "SCNetworkKit.h"
+#import "SCJSONUtil.h"
 #import "TestModel.h"
+
+#define kTestJSONApi @"http://debugly.cn/repository/test.json"
 
 @interface ViewController ()
 
@@ -63,7 +65,7 @@
 
 - (void)testRequestWithDataCompletion:(void(^)(NSData *data))completion
 {
-    SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:@"http://debugly.cn/dist/json/test.json" params:nil httpMethod:@"GET"];
+    SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:kTestJSONApi params:nil httpMethod:@"GET"];
     ///因为默认解析器是SCNJSONResponseParser；会解析成JSON对象；所以这里不指定解析器，让框架返回data！
     req.responseParser = nil;
     [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
@@ -73,7 +75,7 @@
         }
     }];
     
-    [[SCNetworkService sharedService]sendRequest:req];
+    [[SCNetworkService sharedService]startRequest:req];
 }
 
 - (void)testRequestWithJSONCompletion:(void(^)(id json, NSError *err))completion
@@ -88,7 +90,7 @@
     SCNetworkRequest *req = [[SCNetworkRequest alloc]init];
     
     req
-    .c_URL(@"http://debugly.cn/dist/json/test.json")
+    .c_URL(kTestJSONApi)
     .c_Method(@"GET")
     .c_ResponseParser(responseParser)
     .c_CompletionHandler(^(SCNetworkRequest *request, id result, NSError *err) {
@@ -97,7 +99,7 @@
             completion(result,err);
         }
     });
-    [[SCNetworkService sharedService]sendRequest:req];
+    [[SCNetworkService sharedService]startRequest:req];
 }
 
 - (void)testRequestWithModelCompletion:(void(^)(NSArray <TestModel *>*))completion
@@ -122,7 +124,7 @@
          }
      }
      */
-    SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:@"http://debugly.cn/dist/json/test.json" params:nil httpMethod:@"GET"];
+    SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:kTestJSONApi params:nil httpMethod:@"GET"];
     
     SCNModelResponseParser *responseParser = [SCNModelResponseParser parser];
     ///解析前会检查下JSON是否正确；
@@ -139,7 +141,7 @@
             completion(result);
         }
     }];
-    [[SCNetworkService sharedService]sendRequest:req];
+    [[SCNetworkService sharedService]startRequest:req];
 }
 
 - (void)didReceiveMemoryWarning {
