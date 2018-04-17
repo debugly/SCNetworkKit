@@ -16,8 +16,6 @@ extern NSInteger SCNResponseErrCannotFindTargetJson;
 @property (nonatomic,copy) NSString *modelName;
 @property (nonatomic,copy) NSString *modelKeyPath;
 
-- (void)watchJson:(void (^)(id json))block;
-
 + (void)registerModelParser:(Class<SCNModelParserProtocol>)parser;
 
 @end

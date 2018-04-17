@@ -7,7 +7,7 @@
 //
 
 #import "NSString+SCAddtions.h"
-@import CoreFoundation;
+#import <CoreFoundation/CFURL.h>
 
 @implementation NSString (SCAddtions)
 

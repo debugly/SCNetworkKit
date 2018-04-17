@@ -1,17 +1,14 @@
 //
-//  SCNetWorkSessionDelegate.h
-//  SCNetWorkKit
+//  SCNetworkRequest+SessionDelegate.h
+//  SohuCoreFoundation
 //
-//  Created by qianlongxu on 16/4/29.
-//  Copyright © 2016年 sohu-inc. All rights reserved.
+//  Created by 许乾隆 on 2017/11/14.
+//  Copyright © 2017年 sohu-inc. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "SCNetworkRequest.h"
 
-@interface SCNetWorkSessionDelegate : NSObject
-
-- (instancetype)initWithRequest:(SCNetworkRequest *)request;
+@interface SCNetworkRequest (SessionDelegate)
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
 didCompleteWithError:(NSError *)error;
@@ -29,8 +26,6 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend;
 - (void)URLSession:(NSURLSession *)session
               task:(NSURLSessionTask *)task
  needNewBodyStream:(void (^)(NSInputStream *bodyStream))completionHandler;
-
-@property (nonatomic, strong) NSURL *downloadFileTargetUrl;
 
 - (void)URLSession:(NSURLSession *)session
       downloadTask:(NSURLSessionDownloadTask *)downloadTask

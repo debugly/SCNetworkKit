@@ -34,7 +34,7 @@ NSInteger SCNResponseErrCannotPassValidate = -9000;
         if (self.acceptableContentTypes && ![self.acceptableContentTypes containsObject:[response MIMEType]]) {
             
             NSDictionary *userInfo = @{
-                                       @"content-type": [NSString stringWithFormat:@"Request failed: unacceptable content-type: %@", [response MIMEType]],
+                                       @"reason": [NSString stringWithFormat:@"【解析错误】unacceptable content-type: %@", [response MIMEType]],
                                        @"url":[response URL]
                                        };
             
@@ -45,7 +45,7 @@ NSInteger SCNResponseErrCannotPassValidate = -9000;
         
         if (self.acceptableStatusCodes && ![self.acceptableStatusCodes containsIndex:(NSUInteger)response.statusCode] && [response URL]) {
             NSDictionary *userInfo = @{
-                                       @"statusCode": [NSString stringWithFormat:@"Request failed: (%ld)", (long)response.statusCode],
+                                       @"statusCode": [NSString stringWithFormat:@"【网络错误】HTTP错误码: (%ld)", (long)response.statusCode],
                                        @"url":[response URL],
                                        };
             

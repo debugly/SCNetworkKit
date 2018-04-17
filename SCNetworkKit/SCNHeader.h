@@ -11,4 +11,5 @@
 
 extern NSError * SCNErrorWithOriginErr(NSError *originError,NSInteger newcode);
 extern NSError * SCNError(NSInteger code,id info);
+
 #endif /* SCNHeader_h */

@@ -10,30 +10,20 @@
  2016-04-26 19:14:18.852 SOHUVideo[1224:1040470] [CRASH]: Upload tasks from NSData are not supported in background sessions.
  */
 #import "SCNetworkService.h"
-#import "SCNetWorkSessionDelegate.h"
 #import "SCNetworkRequestInternal.h"
+#import "SCNetworkRequest+SessionDelegate.h"
 #import "SCNHeader.h"
 #import <UIKit/UIKit.h>
 
 @interface SCNetworkService ()<NSURLSessionDelegate,NSURLSessionTaskDelegate,NSURLSessionDownloadDelegate>
 
 @property(nonatomic, strong) dispatch_queue_t taskSynzQueue;
-@property(nonatomic, strong) NSMutableDictionary *taskMap;
+@property(nonatomic, strong) NSMutableDictionary *taskRequestMap;
 @property(nonatomic, strong) NSURLSession *session;
 
 @end
 
 @implementation SCNetworkService
-
-- (BOOL)isOSVersonGreaterThanOrEqualNice
-{
-    static NSUInteger cv = 0;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        cv = [[[UIDevice currentDevice]systemVersion]intValue];
-    });
-    return cv >= 9;
-}
 
 - (instancetype)init
 {
@@ -42,8 +32,11 @@
     
     configure.discretionary = YES;
     configure.networkServiceType = NSURLNetworkServiceTypeDefault;
+    ///数据请求超时时间
     configure.timeoutIntervalForRequest = 60;
+    ///资源请求超时时间
     configure.timeoutIntervalForResource = 60;
+    ///允许移动网络访问
     configure.allowsCellularAccess = YES;
     configure.HTTPCookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     configure.HTTPCookieAcceptPolicy = NSHTTPCookieAcceptPolicyAlways;
@@ -52,8 +45,14 @@
     configure.HTTPMaximumConnectionsPerHost = 2;
     configure.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
     configure.URLCache = nil;
-    ///发现每次发送请求，都会被系统存到沙河里，导致沙河持续变大，因此这里清理所有缓存；如果你的工程里使用了 URLCache 请注意！！！
+    
+    if([self isOSVersonGreaterThanOrEqualNice]){
+        configure.shouldUseExtendedBackgroundIdleMode = YES;
+    }
+    
+    ///清理所有缓存；
     [[NSURLCache sharedURLCache]removeAllCachedResponses];
+    
     self = [self initWithSessionConfiguration:configure];
     return self;
 }
@@ -62,14 +61,11 @@
 {
     NSAssert(configure, @"URLSessionConfiguration 不能为空！");
     
-    if([self isOSVersonGreaterThanOrEqualNice]){
-        configure.shouldUseExtendedBackgroundIdleMode = YES;
-    }
-    
     self = [super init];
+    
     if (self) {
         self.taskSynzQueue = dispatch_queue_create("com.sohu.live", DISPATCH_QUEUE_SERIAL);
-        self.taskMap = [NSMutableDictionary dictionary];
+        self.taskRequestMap = [NSMutableDictionary dictionary];
         
         NSOperationQueue *delegateQueue =  [[NSOperationQueue alloc]init];
         delegateQueue.maxConcurrentOperationCount = 3;
@@ -77,14 +73,14 @@
                                                      delegate:self
                                                 delegateQueue:delegateQueue];
     }
+    
     return self;
 }
 
 - (void)startRequest:(SCNetworkRequest *)request
 {
-    NSMutableURLRequest * urlRequest = request.request;
+    NSMutableURLRequest * urlRequest = [request makeURLRequest];
     if(!request || !urlRequest) {
-        
         NSAssert((request && urlRequest),
                  @"Request is nil, check your URL and other parameters you use to build your request");
         return;
@@ -94,57 +90,58 @@
 //    NSURLSessionDataTask *task = [self.defaultSession dataTaskWithRequest:urlRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
 //    }];
     
-    if(request.isPOSTRequest){
-        NSData *formData = [request multipartFormData];
-        ///在这里设置下内容的长度，这个问题处理的不够优雅，但是提升了性能。。。
-        [urlRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long) [formData length]] forHTTPHeaderField:@"Content-Length"];
-        request.task = [self.session uploadTaskWithRequest:urlRequest fromData:formData];
+    SCNetworkPostRequest *postRequest = (SCNetworkPostRequest *)request;
+    ///只有post请求，使用form-data的才走StreamRequest
+    if ([postRequest isKindOfClass:[SCNetworkPostRequest class]] && postRequest.formData) {
+        request.task = [self.session uploadTaskWithStreamedRequest:urlRequest];
+        //   NSData *formData = [request multipartFormData];
+        //   ///在这里设置下内容的长度，这个问题处理的不够优雅，但是提升了性能。。。
+        //   [urlRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long) [formData length]] forHTTPHeaderField:@"Content-Length"];
+        //  request.task = [self.session uploadTaskWithRequest:urlRequest fromData:formData];
+    }else if(request.downloadFileTargetPath){
+        request.task = [self.session downloadTaskWithRequest:urlRequest];
     }else{
         request.task = [self.session dataTaskWithRequest:urlRequest];
     }
 
-    [self assignDelegateForRequest:request];
+    [self assignMappingForRequest:request];
     request.state = SCNKRequestStateStarted;
 }
 
-- (void)startRequest:(SCNetworkRequest *)request downloadFileTargetUrl:(NSURL *)targetURL
+- (void)startDownloadRequest:(SCNetworkRequest *)request
 {
-    NSMutableURLRequest * urlRequest = request.request;
-    if(!request || !urlRequest || !targetURL) {
+    NSMutableURLRequest * urlRequest = [request makeURLRequest];
+    if(!request || !urlRequest) {
         
         NSAssert((request && urlRequest),
                  @"Request is nil, check your URL and other parameters you use to build your request");
         return;
     }
     request.task = [self.session downloadTaskWithRequest:urlRequest];
-    SCNetWorkSessionDelegate *delegate = [self assignDelegateForRequest:request];
-    delegate.downloadFileTargetUrl = targetURL;
+    [self assignMappingForRequest:request];
     request.state = SCNKRequestStateStarted;
 }
 
-- (SCNetWorkSessionDelegate *)delegateForTask:(NSURLSessionTask *)task
+- (SCNetworkRequest *)requestForTask:(NSURLSessionTask *)task
 {
-    __block SCNetWorkSessionDelegate *delegate = nil;
+    __block SCNetworkRequest *request = nil;
     dispatch_sync(self.taskSynzQueue, ^{
-        delegate = [self.taskMap objectForKey:@(task.taskIdentifier)];
+        request = [self.taskRequestMap objectForKey:@(task.taskIdentifier)];
     });
-    return delegate;
+    return request;
 }
 
-- (SCNetWorkSessionDelegate *)assignDelegateForRequest:(SCNetworkRequest *)request
+- (void)assignMappingForRequest:(SCNetworkRequest *)request
 {
-    __block SCNetWorkSessionDelegate *delegate = nil;
     dispatch_sync(self.taskSynzQueue, ^{
-        delegate = [[SCNetWorkSessionDelegate alloc]initWithRequest:request];
-        [self.taskMap setObject:delegate forKey:@(request.task.taskIdentifier)];
+        [self.taskRequestMap setObject:request forKey:@(request.task.taskIdentifier)];
     });
-    return delegate;
 }
 
-- (void)removeDelegateForTask:(NSURLSessionTask *)task
+- (void)removeRequestMappingForTask:(NSURLSessionTask *)task
 {
     dispatch_sync(self.taskSynzQueue, ^{
-        [self.taskMap removeObjectForKey:@(task.taskIdentifier)];
+        [self.taskRequestMap removeObjectForKey:@(task.taskIdentifier)];
     });
 }
 
@@ -152,10 +149,10 @@
               task:(NSURLSessionTask *)task
 didCompleteWithError:(NSError *)error {
     
-    SCNetWorkSessionDelegate *delegate = [self delegateForTask:task];
-    if (delegate) {
-        [delegate URLSession:session task:task didCompleteWithError:error];
-        [self removeDelegateForTask:task];
+    SCNetworkRequest *request = [self requestForTask:task];
+    if (request) {
+        [request URLSession:session task:task didCompleteWithError:error];
+        [self removeRequestMappingForTask:task];
     }
     [[NSURLCache sharedURLCache]removeCachedResponseForRequest:task.currentRequest];
 }
@@ -166,9 +163,9 @@ didCompleteWithError:(NSError *)error {
     totalBytesSent:(int64_t)totalBytesSent
 totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
 {
-    SCNetWorkSessionDelegate *delegate = [self delegateForTask:task];
-    if (delegate) {
-        [delegate URLSession:session task:task didSendBodyData:bytesSent totalBytesSent:totalBytesSent totalBytesExpectedToSend:totalBytesExpectedToSend];
+    SCNetworkRequest *request = [self requestForTask:task];
+    if (request) {
+        [request URLSession:session task:task didSendBodyData:bytesSent totalBytesSent:totalBytesSent totalBytesExpectedToSend:totalBytesExpectedToSend];
     }
 }
 
@@ -176,21 +173,18 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
           dataTask:(NSURLSessionDataTask *)dataTask
     didReceiveData:(NSData *)data
 {
-    SCNetWorkSessionDelegate *delegate = [self delegateForTask:dataTask];
-    if (delegate) {
-        [delegate URLSession:session dataTask:dataTask didReceiveData:data];
+    SCNetworkRequest *request = [self requestForTask:dataTask];
+    if (request) {
+        [request URLSession:session dataTask:dataTask didReceiveData:data];
     }
 }
 
-- (void)URLSession:(NSURLSession *)session
-              task:(NSURLSessionTask *)task
- needNewBodyStream:(void (^)(NSInputStream *bodyStream))completionHandler
-{
-    SCNetWorkSessionDelegate *delegate = [self delegateForTask:task];
-    if (delegate) {
-        [delegate URLSession:session task:task needNewBodyStream:completionHandler];
-    }
-}
+//- (void)URLSession:(NSURLSession *)session
+//              task:(NSURLSessionTask *)task
+// needNewBodyStream:(void (^)(NSInputStream *bodyStream))completionHandler
+//{
+//    
+//}
 
 #pragma mark - NSURLSessionDownloadDelegate
 
@@ -198,9 +192,9 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
       downloadTask:(NSURLSessionDownloadTask *)downloadTask
 didFinishDownloadingToURL:(NSURL *)location
 {
-    SCNetWorkSessionDelegate *delegate = [self delegateForTask:downloadTask];
-    if (delegate) {
-        [delegate URLSession:session downloadTask:downloadTask didFinishDownloadingToURL:location];
+    SCNetworkRequest *request = [self requestForTask:downloadTask];
+    if (request) {
+        [request URLSession:session downloadTask:downloadTask didFinishDownloadingToURL:location];
     }
 }
 
@@ -210,9 +204,9 @@ didFinishDownloadingToURL:(NSURL *)location
  totalBytesWritten:(int64_t)totalBytesWritten
 totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
 {
-    SCNetWorkSessionDelegate *delegate = [self delegateForTask:downloadTask];
-    if (delegate) {
-        [delegate URLSession:session downloadTask:downloadTask didWriteData:bytesWritten totalBytesWritten:totalBytesWritten totalBytesExpectedToWrite:totalBytesExpectedToWrite];
+    SCNetworkRequest *request = [self requestForTask:downloadTask];
+    if (request) {
+        [request URLSession:session downloadTask:downloadTask didWriteData:bytesWritten totalBytesWritten:totalBytesWritten totalBytesExpectedToWrite:totalBytesExpectedToWrite];
     }
 }
 
@@ -229,7 +223,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
 //    NSLog(@"[%ld]:%@",(long)[response statusCode],request);
     completionHandler(request);
 }
-
+    
 NSError * SCNError(NSInteger code,id info)
 {
     if(!info){
@@ -257,6 +251,16 @@ NSError * SCNErrorWithOriginErr(NSError *originError,NSInteger newcode)
     }
     
     return SCNError(newcode, mulInfo);
+}
+
+- (BOOL)isOSVersonGreaterThanOrEqualNice
+{
+    static NSUInteger cv = 0;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        cv = [[[UIDevice currentDevice]systemVersion]intValue];
+    });
+    return cv >= 9;
 }
 
 @end

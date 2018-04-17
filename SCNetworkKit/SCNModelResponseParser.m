@@ -13,9 +13,6 @@ NSInteger SCNResponseErrCannotFindTargetJson = -9001; ///按照指定的keypath�
 
 @interface SCNModelResponseParser()
 
-///用于调试，输出原始json
-@property (nonatomic,copy) void (^debugWatch)(id json);
-
 @end
 
 @implementation SCNModelResponseParser
@@ -42,15 +39,9 @@ static Class <SCNModelParserProtocol> MParser;
     }
     
     id result = repJOSN;
-    
-    if (self.debugWatch) {
-        self.debugWatch(result);
-    }
-    
     //查找目标JSON
     if (self.modelKeyPath.length > 0) {
-        result = [MParser fetchSubJSON:repJOSN keyPath:self.modelKeyPath];
-        //SCFindJSONwithKeyPath(self.modelKeyPath, repJOSN);
+        result = [MParser fetchSubJSON:result keyPath:self.modelKeyPath];
     }
     
     if (result) {
@@ -67,7 +58,7 @@ static Class <SCNModelParserProtocol> MParser;
         ///如果传了error指针地址了
         if(error){
             ///result is nil;
-            NSDictionary *info = @{@"reason":@"SCN:根据keypath不能找到目标json",
+            NSDictionary *info = @{@"reason":@"【解析错误】找不到对应的Model",
                                    @"origin":repJOSN};
             
             NSInteger code = SCNResponseErrCannotFindTargetJson;
@@ -76,11 +67,6 @@ static Class <SCNModelParserProtocol> MParser;
         }
     }
     return result;
-}
-
-- (void)watchJson:(void (^)(id))block
-{
-    self.debugWatch = block;
 }
 
 @end

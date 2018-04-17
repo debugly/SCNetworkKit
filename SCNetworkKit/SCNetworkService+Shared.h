@@ -10,7 +10,7 @@
 
 @interface SCNetworkService (Shared)
 
-///单利的
+/// 获取单例
 + (instancetype)sharedService;
 
 @end

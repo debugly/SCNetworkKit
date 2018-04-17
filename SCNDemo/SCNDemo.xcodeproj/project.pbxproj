@@ -7,6 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B4D4D4732085AFB300F0FE81 /* SCNModelResponseParser+Chain.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4D44D2085AFB300F0FE81 /* SCNModelResponseParser+Chain.m */; };
+		B4D4D4742085AFB300F0FE81 /* SCNHTTPBodyStream.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4D44F2085AFB300F0FE81 /* SCNHTTPBodyStream.m */; };
+		B4D4D4752085AFB400F0FE81 /* NSString+SCAddtions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4D4542085AFB300F0FE81 /* NSString+SCAddtions.m */; };
+		B4D4D4762085AFB400F0FE81 /* NSDictionary+SCAddtions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4D4552085AFB300F0FE81 /* NSDictionary+SCAddtions.m */; };
+		B4D4D4772085AFB400F0FE81 /* SCNetworkRequest+SessionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4D4582085AFB300F0FE81 /* SCNetworkRequest+SessionDelegate.m */; };
+		B4D4D4782085AFB400F0FE81 /* SCNetworkKit.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4D4592085AFB300F0FE81 /* SCNetworkKit.m */; };
+		B4D4D4792085AFB400F0FE81 /* SCNetworkService.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4D45B2085AFB300F0FE81 /* SCNetworkService.m */; };
+		B4D4D47A2085AFB400F0FE81 /* SCNetworkService+Shared.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4D45F2085AFB300F0FE81 /* SCNetworkService+Shared.m */; };
+		B4D4D47B2085AFB400F0FE81 /* SCNHTTPResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4D4602085AFB300F0FE81 /* SCNHTTPResponseParser.m */; };
+		B4D4D47C2085AFB400F0FE81 /* SCNModelResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4D4612085AFB300F0FE81 /* SCNModelResponseParser.m */; };
+		B4D4D47D2085AFB400F0FE81 /* NSObject+SCCancelRef.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4D4622085AFB300F0FE81 /* NSObject+SCCancelRef.m */; };
+		B4D4D47E2085AFB400F0FE81 /* SCNetworkRequest+Chain.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4D4632085AFB300F0FE81 /* SCNetworkRequest+Chain.m */; };
+		B4D4D47F2085AFB400F0FE81 /* SCNJSONResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4D4672085AFB300F0FE81 /* SCNJSONResponseParser.m */; };
+		B4D4D4802085AFB400F0FE81 /* SCNImageResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4D4692085AFB300F0FE81 /* SCNImageResponseParser.m */; };
+		B4D4D4812085AFB400F0FE81 /* SCNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4D46F2085AFB300F0FE81 /* SCNetworkRequest.m */; };
+		B4D4D4822085AFB400F0FE81 /* SCNJSONResponseParser+Chain.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4D4702085AFB300F0FE81 /* SCNJSONResponseParser+Chain.m */; };
+		B4D4D4832085AFB400F0FE81 /* SCNBlockResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4D4712085AFB300F0FE81 /* SCNBlockResponseParser.m */; };
+		B4EFA8192086420E00CAB557 /* node.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B4EFA8182086420E00CAB557 /* node.jpg */; };
 		C342B27C1F217C54007F04FC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C342B27B1F217C54007F04FC /* main.m */; };
 		C342B27F1F217C54007F04FC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C342B27E1F217C54007F04FC /* AppDelegate.m */; };
 		C342B2821F217C54007F04FC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C342B2811F217C54007F04FC /* ViewController.m */; };
@@ -15,25 +33,49 @@
 		C342B28A1F217C54007F04FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C342B2881F217C54007F04FC /* LaunchScreen.storyboard */; };
 		C342B2DB1F218AC8007F04FC /* SCNModelParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C342B2DA1F218AC8007F04FC /* SCNModelParser.m */; };
 		C37FB6901F21D66A0002ACB3 /* TestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C37FB68F1F21D66A0002ACB3 /* TestModel.m */; };
-		DD398F031FA83F5A0080C84F /* SCNetworkRequest+Chain.m in Sources */ = {isa = PBXBuildFile; fileRef = DD398EDD1FA83F5A0080C84F /* SCNetworkRequest+Chain.m */; };
-		DD398F041FA83F5A0080C84F /* SCNJSONResponseParser+Chain.m in Sources */ = {isa = PBXBuildFile; fileRef = DD398EDF1FA83F5A0080C84F /* SCNJSONResponseParser+Chain.m */; };
-		DD398F051FA83F5A0080C84F /* SCNModelResponseParser+Chain.m in Sources */ = {isa = PBXBuildFile; fileRef = DD398EE11FA83F5A0080C84F /* SCNModelResponseParser+Chain.m */; };
-		DD398F061FA83F5A0080C84F /* SCNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD398EE41FA83F5A0080C84F /* SCNetworkRequest.m */; };
-		DD398F071FA83F5A0080C84F /* SCNBlockResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DD398EE81FA83F5A0080C84F /* SCNBlockResponseParser.m */; };
-		DD398F081FA83F5A0080C84F /* SCNHTTPResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DD398EEA1FA83F5A0080C84F /* SCNHTTPResponseParser.m */; };
-		DD398F091FA83F5A0080C84F /* SCNImageResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DD398EEC1FA83F5A0080C84F /* SCNImageResponseParser.m */; };
-		DD398F0A1FA83F5A0080C84F /* SCNJSONResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DD398EEE1FA83F5A0080C84F /* SCNJSONResponseParser.m */; };
-		DD398F0B1FA83F5A0080C84F /* SCNModelResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DD398EF11FA83F5A0080C84F /* SCNModelResponseParser.m */; };
-		DD398F0C1FA83F5A0080C84F /* SCNetworkService+Shared.m in Sources */ = {isa = PBXBuildFile; fileRef = DD398EF71FA83F5A0080C84F /* SCNetworkService+Shared.m */; };
-		DD398F0D1FA83F5A0080C84F /* SCNetworkService.m in Sources */ = {isa = PBXBuildFile; fileRef = DD398EF91FA83F5A0080C84F /* SCNetworkService.m */; };
-		DD398F0E1FA83F5A0080C84F /* SCNetWorkSessionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD398EFB1FA83F5A0080C84F /* SCNetWorkSessionDelegate.m */; };
-		DD398F0F1FA83F5A0080C84F /* NSDictionary+SCAddtions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD398EFE1FA83F5A0080C84F /* NSDictionary+SCAddtions.m */; };
-		DD398F101FA83F5A0080C84F /* NSObject+SCCancelRef.m in Sources */ = {isa = PBXBuildFile; fileRef = DD398F001FA83F5A0080C84F /* NSObject+SCCancelRef.m */; };
-		DD398F111FA83F5A0080C84F /* NSString+SCAddtions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD398F021FA83F5A0080C84F /* NSString+SCAddtions.m */; };
 		DD398F151FA83FB70080C84F /* SCJSONUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = DD398F141FA83FB70080C84F /* SCJSONUtil.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B4D4D44D2085AFB300F0FE81 /* SCNModelResponseParser+Chain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SCNModelResponseParser+Chain.m"; sourceTree = "<group>"; };
+		B4D4D44E2085AFB300F0FE81 /* SCNetworkRequest+Chain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SCNetworkRequest+Chain.h"; sourceTree = "<group>"; };
+		B4D4D44F2085AFB300F0FE81 /* SCNHTTPBodyStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNHTTPBodyStream.m; sourceTree = "<group>"; };
+		B4D4D4502085AFB300F0FE81 /* NSObject+SCCancelRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SCCancelRef.h"; sourceTree = "<group>"; };
+		B4D4D4512085AFB300F0FE81 /* SCNModelResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNModelResponseParser.h; sourceTree = "<group>"; };
+		B4D4D4522085AFB300F0FE81 /* SCNHTTPResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNHTTPResponseParser.h; sourceTree = "<group>"; };
+		B4D4D4532085AFB300F0FE81 /* SCNImageResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNImageResponseParser.h; sourceTree = "<group>"; };
+		B4D4D4542085AFB300F0FE81 /* NSString+SCAddtions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SCAddtions.m"; sourceTree = "<group>"; };
+		B4D4D4552085AFB300F0FE81 /* NSDictionary+SCAddtions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+SCAddtions.m"; sourceTree = "<group>"; };
+		B4D4D4562085AFB300F0FE81 /* SCNJSONResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNJSONResponseParser.h; sourceTree = "<group>"; };
+		B4D4D4572085AFB300F0FE81 /* SCNModelParserProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNModelParserProtocol.h; sourceTree = "<group>"; };
+		B4D4D4582085AFB300F0FE81 /* SCNetworkRequest+SessionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SCNetworkRequest+SessionDelegate.m"; sourceTree = "<group>"; };
+		B4D4D4592085AFB300F0FE81 /* SCNetworkKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNetworkKit.m; sourceTree = "<group>"; };
+		B4D4D45A2085AFB300F0FE81 /* SCNetworkRequestInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNetworkRequestInternal.h; sourceTree = "<group>"; };
+		B4D4D45B2085AFB300F0FE81 /* SCNetworkService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNetworkService.m; sourceTree = "<group>"; };
+		B4D4D45C2085AFB300F0FE81 /* SCNBlockResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNBlockResponseParser.h; sourceTree = "<group>"; };
+		B4D4D45D2085AFB300F0FE81 /* SCNJSONResponseParser+Chain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SCNJSONResponseParser+Chain.h"; sourceTree = "<group>"; };
+		B4D4D45E2085AFB300F0FE81 /* SCNetworkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNetworkRequest.h; sourceTree = "<group>"; };
+		B4D4D45F2085AFB300F0FE81 /* SCNetworkService+Shared.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SCNetworkService+Shared.m"; sourceTree = "<group>"; };
+		B4D4D4602085AFB300F0FE81 /* SCNHTTPResponseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNHTTPResponseParser.m; sourceTree = "<group>"; };
+		B4D4D4612085AFB300F0FE81 /* SCNModelResponseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNModelResponseParser.m; sourceTree = "<group>"; };
+		B4D4D4622085AFB300F0FE81 /* NSObject+SCCancelRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SCCancelRef.m"; sourceTree = "<group>"; };
+		B4D4D4632085AFB300F0FE81 /* SCNetworkRequest+Chain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SCNetworkRequest+Chain.m"; sourceTree = "<group>"; };
+		B4D4D4642085AFB300F0FE81 /* SCNModelResponseParser+Chain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SCNModelResponseParser+Chain.h"; sourceTree = "<group>"; };
+		B4D4D4652085AFB300F0FE81 /* SCNHTTPBodyStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNHTTPBodyStream.h; sourceTree = "<group>"; };
+		B4D4D4662085AFB300F0FE81 /* SCNResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNResponseParser.h; sourceTree = "<group>"; };
+		B4D4D4672085AFB300F0FE81 /* SCNJSONResponseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNJSONResponseParser.m; sourceTree = "<group>"; };
+		B4D4D4682085AFB300F0FE81 /* NSDictionary+SCAddtions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+SCAddtions.h"; sourceTree = "<group>"; };
+		B4D4D4692085AFB300F0FE81 /* SCNImageResponseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNImageResponseParser.m; sourceTree = "<group>"; };
+		B4D4D46A2085AFB300F0FE81 /* NSString+SCAddtions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SCAddtions.h"; sourceTree = "<group>"; };
+		B4D4D46B2085AFB300F0FE81 /* SCNetworkKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNetworkKit.h; sourceTree = "<group>"; };
+		B4D4D46C2085AFB300F0FE81 /* SCNetworkRequest+SessionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SCNetworkRequest+SessionDelegate.h"; sourceTree = "<group>"; };
+		B4D4D46D2085AFB300F0FE81 /* SCNHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNHeader.h; sourceTree = "<group>"; };
+		B4D4D46E2085AFB300F0FE81 /* SCNetworkService+Shared.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SCNetworkService+Shared.h"; sourceTree = "<group>"; };
+		B4D4D46F2085AFB300F0FE81 /* SCNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNetworkRequest.m; sourceTree = "<group>"; };
+		B4D4D4702085AFB300F0FE81 /* SCNJSONResponseParser+Chain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SCNJSONResponseParser+Chain.m"; sourceTree = "<group>"; };
+		B4D4D4712085AFB300F0FE81 /* SCNBlockResponseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNBlockResponseParser.m; sourceTree = "<group>"; };
+		B4D4D4722085AFB300F0FE81 /* SCNetworkService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNetworkService.h; sourceTree = "<group>"; };
+		B4EFA8182086420E00CAB557 /* node.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = node.jpg; sourceTree = "<group>"; };
 		C342B2771F217C54007F04FC /* SCNDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SCNDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C342B27B1F217C54007F04FC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C342B27D1F217C54007F04FC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -48,41 +90,6 @@
 		C342B2DA1F218AC8007F04FC /* SCNModelParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNModelParser.m; sourceTree = "<group>"; };
 		C37FB68E1F21D66A0002ACB3 /* TestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestModel.h; sourceTree = "<group>"; };
 		C37FB68F1F21D66A0002ACB3 /* TestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestModel.m; sourceTree = "<group>"; };
-		DD398EDC1FA83F5A0080C84F /* SCNetworkRequest+Chain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SCNetworkRequest+Chain.h"; sourceTree = "<group>"; };
-		DD398EDD1FA83F5A0080C84F /* SCNetworkRequest+Chain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SCNetworkRequest+Chain.m"; sourceTree = "<group>"; };
-		DD398EDE1FA83F5A0080C84F /* SCNJSONResponseParser+Chain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SCNJSONResponseParser+Chain.h"; sourceTree = "<group>"; };
-		DD398EDF1FA83F5A0080C84F /* SCNJSONResponseParser+Chain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SCNJSONResponseParser+Chain.m"; sourceTree = "<group>"; };
-		DD398EE01FA83F5A0080C84F /* SCNModelResponseParser+Chain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SCNModelResponseParser+Chain.h"; sourceTree = "<group>"; };
-		DD398EE11FA83F5A0080C84F /* SCNModelResponseParser+Chain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SCNModelResponseParser+Chain.m"; sourceTree = "<group>"; };
-		DD398EE31FA83F5A0080C84F /* SCNetworkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNetworkRequest.h; sourceTree = "<group>"; };
-		DD398EE41FA83F5A0080C84F /* SCNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNetworkRequest.m; sourceTree = "<group>"; };
-		DD398EE51FA83F5A0080C84F /* SCNetworkRequestInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNetworkRequestInternal.h; sourceTree = "<group>"; };
-		DD398EE71FA83F5A0080C84F /* SCNBlockResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNBlockResponseParser.h; sourceTree = "<group>"; };
-		DD398EE81FA83F5A0080C84F /* SCNBlockResponseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNBlockResponseParser.m; sourceTree = "<group>"; };
-		DD398EE91FA83F5A0080C84F /* SCNHTTPResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNHTTPResponseParser.h; sourceTree = "<group>"; };
-		DD398EEA1FA83F5A0080C84F /* SCNHTTPResponseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNHTTPResponseParser.m; sourceTree = "<group>"; };
-		DD398EEB1FA83F5A0080C84F /* SCNImageResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNImageResponseParser.h; sourceTree = "<group>"; };
-		DD398EEC1FA83F5A0080C84F /* SCNImageResponseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNImageResponseParser.m; sourceTree = "<group>"; };
-		DD398EED1FA83F5A0080C84F /* SCNJSONResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNJSONResponseParser.h; sourceTree = "<group>"; };
-		DD398EEE1FA83F5A0080C84F /* SCNJSONResponseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNJSONResponseParser.m; sourceTree = "<group>"; };
-		DD398EEF1FA83F5A0080C84F /* SCNModelParserProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNModelParserProtocol.h; sourceTree = "<group>"; };
-		DD398EF01FA83F5A0080C84F /* SCNModelResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNModelResponseParser.h; sourceTree = "<group>"; };
-		DD398EF11FA83F5A0080C84F /* SCNModelResponseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNModelResponseParser.m; sourceTree = "<group>"; };
-		DD398EF21FA83F5A0080C84F /* SCNResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNResponseParser.h; sourceTree = "<group>"; };
-		DD398EF31FA83F5A0080C84F /* SCNetworkKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNetworkKit.h; sourceTree = "<group>"; };
-		DD398EF41FA83F5A0080C84F /* SCNHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNHeader.h; sourceTree = "<group>"; };
-		DD398EF61FA83F5A0080C84F /* SCNetworkService+Shared.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SCNetworkService+Shared.h"; sourceTree = "<group>"; };
-		DD398EF71FA83F5A0080C84F /* SCNetworkService+Shared.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SCNetworkService+Shared.m"; sourceTree = "<group>"; };
-		DD398EF81FA83F5A0080C84F /* SCNetworkService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNetworkService.h; sourceTree = "<group>"; };
-		DD398EF91FA83F5A0080C84F /* SCNetworkService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNetworkService.m; sourceTree = "<group>"; };
-		DD398EFA1FA83F5A0080C84F /* SCNetWorkSessionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNetWorkSessionDelegate.h; sourceTree = "<group>"; };
-		DD398EFB1FA83F5A0080C84F /* SCNetWorkSessionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNetWorkSessionDelegate.m; sourceTree = "<group>"; };
-		DD398EFD1FA83F5A0080C84F /* NSDictionary+SCAddtions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+SCAddtions.h"; sourceTree = "<group>"; };
-		DD398EFE1FA83F5A0080C84F /* NSDictionary+SCAddtions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+SCAddtions.m"; sourceTree = "<group>"; };
-		DD398EFF1FA83F5A0080C84F /* NSObject+SCCancelRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SCCancelRef.h"; sourceTree = "<group>"; };
-		DD398F001FA83F5A0080C84F /* NSObject+SCCancelRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SCCancelRef.m"; sourceTree = "<group>"; };
-		DD398F011FA83F5A0080C84F /* NSString+SCAddtions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SCAddtions.h"; sourceTree = "<group>"; };
-		DD398F021FA83F5A0080C84F /* NSString+SCAddtions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SCAddtions.m"; sourceTree = "<group>"; };
 		DD398F131FA83FB70080C84F /* SCJSONUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCJSONUtil.h; sourceTree = "<group>"; };
 		DD398F141FA83FB70080C84F /* SCJSONUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCJSONUtil.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -98,6 +105,52 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B4D4D44C2085AFB300F0FE81 /* SCNetworkKit */ = {
+			isa = PBXGroup;
+			children = (
+				B4D4D4682085AFB300F0FE81 /* NSDictionary+SCAddtions.h */,
+				B4D4D4552085AFB300F0FE81 /* NSDictionary+SCAddtions.m */,
+				B4D4D4502085AFB300F0FE81 /* NSObject+SCCancelRef.h */,
+				B4D4D4622085AFB300F0FE81 /* NSObject+SCCancelRef.m */,
+				B4D4D46A2085AFB300F0FE81 /* NSString+SCAddtions.h */,
+				B4D4D4542085AFB300F0FE81 /* NSString+SCAddtions.m */,
+				B4D4D45C2085AFB300F0FE81 /* SCNBlockResponseParser.h */,
+				B4D4D4712085AFB300F0FE81 /* SCNBlockResponseParser.m */,
+				B4D4D46B2085AFB300F0FE81 /* SCNetworkKit.h */,
+				B4D4D4592085AFB300F0FE81 /* SCNetworkKit.m */,
+				B4D4D45E2085AFB300F0FE81 /* SCNetworkRequest.h */,
+				B4D4D46F2085AFB300F0FE81 /* SCNetworkRequest.m */,
+				B4D4D44E2085AFB300F0FE81 /* SCNetworkRequest+Chain.h */,
+				B4D4D4632085AFB300F0FE81 /* SCNetworkRequest+Chain.m */,
+				B4D4D46C2085AFB300F0FE81 /* SCNetworkRequest+SessionDelegate.h */,
+				B4D4D4582085AFB300F0FE81 /* SCNetworkRequest+SessionDelegate.m */,
+				B4D4D45A2085AFB300F0FE81 /* SCNetworkRequestInternal.h */,
+				B4D4D4722085AFB300F0FE81 /* SCNetworkService.h */,
+				B4D4D45B2085AFB300F0FE81 /* SCNetworkService.m */,
+				B4D4D46E2085AFB300F0FE81 /* SCNetworkService+Shared.h */,
+				B4D4D45F2085AFB300F0FE81 /* SCNetworkService+Shared.m */,
+				B4D4D46D2085AFB300F0FE81 /* SCNHeader.h */,
+				B4D4D4652085AFB300F0FE81 /* SCNHTTPBodyStream.h */,
+				B4D4D44F2085AFB300F0FE81 /* SCNHTTPBodyStream.m */,
+				B4D4D4522085AFB300F0FE81 /* SCNHTTPResponseParser.h */,
+				B4D4D4602085AFB300F0FE81 /* SCNHTTPResponseParser.m */,
+				B4D4D4532085AFB300F0FE81 /* SCNImageResponseParser.h */,
+				B4D4D4692085AFB300F0FE81 /* SCNImageResponseParser.m */,
+				B4D4D4562085AFB300F0FE81 /* SCNJSONResponseParser.h */,
+				B4D4D4672085AFB300F0FE81 /* SCNJSONResponseParser.m */,
+				B4D4D45D2085AFB300F0FE81 /* SCNJSONResponseParser+Chain.h */,
+				B4D4D4702085AFB300F0FE81 /* SCNJSONResponseParser+Chain.m */,
+				B4D4D4572085AFB300F0FE81 /* SCNModelParserProtocol.h */,
+				B4D4D4512085AFB300F0FE81 /* SCNModelResponseParser.h */,
+				B4D4D4612085AFB300F0FE81 /* SCNModelResponseParser.m */,
+				B4D4D4642085AFB300F0FE81 /* SCNModelResponseParser+Chain.h */,
+				B4D4D44D2085AFB300F0FE81 /* SCNModelResponseParser+Chain.m */,
+				B4D4D4662085AFB300F0FE81 /* SCNResponseParser.h */,
+			);
+			name = SCNetworkKit;
+			path = ../../SCNetworkKit;
+			sourceTree = "<group>";
+		};
 		C342B26E1F217C54007F04FC = {
 			isa = PBXGroup;
 			children = (
@@ -117,8 +170,8 @@
 		C342B2791F217C54007F04FC /* SCNDemo */ = {
 			isa = PBXGroup;
 			children = (
+				B4D4D44C2085AFB300F0FE81 /* SCNetworkKit */,
 				DD398F121FA83FB70080C84F /* SCJSONUtil */,
-				DD398EDA1FA83F5A0080C84F /* SCNetworkKit */,
 				C342B2D91F218AC8007F04FC /* SCNModelParser.h */,
 				C342B2DA1F218AC8007F04FC /* SCNModelParser.m */,
 				C342B27D1F217C54007F04FC /* AppDelegate.h */,
@@ -128,6 +181,7 @@
 				C37FB68E1F21D66A0002ACB3 /* TestModel.h */,
 				C37FB68F1F21D66A0002ACB3 /* TestModel.m */,
 				C342B2831F217C54007F04FC /* Main.storyboard */,
+				B4EFA8182086420E00CAB557 /* node.jpg */,
 				C342B2861F217C54007F04FC /* Assets.xcassets */,
 				C342B2881F217C54007F04FC /* LaunchScreen.storyboard */,
 				C342B28B1F217C54007F04FC /* Info.plist */,
@@ -142,89 +196,6 @@
 				C342B27B1F217C54007F04FC /* main.m */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		DD398EDA1FA83F5A0080C84F /* SCNetworkKit */ = {
-			isa = PBXGroup;
-			children = (
-				DD398EDB1FA83F5A0080C84F /* Chain */,
-				DD398EE21FA83F5A0080C84F /* Request */,
-				DD398EE61FA83F5A0080C84F /* Response */,
-				DD398EF31FA83F5A0080C84F /* SCNetworkKit.h */,
-				DD398EF41FA83F5A0080C84F /* SCNHeader.h */,
-				DD398EF51FA83F5A0080C84F /* Service */,
-				DD398EFC1FA83F5A0080C84F /* Util */,
-			);
-			name = SCNetworkKit;
-			path = ../../SCNetworkKit;
-			sourceTree = "<group>";
-		};
-		DD398EDB1FA83F5A0080C84F /* Chain */ = {
-			isa = PBXGroup;
-			children = (
-				DD398EDC1FA83F5A0080C84F /* SCNetworkRequest+Chain.h */,
-				DD398EDD1FA83F5A0080C84F /* SCNetworkRequest+Chain.m */,
-				DD398EDE1FA83F5A0080C84F /* SCNJSONResponseParser+Chain.h */,
-				DD398EDF1FA83F5A0080C84F /* SCNJSONResponseParser+Chain.m */,
-				DD398EE01FA83F5A0080C84F /* SCNModelResponseParser+Chain.h */,
-				DD398EE11FA83F5A0080C84F /* SCNModelResponseParser+Chain.m */,
-			);
-			path = Chain;
-			sourceTree = "<group>";
-		};
-		DD398EE21FA83F5A0080C84F /* Request */ = {
-			isa = PBXGroup;
-			children = (
-				DD398EE31FA83F5A0080C84F /* SCNetworkRequest.h */,
-				DD398EE41FA83F5A0080C84F /* SCNetworkRequest.m */,
-				DD398EE51FA83F5A0080C84F /* SCNetworkRequestInternal.h */,
-			);
-			path = Request;
-			sourceTree = "<group>";
-		};
-		DD398EE61FA83F5A0080C84F /* Response */ = {
-			isa = PBXGroup;
-			children = (
-				DD398EE71FA83F5A0080C84F /* SCNBlockResponseParser.h */,
-				DD398EE81FA83F5A0080C84F /* SCNBlockResponseParser.m */,
-				DD398EE91FA83F5A0080C84F /* SCNHTTPResponseParser.h */,
-				DD398EEA1FA83F5A0080C84F /* SCNHTTPResponseParser.m */,
-				DD398EEB1FA83F5A0080C84F /* SCNImageResponseParser.h */,
-				DD398EEC1FA83F5A0080C84F /* SCNImageResponseParser.m */,
-				DD398EED1FA83F5A0080C84F /* SCNJSONResponseParser.h */,
-				DD398EEE1FA83F5A0080C84F /* SCNJSONResponseParser.m */,
-				DD398EEF1FA83F5A0080C84F /* SCNModelParserProtocol.h */,
-				DD398EF01FA83F5A0080C84F /* SCNModelResponseParser.h */,
-				DD398EF11FA83F5A0080C84F /* SCNModelResponseParser.m */,
-				DD398EF21FA83F5A0080C84F /* SCNResponseParser.h */,
-			);
-			path = Response;
-			sourceTree = "<group>";
-		};
-		DD398EF51FA83F5A0080C84F /* Service */ = {
-			isa = PBXGroup;
-			children = (
-				DD398EF61FA83F5A0080C84F /* SCNetworkService+Shared.h */,
-				DD398EF71FA83F5A0080C84F /* SCNetworkService+Shared.m */,
-				DD398EF81FA83F5A0080C84F /* SCNetworkService.h */,
-				DD398EF91FA83F5A0080C84F /* SCNetworkService.m */,
-				DD398EFA1FA83F5A0080C84F /* SCNetWorkSessionDelegate.h */,
-				DD398EFB1FA83F5A0080C84F /* SCNetWorkSessionDelegate.m */,
-			);
-			path = Service;
-			sourceTree = "<group>";
-		};
-		DD398EFC1FA83F5A0080C84F /* Util */ = {
-			isa = PBXGroup;
-			children = (
-				DD398EFD1FA83F5A0080C84F /* NSDictionary+SCAddtions.h */,
-				DD398EFE1FA83F5A0080C84F /* NSDictionary+SCAddtions.m */,
-				DD398EFF1FA83F5A0080C84F /* NSObject+SCCancelRef.h */,
-				DD398F001FA83F5A0080C84F /* NSObject+SCCancelRef.m */,
-				DD398F011FA83F5A0080C84F /* NSString+SCAddtions.h */,
-				DD398F021FA83F5A0080C84F /* NSString+SCAddtions.m */,
-			);
-			path = Util;
 			sourceTree = "<group>";
 		};
 		DD398F121FA83FB70080C84F /* SCJSONUtil */ = {
@@ -298,6 +269,7 @@
 				C342B28A1F217C54007F04FC /* LaunchScreen.storyboard in Resources */,
 				C342B2871F217C54007F04FC /* Assets.xcassets in Resources */,
 				C342B2851F217C54007F04FC /* Main.storyboard in Resources */,
+				B4EFA8192086420E00CAB557 /* node.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,27 +280,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD398F051FA83F5A0080C84F /* SCNModelResponseParser+Chain.m in Sources */,
-				DD398F031FA83F5A0080C84F /* SCNetworkRequest+Chain.m in Sources */,
-				DD398F0B1FA83F5A0080C84F /* SCNModelResponseParser.m in Sources */,
+				B4D4D47E2085AFB400F0FE81 /* SCNetworkRequest+Chain.m in Sources */,
+				B4D4D4832085AFB400F0FE81 /* SCNBlockResponseParser.m in Sources */,
 				DD398F151FA83FB70080C84F /* SCJSONUtil.m in Sources */,
-				DD398F111FA83F5A0080C84F /* NSString+SCAddtions.m in Sources */,
 				C342B2821F217C54007F04FC /* ViewController.m in Sources */,
 				C37FB6901F21D66A0002ACB3 /* TestModel.m in Sources */,
+				B4D4D4822085AFB400F0FE81 /* SCNJSONResponseParser+Chain.m in Sources */,
+				B4D4D4732085AFB300F0FE81 /* SCNModelResponseParser+Chain.m in Sources */,
+				B4D4D47F2085AFB400F0FE81 /* SCNJSONResponseParser.m in Sources */,
+				B4D4D47C2085AFB400F0FE81 /* SCNModelResponseParser.m in Sources */,
+				B4D4D4742085AFB300F0FE81 /* SCNHTTPBodyStream.m in Sources */,
+				B4D4D4782085AFB400F0FE81 /* SCNetworkKit.m in Sources */,
+				B4D4D47D2085AFB400F0FE81 /* NSObject+SCCancelRef.m in Sources */,
+				B4D4D4802085AFB400F0FE81 /* SCNImageResponseParser.m in Sources */,
+				B4D4D4752085AFB400F0FE81 /* NSString+SCAddtions.m in Sources */,
+				B4D4D4812085AFB400F0FE81 /* SCNetworkRequest.m in Sources */,
+				B4D4D47B2085AFB400F0FE81 /* SCNHTTPResponseParser.m in Sources */,
+				B4D4D47A2085AFB400F0FE81 /* SCNetworkService+Shared.m in Sources */,
+				B4D4D4792085AFB400F0FE81 /* SCNetworkService.m in Sources */,
+				B4D4D4772085AFB400F0FE81 /* SCNetworkRequest+SessionDelegate.m in Sources */,
 				C342B2DB1F218AC8007F04FC /* SCNModelParser.m in Sources */,
 				C342B27F1F217C54007F04FC /* AppDelegate.m in Sources */,
-				DD398F091FA83F5A0080C84F /* SCNImageResponseParser.m in Sources */,
-				DD398F0F1FA83F5A0080C84F /* NSDictionary+SCAddtions.m in Sources */,
-				DD398F0A1FA83F5A0080C84F /* SCNJSONResponseParser.m in Sources */,
-				DD398F0E1FA83F5A0080C84F /* SCNetWorkSessionDelegate.m in Sources */,
-				DD398F061FA83F5A0080C84F /* SCNetworkRequest.m in Sources */,
-				DD398F081FA83F5A0080C84F /* SCNHTTPResponseParser.m in Sources */,
-				DD398F0C1FA83F5A0080C84F /* SCNetworkService+Shared.m in Sources */,
-				DD398F101FA83F5A0080C84F /* NSObject+SCCancelRef.m in Sources */,
+				B4D4D4762085AFB400F0FE81 /* NSDictionary+SCAddtions.m in Sources */,
 				C342B27C1F217C54007F04FC /* main.m in Sources */,
-				DD398F071FA83F5A0080C84F /* SCNBlockResponseParser.m in Sources */,
-				DD398F0D1FA83F5A0080C84F /* SCNetworkService.m in Sources */,
-				DD398F041FA83F5A0080C84F /* SCNJSONResponseParser+Chain.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,7 +426,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 8YBM843B95;
 				INFOPLIST_FILE = SCNDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sohu.SCNDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -467,7 +441,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 8YBM843B95;
 				INFOPLIST_FILE = SCNDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sohu.SCNDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";

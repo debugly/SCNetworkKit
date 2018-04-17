@@ -16,15 +16,13 @@
 
 @interface SCNetworkService : NSObject
 
-///默认请求头
-@property (nonatomic, strong) NSDictionary *defaultHeaders;
-
+///可以指定 SessionConfiguration
 - (instancetype)initWithSessionConfiguration:(NSURLSessionConfiguration *)configure;
 
 ///开始请求；
 - (void)startRequest:(SCNetworkRequest *)request;
 
-///开始下载请求，并指定文件路径；
-- (void)startRequest:(SCNetworkRequest *)request downloadFileTargetUrl:(NSURL *)targetURL;
+///开始下载请求，需要在req里指定文件路径；
+- (void)startDownloadRequest:(SCNetworkRequest *)request;
 
 @end

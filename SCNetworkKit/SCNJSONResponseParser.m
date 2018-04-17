@@ -55,6 +55,12 @@ static id SCNRemoveJSONNullValues(id JSONObject) {
     return JSONObject;
 }
 
+@interface SCNJSONResponseParser()
+///用于调试，输出原始json
+@property (nonatomic,copy) void (^debugWatch)(id json);
+@property (nonatomic,copy) id (^willParserJson)(id json);
+
+@end
 
 @implementation SCNJSONResponseParser
 
@@ -111,6 +117,15 @@ static id SCNRemoveJSONNullValues(id JSONObject) {
         responseObject = SCNRemoveJSONNullValues(responseObject);
     }
     
+    
+    if (self.willParserJson) {
+        responseObject = self.willParserJson(responseObject);
+    }
+    
+    if (self.debugWatch) {
+        self.debugWatch(responseObject);
+    }
+    
     //验证下服务器返回数据
     if (self.checkKeyPath && self.okValue) {
         id v = [responseObject objectForKey:self.checkKeyPath];
@@ -119,14 +134,22 @@ static id SCNRemoveJSONNullValues(id JSONObject) {
         ///验证不通过
         if(!isValidate){
             if(error){
-                NSDictionary *info = @{@"reason":@"SCN:验证错误",
-                                       @"result":responseObject?:@"nil"};
+                NSMutableDictionary *info = [NSMutableDictionary new];
+                [info setObject:@"【解析错误】服务器返回了错误" forKey:@"reason"];
+                
                 NSInteger code = SCNResponseErrCannotPassValidate;
                 
                 if ([v respondsToSelector:@selector(intValue)]) {
                     code = [v intValue];//v = @"测试";
                     if(code == 0){
                         code = SCNResponseErrCannotPassValidate;
+                    }
+                    
+                    if(self.messageKeyPath){
+                        id message = [responseObject objectForKey:self.messageKeyPath];
+                        if(message){
+                            [info setObject:[message description] forKey:NSLocalizedDescriptionKey];
+                        }
                     }
                 }
                 *error = SCNError(code,info);
@@ -136,6 +159,16 @@ static id SCNRemoveJSONNullValues(id JSONObject) {
     }
     
     return responseObject;
+}
+
+- (void)watchJson:(void (^)(id))block
+{
+    self.debugWatch = block;
+}
+
+- (void)willParserJson:(id (^)(id))block
+{
+    self.willParserJson = block;
 }
 
 @end

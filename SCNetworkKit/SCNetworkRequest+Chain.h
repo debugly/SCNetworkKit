@@ -13,8 +13,6 @@
 
 ///设置url
 - (SCNetworkRequest *(^)(NSString *url))c_URL;
-///设置HTTP请求类型
-- (SCNetworkRequest *(^)(NSString *method))c_Method;
 ///追加参数
 - (SCNetworkRequest *(^)(NSDictionary *parameters))c_Parameters;
 ///设置响应解析器

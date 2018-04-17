@@ -18,14 +18,6 @@
     };
 }
 
-- (SCNetworkRequest *(^)(NSString *method))c_Method
-{
-    return ^ SCNetworkRequest * (NSString *method){
-        self.httpMethod = method;
-        return self;
-    };
-}
-
 - (SCNetworkRequest *(^)(NSDictionary *parameters))c_Parameters
 {
     return ^ SCNetworkRequest * (NSDictionary *parameters){
@@ -41,7 +33,6 @@
         return self;
     };
 }
-
 
 - (SCNetworkRequest *(^)(SCNetWorkHandler handler))c_CompletionHandler
 {

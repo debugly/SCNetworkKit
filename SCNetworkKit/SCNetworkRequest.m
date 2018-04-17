@@ -12,6 +12,7 @@
 #import "SCNJSONResponseParser.h"
 #import <UIKit/UIDevice.h>
 #import <UIKit/UIScreen.h>
+#import "SCNHTTPBodyStream.h"
 
 static NSString * kBoundary = @"0xKhTmLbOuNdArY";
 
@@ -24,6 +25,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     });
     return scn_response_parser_queue;
 }
+
 
 @implementation SCNetworkRequest
 
@@ -46,7 +48,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 - (NSString *)description
 {
-    return [[[self request]URL]description];
+    return [[[self makeURLRequest]URL]description];
 }
 
 - (BOOL)isOSVersonLessThanNine
@@ -73,7 +75,6 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 - (instancetype)initWithURLString:(NSString *)aURL
                            params:(NSDictionary *)params
-                       httpMethod:(NSString *)method
 {
     self = [self init];
     if (self) {
@@ -81,7 +82,6 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         if (params) {
             [self.parameters addEntriesFromDictionary:params];
         }
-        self.httpMethod = method;
     }
     return self;
 }
@@ -91,21 +91,15 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     self = [super init];
     if (self) {
         self.responseParser = [SCNJSONResponseParser parser];
-        self.httpMethod = @"GET";
     }
     return self;
 }
 
-- (BOOL)isPOSTRequest
-{
-    return [self.httpMethod.uppercaseString isEqualToString:@"POST"];
-}
-
-- (NSMutableURLRequest* )request
+- (NSMutableURLRequest* )makeURLRequest
 {    
     NSURL *url = nil;
-    BOOL isPOSTRequest = [self isPOSTRequest];
-    if (!isPOSTRequest && (self.parameters.count > 0)) {
+    
+    if (self.parameters.count > 0) {
         if (NSNotFound != [self.urlString rangeOfString:@"?"].location) {
             NSString *join = @"&";
             if ([self.urlString hasSuffix:@"&"]) {
@@ -133,92 +127,14 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     }
     
     [createdRequest setAllHTTPHeaderFields:headers];
-    [createdRequest setHTTPMethod:self.httpMethod];
+    [createdRequest setHTTPMethod:@"GET"];
     
     ///指定了就设置下；否则走session里配置的时间
     if(self.timeoutInterval > 0){
         createdRequest.timeoutInterval = self.timeoutInterval;
     }
-    
-    if (isPOSTRequest) {
-        if (self.attachedData.length > 0) {
-            NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
-            
-            [createdRequest setValue:
-             [NSString stringWithFormat:
-              @"multipart/form-data; charset=%@; boundary=%@",
-              charset, kBoundary]
-                  forHTTPHeaderField:@"Content-Type"];
-            
-            // HEAVY OPERATION! 推迟到发送请求时添加，从而减少 multipartFormData 的创建次数；
-            //[createdRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long) [[self multipartFormData] length]] forHTTPHeaderField:@"Content-Length"];
-
-        }else{
-            NSString *bodyStringFromParameters = nil;
-            NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
-            
-            switch (self.parameterEncoding) {
-                    
-                case SCNKParameterEncodingURL: {
-                    [createdRequest setValue:
-                     [NSString stringWithFormat:@"application/x-www-form-urlencoded; charset=%@", charset]
-                          forHTTPHeaderField:@"Content-Type"];
-                    bodyStringFromParameters = [self.parameters sc_urlEncodedKeyValueString];
-                }
-                    break;
-                case SCNKParameterEncodingJSON: {
-                    [createdRequest setValue:
-                     [NSString stringWithFormat:@"application/json; charset=%@", charset]
-                          forHTTPHeaderField:@"Content-Type"];
-                    bodyStringFromParameters = [self.parameters sc_jsonEncodedKeyValueString];
-                }
-                    break;
-                case SCNKParameterEncodingPlist: {
-                    [createdRequest setValue:
-                     [NSString stringWithFormat:@"application/x-plist; charset=%@", charset]
-                          forHTTPHeaderField:@"Content-Type"];
-                    bodyStringFromParameters = [self.parameters sc_plistEncodedKeyValueString];
-                }
-            }
-            [createdRequest setHTTPBody:[bodyStringFromParameters dataUsingEncoding:NSUTF8StringEncoding]];
-        }
-    }
-    
-    //    Accept-Encoding:gzip, deflate
+    // Accept-Encoding:gzip, deflate
     return createdRequest;
-}
-
-- (NSData* )multipartFormData {
-    
-    if(self.attachedData.length == 0) {
-        return nil;
-    }
-    
-    NSMutableData *formData = [NSMutableData data];
-    
-    [self.parameters enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        
-        NSString *formattedKV = [NSString stringWithFormat:
-                                     @"--%@\r\nContent-Disposition: form-data; name=\"%@\"\r\n\r\n%@",
-                                     kBoundary, key, obj];
-        
-        [formData appendData:[formattedKV dataUsingEncoding:NSUTF8StringEncoding]];
-        [formData appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-    }];
-    
-    NSString *formattedFile = [NSString stringWithFormat:
-                                 @"--%@\r\nContent-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\nContent-Type: %@\r\nContent-Transfer-Encoding: binary\r\n\r\n",
-                                 kBoundary,
-                                 @"file",
-                                 @"avator.png",
-                                 @"mimetype"];
-    
-    [formData appendData:[formattedFile dataUsingEncoding:NSUTF8StringEncoding]];
-    [formData appendData:self.attachedData];
-    [formData appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-    [formData appendData: [[NSString stringWithFormat:@"--%@--\r\n", kBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    return formData;
 }
 
 - (void)addParameters:(NSDictionary *)ps
@@ -231,6 +147,14 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 - (NSDictionary *)ps
 {
     return [self.parameters copy];
+}
+
+///清理请求参数
+- (void)clearPS
+{
+    if (self.parameters.count > 0) {
+        [self.parameters removeAllObjects];
+    }
 }
 
 - (void)addHeaders:(NSDictionary *)hs
@@ -381,6 +305,109 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         _progressChangedHandlers = [NSMutableArray array];
     }
     return _progressChangedHandlers;
+}
+
+- (NSMutableData *)mutableData
+{
+    if (!_mutableData) {
+        _mutableData = [NSMutableData data];
+    }
+    return _mutableData;
+}
+
+@end
+
+@implementation SCNetworkFormData
+
+@end
+
+@implementation SCNetworkPostRequest
+
+- (NSMutableURLRequest* )makeURLRequest
+{
+    NSURL *url = [NSURL URLWithString:self.urlString];;
+    
+    if(url == nil) {
+        return nil;
+    }
+    
+    NSMutableURLRequest *createdRequest = [NSMutableURLRequest requestWithURL:url];
+    
+    NSMutableDictionary *headers = [[NSMutableDictionary alloc]initWithDictionary:self.headers];
+    ///没有指定UA时，设置默认的；
+    if (![headers objectForKey:@"User-Agent"]) {
+        NSString *ua = [SCNetworkRequest SCN_UA];
+        [headers setObject:ua forKey:@"User-Agent"];
+    }
+    
+    [createdRequest setAllHTTPHeaderFields:headers];
+    [createdRequest setHTTPMethod:@"POST"];
+    
+    ///指定了就设置下；否则走session里配置的时间
+    if(self.timeoutInterval > 0){
+        createdRequest.timeoutInterval = self.timeoutInterval;
+    }
+    
+    if (self.formData) {
+        ///指定的参数带进去！
+        self.formData.parameters = self.parameters;
+        SCNHTTPBodyStream *inputStream = [SCNHTTPBodyStream bodyStreamWithFormData:self.formData];
+        
+        [createdRequest setHTTPBodyStream:inputStream];
+        
+        NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
+        [createdRequest setValue:[NSString stringWithFormat:@"multipart/form-data; charset=%@; boundary=%@",charset, kBoundary] forHTTPHeaderField:@"Content-Type"];
+        [createdRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[inputStream contentLength]] forHTTPHeaderField:@"Content-Length"];
+    }else{
+        NSString *bodyStringFromParameters = nil;
+        NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
+        
+        switch (self.parameterEncoding) {
+                
+            case SCNKParameterEncodingURL: {
+                [createdRequest setValue:
+                 [NSString stringWithFormat:@"application/x-www-form-urlencoded; charset=%@", charset]
+                      forHTTPHeaderField:@"Content-Type"];
+                bodyStringFromParameters = [self.parameters sc_urlEncodedKeyValueString];
+                [createdRequest setHTTPBody:[bodyStringFromParameters dataUsingEncoding:NSUTF8StringEncoding]];
+            }
+                break;
+            case SCNKParameterEncodingJSON: {
+                [createdRequest setValue:
+                 [NSString stringWithFormat:@"application/json; charset=%@", charset]
+                      forHTTPHeaderField:@"Content-Type"];
+                bodyStringFromParameters = [self.parameters sc_jsonEncodedKeyValueString];
+                [createdRequest setHTTPBody:[bodyStringFromParameters dataUsingEncoding:NSUTF8StringEncoding]];
+            }
+                break;
+            case SCNKParameterEncodingPlist: {
+                [createdRequest setValue:
+                 [NSString stringWithFormat:@"application/x-plist; charset=%@", charset]
+                      forHTTPHeaderField:@"Content-Type"];
+                bodyStringFromParameters = [self.parameters sc_plistEncodedKeyValueString];
+                [createdRequest setHTTPBody:[bodyStringFromParameters dataUsingEncoding:NSUTF8StringEncoding]];
+            }
+                break;
+            case SCNKParameterEncodingFormData:{
+                ///指定的参数带进去！
+                if (!self.formData) {
+                    SCNetworkFormData *formData = [SCNetworkFormData new];
+                    formData.parameters = self.parameters;
+                    self.formData = formData;
+                }
+                SCNHTTPBodyStream *inputStream = [SCNHTTPBodyStream bodyStreamWithFormData:self.formData];
+                
+                [createdRequest setHTTPBodyStream:inputStream];
+                
+                NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
+                [createdRequest setValue:[NSString stringWithFormat:@"multipart/form-data; charset=%@; boundary=%@",charset, kBoundary] forHTTPHeaderField:@"Content-Type"];
+                [createdRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[inputStream contentLength]] forHTTPHeaderField:@"Content-Length"];
+            }
+                break;
+        }
+    }
+    //    Accept-Encoding:gzip, deflate
+    return createdRequest;
 }
 
 @end

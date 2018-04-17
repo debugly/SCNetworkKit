@@ -1,60 +1,31 @@
 //
-//  SCNetWorkSessionDelegate.m
-//  SCNetWorkKit
+//  SCNetworkRequest+SessionDelegate.m
+//  SohuCoreFoundation
 //
-//  Created by qianlongxu on 16/4/29.
-//  Copyright © 2016年 sohu-inc. All rights reserved.
+//  Created by 许乾隆 on 2017/11/14.
+//  Copyright © 2017年 sohu-inc. All rights reserved.
 //
 
-#import "SCNetWorkSessionDelegate.h"
+#import "SCNetworkRequest+SessionDelegate.h"
 #import "SCNetworkRequestInternal.h"
-#import "SCNHeader.h"
 
-@interface SCNetWorkSessionDelegate ()
-
-@property(nonatomic,strong) SCNetworkRequest *request;
-@property(nonatomic,strong) NSMutableData *mutableData;
-
-@end
-
-@implementation SCNetWorkSessionDelegate
-
-- (instancetype)initWithRequest:(SCNetworkRequest *)request
-{
-    self = [super init];
-    if (self) {
-        self.request = request;
-    }
-    return self;
-}
-
-- (NSMutableData *)mutableData
-{
-    if (!_mutableData) {
-        _mutableData = [NSMutableData data];
-    }
-    return _mutableData;
-}
+@implementation SCNetworkRequest (SessionDelegate)
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
 didCompleteWithError:(NSError *)error {
     
-    if (!self || !self.request) {
-        return;
-    }
+    self.respData = [NSData dataWithData:self.mutableData];
+    self.response = (NSHTTPURLResponse*) task.response;
+    self.error = error;
     
-    self.request.respData = [NSData dataWithData:self.mutableData];
-    self.request.response = (NSHTTPURLResponse*) task.response;
-    self.request.error = error;
-
     if(error) {
         if(error.code == NSURLErrorCancelled){
-            self.request.state = SCNKRequestStateCancelled;
+            self.state = SCNKRequestStateCancelled;
         }else{
-            self.request.state = SCNKRequestStateError;
+            self.state = SCNKRequestStateError;
         }
     }else{
-        self.request.state = SCNKRequestStateCompleted;
+        self.state = SCNKRequestStateCompleted;
     }
     //clean
     self.mutableData = nil;
@@ -66,7 +37,7 @@ didCompleteWithError:(NSError *)error {
     totalBytesSent:(int64_t)totalBytesSent
 totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
 {
-    [self.request updateTransferedData:bytesSent totalBytes:totalBytesSent totalBytesExpected:totalBytesExpectedToSend];
+    [self updateTransferedData:bytesSent totalBytes:totalBytesSent totalBytesExpected:totalBytesExpectedToSend];
 }
 
 - (void)URLSession:(__unused NSURLSession *)session
@@ -81,9 +52,12 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
  needNewBodyStream:(void (^)(NSInputStream *bodyStream))completionHandler
 {
     NSInputStream *inputStream = nil;
-    
-    NSData *multipartData = [self.request multipartFormData];
-    inputStream = [NSInputStream inputStreamWithData:multipartData];
+//    if(self.formData.fileURL){
+//        inputStream = [NSInputStream inputStreamWithFileAtPath:self.formData.fileURL];
+//    }else{
+//        NSData *multipartData = [self multipartFormData];
+//        inputStream = [NSInputStream inputStreamWithData:multipartData];
+//    }
     
     if (completionHandler) {
         completionHandler(inputStream);
@@ -98,14 +72,14 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
  totalBytesWritten:(int64_t)totalBytesWritten
 totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
     
-    [self.request updateTransferedData:bytesWritten totalBytes:totalBytesWritten totalBytesExpected:totalBytesExpectedToWrite];
+    [self updateTransferedData:bytesWritten totalBytes:totalBytesWritten totalBytesExpected:totalBytesExpectedToWrite];
 }
 
 //- (void)URLSession:(NSURLSession *)session
 //      downloadTask:(NSURLSessionDownloadTask *)downloadTask
 // didResumeAtOffset:(int64_t)fileOffset
 //expectedTotalBytes:(int64_t)expectedTotalBytes{
-//    
+//
 //    self.downloadProgress.totalUnitCount = expectedTotalBytes;
 //    self.downloadProgress.completedUnitCount = fileOffset;
 //}
@@ -116,17 +90,17 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
       downloadTask:(NSURLSessionDownloadTask *)downloadTask
 didFinishDownloadingToURL:(NSURL *)location
 {
-    if (self.downloadFileTargetUrl) {
+    if (self.downloadFileTargetPath) {
         NSError *fileManagerError = nil;
-        
-        [[NSFileManager defaultManager] moveItemAtURL:location toURL:self.downloadFileTargetUrl error:&fileManagerError];
+        NSURL *targetURL = [NSURL fileURLWithPath:self.downloadFileTargetPath];
+        [[NSFileManager defaultManager] moveItemAtURL:location toURL:targetURL error:&fileManagerError];
         
         ///已经存在的516错误？
-        if (fileManagerError) {
+        if (fileManagerError.code == 516) {
             
-            [[NSFileManager defaultManager] removeItemAtURL:self.downloadFileTargetUrl error:nil];
+            [[NSFileManager defaultManager] removeItemAtURL:targetURL error:nil];
             
-            [[NSFileManager defaultManager] moveItemAtURL:location toURL:self.downloadFileTargetUrl error:&fileManagerError];
+            [[NSFileManager defaultManager] moveItemAtURL:location toURL:targetURL error:&fileManagerError];
         }
     }
 }

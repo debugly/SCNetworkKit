@@ -11,6 +11,7 @@
 #import "NSDictionary+SCAddtions.h"
 #import "NSString+SCAddtions.h"
 #import "NSObject+SCCancelRef.h"
+#import "SCJSONUtil.h"
 
 #import "SCNetworkService.h"
 #import "SCNetworkRequest.h"

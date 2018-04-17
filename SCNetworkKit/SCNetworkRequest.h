@@ -6,18 +6,12 @@
 //  Copyright © 2016年 sohu-inc. All rights reserved.
 //
 /*
-  Only support iOS 7+;
-  USE iOS7 new feature; NSURLSession
-*/
+ Only support iOS 7+;
+ USE iOS7 new feature; NSURLSession
+ */
 #import <Foundation/Foundation.h>
 #import "NSObject+SCCancelRef.h"
 #import "SCNResponseParser.h"
-
-typedef enum : NSUInteger {
-    SCNKParameterEncodingURL,
-    SCNKParameterEncodingJSON,
-    SCNKParameterEncodingPlist,
-} SCNKParameterEncoding;
 
 typedef enum : NSUInteger {
     SCNKRequestStateReady,
@@ -31,37 +25,62 @@ typedef enum : NSUInteger {
 typedef void(^SCNetWorkHandler)(SCNetworkRequest *request,id result,NSError *err);
 typedef void(^SCNKProgressHandler)(SCNetworkRequest *request,int64_t transfered,int64_t totalBytes,int64_t totalBytesExpected);
 
+///GET 请求
 @interface SCNetworkRequest : NSObject<SCCancel>
 
 @property(nonatomic,copy) NSString *urlString;
-///default is GET;
-@property(nonatomic,copy) NSString *httpMethod;
-@property(nonatomic,assign) SCNKParameterEncoding parameterEncoding;
-@property(nonatomic,strong) NSData *attachedData;//post的时候指定
 ///default is SCNJSONResponseParser
 @property(nonatomic,strong) id<SCNResponseParser>responseParser;
 ///请求超时时间，默认60s
 @property(nonatomic)NSTimeInterval timeoutInterval;
+///下载文件路径
+@property (nonatomic, copy) NSString *downloadFileTargetPath;
 
 + (NSString *) SCN_UA;
 
 - (instancetype)initWithURLString:(NSString *)aURL
-                           params:(NSDictionary *)params
-                       httpMethod:(NSString *)method;
+                           params:(NSDictionary *)params;
 
-- (BOOL)isPOSTRequest;
-
-//utils
+//添加参数，如果是POST的form-data请求，则参数会放到表单里！GET请求直接拼接到URL上！
 - (void)addParameters:(NSDictionary *)ps;
 ///当前已经添加的参数；
 - (NSDictionary *)ps;
+///清理请求参数
+- (void)clearPS;
 
 - (void)addHeaders:(NSDictionary *)hs;
-///revoked on main thread
+///invoked on main thread
 - (void)addCompletionHandler:(SCNetWorkHandler)handler;
-///revoked on main thread
+///invoked on main thread
 - (void)addProgressChangedHandler:(SCNKProgressHandler)handler;
 - (void)cancel;
 - (SCNKRequestState)state;
 
 @end
+
+@interface SCNetworkFormData : NSObject
+
+@property(nonatomic,copy) NSString *mime;//文本类型
+@property(nonatomic,copy) NSString *fileURL;//文件地址
+@property(nonatomic,copy) NSString *fileName;//文件名
+@property(nonatomic,strong) NSData *attachedData;//data数据
+
+@end
+
+typedef enum : NSUInteger {
+    SCNKParameterEncodingURL,
+    SCNKParameterEncodingJSON,
+    SCNKParameterEncodingPlist,
+    SCNKParameterEncodingFormData,
+} SCNKParameterEncoding;
+
+///POST 请求
+@interface SCNetworkPostRequest : SCNetworkRequest
+
+//默认是: application/x-www-form-urlencoded
+@property(nonatomic,assign) SCNKParameterEncoding parameterEncoding;
+//一旦被赋值，则强制使用multipart/form-data编码
+@property(nonatomic,strong) SCNetworkFormData *formData;
+
+@end
+
