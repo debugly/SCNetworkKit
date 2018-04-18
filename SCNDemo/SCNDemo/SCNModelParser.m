@@ -21,4 +21,9 @@
     return SCJSON2Model(json, mName);
 }
 
++ (id)JSON2StringValueJSON:(id)json
+{
+    return SCJSON2StringValueJSON(json);
+}
+
 @end
