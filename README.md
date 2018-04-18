@@ -1,21 +1,53 @@
-# SCNetworkKit
+## SCNetworkKit
 
-SCNetworkKit is a simple but powerful iOS network framework based on NSURLSession and NSURLSessionConfiguration, written by Objective-C, Support iOS 7+ ;
+SCNetworkKit 是一个基于 [MKNetworkKit](https://github.com/MugunthKumar/MKNetworkKit) 和 [AFNetworking](https://github.com/AFNetworking/AFNetworking) 的 iOS 网络库，结合自身项目需要，并且融合了自己的一些最佳实践。
 
-# Installation with CocoaPods
+- 最低支持到 iOS 7.0
+- 使用 Objective-C 语言编写
+- 底层封装了 NSURLSession
+- 采用 Service + Request 分工模式；从 MKNetworkKit 学习而来
+- 采用可配置的响应解析器模式，可以将数据异步解析为 JSON，Model，其中 Model 解析这块算是对 AFNetworking 响应解析模块学习的一个升华，按照自己的思路去完成的
+- 采用 Maker 方式精简对外公开的API长度，使用更方便；从 [Masonry](https://github.com/desandro/masonry) 学习而来
+- 支持了 HTTPBodyStream，轻松搞定大文件上传；可以说是弥补了 MKNetworkKit 的一个缺憾
+- 自创自动取消机制，可在某个对象（通常是UIViewController）销毁时自动取消已经发起的网络请求
+- 支持链式编程
+- 完成，进度回调等完全 Block 化，没有支持代理（个人偏爱 Block）
 
-在你的 `Podfile` 文件里添加:
+## SCNetworkKit 演变过程
 
+有段时间我专业从事 SDK 的开发工作，要确保提供出去的 SDK 容易集成，防止由于类冲突导致的报错问题，所以要尽量避免依赖开源库！我需要一个稳定的网络请求框架，能够为 SDK 提供可靠的网络服务，因此有了如下演变过程:
+
+`SVPNetworkKit` -> `SLNetworkKit` -> `SCNetworkKit`
+
+- SVPNetworkKit : 为上传模块写的一个独立的网络请求模块，是完全基于 MKNetworkKit 的，毫不保留的说就是在 MKNetworkKit 之上修改而成的，并没有大的创新。
+- SLNetworkKit : 转向 SDK 开发工作后，不想让 SDK 和日后集成的 APP 产生库冲突，因此决定使用 SVPNetworkKit 的基础上改。这个阶段主要对调用API采用 Maker 方式重新设计、支持了Model解析、响应异步解析、自动取消机制等。
+- SCNetworkKit : 随着 SDK 业务的增多，SL这个前缀已经不符合当下了，所以提取了一个核心库，故而改前缀为 SC ！这个阶段主要将POST请求抽取出来，支持了HTTPBodyStream，方便大文件上传！
+
+## 目录结构
+
+- SCNDemo : 可直接运行的 Demo（有可能需要修改下接口 API 地址）
+- SCNetworkKit : 库源码
+- Server : 使用 Express 库编写的服务器，主要 Demo 提供 POST 请求支持
+
+## 安装方式
+
+- 使用 CocoaPods 安装
+
+    ```
+    source 'https://github.com/CocoaPods/Specs.git'
+    platform :ios, '7.0'
+    
+    target 'TargetName' do
+    pod 'SCNetworkKit', '~> 1.0.5'
+    end
 ```
-source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '7.0'
 
-target 'TargetName' do
-pod 'SCNetworkKit', '~> 1.0.3'
-end
-```
+- 使用源码
 
-# 使用范例
+    下载最新 [release](https://github.com/debugly/SCNetworkKit/releases) 代码，找到 SCNetworkKit 目录，拖到工程里即可。
+
+
+## 使用范例
 
 假设服务器返回的数据格式如下：
 
@@ -104,7 +136,7 @@ req.responseParser = responseParser;
 > 由于上面有 JSON 转 Model 的过程，因此在使用之前需要注册一个对应的解析器，你可以到 demo 里搜下 **[SCNModelResponseParser registerModelParser:[SCNModelParser class]];** 具体看下究竟。继续往下看，你会了解为何这么设计！
 
 
-# 链式编程
+## 链式编程
 
 ```
 SCNJSONResponseParser *responseParser = [SCNJSONResponseParser parser];
@@ -128,18 +160,8 @@ req.c_URL(@"http://debugly.cn/dist/json/test.json")
 [[SCNetworkService sharedService]sendRequest:req];
 ```
 
-# 为什么创建这个轮子 ？
 
-因为我在做 SDK，而不是 App;我要确保提供出去的 SDK 不对外产生依赖，以防由于依赖的环境问题影响到了SDK的功能！因此我需要一个稳定的网络请求框架，能够为 SDK 提供可靠的网络服务！
-
-# 特性
-
-- 简单；你可以很方法的发出一个网络请求；然后框架会根据配置的解析器，异步解析响应数据，把结果回调给你；
-- 异步解析响应数据；网络框架提供了共享的异步解析队列，在解析响应数据时不会卡住主线程，解析完毕后将结果通过 block 回调给使用者；
-- 回调完全 block 化；所有的回调均采用了 block 回调的形式完成；
-- 支持一般的网络请求，也支持文件下载；
-
-# 架构设计
+## 架构设计
 
 - 综合参考了 MKNetwork2.0 和 AFNetwork 2.0 的设计，精简了他们的精华，去掉了冗余的设计，融入了自己的想法，将网络请求抽象为 Request 对象，并由 Service 管理，Service 为 Request 分配代理对象 --- 处理传输数据、请求结束，请求失败等事件，请求结束后通过改变 Rquest 的 state 属性，告知 Request 请求结束，然后根据配置的响应解析器，异步解析数据，结果可能是 data, string, json, model, image 等等；最终通过我们添加到 Request 对象上的 completionBlock 回调给调用层。
 
@@ -147,7 +169,7 @@ req.c_URL(@"http://debugly.cn/dist/json/test.json")
 
 <img src="http://debugly.cn/images/SCNetworkKit/SCNetworkKit.png">
 
-# 采用注册的方式解耦和
+## 采用注册的方式解耦和
 
 功能强大的同时要顾及到扩展性，本框架支持很多扩展，以响应解析为例，你可以继续创建你想要的解析器；可以使用你喜欢的 JOSN 转 Model 框架来做解析；可以让网络库解析更多格式的图片；这些都是可以做到的，并且还很简单。
 
@@ -221,6 +243,17 @@ NSURLSession 管理的网络请求结束后，会在 SCNetworkRequest 里处理�
 - SCNetworkRequest 支持添加多个回调，回调顺序跟添加的顺序一样；
 - 注意添加回调的时候，不要让 SCNetworkRequest 持有你的对象，否则 SCNetworkRequest 会一直持有，直到着陆；
 
------------------------------------------
+## SCNetworkPostRequest
+
+继承了 SCNetworkRequest，专门用于发送 POST 请求，支持四种编码方式:
+
+- SCNKParameterEncodingURL : application/x-www-form-urlencoded;
+- SCNKParameterEncodingJSON : application/json;
+- SCNKParameterEncodingPlist : application/x-plist;
+- SCNKParameterEncodingFormData : multipart/form-data;
+
+只有使用 SCNKParameterEncodingFormData 方式的请求采用 HTTPBodyStream ！
+
+## 完
 
 如有问题，或者需要 SCNetworkKit 提供更强大的功能，请提 issue 给我，3q！
