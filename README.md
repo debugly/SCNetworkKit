@@ -40,7 +40,7 @@ SCNetworkKit 是一个基于 [MKNetworkKit](https://github.com/MugunthKumar/MKNe
     target 'TargetName' do
     pod 'SCNetworkKit', '~> 1.0.5'
     end
-```
+    ```
 
 - 使用源码
 
