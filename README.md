@@ -75,66 +75,140 @@ SCNetworkKit 是一个基于 [MKNetworkKit](https://github.com/MugunthKumar/MKNe
 下面演示如何通过配置不同的解析器，从而达到着陆 block 回调不同结果的效果:
 
 
-- 从服务器获取原始Data对象
+- 发送 GET请求，回调原始Data，不做解析
 
-```objc
-SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:@"http://debugly.cn/dist/json/test.json" params:nil httpMethod:@"GET"];
-    ///因为默认解析器是SCNJSONResponseParser；会解析成JSON对象；所以这里不指定解析器，让框架返回data！
-    req.responseParser = nil;
+    ```objc
+    SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:@"http://debugly.cn/dist/json/test.json" params:nil httpMethod:@"GET"];
+        ///因为默认解析器是SCNJSONResponseParser；会解析成JSON对象；所以这里不指定解析器，让框架返回data！
+        req.responseParser = nil;
+        [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+            
+            if (completion) {
+                completion(result);
+            }
+        }];
+    [[SCNetworkService sharedService]sendRequest:req];
+    ```
+
+- 发送 GET请求，回调 JOSN 对象
+
+    ```objc
+    SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:@"http://debugly.cn/dist/json/test.json" params:nil httpMethod:@"GET"];
+        
+    SCNJSONResponseParser *responseParser = [SCNJSONResponseParser parser];
+    ///框架会检查接口返回的 code 是不是 0 ，如果不是 0 ，那么返回给你一个err，并且result是 nil;
+    responseParser.checkKeyPath = @"code";
+    responseParser.okValue = @"0";
+    req.responseParser = responseParser;
+        
     [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
         if (completion) {
             completion(result);
         }
     }];
-[[SCNetworkService sharedService]sendRequest:req];
-```
+    [[SCNetworkService sharedService]sendRequest:req];
+    ```
 
-- 从服务器获取到数据后，异步解析为JOSN对象
+- 发送 GET请求，回调 Model 对象
 
-```objc
-SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:@"http://debugly.cn/dist/json/test.json" params:nil httpMethod:@"GET"];
-    
-SCNJSONResponseParser *responseParser = [SCNJSONResponseParser parser];
-///框架会检查接口返回的 code 是不是 0 ，如果不是 0 ，那么返回给你一个err，并且result是 nil;
-responseParser.checkKeyPath = @"code";
-responseParser.okValue = @"0";
-req.responseParser = responseParser;
-    
-[req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
-    
-    if (completion) {
-        completion(result);
-    }
-}];
-[[SCNetworkService sharedService]sendRequest:req];
-```
+    ```objc
+    SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:@"http://debugly.cn/dist/json/test.json" params:nil httpMethod:@"GET"];
+        
+    SCNModelResponseParser *responseParser = [SCNModelResponseParser parser];
+    ///解析前会检查下JSON是否正确；
+    responseParser.checkKeyPath = @"code";
+    responseParser.okValue = @"0";
+    ///根据服务器返回数据的格式和想要解析结构对应的Model配置解析器
+    responseParser.modelName = @"TestModel";
+    responseParser.modelKeyPath = @"content/entrance";
+    req.responseParser = responseParser;
+        
+    [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+        
+        if (completion) {
+            completion(result);
+        }
+    }];
+    [[SCNetworkService sharedService]sendRequest:req];
+    ```
 
-- 从服务器获取到数据后，先异步解析为JOSN对象，然后转化为指定的Model对象
+由于上面有 JSON 转 Model 的过程，因此在使用之前需要注册一个对应的解析器，你可以到 demo 里搜下 **[SCNModelResponseParser registerModelParser:[SCNModelParser class]];** 具体看下究竟。
 
-```objc
-SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:@"http://debugly.cn/dist/json/test.json" params:nil httpMethod:@"GET"];
-    
-SCNModelResponseParser *responseParser = [SCNModelResponseParser parser];
-///解析前会检查下JSON是否正确；
-responseParser.checkKeyPath = @"code";
-responseParser.okValue = @"0";
-///根据服务器返回数据的格式和想要解析结构对应的Model配置解析器
-responseParser.modelName = @"TestModel";
-responseParser.modelKeyPath = @"content/entrance";
-req.responseParser = responseParser;
-    
-[req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
-    
-    if (completion) {
-        completion(result);
-    }
-}];
-[[SCNetworkService sharedService]sendRequest:req];
-```
+- 文件下载
 
-> 由于上面有 JSON 转 Model 的过程，因此在使用之前需要注册一个对应的解析器，你可以到 demo 里搜下 **[SCNModelResponseParser registerModelParser:[SCNModelParser class]];** 具体看下究竟。继续往下看，你会了解为何这么设计！
+    ```objc
+    SCNetworkRequest *get = [[SCNetworkRequest alloc]initWithURLString:kTestDownloadApi2 params:nil];
+    NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:@"test.mp4"];
+    NSLog(@"download path:%@",path);
+    get.downloadFileTargetPath = path;
+    get.responseParser = nil;
+    [get addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+        
+        if (completion) {
+            completion(path,err);
+        }
+    }];
+        
+    [get addProgressChangedHandler:^(SCNetworkRequest *request, int64_t thisTransfered, int64_t totalBytesTransfered, int64_t totalBytesExpected) {
+        
+        if (totalBytesExpected > 0) {
+            float p = 1.0 * totalBytesTransfered / totalBytesExpected;
+            NSLog(@"download progress:%0.4f",p);
+            if (progress) {
+                progress(p);
+            }
+        }
+    }];
+        
+    [[SCNetworkService sharedService]startRequest:get];
+    ```
 
+- 文件上传
+
+    ```objc
+    NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
+    SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestUploadApi params:ps];
+    SCNetworkFormData *formData = [SCNetworkFormData new];
+    formData.fileURL = [[NSBundle mainBundle]pathForResource:@"node" ofType:@"jpg"];
+    formData.fileName = @"test.jpg";
+    post.formData = formData;
+    [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+        
+        if (completion) {
+            completion(result,err);
+        }
+    }];
+        
+    [post addProgressChangedHandler:^(SCNetworkRequest *request, int64_t thisTransfered, int64_t totalBytesTransfered, int64_t totalBytesExpected) {
+        
+        if (totalBytesExpected > 0) {
+            float p = 1.0 * totalBytesTransfered / totalBytesExpected;
+            NSLog(@"upload progress:%0.4f",p);
+            if (progress) {
+                progress(p);
+            }
+        }
+    }];
+    
+    [[SCNetworkService sharedService]startRequest:post];
+    ```
+
+- 通过表单POST数据
+
+    ```objc
+    NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
+    SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestUploadApi params:ps];
+    post.parameterEncoding = SCNKParameterEncodingFormData;
+    [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+        
+        if (completion) {
+            completion(result,err);
+        }
+    }];
+        
+    [[SCNetworkService sharedService]startRequest:post];
+    ```
 
 ## 链式编程
 
@@ -175,54 +249,54 @@ req.c_URL(@"http://debugly.cn/dist/json/test.json")
 
 - 由于框架配备了支持 JSON 转 Model 的 SCNModelResponseParser 响应解析器，那么就不得不依赖于 JSON 转 Model 的框架，考虑到项目中很可能已经有了这样的框架，因此并没有将这块逻辑写死，而是采用注册的方式，来扩展 SCN 的能力！所以使用 Model 解析器之前必须注册 一个用于将 JOSN 转为 Model 的类，该类实现 SCNModelParserProtocol 协议！为了方便，最好是在APP启动后就注册，或者创建 Service 的时候创建，以免使用的时候还没注册，导致崩溃！
 
-```
-@protocol SCNModelParserProtocol <NSObject>
-
-@required;
-+ (id)fetchSubJSON:(id)json keyPath:(NSString *)keypath;
-+ (id)JSON2Model:(id)json modelName:(NSString *)mName;
-
-@end
-
-@interface SCNModelResponseParser : SCNJSONResponseParser
-
-@property (nonatomic,copy) NSString *modelName;
-@property (nonatomic,copy) NSString *modelKeyPath;
-
-+ (void)registerModelParser:(Class<SCNModelParserProtocol>)parser;
-
-@end
-
-```
+    ```objc
+    @protocol SCNModelParserProtocol <NSObject>
+    
+    @required;
+    + (id)fetchSubJSON:(id)json keyPath:(NSString *)keypath;
+    + (id)JSON2Model:(id)json modelName:(NSString *)mName;
+    
+    @end
+    
+    @interface SCNModelResponseParser : SCNJSONResponseParser
+    
+    @property (nonatomic,copy) NSString *modelName;
+    @property (nonatomic,copy) NSString *modelKeyPath;
+    
+    + (void)registerModelParser:(Class<SCNModelParserProtocol>)parser;
+    
+    @end
+    
+    ```
 
 我在 demo 里面使用的是我的另外一个轮子：[SCJSONUtil](https://github.com/debugly/SCJSONUtil) ；具体实现可查看demo。
 
 
 - 图片解析器默认支持 png、jpg 图片格式，当下 webp 格式由于体积更小，很多厂商开始使用，我的 SDK 里也用到了这个格式，因此我在 SDK 里注册了解析 webp 的解析类；
 
-```
-@protocol SCNImageParserProtocol <NSObject>
-
-@required;
-+ (UIImage *)imageWithData:(NSData *)data scale:(CGFloat)scale;
-
-@end
-
-///默认支持png 和 jpg；可通过注册的方式扩展！
-@interface SCNImageResponseParser : SCNHTTPResponseParser
-
-
-/**
- 注册新的图片解析器和对应的类型
-
- @param parser 解析器
- @param mime 支持的类型
- */
-+ (void)registerParser:(Class<SCNImageParserProtocol>)parser forMime:(NSString *)mime;
-
-@end
-
-```
+    ```objc
+    @protocol SCNImageParserProtocol <NSObject>
+    
+    @required;
+    + (UIImage *)imageWithData:(NSData *)data scale:(CGFloat)scale;
+    
+    @end
+    
+    ///默认支持png 和 jpg；可通过注册的方式扩展！
+    @interface SCNImageResponseParser : SCNHTTPResponseParser
+    
+    
+    /**
+     注册新的图片解析器和对应的类型
+    
+     @param parser 解析器
+     @param mime 支持的类型
+     */
+    + (void)registerParser:(Class<SCNImageParserProtocol>)parser forMime:(NSString *)mime;
+    
+    @end
+    
+    ```
 
 这种注册器的方式优雅地扩充了网络库的功能，就好比插件一样，插上就能用，只需要规格上符合我协议里规定的要求即可！反之，如果你不需要解析 webp， 你不需要 json 转 model 的话，你就没必要去插对应的模块！
 
