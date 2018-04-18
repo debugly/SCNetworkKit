@@ -14,7 +14,10 @@
 #define kTestJSONApi @"http://debugly.cn/repository/test.json"
 #define kTestUploadApi @"http://localhost:3000/upload-file"
 #define kTestPostApi @"http://localhost:3000/users"
+ 
 #define kTestDownloadApi @"http://localhost:3000/images/node.jpg"
+#define kTestDownloadApi2 @"http://debugly.github.io/repository/test.mp4"
+
 
 #define __weakSelf   typeof(self)weakself = self;
 #define __strongSelf typeof(weakself)self = weakself;
@@ -137,6 +140,9 @@
             self.textView.text = [err description];
         }
         [self hiddenIndicator];
+    }progress:^(float p) {
+        __strongSelf
+        self.textView.text = [NSString stringWithFormat:@"下载进度：%0.4f",p];
     }];
 }
 
@@ -182,19 +188,35 @@
             self.textView.text = [err description];
         }
         [self hiddenIndicator];
+    }progress:^(float p) {
+        __strongSelf
+        self.textView.text = [NSString stringWithFormat:@"上传进度：%0.4f",p];
     }];
 }
 
-- (void)testGetFileWithCompletion:(void(^)(NSString *path,NSError *err))completion
+- (void)testGetFileWithCompletion:(void(^)(NSString *path,NSError *err))completion progress:(void(^)(float p))progress
 {
-    SCNetworkRequest *get = [[SCNetworkRequest alloc]initWithURLString:kTestDownloadApi params:nil];
-    NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:@"node.jpg"];
+    SCNetworkRequest *get = [[SCNetworkRequest alloc]initWithURLString:kTestDownloadApi2 params:nil];
+//    NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:@"node.jpg"];
+    NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:@"test.mp4"];
+    NSLog(@"download path:%@",path);
     get.downloadFileTargetPath = path;
     get.responseParser = nil;
     [get addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
         if (completion) {
             completion(path,err);
+        }
+    }];
+    
+    [get addProgressChangedHandler:^(SCNetworkRequest *request, int64_t thisTransfered, int64_t totalBytesTransfered, int64_t totalBytesExpected) {
+        
+        if (totalBytesExpected > 0) {
+            float p = 1.0 * totalBytesTransfered / totalBytesExpected;
+            NSLog(@"download progress:%0.4f",p);
+            if (progress) {
+                progress(p);
+            }
         }
     }];
     
@@ -308,7 +330,7 @@
 //--0xKhTmLbOuNdArY--
 
 
-- (void)testPostUploadFileWithCompletion:(void(^)(id json,NSError *err))completion
+- (void)testPostUploadFileWithCompletion:(void(^)(id json,NSError *err))completion progress:(void(^)(float p))progress
 {
     NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
     SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestUploadApi params:ps];
@@ -323,6 +345,17 @@
         }
     }];
     
+    [post addProgressChangedHandler:^(SCNetworkRequest *request, int64_t thisTransfered, int64_t totalBytesTransfered, int64_t totalBytesExpected) {
+        
+        if (totalBytesExpected > 0) {
+            float p = 1.0 * totalBytesTransfered / totalBytesExpected;
+            NSLog(@"upload progress:%0.4f",p);
+            if (progress) {
+                progress(p);
+            }
+        }
+    }];
+
     [[SCNetworkService sharedService]startRequest:post];
 }
 

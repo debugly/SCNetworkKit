@@ -21,7 +21,8 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     static dispatch_queue_t scn_response_parser_queue;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        scn_response_parser_queue = dispatch_queue_create("com.scnetworking.resp.processing", DISPATCH_QUEUE_CONCURRENT);
+        const char * label = [[[[NSBundle mainBundle]bundleIdentifier] stringByAppendingString:@"-scnetworking.resp.processing"]UTF8String];
+        scn_response_parser_queue = dispatch_queue_create(label, DISPATCH_QUEUE_CONCURRENT);
     });
     return scn_response_parser_queue;
 }

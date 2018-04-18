@@ -23,7 +23,7 @@ typedef enum : NSUInteger {
 
 @class SCNetworkRequest;
 typedef void(^SCNetWorkHandler)(SCNetworkRequest *request,id result,NSError *err);
-typedef void(^SCNKProgressHandler)(SCNetworkRequest *request,int64_t transfered,int64_t totalBytes,int64_t totalBytesExpected);
+typedef void(^SCNKProgressHandler)(SCNetworkRequest *request, int64_t thisTransfered, int64_t totalBytesTransfered, int64_t totalBytesExpected);
 
 ///GET 请求
 @interface SCNetworkRequest : NSObject<SCCancel>
@@ -51,7 +51,7 @@ typedef void(^SCNKProgressHandler)(SCNetworkRequest *request,int64_t transfered,
 - (void)addHeaders:(NSDictionary *)hs;
 ///invoked on main thread
 - (void)addCompletionHandler:(SCNetWorkHandler)handler;
-///invoked on main thread
+///invoked on main thread,observer downlaod or upload progress
 - (void)addProgressChangedHandler:(SCNKProgressHandler)handler;
 - (void)cancel;
 - (SCNKRequestState)state;

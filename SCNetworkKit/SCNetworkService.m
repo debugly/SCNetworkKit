@@ -64,7 +64,8 @@
     self = [super init];
     
     if (self) {
-        self.taskSynzQueue = dispatch_queue_create("com.sohu.live", DISPATCH_QUEUE_SERIAL);
+        const char * label = [[[[NSBundle mainBundle]bundleIdentifier] stringByAppendingString:@"-scn"]UTF8String];
+        self.taskSynzQueue = dispatch_queue_create(label, DISPATCH_QUEUE_SERIAL);
         self.taskRequestMap = [NSMutableDictionary dictionary];
         
         NSOperationQueue *delegateQueue =  [[NSOperationQueue alloc]init];
@@ -104,20 +105,6 @@
         request.task = [self.session dataTaskWithRequest:urlRequest];
     }
 
-    [self assignMappingForRequest:request];
-    request.state = SCNKRequestStateStarted;
-}
-
-- (void)startDownloadRequest:(SCNetworkRequest *)request
-{
-    NSMutableURLRequest * urlRequest = [request makeURLRequest];
-    if(!request || !urlRequest) {
-        
-        NSAssert((request && urlRequest),
-                 @"Request is nil, check your URL and other parameters you use to build your request");
-        return;
-    }
-    request.task = [self.session downloadTaskWithRequest:urlRequest];
     [self assignMappingForRequest:request];
     request.state = SCNKRequestStateStarted;
 }

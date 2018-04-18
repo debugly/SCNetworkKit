@@ -217,22 +217,22 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
             break;
         }
         
-        NSInteger readLength = 0;
+        NSInteger thisReadLength = 0;
         
         if (self.readLength < self.topBoundaryData.length) {
-            readLength = MIN(wantReadLength, self.topBoundaryData.length-self.readLength);
-            [self.topBoundaryData getBytes:out_buffer range:NSMakeRange(self.readLength, readLength)];
+            thisReadLength = MIN(wantReadLength, self.topBoundaryData.length-self.readLength);
+            [self.topBoundaryData getBytes:out_buffer range:NSMakeRange(self.readLength, thisReadLength)];
         }else if (self.readLength < self.topBoundaryData.length + self.fileBoundaryData.length){
-            readLength = MIN(wantReadLength, self.fileBoundaryData.length);
-            NSRange range = NSMakeRange(self.readLength-self.topBoundaryData.length, readLength);
+            thisReadLength = MIN(wantReadLength, self.fileBoundaryData.length);
+            NSRange range = NSMakeRange(self.readLength-self.topBoundaryData.length, thisReadLength);
             [self.fileBoundaryData getBytes:out_buffer range:range];
             if (range.location + range.length >= self.fileBoundaryData.length) {
                 ////准备读文件了，创建个输入流；下次回调的时候读
                 [self prepareInputStream];
             }
         }else if (self.readLength < self.topBoundaryData.length + self.fileBoundaryData.length + self.fileSize){
-            readLength = [self.fileStream read:out_buffer maxLength:wantReadLength];
-            if (readLength == -1) {
+            thisReadLength = [self.fileStream read:out_buffer maxLength:wantReadLength];
+            if (thisReadLength == -1) {
                 return -1;
             }
         }else if(self.readLength < self.bodyLength){
@@ -240,16 +240,15 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
                 [self.fileStream close];
                 self.fileStream = nil;
             }
-            readLength = MIN(wantReadLength, self.endBoundaryData.length);
-            NSRange range = NSMakeRange(self.readLength-(self.topBoundaryData.length + self.fileBoundaryData.length + self.fileSize), readLength);
+            thisReadLength = MIN(wantReadLength, self.endBoundaryData.length);
+            NSRange range = NSMakeRange(self.readLength-(self.topBoundaryData.length + self.fileBoundaryData.length + self.fileSize), thisReadLength);
             [self.endBoundaryData getBytes:out_buffer range:range];
         }
         
-        numberOfBytesRead += readLength;
-        self.readLength += readLength;
-        
-        out_buffer += readLength;
-        wantReadLength -= readLength;
+        numberOfBytesRead += thisReadLength;
+        out_buffer        += thisReadLength;
+        self.readLength   += thisReadLength;
+        wantReadLength    -= thisReadLength;
     }
     return numberOfBytesRead;
 }
