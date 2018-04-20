@@ -93,7 +93,7 @@
     
     SCNetworkPostRequest *postRequest = (SCNetworkPostRequest *)request;
     ///只有post请求，使用form-data的才走StreamRequest
-    if ([postRequest isKindOfClass:[SCNetworkPostRequest class]] && postRequest.formData) {
+    if ([postRequest isKindOfClass:[SCNetworkPostRequest class]] && [postRequest isStreamHTTPBody]) {
         request.task = [self.session uploadTaskWithStreamedRequest:urlRequest];
         //   NSData *formData = [request multipartFormData];
         //   ///在这里设置下内容的长度，这个问题处理的不够优雅，但是提升了性能。。。

@@ -10,11 +10,11 @@
 
 FOUNDATION_EXPORT NSString * const SCNBoundary;
 
-@class SCNetworkFormData;
+@class SCNetworkFormFilePart;
 
 @interface SCNHTTPBodyStream : NSInputStream
 
-+ (instancetype)bodyStreamWithFormData:(SCNetworkFormData *)formData;
++ (instancetype)bodyStreamWithParameters:(NSDictionary *)parameters formFileParts:(NSArray <SCNetworkFormFilePart *>*)formFileParts;
 
 - (NSUInteger)contentLength;
 

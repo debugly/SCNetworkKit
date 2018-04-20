@@ -334,10 +334,16 @@
 {
     NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
     SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestUploadApi params:ps];
-    SCNetworkFormData *formData = [SCNetworkFormData new];
-    formData.fileURL = [[NSBundle mainBundle]pathForResource:@"node" ofType:@"jpg"];
-    formData.fileName = @"test.jpg";
-    post.formData = formData;
+    
+    SCNetworkFormFilePart *filePart = [SCNetworkFormFilePart new];
+    filePart.fileURL = [[NSBundle mainBundle]pathForResource:@"node" ofType:@"jpg"];
+    filePart.fileName = @"test.jpg";
+    
+    SCNetworkFormFilePart *filePart2 = [SCNetworkFormFilePart new];
+    filePart2.fileURL = [[NSBundle mainBundle]pathForResource:@"node" ofType:@"txt"];
+    filePart2.fileName = @"test.txt";
+    
+    post.formFileParts = @[filePart,filePart2];
     [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
         if (completion) {

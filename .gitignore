@@ -63,3 +63,4 @@ fastlane/test_output
 iOSInjectionProject/
 Server/node_modules
 Server/mrserver/node_modules
+Server/public/upload

@@ -9,24 +9,21 @@
 #import "SCNHTTPBodyStream.h"
 #import "SCNetworkRequestInternal.h"
 #import <MobileCoreServices/MobileCoreServices.h>
-#import "SCNHeader.h"
 
 NSString * const SCNBoundary = @"----Boundary0xKhTmLbOuNdArY";
 
 @interface SCNHTTPBodyStream()
 
-@property (nonatomic, strong) SCNetworkFormData *formData;
-@property (nonatomic, copy) NSData *topBoundaryData;
-@property (nonatomic, copy) NSData *fileBoundaryData;
-@property (nonatomic, assign) NSUInteger fileSize;
-@property (nonatomic, copy) NSData *endBoundaryData;
-@property (nonatomic, assign) NSUInteger bodyLength;
-@property (nonatomic, assign) NSUInteger readLength;
+@property (nonatomic, strong) NSDictionary *parameters;
+@property (nonatomic, strong) NSArray<SCNetworkFormFilePart *> *formFileParts;
 
-@property (nonatomic, strong) NSInputStream *fileStream;
+@property (nonatomic, assign) NSUInteger totalFileSize;
+@property (nonatomic, assign) NSUInteger bodyLength;
+
+@property (nonatomic, strong) NSMutableArray *formParts;
+@property (nonatomic, strong) NSInputStream *inputStream;
 
 @property (readwrite) NSStreamStatus streamStatus;
-
 @property (nonatomic, assign) BOOL isInitBody;
     
 @end
@@ -55,30 +52,32 @@ NSString * const SCNBoundary = @"----Boundary0xKhTmLbOuNdArY";
                   forMode:(__unused NSString *)mode
 {}
 
-- (instancetype)initWithFormData:(SCNetworkFormData *)formData
+- (instancetype)initWithParameters:(NSDictionary *)parameters formFileParts:(NSArray<SCNetworkFormFilePart *> *)formFileParts
 {
     self = [super init];
     if (self) {
-        self.formData = formData;
+        self.parameters = parameters;
+        self.formFileParts = formFileParts;
     }
     return self;
 }
 
-+ (instancetype)bodyStreamWithFormData:(SCNetworkFormData *)formData
++ (instancetype)bodyStreamWithParameters:(NSDictionary *)parameters formFileParts:(NSArray<SCNetworkFormFilePart *> *)formFileParts
 {
-    return [[self alloc]initWithFormData:formData];
+    return [[self alloc]initWithParameters:parameters formFileParts:formFileParts];
 }
 
 //--0xKhTmLbOuNdArY
 //Content-Disposition: form-data; name="k1"
 //
 //v1
-//
-- (NSData *)makeBeginBoundaryData
+//(需要拼接的是这个)\r\n
+
+- (NSData *)makeParametersBoundaryData
 {
     NSMutableData *beginBoundaryData = [NSMutableData data];
     
-    [self.formData.parameters enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+    [self.parameters enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         
         NSString *formattedKV = [NSString stringWithFormat:
                                  @"--%@\r\nContent-Disposition: form-data; name=\"%@\"\r\n\r\n%@",
@@ -101,27 +100,41 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
     }
 }
 
-- (BOOL)hasFilePart
-{
-    return self.formData.attachedData || self.formData.fileURL;
-}
+//------Boundary0xKhTmLbOuNdArY
+//Content-Disposition: form-data; name="test.jpg"; filename="node.jpg"
+//Content-Type: image/jpeg
+//
+//....
+//(需要拼接的是这个)\r\n
+//------Boundary0xKhTmLbOuNdArY
+//Content-Disposition: form-data; name="test.jpg"; filename="node.jpg"
+//Content-Type: image/jpeg
+//
+//....
+//(需要拼接的是这个)\r\n
 
-- (NSData *)makeFileOrBinaryBoundaryData
+- (NSArray *)makeFileOrBinaryBoundaryArray
 {
-    if ([self hasFilePart]) {
+    ///计算之前清空下
+    __block NSUInteger totalFileSize = 0;
+    NSMutableArray *fileBoundaryArray = [NSMutableArray array];
+    
+    [self.formFileParts enumerateObjectsUsingBlock:^(SCNetworkFormFilePart * part, NSUInteger idx, BOOL * _Nonnull stop) {
         NSString *originalFileName = nil;
-        NSString *mime = self.formData.mime;
-        NSString *fileName = self.formData.fileName;
+        NSString *mime = part.mime;
+        NSString *fileName = part.fileName;
         
-        if (self.formData.fileURL) {
-            NSDictionary *attr = [[NSFileManager defaultManager]attributesOfItemAtPath:self.formData.fileURL error:nil];
-            self.fileSize = [attr[NSFileSize] unsignedIntegerValue];
-            originalFileName = [self.formData.fileURL lastPathComponent];
+        if (part.fileURL) {
+            NSDictionary *attr = [[NSFileManager defaultManager]attributesOfItemAtPath:part.fileURL error:nil];
+            //文件大小累加
+            totalFileSize += [attr[NSFileSize] unsignedIntegerValue];
+            originalFileName = [part.fileURL lastPathComponent];
             if(!mime){
                 mime = SCNContentTypeForPathExtension([originalFileName pathExtension]);
             }
-        }else if(self.formData.attachedData){
-            self.fileSize = self.formData.attachedData.length;
+        }else if(part.attachedData){
+            //文件大小累加
+            totalFileSize += part.attachedData.length;
             originalFileName = fileName;
         }
         
@@ -136,49 +149,59 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
                                            originalFileName,
                                            mime];
         
-        return [formattedFileBoundary dataUsingEncoding:NSUTF8StringEncoding];
-    }else{
-        return nil;
-    }
+        NSData *data = [formattedFileBoundary dataUsingEncoding:NSUTF8StringEncoding];
+    
+        ///kv
+        [fileBoundaryArray addObject:data];
+        ///file data or file path
+        if (part.fileURL) {
+            [fileBoundaryArray addObject:part.fileURL];
+        }else{
+            [fileBoundaryArray addObject:part.attachedData];
+        }
+        [fileBoundaryArray addObject:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    }];
+    self.totalFileSize = totalFileSize;
+    return [fileBoundaryArray copy];
 }
 
 - (NSData *)makeEndBoundaryData
 {
-    NSString *prefix = [self hasFilePart] ? @"\r\n" : @"";
-    NSData *endBoundaryData = [[NSString stringWithFormat:@"%@--%@--\r\n", prefix, SCNBoundary] dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *endBoundaryData = [[NSString stringWithFormat:@"--%@--\r\n", SCNBoundary] dataUsingEncoding:NSUTF8StringEncoding];
     
     return endBoundaryData;
 }
 
-- (void)makeBody
+- (void)makeBodyIfNeed
 {
     if(!self.isInitBody){
-        self.topBoundaryData = [self makeBeginBoundaryData];
-        self.fileBoundaryData = [self makeFileOrBinaryBoundaryData];
-        self.endBoundaryData = [self makeEndBoundaryData];
+        NSData * parametersBoundaryData = [self makeParametersBoundaryData];
+        NSArray *fileBoundaryDataArray = [self makeFileOrBinaryBoundaryArray];
+        NSData * endBoundaryData = [self makeEndBoundaryData];
+        
+        NSMutableArray *formParts = [NSMutableArray array];
+        [formParts addObject:parametersBoundaryData];
+        [formParts addObjectsFromArray:fileBoundaryDataArray];
+        [formParts addObject:endBoundaryData];
+        
+        self.formParts = formParts;
+        
+        __block NSUInteger boundaryDataLength = 0;
+        [formParts enumerateObjectsUsingBlock:^(NSData * _Nonnull data, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([data isKindOfClass:[NSData class]]) {
+                boundaryDataLength += data.length;
+            }
+        }];
+        
+        self.bodyLength = boundaryDataLength + self.totalFileSize;
         self.isInitBody = YES;
     }
 }
 
 - (NSUInteger)contentLength
 {
-    [self makeBody];
-    return self.topBoundaryData.length + self.fileBoundaryData.length + self.fileSize + self.endBoundaryData.length;
-}
-
-- (void)prepareInputStream
-{
-    if (!self.fileStream) {
-        if (self.formData.fileURL) {
-            self.fileStream = [NSInputStream inputStreamWithFileAtPath:self.formData.fileURL];
-        }else if(self.formData.attachedData){
-            self.fileStream = [NSInputStream inputStreamWithData:self.formData.attachedData];
-        }
-        if(self.fileStream){
-            [self.fileStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-            [self.fileStream open];
-        }
-    }
+    [self makeBodyIfNeed];
+    return self.bodyLength;
 }
 
 - (void)open
@@ -186,19 +209,19 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
     if (self.streamStatus == NSStreamStatusOpen) {
         return;
     }
+    
     // 状态标记为打开
     self.streamStatus = NSStreamStatusOpen;
-    
-    //统计下长度
-    self.bodyLength = [self contentLength];
+    //构建body体，并统计下长度
+    [self makeBodyIfNeed];
 }
 
 - (void)close
 {
     //do nothing.
-    if(self.fileStream){
-        [self.fileStream close];
-        self.fileStream = nil;
+    if(self.inputStream){
+        [self.inputStream close];
+        self.inputStream = nil;
     }
     self.streamStatus = NSStreamStatusClosed;
 }
@@ -215,50 +238,52 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
 //     return  self.readLength < self.bodyLength;
 }
 
-- (NSInteger)read:(uint8_t *)buffer maxLength:(NSUInteger)len
+- (void)prepareInputStream
+{
+    if (!self.inputStream && [self.formParts count] > 0) {
+        
+        id formPart = [self.formParts firstObject];
+        if([formPart isKindOfClass:[NSString class]]) {
+            self.inputStream = [NSInputStream inputStreamWithFileAtPath:formPart];
+        }else if([formPart isKindOfClass:[NSData class]]){
+            self.inputStream = [NSInputStream inputStreamWithData:formPart];
+        }
+        
+        [self.formParts removeObjectAtIndex:0];
+        
+        if(self.inputStream){
+            [self.inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+            [self.inputStream open];
+        }else{
+            ///读取下一个
+            [self prepareInputStream];
+        }
+    }
+}
+
+- (NSInteger)read:(uint8_t *)buffer maxLength:(NSUInteger)wantReadLength
 {
     NSInteger numberOfBytesRead = 0;
     
-    uint8_t *out_buffer = buffer;
-    NSUInteger wantReadLength = len;
-    
-    while (numberOfBytesRead < MIN(len, self.bodyLength - self.readLength)) {
+    while (numberOfBytesRead < wantReadLength) {
+        
         ///读完了
-        if (self.readLength >= self.bodyLength) {
-            break;
+        if ([self.formParts count] == 0) {
+            return numberOfBytesRead;
         }
         
         NSInteger thisReadLength = 0;
+        [self prepareInputStream];
+        thisReadLength = [self.inputStream read:buffer maxLength:wantReadLength];
         
-        if (self.readLength < self.topBoundaryData.length) {
-            thisReadLength = MIN(wantReadLength, self.topBoundaryData.length-self.readLength);
-            [self.topBoundaryData getBytes:out_buffer range:NSMakeRange(self.readLength, thisReadLength)];
-        }else if (self.readLength < self.topBoundaryData.length + self.fileBoundaryData.length){
-            thisReadLength = MIN(wantReadLength, self.fileBoundaryData.length);
-            NSRange range = NSMakeRange(self.readLength-self.topBoundaryData.length, thisReadLength);
-            [self.fileBoundaryData getBytes:out_buffer range:range];
-            if (range.location + range.length >= self.fileBoundaryData.length) {
-                ////准备读文件了，创建个输入流；下次回调的时候读
-                [self prepareInputStream];
-            }
-        }else if (self.readLength < self.topBoundaryData.length + self.fileBoundaryData.length + self.fileSize){
-            thisReadLength = [self.fileStream read:out_buffer maxLength:wantReadLength];
-            if (thisReadLength == -1) {
-                return -1;
-            }
-        }else if(self.readLength < self.bodyLength){
-            if(self.fileStream){
-                [self.fileStream close];
-                self.fileStream = nil;
-            }
-            thisReadLength = MIN(wantReadLength, self.endBoundaryData.length);
-            NSRange range = NSMakeRange(self.readLength-(self.topBoundaryData.length + self.fileBoundaryData.length + self.fileSize), thisReadLength);
-            [self.endBoundaryData getBytes:out_buffer range:range];
+        if (thisReadLength <= 0) {
+            [self.inputStream close];
+            self.inputStream = nil;
+            continue;
         }
         
         numberOfBytesRead += thisReadLength;
-        out_buffer        += thisReadLength;
-        self.readLength   += thisReadLength;
+        buffer            += thisReadLength;
         wantReadLength    -= thisReadLength;
     }
     return numberOfBytesRead;

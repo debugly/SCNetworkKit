@@ -35,9 +35,8 @@
 
 @end
 
-@interface SCNetworkFormData()
+@interface SCNetworkPostRequest()
 
-@property(nonatomic,strong) NSDictionary *parameters;//参数键值对
+- (BOOL)isStreamHTTPBody;
 
 @end
-

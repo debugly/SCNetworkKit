@@ -316,15 +316,20 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 @end
 
-@implementation SCNetworkFormData
+@implementation SCNetworkFormFilePart
 
 @end
 
 @implementation SCNetworkPostRequest
 
+- (BOOL)isStreamHTTPBody
+{
+    return SCNKParameterEncodingFormData == self.parameterEncoding;
+}
+
 - (void)makeFormDataHTTPBodyWithRequest:(NSMutableURLRequest *)createdRequest
 {
-    SCNHTTPBodyStream *inputStream = [SCNHTTPBodyStream bodyStreamWithFormData:self.formData];
+    SCNHTTPBodyStream *inputStream = [SCNHTTPBodyStream bodyStreamWithParameters:self.parameters formFileParts:self.formFileParts];
     
     [createdRequest setHTTPBodyStream:inputStream];
     
@@ -358,11 +363,12 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         createdRequest.timeoutInterval = self.timeoutInterval;
     }
     
-    if (self.formData) {
-        ///指定的参数带进去！
-        self.formData.parameters = self.parameters;
-        [self makeFormDataHTTPBodyWithRequest:createdRequest];
-    }else{
+    if ([self.formFileParts count] > 0) {
+        ///强制设置为 FromData ！
+        self.parameterEncoding = SCNKParameterEncodingFormData;
+    }
+    
+    {
         NSString *bodyStringFromParameters = nil;
         NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
         
@@ -393,13 +399,6 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
             }
                 break;
             case SCNKParameterEncodingFormData:{
-                ///指定的参数带进去！
-                if (!self.formData) {
-                    SCNetworkFormData *formData = [SCNetworkFormData new];
-                    formData.parameters = self.parameters;
-                    self.formData = formData;
-                }
-                
                 [self makeFormDataHTTPBodyWithRequest:createdRequest];
             }
                 break;
