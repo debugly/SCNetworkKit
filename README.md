@@ -27,7 +27,16 @@ SCNetworkKit 是一个基于 [MKNetworkKit](https://github.com/MugunthKumar/MKNe
 
 - SCNDemo : 可直接运行的 Demo（有可能需要修改下接口 API 地址）
 - SCNetworkKit : 库源码
-- Server : 使用 Express 库编写的服务器，主要 Demo 提供 POST 请求支持
+- Server : 使用 Express 库编写的服务器，主要为 Demo 提供 POST 请求支持
+
+Server 使用方法:
+
+```shell
+cd Server
+//第一次运行需要安装下依赖库，以后执行就不用了
+npm install
+npm start
+```
 
 ## 安装方式
 
