@@ -61,8 +61,9 @@ typedef void(^SCNKProgressHandler)(SCNetworkRequest *request, int64_t thisTransf
 @interface SCNetworkFormData : NSObject
 
 @property(nonatomic,copy) NSString *mime;//文本类型
-@property(nonatomic,copy) NSString *fileURL;//文件地址
 @property(nonatomic,copy) NSString *fileName;//文件名
+///上传文件的时候，小文件可以使用 attachedData，大文件要使用 fileURL，省得内存暂用过大！
+@property(nonatomic,copy) NSString *fileURL;//文件地址
 @property(nonatomic,strong) NSData *attachedData;//data数据
 
 @end
@@ -79,7 +80,7 @@ typedef enum : NSUInteger {
 
 //默认是: application/x-www-form-urlencoded
 @property(nonatomic,assign) SCNKParameterEncoding parameterEncoding;
-//一旦被赋值，则强制使用multipart/form-data编码
+//formData一旦被赋值，则parameterEncoding会强制使用multipart/form-data编码！
 @property(nonatomic,strong) SCNetworkFormData *formData;
 
 @end

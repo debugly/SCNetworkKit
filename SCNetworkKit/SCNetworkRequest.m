@@ -14,8 +14,6 @@
 #import <UIKit/UIScreen.h>
 #import "SCNHTTPBodyStream.h"
 
-static NSString * kBoundary = @"0xKhTmLbOuNdArY";
-
 ///解析网络请求响应数据的队列
 static dispatch_queue_t SCN_Response_Parser_Queue() {
     static dispatch_queue_t scn_response_parser_queue;
@@ -324,6 +322,17 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 @implementation SCNetworkPostRequest
 
+- (void)makeFormDataHTTPBodyWithRequest:(NSMutableURLRequest *)createdRequest
+{
+    SCNHTTPBodyStream *inputStream = [SCNHTTPBodyStream bodyStreamWithFormData:self.formData];
+    
+    [createdRequest setHTTPBodyStream:inputStream];
+    
+    NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
+    [createdRequest setValue:[NSString stringWithFormat:@"multipart/form-data; charset=%@; boundary=%@",charset, SCNBoundary] forHTTPHeaderField:@"Content-Type"];
+    [createdRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[inputStream contentLength]] forHTTPHeaderField:@"Content-Length"];
+}
+
 - (NSMutableURLRequest* )makeURLRequest
 {
     NSURL *url = [NSURL URLWithString:self.urlString];;
@@ -352,13 +361,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     if (self.formData) {
         ///指定的参数带进去！
         self.formData.parameters = self.parameters;
-        SCNHTTPBodyStream *inputStream = [SCNHTTPBodyStream bodyStreamWithFormData:self.formData];
-        
-        [createdRequest setHTTPBodyStream:inputStream];
-        
-        NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
-        [createdRequest setValue:[NSString stringWithFormat:@"multipart/form-data; charset=%@; boundary=%@",charset, kBoundary] forHTTPHeaderField:@"Content-Type"];
-        [createdRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[inputStream contentLength]] forHTTPHeaderField:@"Content-Length"];
+        [self makeFormDataHTTPBodyWithRequest:createdRequest];
     }else{
         NSString *bodyStringFromParameters = nil;
         NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
@@ -396,13 +399,8 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
                     formData.parameters = self.parameters;
                     self.formData = formData;
                 }
-                SCNHTTPBodyStream *inputStream = [SCNHTTPBodyStream bodyStreamWithFormData:self.formData];
                 
-                [createdRequest setHTTPBodyStream:inputStream];
-                
-                NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
-                [createdRequest setValue:[NSString stringWithFormat:@"multipart/form-data; charset=%@; boundary=%@",charset, kBoundary] forHTTPHeaderField:@"Content-Type"];
-                [createdRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[inputStream contentLength]] forHTTPHeaderField:@"Content-Length"];
+                [self makeFormDataHTTPBodyWithRequest:createdRequest];
             }
                 break;
         }

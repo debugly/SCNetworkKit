@@ -9,8 +9,9 @@
 #import "SCNHTTPBodyStream.h"
 #import "SCNetworkRequestInternal.h"
 #import <MobileCoreServices/MobileCoreServices.h>
+#import "SCNHeader.h"
 
-static NSString * kBoundary = @"----Boundary0xKhTmLbOuNdArY";
+NSString * const SCNBoundary = @"----Boundary0xKhTmLbOuNdArY";
 
 @interface SCNHTTPBodyStream()
 
@@ -81,7 +82,7 @@ static NSString * kBoundary = @"----Boundary0xKhTmLbOuNdArY";
         
         NSString *formattedKV = [NSString stringWithFormat:
                                  @"--%@\r\nContent-Disposition: form-data; name=\"%@\"\r\n\r\n%@",
-                                 kBoundary, key, obj];
+                                 SCNBoundary, key, obj];
         
         [beginBoundaryData appendData:[formattedKV dataUsingEncoding:NSUTF8StringEncoding]];
         [beginBoundaryData appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
@@ -130,7 +131,7 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
         
         NSString *formattedFileBoundary = [NSString stringWithFormat:
                                            @"--%@\r\nContent-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\nContent-Type: %@\r\n\r\n",
-                                           kBoundary,
+                                           SCNBoundary,
                                            fileName,
                                            originalFileName,
                                            mime];
@@ -144,7 +145,7 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
 - (NSData *)makeEndBoundaryData
 {
     NSString *prefix = [self hasFilePart] ? @"\r\n" : @"";
-    NSData *endBoundaryData = [[NSString stringWithFormat:@"%@--%@--\r\n", prefix, kBoundary] dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *endBoundaryData = [[NSString stringWithFormat:@"%@--%@--\r\n", prefix, SCNBoundary] dataUsingEncoding:NSUTF8StringEncoding];
     
     return endBoundaryData;
 }
