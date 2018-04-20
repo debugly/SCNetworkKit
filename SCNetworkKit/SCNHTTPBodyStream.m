@@ -10,7 +10,7 @@
 #import "SCNetworkRequestInternal.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 
-static NSString * kBoundary = @"0xKhTmLbOuNdArY";
+static NSString * kBoundary = @"----Boundary0xKhTmLbOuNdArY";
 
 @interface SCNHTTPBodyStream()
 
@@ -68,9 +68,14 @@ static NSString * kBoundary = @"0xKhTmLbOuNdArY";
     return [[self alloc]initWithFormData:formData];
 }
 
-- (NSData *)makeTopBoundaryData
+//--0xKhTmLbOuNdArY
+//Content-Disposition: form-data; name="k1"
+//
+//v1
+//
+- (NSData *)makeBeginBoundaryData
 {
-    NSMutableData *topBoundaryData = [NSMutableData data];
+    NSMutableData *beginBoundaryData = [NSMutableData data];
     
     [self.formData.parameters enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         
@@ -78,11 +83,11 @@ static NSString * kBoundary = @"0xKhTmLbOuNdArY";
                                  @"--%@\r\nContent-Disposition: form-data; name=\"%@\"\r\n\r\n%@",
                                  kBoundary, key, obj];
         
-        [topBoundaryData appendData:[formattedKV dataUsingEncoding:NSUTF8StringEncoding]];
-        [topBoundaryData appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        [beginBoundaryData appendData:[formattedKV dataUsingEncoding:NSUTF8StringEncoding]];
+        [beginBoundaryData appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
     }];
     
-    return [topBoundaryData copy];
+    return [beginBoundaryData copy];
 }
 
 static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
@@ -95,10 +100,14 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
     }
 }
 
+- (BOOL)hasFilePart
+{
+    return self.formData.attachedData || self.formData.fileURL;
+}
+
 - (NSData *)makeFileOrBinaryBoundaryData
 {
-    if (self.formData.attachedData || self.formData.fileURL) {
-        
+    if ([self hasFilePart]) {
         NSString *originalFileName = nil;
         NSString *mime = self.formData.mime;
         NSString *fileName = self.formData.fileName;
@@ -134,7 +143,8 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
 
 - (NSData *)makeEndBoundaryData
 {
-    NSData *endBoundaryData = [[NSString stringWithFormat:@"\r\n--%@--\r\n", kBoundary] dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *prefix = [self hasFilePart] ? @"\r\n" : @"";
+    NSData *endBoundaryData = [[NSString stringWithFormat:@"%@--%@--\r\n", prefix, kBoundary] dataUsingEncoding:NSUTF8StringEncoding];
     
     return endBoundaryData;
 }
@@ -142,7 +152,7 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
 - (void)makeBody
 {
     if(!self.isInitBody){
-        self.topBoundaryData = [self makeTopBoundaryData];
+        self.topBoundaryData = [self makeBeginBoundaryData];
         self.fileBoundaryData = [self makeFileOrBinaryBoundaryData];
         self.endBoundaryData = [self makeEndBoundaryData];
         self.isInitBody = YES;
