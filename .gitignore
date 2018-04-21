@@ -64,3 +64,4 @@ iOSInjectionProject/
 Server/node_modules
 Server/mrserver/node_modules
 Server/public/upload
+Server/public/tmp

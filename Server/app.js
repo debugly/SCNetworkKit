@@ -40,4 +40,17 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+///文件夹不存在就创建！
+var fs = require('fs');
+
+const tmp = 'public/tmp';
+if (!fs.existsSync(tmp)) {
+  fs.mkdirSync(tmp);
+}
+
+const upload = 'public/upload/';
+if (!fs.existsSync(upload)) {
+  fs.mkdirSync(upload);
+}
+
 module.exports = app;
