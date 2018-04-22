@@ -25,9 +25,22 @@ SCNetworkKit 是一个基于 [MKNetworkKit](https://github.com/MugunthKumar/MKNe
 
 ## 目录结构
 
+```
+├── LICENSE
+├── README.md
+├── SCNDemo
+├── SCNetworkKit
+├── SCNetworkKit.podspec
+├── Server
+└── _config.yml
+```
+
 - SCNDemo : 可直接运行的 Demo（有可能需要修改下接口 API 地址）
 - SCNetworkKit : 库源码
 - Server : 使用 Express 库编写的服务器，主要为 Demo 提供 POST 请求支持，客户端上传的文件都放在 `Server/upload` 文件夹下面。
+    - 查看已经上传的文件: [http://localhost:3000/peek](http://localhost:3000/peek) 
+    - 查看已经上传的文件（json形式）: [http://localhost:3000/peek?json=1](http://localhost:3000/peek?json=1) 
+    - 使用浏览器上传的文件: [http://localhost:3000/](http://localhost:3000/) 
 
 Server 使用方法:
 
@@ -340,7 +353,7 @@ NSURLSession 管理的网络请求结束后，会在 SCNetworkRequest 里处理�
 ## 版本
 
 - 1.0.5 : 支持 stream HTTPBody，轻松搞定大文件上传
-- 1.0.6 : 支持一次上传多个文件
+- 1.0.6 : 支持一次上传多个文件，配套 Node 上传文件服务器
 
 ## 完
 

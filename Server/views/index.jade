@@ -2,4 +2,15 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  form(action='/upload-file', enctype='multipart/form-data', method='post')
+    label(for='title') 参数:
+    input(name='title', type='text')
+    br
+    label(for='f1') 多个文件:
+    input(name='f1', multiple='multiple', type='file')
+    br
+    label(for='f2') 单个文件:
+    input(name='f2', type='file')
+    br
+    input(value='Upload', type='submit')
+

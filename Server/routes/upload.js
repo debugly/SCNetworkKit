@@ -62,42 +62,63 @@ router.post('/', function(req, res, next) {
         });
       });
 
-      ///将文件数组映射为promise任务；
-      const tasks = fileList.map(function(v){
-        return rename(v);
-      });
-
-      ///任务全部完成后，给客户端响应；
-      Promise.all(tasks).then(function(value){
-        console.log('all:' + value.toString());
-        // public/upload/Icon-24@2x.png,public/upload/Icon-29@3x.png,public/upload/Icon-40.png
-        
-        ///处理文件名，字符串转成数组，去掉空串，空串意味着客户端表单里没文件
-        const fileNameArr = value.toString().split(',');
-        for(var i = fileNameArr.length-1; i >= 0 ; i --){
-          const e = fileNameArr[i];
-          if(e.length == 0){
-            fileNameArr.splice(i,1);
-          }
-        }
+      function noneFileResp(){
         ///构建响应结构体
         const result = {};
         result['status'] = 200;
-        result['msg'] = 'received ' + fileNameArr.length + ' files!';
+        result['msg'] = 'received none files!';
         result['ps'] = fields;
-        result['files'] = fileNameArr;
         res.json(result);
-        // res.writeHead(200, {'content-type': 'application/json'});
-        // res.write(JSON.stringify(result));
-        // res.end();
+      }
 
-      }).catch(function(err){
-        ///构建异常结构体
-        const result = {};
-        result['status'] = 5000;
-        result['msg'] = err.toString();
-        res.json(result);
-      });
+      if(fileList.length == 0){
+        noneFileResp();
+      }else{
+        ///将文件数组映射为promise任务；
+        const tasks = fileList.map(function(v){
+          return rename(v);
+        });
+
+        ///任务全部完成后，给客户端响应；
+        Promise.all(tasks).then(function(value){
+          console.log('all:' + value.toString());
+          // public/upload/Icon-24@2x.png,public/upload/Icon-29@3x.png,public/upload/Icon-40.png
+          
+          ///处理文件名，字符串转成数组，去掉空串，空串意味着客户端表单里没文件
+          let fileNameArr = value.toString().split(',');
+          // for(var i = fileNameArr.length-1; i >= 0 ; i --){
+          //   const e = fileNameArr[i];
+          //   if(e.length == 0){
+          //     fileNameArr.splice(i,1);
+          //   }
+          // }
+          
+          fileNameArr = fileNameArr.filter(function(f){
+            return f.length > 0;
+          });
+
+          if(fileNameArr.length == 0){
+            noneFileResp();
+          }else{
+            ///构建响应结构体
+            const result = {};
+            result['status'] = 200;
+            result['msg'] = 'received ' + fileNameArr.length + ' files!';
+            result['ps'] = fields;
+            result['files'] = fileNameArr;
+            res.json(result);
+            // res.writeHead(200, {'content-type': 'application/json'});
+            // res.write(JSON.stringify(result));
+            // res.end();
+          }
+        }).catch(function(err){
+          ///构建异常结构体
+          const result = {};
+          result['status'] = 5000;
+          result['msg'] = err.toString();
+          res.json(result);
+        });
+      }
 
     });
   });

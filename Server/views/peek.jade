@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome peek #{path} files.
+  hr
+
+  - if (files && files.length > 0)
+    ul
+    - for (var i = 0; i < files.length; ++i) {
+    li 
+      a(href="#{path}/#{files[i]}") #{files[i]} 
+    - }
+  - else
+    span none files.
+
