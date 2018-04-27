@@ -60,7 +60,7 @@ npm start
     platform :ios, '7.0'
     
     target 'TargetName' do
-    pod 'SCNetworkKit', '~> 1.0.5'
+    pod 'SCNetworkKit', '~> 1.0.6'
     end
     ```
 
@@ -115,28 +115,31 @@ npm start
 - 发送 GET请求，回调 JOSN 对象
 
     ```objc
-    SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:@"http://debugly.cn/dist/json/test.json" params:nil httpMethod:@"GET"];
-        
     SCNJSONResponseParser *responseParser = [SCNJSONResponseParser parser];
     ///框架会检查接口返回的 code 是不是 0 ，如果不是 0 ，那么返回给你一个err，并且result是 nil;
     responseParser.checkKeyPath = @"code";
     responseParser.okValue = @"0";
-    req.responseParser = responseParser;
-        
-    [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+    
+    ///support chain
+    SCNetworkRequest *req = [[SCNetworkRequest alloc]init];
+    
+    req
+    .c_URL(kTestJSONApi)
+    .c_ResponseParser(responseParser)
+    .c_CompletionHandler(^(SCNetworkRequest *request, id result, NSError *err) {
         
         if (completion) {
-            completion(result);
+            completion(result,err);
         }
-    }];
-    [[SCNetworkService sharedService]sendRequest:req];
+    });
+    [[SCNetworkService sharedService]startRequest:req];
     ```
 
 - 发送 GET请求，回调 Model 对象
 
     ```objc
-    SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:@"http://debugly.cn/dist/json/test.json" params:nil httpMethod:@"GET"];
-        
+    SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:kTestJSONApi params:nil];
+    
     SCNModelResponseParser *responseParser = [SCNModelResponseParser parser];
     ///解析前会检查下JSON是否正确；
     responseParser.checkKeyPath = @"code";
@@ -145,14 +148,14 @@ npm start
     responseParser.modelName = @"TestModel";
     responseParser.modelKeyPath = @"content/entrance";
     req.responseParser = responseParser;
-        
+    
     [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
         if (completion) {
-            completion(result);
+            completion(result,err);
         }
     }];
-    [[SCNetworkService sharedService]sendRequest:req];
+    [[SCNetworkService sharedService]startRequest:req];
     ```
 
 由于上面有 JSON 转 Model 的过程，因此在使用之前需要注册一个对应的解析器，你可以到 demo 里搜下 **[SCNModelResponseParser registerModelParser:[SCNModelParser class]];** 具体看下究竟。
@@ -191,17 +194,23 @@ npm start
     ```objc
     NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
     SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestUploadApi params:ps];
-    SCNetworkFormData *formData = [SCNetworkFormData new];
-    formData.fileURL = [[NSBundle mainBundle]pathForResource:@"node" ofType:@"jpg"];
-    formData.fileName = @"test.jpg";
-    post.formData = formData;
+    
+    SCNetworkFormFilePart *filePart = [SCNetworkFormFilePart new];
+    filePart.fileURL = [[NSBundle mainBundle]pathForResource:@"node" ofType:@"jpg"];
+    filePart.fileName = @"test.jpg";
+    
+    SCNetworkFormFilePart *filePart2 = [SCNetworkFormFilePart new];
+    filePart2.fileURL = [[NSBundle mainBundle]pathForResource:@"node" ofType:@"txt"];
+    filePart2.fileName = @"test.txt";
+    
+    post.formFileParts = @[filePart,filePart2];
     [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
         if (completion) {
             completion(result,err);
         }
     }];
-        
+    
     [post addProgressChangedHandler:^(SCNetworkRequest *request, int64_t thisTransfered, int64_t totalBytesTransfered, int64_t totalBytesExpected) {
         
         if (totalBytesExpected > 0) {
@@ -212,7 +221,7 @@ npm start
             }
         }
     }];
-    
+
     [[SCNetworkService sharedService]startRequest:post];
     ```
 
@@ -228,7 +237,7 @@ npm start
             completion(result,err);
         }
     }];
-        
+    
     [[SCNetworkService sharedService]startRequest:post];
     ```
 
@@ -245,7 +254,6 @@ responseParser.okValue = @"0";
 SCNetworkRequest *req = [[SCNetworkRequest alloc]init];
     
 req.c_URL(@"http://debugly.cn/dist/json/test.json")
-   .c_Method(@"GET")
    .c_ResponseParser(responseParser);
    .c_CompletionHandler(^(SCNetworkRequest *request, id result, NSError *err) {
         

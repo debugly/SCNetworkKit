@@ -194,6 +194,85 @@
     }];
 }
 
+- (void)testRequestWithDataCompletion:(void(^)(NSData *data,NSError *err))completion
+{
+    SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:kTestJSONApi params:nil];
+    ///因为默认解析器是SCNJSONResponseParser；会解析成JSON对象；所以这里不指定解析器，让框架返回data！
+    req.responseParser = nil;
+    [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+        
+        if (completion) {
+            completion(result,err);
+        }
+    }];
+    
+    [[SCNetworkService sharedService]startRequest:req];
+}
+
+- (void)testRequestWithJSONCompletion:(void(^)(id json, NSError *err))completion
+{
+    SCNJSONResponseParser *responseParser = [SCNJSONResponseParser parser];
+    ///框架会检查接口返回的 code 是不是 0 ，如果不是 0 ，那么返回给你一个err，并且result是 nil;
+    responseParser.checkKeyPath = @"code";
+    responseParser.okValue = @"0";
+    
+    ///support chain
+    SCNetworkRequest *req = [[SCNetworkRequest alloc]init];
+    
+    req
+    .c_URL(kTestJSONApi)
+    .c_ResponseParser(responseParser)
+    .c_CompletionHandler(^(SCNetworkRequest *request, id result, NSError *err) {
+        
+        if (completion) {
+            completion(result,err);
+        }
+    });
+    [[SCNetworkService sharedService]startRequest:req];
+}
+
+- (void)testRequestWithModelCompletion:(void(^)(NSArray <TestModel *>*arr, NSError *err))completion
+{
+    /*
+     ////服务器响应数据结构////
+     
+     {   code = 0;
+     content =     {
+     entrance =         (
+     {
+     isFlagship = 0;
+     name = "\U65f6\U5c1a\U6f6e\U65f6\U5c1a";
+     pic = "http://pic12.shangpin.com/e/s/15/03/03/20150303151320537363-10-10.jpg";
+     refContent = "http://m.shangpin.com/meet/185";
+     type = 5;
+     },
+     {
+     //....
+     }
+     )
+     }
+     }
+     */
+    SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:kTestJSONApi params:nil];
+    
+    SCNModelResponseParser *responseParser = [SCNModelResponseParser parser];
+    ///解析前会检查下JSON是否正确；
+    responseParser.checkKeyPath = @"code";
+    responseParser.okValue = @"0";
+    ///根据服务器返回数据的格式和想要解析结构对应的Model配置解析器
+    responseParser.modelName = @"TestModel";
+    responseParser.modelKeyPath = @"content/entrance";
+    req.responseParser = responseParser;
+    
+    [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+        
+        if (completion) {
+            completion(result,err);
+        }
+    }];
+    [[SCNetworkService sharedService]startRequest:req];
+}
+
 - (void)testGetFileWithCompletion:(void(^)(NSString *path,NSError *err))completion progress:(void(^)(float p))progress
 {
     SCNetworkRequest *get = [[SCNetworkRequest alloc]initWithURLString:kTestDownloadApi2 params:nil];
@@ -363,86 +442,6 @@
     }];
 
     [[SCNetworkService sharedService]startRequest:post];
-}
-
-- (void)testRequestWithDataCompletion:(void(^)(NSData *data,NSError *err))completion
-{
-    SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:kTestJSONApi params:nil];
-    ///因为默认解析器是SCNJSONResponseParser；会解析成JSON对象；所以这里不指定解析器，让框架返回data！
-    req.responseParser = nil;
-    [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
-        
-        if (completion) {
-            completion(result,err);
-        }
-    }];
-    
-    [[SCNetworkService sharedService]startRequest:req];
-}
-
-- (void)testRequestWithJSONCompletion:(void(^)(id json, NSError *err))completion
-{
-    SCNJSONResponseParser *responseParser = [SCNJSONResponseParser parser];
-    ///框架会检查接口返回的 code 是不是 0 ，如果不是 0 ，那么返回给你一个err，并且result是 nil;
-    responseParser.checkKeyPath = @"code";
-    responseParser.okValue = @"0";
-    
-    ///support chain
-    
-    SCNetworkRequest *req = [[SCNetworkRequest alloc]init];
-    
-    req
-    .c_URL(kTestJSONApi)
-    .c_ResponseParser(responseParser)
-    .c_CompletionHandler(^(SCNetworkRequest *request, id result, NSError *err) {
-        
-        if (completion) {
-            completion(result,err);
-        }
-    });
-    [[SCNetworkService sharedService]startRequest:req];
-}
-
-- (void)testRequestWithModelCompletion:(void(^)(NSArray <TestModel *>*arr, NSError *err))completion
-{
-    /*
-     ////服务器响应数据结构////
-     
-     {   code = 0;
-     content =     {
-     entrance =         (
-     {
-     isFlagship = 0;
-     name = "\U65f6\U5c1a\U6f6e\U65f6\U5c1a";
-     pic = "http://pic12.shangpin.com/e/s/15/03/03/20150303151320537363-10-10.jpg";
-     refContent = "http://m.shangpin.com/meet/185";
-     type = 5;
-     },
-     {
-     //....
-     }
-     )
-     }
-     }
-     */
-    SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:kTestJSONApi params:nil];
-    
-    SCNModelResponseParser *responseParser = [SCNModelResponseParser parser];
-    ///解析前会检查下JSON是否正确；
-    responseParser.checkKeyPath = @"code";
-    responseParser.okValue = @"0";
-    ///根据服务器返回数据的格式和想要解析结构对应的Model配置解析器
-    responseParser.modelName = @"TestModel";
-    responseParser.modelKeyPath = @"content/entrance";
-    req.responseParser = responseParser;
-    
-    [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
-        
-        if (completion) {
-            completion(result,err);
-        }
-    }];
-    [[SCNetworkService sharedService]startRequest:req];
 }
 
 - (void)didReceiveMemoryWarning {
