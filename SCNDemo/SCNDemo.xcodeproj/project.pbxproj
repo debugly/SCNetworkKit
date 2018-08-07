@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B409F3AC2119EE5700A70A75 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B409F3AB2119EE5600A70A75 /* logo.png */; };
+		B409F3AC2119EE5700A70A75 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		B409F3AE2119FD5000A70A75 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B409F3AD2119FD5000A70A75 /* logo.png */; };
 		B4D4D4732085AFB300F0FE81 /* SCNModelResponseParser+Chain.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4D44D2085AFB300F0FE81 /* SCNModelResponseParser+Chain.m */; };
 		B4D4D4742085AFB300F0FE81 /* SCNHTTPBodyStream.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4D44F2085AFB300F0FE81 /* SCNHTTPBodyStream.m */; };
 		B4D4D4752085AFB400F0FE81 /* NSString+SCAddtions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4D4542085AFB300F0FE81 /* NSString+SCAddtions.m */; };
@@ -39,6 +40,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B409F3AD2119FD5000A70A75 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		B4D4D44D2085AFB300F0FE81 /* SCNModelResponseParser+Chain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SCNModelResponseParser+Chain.m"; sourceTree = "<group>"; };
 		B4D4D44E2085AFB300F0FE81 /* SCNetworkRequest+Chain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SCNetworkRequest+Chain.h"; sourceTree = "<group>"; };
 		B4D4D44F2085AFB300F0FE81 /* SCNHTTPBodyStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNHTTPBodyStream.m; sourceTree = "<group>"; };
@@ -185,7 +187,7 @@
 				C37FB68F1F21D66A0002ACB3 /* TestModel.m */,
 				C342B2831F217C54007F04FC /* Main.storyboard */,
 				B4EFA8182086420E00CAB557 /* node.jpg */,
-				B409F3AB2119EE5600A70A75 /* logo.png */,
+				B409F3AD2119FD5000A70A75 /* logo.png */,
 				B4F5B461208A295C00800E57 /* node.txt */,
 				C342B2861F217C54007F04FC /* Assets.xcassets */,
 				C342B2881F217C54007F04FC /* LaunchScreen.storyboard */,
@@ -273,8 +275,9 @@
 			files = (
 				C342B28A1F217C54007F04FC /* LaunchScreen.storyboard in Resources */,
 				C342B2871F217C54007F04FC /* Assets.xcassets in Resources */,
-				B409F3AC2119EE5700A70A75 /* logo.png in Resources */,
+				B409F3AC2119EE5700A70A75 /* (null) in Resources */,
 				C342B2851F217C54007F04FC /* Main.storyboard in Resources */,
+				B409F3AE2119FD5000A70A75 /* logo.png in Resources */,
 				B4EFA8192086420E00CAB557 /* node.jpg in Resources */,
 				B4F5B462208A295C00800E57 /* node.txt in Resources */,
 			);

@@ -50,24 +50,14 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     return [[[self makeURLRequest]URL]description];
 }
 
-- (BOOL)isOSVersonLessThanNine
-{
-    static NSUInteger cv = 0;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        cv = [[[UIDevice currentDevice]systemVersion]intValue];
-    });
-    return cv < 9;
-}
-
 - (void)dealloc
 {
     [self cancel];
     
-    if([self isOSVersonLessThanNine]){
-        if (backgroundTask != UIBackgroundTaskInvalid) {
-            [[UIApplication sharedApplication] endBackgroundTask:backgroundTask];
-            backgroundTask = UIBackgroundTaskInvalid;
+    if (@available(iOS 9.0, *)) {} else {
+        if (self.backgroundTask != UIBackgroundTaskInvalid) {
+            [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTask];
+            self.backgroundTask = UIBackgroundTaskInvalid;
         }
     }
 }
@@ -193,14 +183,14 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         
         [self.task resume];
         
-        if([self isOSVersonLessThanNine]){
-            if (!backgroundTask || backgroundTask == UIBackgroundTaskInvalid) {
-                backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        if (@available(iOS 9.0, *)) {} else {
+            if (!self.backgroundTask || self.backgroundTask == UIBackgroundTaskInvalid) {
+                self.backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        if (backgroundTask != UIBackgroundTaskInvalid)
+                        if (self.backgroundTask != UIBackgroundTaskInvalid)
                         {
-                            [[UIApplication sharedApplication] endBackgroundTask:backgroundTask];
-                            backgroundTask = UIBackgroundTaskInvalid;
+                            [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTask];
+                            self.backgroundTask = UIBackgroundTaskInvalid;
                             [self cancel];
                         }
                     });
@@ -240,10 +230,10 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
             handler(self,reslut,self.error);
         }];
         
-        if([self isOSVersonLessThanNine]){
-            if (backgroundTask != UIBackgroundTaskInvalid) {
-                [[UIApplication sharedApplication] endBackgroundTask:backgroundTask];
-                backgroundTask = UIBackgroundTaskInvalid;
+        if (@available(iOS 9.0, *)) {} else {
+            if (self.backgroundTask != UIBackgroundTaskInvalid) {
+                [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTask];
+                self.backgroundTask = UIBackgroundTaskInvalid;
             }
         }
     });

@@ -180,7 +180,9 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
         NSData * endBoundaryData = [self makeEndBoundaryData];
         
         NSMutableArray *formParts = [NSMutableArray array];
-        [formParts addObject:parametersBoundaryData];
+        if (parametersBoundaryData.length > 0) {
+            [formParts addObject:parametersBoundaryData];
+        }
         [formParts addObjectsFromArray:fileBoundaryDataArray];
         [formParts addObject:endBoundaryData];
         

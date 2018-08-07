@@ -10,15 +10,12 @@
 #import <UIKit/UIApplication.h>
 
 @interface SCNetworkRequest ()
-{
-    UIBackgroundTaskIdentifier backgroundTask;
-}
 
 @property(nonatomic) NSMutableDictionary *parameters;
 @property(nonatomic) NSMutableDictionary *headers;
 @property(nonatomic) NSMutableArray *completionHandlers;
 @property(nonatomic) NSMutableArray *progressChangedHandlers;
-
+@property(nonatomic) UIBackgroundTaskIdentifier backgroundTask;
 @property(nonatomic, readwrite) NSData *respData;
 @property(nonatomic, readwrite) SCNKRequestState state;
 @property(nonatomic, readwrite) NSURLSessionTask *task;
