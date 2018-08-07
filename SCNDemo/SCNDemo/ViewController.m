@@ -415,12 +415,14 @@
     SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestUploadApi params:ps];
     
     SCNetworkFormFilePart *filePart = [SCNetworkFormFilePart new];
-    filePart.fileURL = [[NSBundle mainBundle]pathForResource:@"node" ofType:@"jpg"];
-    filePart.fileName = @"test.jpg";
+    NSString *fileURL = [[NSBundle mainBundle]pathForResource:@"logo" ofType:@"png"];
+    filePart.attachedData = [[NSData alloc]initWithContentsOfFile:fileURL];
+    filePart.fileName = @"logo.png";
+    filePart.mime = @"image/jpg";
+    filePart.name = @"logo";
     
     SCNetworkFormFilePart *filePart2 = [SCNetworkFormFilePart new];
     filePart2.fileURL = [[NSBundle mainBundle]pathForResource:@"node" ofType:@"txt"];
-    filePart2.fileName = @"test.txt";
     
     post.formFileParts = @[filePart,filePart2];
     [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {

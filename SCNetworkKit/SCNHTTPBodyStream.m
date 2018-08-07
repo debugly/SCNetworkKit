@@ -17,7 +17,7 @@ NSString * const SCNBoundary = @"----Boundary0xKhTmLbOuNdArY";
 @property (nonatomic, strong) NSDictionary *parameters;
 @property (nonatomic, strong) NSArray<SCNetworkFormFilePart *> *formFileParts;
 
-@property (nonatomic, assign) NSUInteger totalFileSize;
+@property (nonatomic, assign) NSUInteger totalURLFileSize;
 @property (nonatomic, assign) NSUInteger bodyLength;
 
 @property (nonatomic, strong) NSMutableArray *formParts;
@@ -116,37 +116,37 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
 - (NSArray *)makeFileOrBinaryBoundaryArray
 {
     ///计算之前清空下
-    __block NSUInteger totalFileSize = 0;
+    __block NSUInteger totalURLFileSize = 0;
     NSMutableArray *fileBoundaryArray = [NSMutableArray array];
     
     [self.formFileParts enumerateObjectsUsingBlock:^(SCNetworkFormFilePart * part, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSString *originalFileName = nil;
         NSString *mime = part.mime;
         NSString *fileName = part.fileName;
+        NSString *name = part.name;
         
         if (part.fileURL) {
             NSDictionary *attr = [[NSFileManager defaultManager]attributesOfItemAtPath:part.fileURL error:nil];
             //文件大小累加
-            totalFileSize += [attr[NSFileSize] unsignedIntegerValue];
-            originalFileName = [part.fileURL lastPathComponent];
-            if(!mime){
-                mime = SCNContentTypeForPathExtension([originalFileName pathExtension]);
+            totalURLFileSize += [attr[NSFileSize] unsignedIntegerValue];
+            if (!fileName) {
+                fileName = [part.fileURL lastPathComponent];
             }
-        }else if(part.attachedData){
-            //文件大小累加
-            totalFileSize += part.attachedData.length;
-            originalFileName = fileName;
+            if(!mime){
+                mime = SCNContentTypeForPathExtension([fileName pathExtension]);
+            }
         }
         
-        NSParameterAssert(originalFileName);
+        if (!name) {
+            name = @"file";
+        }
         NSParameterAssert(mime);
         NSParameterAssert(fileName);
         
         NSString *formattedFileBoundary = [NSString stringWithFormat:
                                            @"--%@\r\nContent-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\nContent-Type: %@\r\n\r\n",
                                            SCNBoundary,
+                                           name,
                                            fileName,
-                                           originalFileName,
                                            mime];
         
         NSData *data = [formattedFileBoundary dataUsingEncoding:NSUTF8StringEncoding];
@@ -157,11 +157,11 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
         if (part.fileURL) {
             [fileBoundaryArray addObject:part.fileURL];
         }else{
-            [fileBoundaryArray addObject:part.attachedData];
+            [fileBoundaryArray addObject:part.data];
         }
         [fileBoundaryArray addObject:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
     }];
-    self.totalFileSize = totalFileSize;
+    self.totalURLFileSize = totalURLFileSize;
     return [fileBoundaryArray copy];
 }
 
@@ -193,7 +193,7 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
             }
         }];
         
-        self.bodyLength = boundaryDataLength + self.totalFileSize;
+        self.bodyLength = boundaryDataLength + self.totalURLFileSize;
         self.isInitBody = YES;
     }
 }
