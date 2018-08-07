@@ -416,7 +416,7 @@
     
     SCNetworkFormFilePart *filePart = [SCNetworkFormFilePart new];
     NSString *fileURL = [[NSBundle mainBundle]pathForResource:@"logo" ofType:@"png"];
-    filePart.attachedData = [[NSData alloc]initWithContentsOfFile:fileURL];
+    filePart.data = [[NSData alloc]initWithContentsOfFile:fileURL];
     filePart.fileName = @"logo.png";
     filePart.mime = @"image/jpg";
     filePart.name = @"logo";
