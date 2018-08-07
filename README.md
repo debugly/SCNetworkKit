@@ -362,6 +362,7 @@ NSURLSession 管理的网络请求结束后，会在 SCNetworkRequest 里处理�
 
 - 1.0.5 : 支持 stream HTTPBody，轻松搞定大文件上传
 - 1.0.6 : 支持一次上传多个文件，配套 Node 上传文件服务器
+- 1.0.7 : 修复直接使用二进制上传失败问题（重复计算长度，导致Content Length计算偏大）
 
 ## 完
 
