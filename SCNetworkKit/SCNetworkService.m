@@ -46,7 +46,8 @@
     configure.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
     configure.URLCache = nil;
     
-    if([self isOSVersonGreaterThanOrEqualNice]){
+    
+    if(@available(iOS 9.0,*)){
         configure.shouldUseExtendedBackgroundIdleMode = YES;
     }
     
@@ -238,16 +239,6 @@ NSError * SCNErrorWithOriginErr(NSError *originError,NSInteger newcode)
     }
     
     return SCNError(newcode, mulInfo);
-}
-
-- (BOOL)isOSVersonGreaterThanOrEqualNice
-{
-    static NSUInteger cv = 0;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        cv = [[[UIDevice currentDevice]systemVersion]intValue];
-    });
-    return cv >= 9;
 }
 
 @end

@@ -13,17 +13,25 @@
 
 - (NSString *)sc_urlEncodedString
 {
-//    NSCharacterSet *encodeSet = [NSCharacterSet characterSetWithCharactersInString:@"?!@#$^&%*+,:;='\"`<>()[]{}/\\| "];
+    NSString *encodedString = nil;
+    NSString *needPercentCharacters = @"?!@#$^&%*+,:;='\"`<>()[]{}/\\| ";
     
-//    NSString *encodedString = [self stringByAddingPercentEncodingWithAllowedCharacters:encodeSet];
-    
-    CFStringRef encodedCFString = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-                                                                          (__bridge CFStringRef) self,
-                                                                          nil,
-                                                                          CFSTR("?!@#$^&%*+,:;='\"`<>()[]{}/\\| "),
-                                                                          kCFStringEncodingUTF8);
-    
-    NSString *encodedString = [[NSString alloc] initWithString:(__bridge_transfer NSString*) encodedCFString];
+    if (@available(iOS 9.0,*)) {
+        NSCharacterSet *notAllowedCharacters = [NSCharacterSet characterSetWithCharactersInString:needPercentCharacters];
+        NSCharacterSet *allowedCharacters = [notAllowedCharacters invertedSet];
+        
+        encodedString = [self stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];
+    }else{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored"-Wdeprecated-declarations"
+        CFStringRef encodedCFString = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                                              (__bridge CFStringRef) self,
+                                                                              nil,
+                                                                              CFSTR("?!@#$^&%*+,:;='\"`<>()[]{}/\\| "),
+                                                                              kCFStringEncodingUTF8);
+#pragma clang diagnostic pop
+        encodedString = [[NSString alloc] initWithString:(__bridge_transfer NSString*) encodedCFString];
+    }
     
     if(!encodedString)
         encodedString = @"";
@@ -33,11 +41,18 @@
 
 - (NSString *)sc_urlDecodedString
 {
-    CFStringRef decodedCFString = CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (__bridge CFStringRef) self,CFSTR(""),kCFStringEncodingUTF8);
+    NSString *encodedString = nil;
     
-    NSString *encodedString = [[NSString alloc] initWithString:(__bridge_transfer NSString*) decodedCFString];
+    if (@available(iOS 9.0,*)) {
+        encodedString = [self stringByRemovingPercentEncoding];
+    }else{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored"-Wdeprecated-declarations"
+        CFStringRef decodedCFString = CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (__bridge CFStringRef) self,CFSTR(""),kCFStringEncodingUTF8);
+        encodedString = [[NSString alloc] initWithString:(__bridge_transfer NSString*) decodedCFString];
+#pragma clang diagnostic pop
+    }
     
-//    NSString *encodedString = [self stringByRemovingPercentEncoding];
     if(!encodedString)
         encodedString = @"";
     return encodedString;
