@@ -1,6 +1,6 @@
 ## SCNetworkKit
 
-SCNetworkKit 是一个基于 [MKNetworkKit](https://github.com/MugunthKumar/MKNetworkKit) 和 [AFNetworking](https://github.com/AFNetworking/AFNetworking) 的 iOS 网络库，结合自身项目需要，并且融合了自己的一些最佳实践。
+SCNetworkKit 是一个结合了 [MKNetworkKit](https://github.com/MugunthKumar/MKNetworkKit) 和 [AFNetworking](https://github.com/AFNetworking/AFNetworking) 架构的 iOS 网络库，根据自身项目需要，并且融合了自己的一些最佳实践。
 
 - 最低支持到 iOS 7.0
 - 使用 Objective-C 语言编写
