@@ -6,6 +6,7 @@
 //  Copyright © 2017年 sohu-inc. All rights reserved.
 //
 
+#if TARGET_OS_IPHONE
 #import "SCNImageResponseParser.h"
 #import <UIKit/UIScreen.h>
 #import <ImageIO/ImageIO.h>
@@ -297,3 +298,4 @@ static UIImage * SCInflatedImageFromResponseWithDataAtScale(NSData *data, CGFloa
 }
 
 @end
+#endif

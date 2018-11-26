@@ -7,7 +7,9 @@
 //
 
 #import "SCNetworkRequest.h"
+#if TARGET_OS_IPHONE
 #import <UIKit/UIApplication.h>
+#endif
 
 @interface SCNetworkRequest ()
 
@@ -15,7 +17,9 @@
 @property(nonatomic) NSMutableDictionary *headers;
 @property(nonatomic) NSMutableArray *completionHandlers;
 @property(nonatomic) NSMutableArray *progressChangedHandlers;
+#if TARGET_OS_IPHONE
 @property(nonatomic) UIBackgroundTaskIdentifier backgroundTask;
+#endif
 @property(nonatomic, readwrite) NSData *respData;
 @property(nonatomic, readwrite) SCNKRequestState state;
 @property(nonatomic, readwrite) NSURLSessionTask *task;

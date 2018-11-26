@@ -10,8 +10,10 @@
 #import "NSDictionary+SCAddtions.h"
 #import "SCNetworkRequestInternal.h"
 #import "SCNJSONResponseParser.h"
+#if TARGET_OS_IPHONE
 #import <UIKit/UIDevice.h>
 #import <UIKit/UIScreen.h>
+#endif
 #import "SCNHTTPBodyStream.h"
 
 ///解析网络请求响应数据的队列
@@ -37,10 +39,12 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     static NSString *ua;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        
+#if TARGET_OS_IPHONE
         NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
-        
         ua = [NSString stringWithFormat:@"%@/%@ (%@; iOS %@; Scale/%0.2f)",infoDic[(__bridge NSString *)kCFBundleExecutableKey] ?: infoDic[(__bridge NSString *)kCFBundleIdentifierKey], infoDic[@"CFBundleShortVersionString"] ?: infoDic[(__bridge NSString *)kCFBundleVersionKey], [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], [[UIScreen mainScreen] scale]];
+#elif defined(__MAC_OS_X_VERSION_MIN_REQUIRED)
+        ua = [NSString stringWithFormat:@"%@/%@ (Mac OS X %@)", [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleExecutableKey] ?: [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleIdentifierKey], [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"] ?: [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleVersionKey], [[NSProcessInfo processInfo] operatingSystemVersionString]];
+#endif
     });
     return ua;
 }
@@ -53,13 +57,14 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 - (void)dealloc
 {
     [self cancel];
-    
+#if TARGET_OS_IPHONE
     if (@available(iOS 9.0, *)) {} else {
         if (self.backgroundTask != UIBackgroundTaskInvalid) {
             [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTask];
             self.backgroundTask = UIBackgroundTaskInvalid;
         }
     }
+#endif
 }
 
 - (instancetype)initWithURLString:(NSString *)aURL
@@ -182,7 +187,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     if (SCNKRequestStateStarted == state) {
         
         [self.task resume];
-        
+#if TARGET_OS_IPHONE
         if (@available(iOS 9.0, *)) {} else {
             if (!self.backgroundTask || self.backgroundTask == UIBackgroundTaskInvalid) {
                 self.backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
@@ -197,6 +202,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
                 }];
             }
         }
+#endif
     }
     
     else if ((SCNKRequestStateCompleted == state) || (state == SCNKRequestStateError)){
@@ -229,13 +235,14 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         [self.completionHandlers enumerateObjectsUsingBlock:^(_Nonnull SCNetWorkHandler handler, NSUInteger idx, BOOL * _Nonnull stop) {
             handler(self,reslut,self.error);
         }];
-        
+#if TARGET_OS_IPHONE
         if (@available(iOS 9.0, *)) {} else {
             if (self.backgroundTask != UIBackgroundTaskInvalid) {
                 [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTask];
                 self.backgroundTask = UIBackgroundTaskInvalid;
             }
         }
+#endif
     });
 }
 - (void)updateTransferedData:(int64_t)bytes

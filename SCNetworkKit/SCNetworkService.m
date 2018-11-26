@@ -13,7 +13,10 @@
 #import "SCNetworkRequestInternal.h"
 #import "SCNetworkRequest+SessionDelegate.h"
 #import "SCNHeader.h"
+
+#if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
+#endif
 
 @interface SCNetworkService ()<NSURLSessionDelegate,NSURLSessionTaskDelegate,NSURLSessionDownloadDelegate>
 

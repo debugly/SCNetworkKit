@@ -6,8 +6,10 @@
 //  Copyright © 2017年 sohu-inc. All rights reserved.
 //
 
+#if TARGET_OS_IPHONE
 #import "SCNHTTPResponseParser.h"
 #import <UIKit/UIImage.h>
+
 
 @protocol SCNImageParserProtocol <NSObject>
 
@@ -30,3 +32,4 @@
 
 @end
 
+#endif

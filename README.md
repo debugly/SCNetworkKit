@@ -1,8 +1,8 @@
 ## SCNetworkKit
 
-SCNetworkKit 是一个结合了 [MKNetworkKit](https://github.com/MugunthKumar/MKNetworkKit) 和 [AFNetworking](https://github.com/AFNetworking/AFNetworking) 架构的 iOS 网络库，根据自身项目需要，并且融合了自己的一些最佳实践。
+SCNetworkKit 是一个结合了 [MKNetworkKit](https://github.com/MugunthKumar/MKNetworkKit) 和 [AFNetworking](https://github.com/AFNetworking/AFNetworking) 架构的网络库，融入了自己的一些最佳实践。
 
-- 最低支持到 iOS 7.0
+- 最低支持 iOS 7.0 / OS X 10.9
 - 使用 Objective-C 语言编写
 - 底层封装了 NSURLSession
 - 采用 Service + Request 分工模式；从 MKNetworkKit 学习而来
@@ -363,6 +363,7 @@ NSURLSession 管理的网络请求结束后，会在 SCNetworkRequest 里处理�
 - 1.0.5 : 支持 stream HTTPBody，轻松搞定大文件上传
 - 1.0.6 : 支持一次上传多个文件，配套 Node 上传文件服务器
 - 1.0.7 : 修复直接使用二进制上传失败问题（重复计算长度，导致Content Length计算偏大）
+- 1.0.8 : 支持 macOS 平台 (暂不支持图片解析)
 
 ## 完
 

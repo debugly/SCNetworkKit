@@ -8,7 +8,12 @@
 
 #import "SCNHTTPBodyStream.h"
 #import "SCNetworkRequestInternal.h"
+
+#if TARGET_OS_IPHONE
 #import <MobileCoreServices/MobileCoreServices.h>
+#else
+#import <CoreServices/CoreServices.h>
+#endif
 
 NSString * const SCNBoundary = @"----Boundary0xKhTmLbOuNdArY";
 
