@@ -33,7 +33,13 @@
     NSURLSessionConfiguration *configure = nil;
     configure = [NSURLSessionConfiguration defaultSessionConfiguration];
     
+#if TARGET_OS_IPHONE
     configure.discretionary = YES;
+#else
+    if (@available(macOS 10.10, *)) {
+        configure.discretionary = YES;
+    }
+#endif
     configure.networkServiceType = NSURLNetworkServiceTypeDefault;
     ///数据请求超时时间
     configure.timeoutIntervalForRequest = 60;
@@ -49,11 +55,15 @@
     configure.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
     configure.URLCache = nil;
     
-    
+#if TARGET_OS_IPHONE
     if(@available(iOS 9.0,*)){
         configure.shouldUseExtendedBackgroundIdleMode = YES;
     }
-    
+#else
+    if (@available(macOS 10.11,*)) {
+        configure.shouldUseExtendedBackgroundIdleMode = YES;
+    }
+#endif
     ///清理所有缓存；
     [[NSURLCache sharedURLCache]removeAllCachedResponses];
     
