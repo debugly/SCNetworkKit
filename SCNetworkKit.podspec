@@ -16,8 +16,8 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "SCNetworkKit"
-  s.version      = "1.0.7"
-  s.summary      = "SCNetworkKit is a simple but powerful iOS network framework."
+  s.version      = "1.0.8"
+  s.summary      = "SCNetworkKit is a simple but powerful iOS and OS X networking framework."
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   s.description  = <<-DESC
-                  SCNetworkKit is a simple but powerful iOS network framework based on NSURLSession and NSURLSessionConfiguration, written by Objective-C, Support iOS 7+ ;
+                  SCNetworkKit is a simple but powerful iOS and OS X networking framework,based on NSURLSession and NSURLSessionConfiguration, written by Objective-C, Support iOS 7+ ;
                    DESC
 
   s.homepage     = "http://debugly.cn/SCNetworkKit/"
@@ -64,12 +64,12 @@ Pod::Spec.new do |s|
   #  the deployment target. You can optionally include the target after the platform.
   #
 
-  s.platform     = :ios
-  s.platform     = :ios, "7.0"
+  # s.platform     = :ios
+  # s.platform     = :ios, "7.0"
 
   #  When using multiple platforms
-  # s.ios.deployment_target = "5.0"
-  # s.osx.deployment_target = "10.7"
+  s.ios.deployment_target = "7.0"
+  s.osx.deployment_target = "10.9"
   # s.watchos.deployment_target = "2.0"
   # s.tvos.deployment_target = "9.0"
 
