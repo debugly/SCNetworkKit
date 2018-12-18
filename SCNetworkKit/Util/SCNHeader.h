@@ -12,4 +12,7 @@
 extern NSError * SCNErrorWithOriginErr(NSError *originError,NSInteger newcode);
 extern NSError * SCNError(NSInteger code,id info);
 
+#define __weakSelf_scn_   typeof(self)weakself = self;
+#define __strongSelf_scn_ typeof(weakself)self = weakself;
+
 #endif /* SCNHeader_h */

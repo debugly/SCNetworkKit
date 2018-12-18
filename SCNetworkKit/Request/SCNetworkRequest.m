@@ -15,6 +15,7 @@
 #import <UIKit/UIScreen.h>
 #endif
 #import "SCNHTTPBodyStream.h"
+#import "SCNHeader.h"
 
 ///解析网络请求响应数据的队列
 static dispatch_queue_t SCN_Response_Parser_Queue() {
@@ -85,27 +86,37 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     self = [super init];
     if (self) {
         self.responseParser = [SCNJSONResponseParser parser];
+#if TARGET_OS_IPHONE
+        self.backgroundTask = UIBackgroundTaskInvalid;
+#endif
     }
     return self;
 }
 
-- (NSMutableURLRequest* )makeURLRequest
-{    
+- (NSURL *)makeURL:(NSString *)urlString query:(NSDictionary *)query
+{
     NSURL *url = nil;
     
-    if (self.parameters.count > 0) {
-        if (NSNotFound != [self.urlString rangeOfString:@"?"].location) {
+    if (query.count > 0) {
+        if (NSNotFound != [urlString rangeOfString:@"?"].location) {
             NSString *join = @"&";
-            if ([self.urlString hasSuffix:@"&"]) {
+            if ([urlString hasSuffix:@"&"]) {
                 join = @"";
             }
-            url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@", self.urlString,join,[self.parameters sc_urlEncodedKeyValueString]]];
-        }else{
-            url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@", self.urlString,[self.parameters sc_urlEncodedKeyValueString]]];
+            url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@", urlString,join,[query sc_urlEncodedKeyValueString]]];
+        } else {
+            url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@", urlString,[query sc_urlEncodedKeyValueString]]];
         }
     } else {
-        url = [NSURL URLWithString:self.urlString];
+        url = [NSURL URLWithString:urlString];
     }
+    
+    return url;
+}
+
+- (NSMutableURLRequest* )makeURLRequest
+{    
+    NSURL *url = [self makeURL:self.urlString query:self.parameters];
     
     if(url == nil) {
         return nil;
@@ -189,9 +200,11 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         [self.task resume];
 #if TARGET_OS_IPHONE
         if (@available(iOS 9.0, *)) {} else {
-            if (!self.backgroundTask || self.backgroundTask == UIBackgroundTaskInvalid) {
+            if (self.backgroundTask == UIBackgroundTaskInvalid) {
+                __weakSelf_scn_
                 self.backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
                     dispatch_async(dispatch_get_main_queue(), ^{
+                        __strongSelf_scn_
                         if (self.backgroundTask != UIBackgroundTaskInvalid)
                         {
                             [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTask];
@@ -317,7 +330,29 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 @end
 
+@interface SCNetworkPostRequest()
+
+@property(nonatomic) NSMutableDictionary *queryPs;
+
+@end
+
 @implementation SCNetworkPostRequest
+
+- (NSMutableDictionary *)queryPs
+{
+    if(!_queryPs)
+    {
+        _queryPs = [NSMutableDictionary dictionary];
+    }
+    return _queryPs;
+}
+
+- (void)addQueryParameters:(NSDictionary *)ps
+{
+    if (ps) {
+        [self.queryPs addEntriesFromDictionary:ps];
+    }
+}
 
 - (BOOL)isStreamHTTPBody
 {
@@ -337,11 +372,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 - (NSMutableURLRequest* )makeURLRequest
 {
-    NSURL *url = [NSURL URLWithString:self.urlString];;
-    
-    if(url == nil) {
-        return nil;
-    }
+    NSURL *url = [self makeURL:self.urlString query:self.queryPs];
     
     NSMutableURLRequest *createdRequest = [NSMutableURLRequest requestWithURL:url];
     

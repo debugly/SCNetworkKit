@@ -320,6 +320,9 @@
     NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
     SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestPostApi params:ps];
     post.parameterEncoding = SCNKParameterEncodingURL;
+    [post addQueryParameters:@{
+                               @"k3":@"v3",@"k4":@"v4"
+                               }];
     [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
         if (completion) {

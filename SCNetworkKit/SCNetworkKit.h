@@ -13,17 +13,15 @@
 #import "NSObject+SCCancelRef.h"
 
 #import "SCNetworkService.h"
+#import "SCNetworkService+Shared.h"
 #import "SCNetworkRequest.h"
+
 #import "SCNResponseParser.h"
 #import "SCNJSONResponseParser.h"
 #import "SCNModelResponseParser.h"
 #import "SCNImageResponseParser.h"
 #import "SCNBlockResponseParser.h"
 
-#import "SCNetworkService+Shared.h"
-
 #import "SCNetworkRequest+Chain.h"
 #import "SCNJSONResponseParser+Chain.h"
 #import "SCNModelResponseParser+Chain.h"
-
-#import "SCNHeader.h"

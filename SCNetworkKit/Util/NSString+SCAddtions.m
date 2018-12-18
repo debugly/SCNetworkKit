@@ -16,7 +16,7 @@
     NSString *encodedString = nil;
     NSString *needPercentCharacters = @"?!@#$^&%*+,:;='\"`<>()[]{}/\\| ";
     
-    if (@available(iOS 9.0,*)) {
+    if (@available(iOS 9.0,macos 10.11,*)) {
         NSCharacterSet *notAllowedCharacters = [NSCharacterSet characterSetWithCharactersInString:needPercentCharacters];
         NSCharacterSet *allowedCharacters = [notAllowedCharacters invertedSet];
         
@@ -43,7 +43,7 @@
 {
     NSString *encodedString = nil;
     
-    if (@available(iOS 9.0,*)) {
+    if (@available(iOS 9.0,macos 10.11,*)) {
         encodedString = [self stringByRemovingPercentEncoding];
     }else{
 #pragma clang diagnostic push

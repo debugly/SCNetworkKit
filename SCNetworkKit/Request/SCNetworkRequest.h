@@ -89,5 +89,14 @@ typedef enum : NSUInteger {
  */
 @property(nonatomic,strong) NSArray <SCNetworkFormFilePart *>* formFileParts;
 
+/* 添加URL query参数!!该方法会把参数追加到 URL 上，类似 GET 请求的参数拼！
+ 当使用 parameterEncoding 是 SCNKParameterEncodingFormData 形式编码时,
+    (1. 指定 parameterEncoding)
+    (2. formFileParts 不空，被强制指定)
+ 使用 addParameters 方法添加的参数会放到表单里！！
+ 反之，该方法和 addParameters 功能相同。
+*/
+- (void)addQueryParameters:(NSDictionary *)ps;
+
 @end
 
