@@ -365,7 +365,7 @@ NSURLSession 管理的网络请求结束后，会在 SCNetworkRequest 里处理�
 - 1.0.7 : 修复直接使用二进制上传失败问题（重复计算长度，导致Content Length计算偏大）
 - 1.0.8 : 支持 macOS 平台 (暂不支持图片解析)
 - 1.0.9 :  整理目录，POST 请求可添加 Query 参数
-
+- 1.0.10 : 修改默认UA格式
 
 ## 完
 
