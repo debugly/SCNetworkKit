@@ -8,6 +8,7 @@
 
 #import "SCNetworkRequest.h"
 #import "NSDictionary+SCAddtions.h"
+#import "NSString+SCAddtions.h"
 #import "SCNetworkRequestInternal.h"
 #import "SCNJSONResponseParser.h"
 #if TARGET_OS_IPHONE
@@ -32,19 +33,46 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 @implementation SCNetworkRequest
 
 /*
- 发送请求带上默认的UA
- SohuLiveDemo/1.0 (iPhone; iOS 10.2; Scale/2.00)
+ SCNetworkRequest默认UA格式如下:
+ %E6%90%9C%E7%8B%90%E8%A7%86%E9%A2%91/1 SCNDemo/1.0.8 (iPhone; iOS 11.4; Scale/2.00)
+ %E6%90%9C%E7%8B%90%E5%BD%B1%E9%9F%B3/1 SCNMacDemo/1.0.8 (Macintosh; Mac OS X Version 10.14.1 (Build 18B75))
+ https://stackoverflow.com/questions/36379347/does-nsurlsession-send-user-agent-automatically
+ 
+ 不指定时，系统默认的 UA格式如下:
+ SCNDemo/1 CFNetwork/901.1 Darwin/18.2.0
+ %E6%90%9C%E7%8B%90%E5%BD%B1%E9%9F%B3/17141 CFNetwork/975.0.3 Darwin/18.2.0 (x86_64)
  */
-+ (NSString *) SCN_UA
++ (NSString *) defaultUA
 {
     static NSString *ua;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-#if TARGET_OS_IPHONE
         NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
-        ua = [NSString stringWithFormat:@"%@/%@ (%@; iOS %@; Scale/%0.2f)",infoDic[(__bridge NSString *)kCFBundleExecutableKey] ?: infoDic[(__bridge NSString *)kCFBundleIdentifierKey], infoDic[@"CFBundleShortVersionString"] ?: infoDic[(__bridge NSString *)kCFBundleVersionKey], [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], [[UIScreen mainScreen] scale]];
+        NSDictionary *localizedInfoDic = [[NSBundle mainBundle] localizedInfoDictionary];
+        [infoDic setValuesForKeysWithDictionary:localizedInfoDic];
+        
+        NSString *bundleName = infoDic[(__bridge NSString *)kCFBundleExecutableKey];
+        if (!bundleName) {
+            bundleName = infoDic[(__bridge NSString *)kCFBundleIdentifierKey];
+        }
+        NSString *displayName = infoDic[@"CFBundleDisplayName"];
+        if (!displayName) {
+            displayName = bundleName;
+        }
+        ///有可能是中文，必须编码！
+        displayName = [displayName sc_urlEncodedString];
+        NSString *vk = (__bridge NSString *) kCFBundleVersionKey;
+        NSString *buildNum = infoDic[vk];
+        NSString *shortVersion = infoDic[@"CFBundleShortVersionString"];
+        if (!shortVersion) {
+            shortVersion = buildNum;
+        }
+        
+        
+#if TARGET_OS_IPHONE
+        ua = [NSString stringWithFormat:@"%@/%@ %@/%@ (%@; iOS %@; Scale/%0.2f)",displayName, buildNum, bundleName, shortVersion, [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], [[UIScreen mainScreen] scale]];
 #elif defined(__MAC_OS_X_VERSION_MIN_REQUIRED)
-        ua = [NSString stringWithFormat:@"%@/%@ (Mac OS X %@)", [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleExecutableKey] ?: [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleIdentifierKey], [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"] ?: [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleVersionKey], [[NSProcessInfo processInfo] operatingSystemVersionString]];
+        ua = [NSString stringWithFormat:@"%@/%@ %@/%@ (Macintosh; Mac OS X %@)", displayName, buildNum, bundleName, shortVersion, [[NSProcessInfo processInfo] operatingSystemVersionString]];
 #endif
     });
     return ua;
@@ -127,7 +155,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     NSMutableDictionary *headers = [[NSMutableDictionary alloc]initWithDictionary:self.headers];
     ///没有指定UA时，设置默认的；
     if (![headers objectForKey:@"User-Agent"]) {
-        NSString *ua = [SCNetworkRequest SCN_UA];
+        NSString *ua = [SCNetworkRequest defaultUA];
         [headers setObject:ua forKey:@"User-Agent"];
     }
     
@@ -379,7 +407,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     NSMutableDictionary *headers = [[NSMutableDictionary alloc]initWithDictionary:self.headers];
     ///没有指定UA时，设置默认的；
     if (![headers objectForKey:@"User-Agent"]) {
-        NSString *ua = [SCNetworkRequest SCN_UA];
+        NSString *ua = [SCNetworkRequest defaultUA];
         [headers setObject:ua forKey:@"User-Agent"];
     }
     

@@ -36,7 +36,7 @@ typedef void(^SCNKProgressHandler)(SCNetworkRequest *request, int64_t thisTransf
 ///下载文件路径
 @property (nonatomic, copy) NSString *downloadFileTargetPath;
 
-+ (NSString *) SCN_UA;
++ (NSString *)defaultUA;
 
 - (instancetype)initWithURLString:(NSString *)aURL
                            params:(NSDictionary *)params;
