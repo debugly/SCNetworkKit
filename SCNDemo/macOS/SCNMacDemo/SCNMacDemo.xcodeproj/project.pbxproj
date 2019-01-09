@@ -26,7 +26,6 @@
 		DDBD2E8321C89901002CDA3C /* SCNHTTPResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBD2E6A21C89901002CDA3C /* SCNHTTPResponseParser.m */; };
 		DDBD2E8421C89901002CDA3C /* SCNModelResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBD2E6B21C89901002CDA3C /* SCNModelResponseParser.m */; };
 		DDBD2E8521C89901002CDA3C /* SCNJSONResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBD2E6E21C89901002CDA3C /* SCNJSONResponseParser.m */; };
-		DDBD2E8621C89901002CDA3C /* SCNImageResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBD2E6F21C89901002CDA3C /* SCNImageResponseParser.m */; };
 		DDBD2E8721C89901002CDA3C /* SCNJSONResponseParser+Chain.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBD2E7021C89901002CDA3C /* SCNJSONResponseParser+Chain.m */; };
 		DDBD2E8821C89901002CDA3C /* SCNBlockResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBD2E7121C89901002CDA3C /* SCNBlockResponseParser.m */; };
 		DDBD2E8921C89901002CDA3C /* SCNHTTPBodyStream.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBD2E7421C89901002CDA3C /* SCNHTTPBodyStream.m */; };
@@ -68,7 +67,6 @@
 		DDBD2E6221C89901002CDA3C /* SCNModelResponseParser+Chain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SCNModelResponseParser+Chain.m"; sourceTree = "<group>"; };
 		DDBD2E6321C89901002CDA3C /* SCNModelResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNModelResponseParser.h; sourceTree = "<group>"; };
 		DDBD2E6421C89901002CDA3C /* SCNHTTPResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNHTTPResponseParser.h; sourceTree = "<group>"; };
-		DDBD2E6521C89901002CDA3C /* SCNImageResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNImageResponseParser.h; sourceTree = "<group>"; };
 		DDBD2E6621C89901002CDA3C /* SCNJSONResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNJSONResponseParser.h; sourceTree = "<group>"; };
 		DDBD2E6721C89901002CDA3C /* SCNModelParserProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNModelParserProtocol.h; sourceTree = "<group>"; };
 		DDBD2E6821C89901002CDA3C /* SCNBlockResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNBlockResponseParser.h; sourceTree = "<group>"; };
@@ -78,7 +76,6 @@
 		DDBD2E6C21C89901002CDA3C /* SCNModelResponseParser+Chain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SCNModelResponseParser+Chain.h"; sourceTree = "<group>"; };
 		DDBD2E6D21C89901002CDA3C /* SCNResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNResponseParser.h; sourceTree = "<group>"; };
 		DDBD2E6E21C89901002CDA3C /* SCNJSONResponseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNJSONResponseParser.m; sourceTree = "<group>"; };
-		DDBD2E6F21C89901002CDA3C /* SCNImageResponseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNImageResponseParser.m; sourceTree = "<group>"; };
 		DDBD2E7021C89901002CDA3C /* SCNJSONResponseParser+Chain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SCNJSONResponseParser+Chain.m"; sourceTree = "<group>"; };
 		DDBD2E7121C89901002CDA3C /* SCNBlockResponseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNBlockResponseParser.m; sourceTree = "<group>"; };
 		DDBD2E7321C89901002CDA3C /* SCNetworkRequest+Chain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SCNetworkRequest+Chain.h"; sourceTree = "<group>"; };
@@ -198,7 +195,6 @@
 				DDBD2E6221C89901002CDA3C /* SCNModelResponseParser+Chain.m */,
 				DDBD2E6321C89901002CDA3C /* SCNModelResponseParser.h */,
 				DDBD2E6421C89901002CDA3C /* SCNHTTPResponseParser.h */,
-				DDBD2E6521C89901002CDA3C /* SCNImageResponseParser.h */,
 				DDBD2E6621C89901002CDA3C /* SCNJSONResponseParser.h */,
 				DDBD2E6721C89901002CDA3C /* SCNModelParserProtocol.h */,
 				DDBD2E6821C89901002CDA3C /* SCNBlockResponseParser.h */,
@@ -208,7 +204,6 @@
 				DDBD2E6C21C89901002CDA3C /* SCNModelResponseParser+Chain.h */,
 				DDBD2E6D21C89901002CDA3C /* SCNResponseParser.h */,
 				DDBD2E6E21C89901002CDA3C /* SCNJSONResponseParser.m */,
-				DDBD2E6F21C89901002CDA3C /* SCNImageResponseParser.m */,
 				DDBD2E7021C89901002CDA3C /* SCNJSONResponseParser+Chain.m */,
 				DDBD2E7121C89901002CDA3C /* SCNBlockResponseParser.m */,
 			);
@@ -317,7 +312,6 @@
 				DD4D1B1521AB97890058C6AA /* ViewController.m in Sources */,
 				DDBD2E8221C89901002CDA3C /* SCNModelResponseParser+Chain.m in Sources */,
 				DDBD2E8A21C89901002CDA3C /* SCNetworkRequest+SessionDelegate.m in Sources */,
-				DDBD2E8621C89901002CDA3C /* SCNImageResponseParser.m in Sources */,
 				DDBD2E8121C89901002CDA3C /* SCNetworkService+Shared.m in Sources */,
 				DDBD2E8721C89901002CDA3C /* SCNJSONResponseParser+Chain.m in Sources */,
 				DDBD2E8021C89901002CDA3C /* SCNetworkService.m in Sources */,

@@ -19,7 +19,6 @@
 #import "SCNResponseParser.h"
 #import "SCNJSONResponseParser.h"
 #import "SCNModelResponseParser.h"
-#import "SCNImageResponseParser.h"
 #import "SCNBlockResponseParser.h"
 
 #import "SCNetworkRequest+Chain.h"
