@@ -12,6 +12,9 @@
 #endif
 
 @interface SCNetworkRequest ()
+{
+    SCNKRequestState _state;
+}
 
 @property(nonatomic) NSMutableDictionary *parameters;
 @property(nonatomic) NSMutableDictionary *headers;
@@ -21,10 +24,8 @@
 @property(nonatomic) UIBackgroundTaskIdentifier backgroundTask;
 #endif
 @property(nonatomic, readwrite) NSData *respData;
-@property(nonatomic, readwrite) SCNKRequestState state;
 @property(nonatomic, readwrite) NSURLSessionTask *task;
 @property(nonatomic, readwrite) NSUInteger taskIdentifier;
-@property(nonatomic, readwrite) NSError *error;
 @property(nonatomic, readwrite) NSHTTPURLResponse *response;
 ///存储session回调数据的
 @property(nonatomic, strong) NSMutableData *mutableData;
@@ -33,6 +34,7 @@
                   totalBytes:(int64_t)totalBytes
           totalBytesExpected:(int64_t)totalBytesExpected;
 - (NSMutableURLRequest *)makeURLRequest;
+- (void)updateState:(SCNKRequestState)state error:(NSError *)error;
 
 @end
 

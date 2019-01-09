@@ -215,11 +215,17 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 {
     if (SCNKRequestStateStarted == self.state) {
         [self.task cancel];
-        self.state = SCNKRequestStateCancelled;
+        [self updateState:SCNKRequestStateCancelled error:nil];
     }
 }
 
-- (void)setState:(SCNKRequestState)state
+- (SCNKRequestState)state
+{
+    return _state;
+}
+
+// 更新状态机，请求的开始和结束，都走这里
+- (void)updateState:(SCNKRequestState)state error:(NSError *)error
 {
     _state = state;
     
@@ -248,18 +254,17 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     
     else if ((SCNKRequestStateCompleted == state) || (state == SCNKRequestStateError)){
         
-        if(self.error){
-            [self doFinishWithResult:nil];
+        if(error){
+            [self doFinishWithResult:nil error:error];
         }else{
             if (self.responseParser) {
                 dispatch_async(SCN_Response_Parser_Queue(), ^{
                     NSError *parserError = nil;
                     id result = [self.responseParser parseredObjectForResponse:self.response data:self.respData error:&parserError];
-                    self.error = parserError;
-                    [self doFinishWithResult:result];
+                    [self doFinishWithResult:result error:parserError];
                 });
             }else{
-                [self doFinishWithResult:self.respData];
+                [self doFinishWithResult:self.respData error:nil];
             }
         }
     }
@@ -269,12 +274,12 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     }
 }
 
-- (void)doFinishWithResult:(id)reslut
+- (void)doFinishWithResult:(id)reslut error:(NSError *)error
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         
         [self.completionHandlers enumerateObjectsUsingBlock:^(_Nonnull SCNetWorkHandler handler, NSUInteger idx, BOOL * _Nonnull stop) {
-            handler(self,reslut,self.error);
+            handler(self,reslut,error);
         }];
 #if TARGET_OS_IPHONE
         if (@available(iOS 9.0, *)) {} else {

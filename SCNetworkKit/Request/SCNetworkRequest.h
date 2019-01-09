@@ -25,7 +25,8 @@ typedef enum : NSUInteger {
 typedef void(^SCNetWorkHandler)(SCNetworkRequest *request,id result,NSError *err);
 typedef void(^SCNKProgressHandler)(SCNetworkRequest *request, int64_t thisTransfered, int64_t totalBytesTransfered, int64_t totalBytesExpected);
 
-///GET 请求
+#pragma mark - GET 请求
+
 @interface SCNetworkRequest : NSObject<SCCancel>
 
 @property(nonatomic,copy) NSString *urlString;
@@ -35,7 +36,9 @@ typedef void(^SCNKProgressHandler)(SCNetworkRequest *request, int64_t thisTransf
 @property(nonatomic)NSTimeInterval timeoutInterval;
 ///下载文件路径
 @property (nonatomic, copy) NSString *downloadFileTargetPath;
-
+//SCNetworkRequest默认UA格式如下:
+//%E6%90%9C%E7%8B%90%E8%A7%86%E9%A2%91/1 SCNDemo/1.0.8 (iPhone; iOS 11.4; Scale/2.00)
+//%E6%90%9C%E7%8B%90%E5%BD%B1%E9%9F%B3/1 SCNMacDemo/1.0.8 (Macintosh; Mac OS X Version 10.14.1 (Build 18B75))
 + (NSString *)defaultUA;
 
 - (instancetype)initWithURLString:(NSString *)aURL
@@ -47,23 +50,26 @@ typedef void(^SCNKProgressHandler)(SCNetworkRequest *request, int64_t thisTransf
 - (NSDictionary *)ps;
 ///清理请求参数
 - (void)clearPS;
-
+///add HTTP Header
 - (void)addHeaders:(NSDictionary *)hs;
 ///invoked on main thread
 - (void)addCompletionHandler:(SCNetWorkHandler)handler;
 ///invoked on main thread,observer downlaod or upload progress
 - (void)addProgressChangedHandler:(SCNKProgressHandler)handler;
+///cancel the request
 - (void)cancel;
+///the request's state
 - (SCNKRequestState)state;
 
 @end
+
+#pragma mark - POST 请求
 
 @interface SCNetworkFormFilePart : NSObject
 
 @property(nonatomic,copy) NSString *mime;//文本类型
 @property(nonatomic,copy) NSString *fileName;//上传文件名
 @property(nonatomic,copy) NSString *name;//表单的名称，默认为 "file"
-
 ///上传文件的时候，小文件可以使用 data，大文件要使用 fileURL，省得内存暂用过大！
 @property(nonatomic,copy) NSString *fileURL;//文件地址，此时可以不传fileName和mime，内部自动推断
 @property(nonatomic,strong) NSData *data;//二进制数据，必须传fileName和mime，内部不能推断
@@ -77,7 +83,6 @@ typedef enum : NSUInteger {
     SCNKParameterEncodingFormData,
 } SCNKParameterEncoding;
 
-///POST 请求
 @interface SCNetworkPostRequest : SCNetworkRequest
 
 //默认是: application/x-www-form-urlencoded

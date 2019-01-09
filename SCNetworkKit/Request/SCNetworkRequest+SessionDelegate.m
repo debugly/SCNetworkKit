@@ -16,16 +16,15 @@ didCompleteWithError:(NSError *)error {
     
     self.respData = [NSData dataWithData:self.mutableData];
     self.response = (NSHTTPURLResponse*) task.response;
-    self.error = error;
     
     if(error) {
         if(error.code == NSURLErrorCancelled){
-            self.state = SCNKRequestStateCancelled;
+            [self updateState:SCNKRequestStateCancelled error:nil];
         }else{
-            self.state = SCNKRequestStateError;
+            [self updateState:SCNKRequestStateError error:error];
         }
     }else{
-        self.state = SCNKRequestStateCompleted;
+        [self updateState:SCNKRequestStateCompleted error:nil];
     }
     //clean
     self.mutableData = nil;
