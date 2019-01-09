@@ -121,8 +121,11 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     return self;
 }
 
-- (NSURL *)makeURL:(NSString *)urlString query:(NSDictionary *)query
+- (NSMutableURLRequest *)makeURLRequest:(NSString *)urlString query:(NSDictionary *)query method:(NSString *)method
 {
+    NSAssert(urlString, @"makeURLRequest:url不能为空");
+    NSAssert(method, @"makeURLRequest:method不能为空");
+    
     NSURL *url = nil;
     
     if (query.count > 0) {
@@ -139,16 +142,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         url = [NSURL URLWithString:urlString];
     }
     
-    return url;
-}
-
-- (NSMutableURLRequest* )makeURLRequest
-{    
-    NSURL *url = [self makeURL:self.urlString query:self.parameters];
-    
-    if(url == nil) {
-        return nil;
-    }
+    NSAssert(url, @"makeURLRequest:url不合法");
     
     NSMutableURLRequest *createdRequest = [NSMutableURLRequest requestWithURL:url];
     
@@ -159,14 +153,21 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         [headers setObject:ua forKey:@"User-Agent"];
     }
     
-    [createdRequest setAllHTTPHeaderFields:headers];
-    [createdRequest setHTTPMethod:@"GET"];
-    
     ///指定了就设置下；否则走session里配置的时间
     if(self.timeoutInterval > 0){
         createdRequest.timeoutInterval = self.timeoutInterval;
     }
-    // Accept-Encoding:gzip, deflate
+    
+    [createdRequest setAllHTTPHeaderFields:headers];
+    [createdRequest setHTTPMethod:method];
+    
+    return createdRequest;
+}
+
+- (NSMutableURLRequest* )makeURLRequest
+{    
+    NSMutableURLRequest *createdRequest = [self makeURLRequest:self.urlString query:self.parameters method:@"GET"];
+    
     return createdRequest;
 }
 
@@ -403,26 +404,11 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     [createdRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[inputStream contentLength]] forHTTPHeaderField:@"Content-Length"];
 }
 
+#pragma mark - 覆盖 makeURLRequest 方法
+
 - (NSMutableURLRequest* )makeURLRequest
 {
-    NSURL *url = [self makeURL:self.urlString query:self.queryPs];
-    
-    NSMutableURLRequest *createdRequest = [NSMutableURLRequest requestWithURL:url];
-    
-    NSMutableDictionary *headers = [[NSMutableDictionary alloc]initWithDictionary:self.headers];
-    ///没有指定UA时，设置默认的；
-    if (![headers objectForKey:@"User-Agent"]) {
-        NSString *ua = [SCNetworkRequest defaultUA];
-        [headers setObject:ua forKey:@"User-Agent"];
-    }
-    
-    [createdRequest setAllHTTPHeaderFields:headers];
-    [createdRequest setHTTPMethod:@"POST"];
-    
-    ///指定了就设置下；否则走session里配置的时间
-    if(self.timeoutInterval > 0){
-        createdRequest.timeoutInterval = self.timeoutInterval;
-    }
+    NSMutableURLRequest *createdRequest = [self makeURLRequest:self.urlString query:self.queryPs method:@"POST"];
     
     if ([self.formFileParts count] > 0) {
         ///强制设置为 FromData ！
