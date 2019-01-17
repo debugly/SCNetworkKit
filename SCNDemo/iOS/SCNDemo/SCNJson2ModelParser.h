@@ -1,5 +1,5 @@
 //
-//  SCNModelParser.h
+//  SCNJson2ModelParser.h
 //  SohuCoreFoundation
 //
 //  Created by 许乾隆 on 2017/5/19.
@@ -10,6 +10,6 @@
 #import <Foundation/Foundation.h>
 #import "SCNModelParserProtocol.h"
 
-@interface SCNModelParser : NSObject<SCNModelParserProtocol>
+@interface SCNJson2ModelParser : NSObject<SCNModelParserProtocol>
 
 @end

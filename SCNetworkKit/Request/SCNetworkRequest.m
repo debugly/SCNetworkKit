@@ -113,7 +113,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 {
     self = [super init];
     if (self) {
-        self.responseParser = [SCNJSONResponseParser parser];
+        self.responseParser = [SCNJSONResponseParser new];
 #if TARGET_OS_IPHONE
         self.backgroundTask = UIBackgroundTaskInvalid;
 #endif
@@ -261,7 +261,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
             if (self.responseParser) {
                 dispatch_async(SCN_Response_Parser_Queue(), ^{
                     NSError *parserError = nil;
-                    id result = [self.responseParser parseredObjectForResponse:self.response data:self.respData error:&parserError];
+                    id result = [self.responseParser objectWithResponse:self.response data:self.respData error:&parserError];
                     [self doFinishWithResult:result error:parserError];
                 });
             }else{

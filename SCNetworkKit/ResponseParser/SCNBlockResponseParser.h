@@ -6,11 +6,12 @@
 //  Copyright © 2017年 sohu-inc. All rights reserved.
 //
 
-#import "SCNHTTPResponseParser.h"
+#import <Foundation/Foundation.h>
+#import "SCNResponseParser.h"
 
-typedef id(^SCNParserBlock)(NSData *data,NSError * __autoreleasing *error);
+typedef id(^SCNParserBlock)(NSHTTPURLResponse *response,NSData *data,NSError * __autoreleasing *error);
 
-@interface SCNBlockResponseParser : SCNHTTPResponseParser
+@interface SCNBlockResponseParser : NSObject<SCNResponseParser>
 
 - (void)resetParserBlock:(SCNParserBlock)block;
 

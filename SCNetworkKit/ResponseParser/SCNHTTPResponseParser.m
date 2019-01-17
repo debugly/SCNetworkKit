@@ -7,73 +7,45 @@
 //
 
 #import "SCNHTTPResponseParser.h"
-#import "SCNHeader.h"
-
-NSInteger SCNResponseErrCannotPassValidate = -9000;
+#import "SCNHTTPParser.h"
 
 @implementation SCNHTTPResponseParser
+{
+    SCNHTTPParser *_httpParser;
+}
 
 - (instancetype)init
 {
     self = [super init];
     if (self) {
-        self.acceptableStatusCodes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 100)];
+        _httpParser = [SCNHTTPParser new];
     }
     return self;
 }
 
-- (BOOL)validateResponse:(NSHTTPURLResponse *)response
-                    data:(NSData *)data
-                   error:(NSError * __autoreleasing *)error
+- (id)objectWithResponse:(NSHTTPURLResponse *)response data:(NSData *)data error:(NSError *__autoreleasing *)error
 {
-    BOOL responseIsValid = YES;
-    NSError *validationError = nil;
-    
-    if (response && [response isKindOfClass:[NSHTTPURLResponse class]]) {
-        
-        if (self.acceptableContentTypes && ![self.acceptableContentTypes containsObject:[response MIMEType]]) {
-            
-            NSDictionary *userInfo = @{
-                                       @"reason": [NSString stringWithFormat:@"【解析错误】unacceptable content-type: %@", [response MIMEType]],
-                                       @"url":[response URL]
-                                       };
-            
-            validationError = SCNError(NSURLErrorCannotDecodeContentData, userInfo);
-            
-            responseIsValid = NO;
-        }
-        
-        if (self.acceptableStatusCodes && ![self.acceptableStatusCodes containsIndex:(NSUInteger)response.statusCode] && [response URL]) {
-            NSDictionary *userInfo = @{
-                                       @"statusCode": [NSString stringWithFormat:@"【网络错误】HTTP错误码: (%ld)", (long)response.statusCode],
-                                       @"url":[response URL],
-                                       };
-            
-            validationError = SCNError(response.statusCode, userInfo);
-            
-            responseIsValid = NO;
-        }
-    }
-    
-    if (error && !responseIsValid) {
-        *error = validationError;
-    }
-    
-    return responseIsValid;
+    return [_httpParser objectWithResponse:response data:data error:error];
 }
 
-- (id)parseredObjectForResponse:(NSHTTPURLResponse *)response data:(NSData *)data error:(NSError *__autoreleasing *)error
+- (NSIndexSet *)acceptableStatusCodes
 {
-    if ([self validateResponse:response data:data error:error]) {
-        return data;
-    }else{
-        return nil;
-    }
+    return [_httpParser acceptableStatusCodes];
 }
 
-+ (instancetype)parser
+- (void)setAcceptableStatusCodes:(NSIndexSet *)acceptableStatusCodes
 {
-    return [[self alloc]init];
+    _httpParser.acceptableStatusCodes = acceptableStatusCodes;
+}
+
+- (NSSet<NSString *> *)acceptableContentTypes
+{
+    return [_httpParser acceptableContentTypes];
+}
+
+- (void)setAcceptableContentTypes:(NSSet<NSString *> *)acceptableContentTypes
+{
+    _httpParser.acceptableContentTypes = acceptableContentTypes;
 }
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "SCNModelParser.h"
+#import "SCNJson2ModelParser.h"
 #import "SCNModelResponseParser.h"
 
 @interface AppDelegate ()
@@ -23,7 +23,7 @@
         ///通过注册的方式，让 SCJSONUtil 和 网络库解耦合;如果你的工程里有其他解析框架，只需修改 SCNModelParser 里的几个方法即可！
         
         ///使用网络请求之前注册好！
-        [SCNModelResponseParser registerModelParser:[SCNModelParser class]];
+        [SCNModelResponseParser registerModelParser:[SCNJson2ModelParser class]];
     }
     
 }

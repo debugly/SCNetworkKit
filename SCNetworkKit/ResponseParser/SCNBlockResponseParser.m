@@ -23,26 +23,20 @@
 
 + (instancetype)blockParserWithCustomProcess:(SCNParserBlock)block
 {
-    SCNBlockResponseParser *parser = [SCNBlockResponseParser parser];
+    SCNBlockResponseParser *parser = [SCNBlockResponseParser new];
     [parser resetParserBlock:block];
     return parser;
 }
 
-- (id)parseredObjectForResponse:(NSHTTPURLResponse *)response data:(NSData *)data error:(NSError *__autoreleasing  _Nullable *)error
+- (id)objectWithResponse:(NSHTTPURLResponse *)response
+                    data:(NSData *)data
+                   error:(NSError *__autoreleasing  _Nullable *)error
 {
-    NSError *err = nil;
-    NSData *result = [super parseredObjectForResponse:response data:data error:&err];
-    if (result) {
-        if (self.parserBlock) {
-           return self.parserBlock(result, error);
-        }
-        return result;
-    }else{
-        if(error){
-            *error = err;
-        }
-        return nil;
+    if (self.parserBlock) {
+        return self.parserBlock(response,data, error);
     }
+    NSAssert(NO, @"SCNBlockResponseParser:没有定义解析过程");
+    return nil;
 }
 
 @end

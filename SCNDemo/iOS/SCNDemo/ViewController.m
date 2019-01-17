@@ -22,6 +22,9 @@
 #define __weakSelf   typeof(self)weakself = self;
 #define __strongSelf typeof(weakself)self = weakself;
 
+
+#define USE_CUSTOM_PARSER 1
+
 @interface ViewController ()
 
 @property (nonatomic, weak) UIView *indicator;
@@ -254,7 +257,39 @@
      }
      */
     SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:kTestJSONApi params:nil];
+#if USE_CUSTOM_PARSER
+    /// BlockResponseParser 给予了自定义解析的全过程，每个环境都可以根据业务去控制；并且这一过程是在子线程里完成的！
     
+    SCNBlockResponseParser *customParser = [SCNBlockResponseParser blockParserWithCustomProcess:^id(NSHTTPURLResponse *response, NSData *data, NSError *__autoreleasing *error) {
+        
+        SCNHTTPParser *httpParser = [SCNHTTPParser new];
+        httpParser.acceptableContentTypes = [NSSet setWithObjects:@"application/json", nil];
+        
+        id httpData = [httpParser objectWithResponse:response data:data error:error];
+        
+        if(httpData){
+            SCNJSONParser *jsonParser = [SCNJSONParser new];
+            jsonParser.checkKeyPath = @"code";
+            jsonParser.okValue = @"0";
+            id json = [jsonParser jsonWithData:httpData error:error];
+            
+            if (json) {
+                SCNModelParser *modelParser = [SCNModelParser new];
+                modelParser.modelName = @"TestModel";
+                modelParser.modelKeyPath = @"content/entrance";
+                
+                id model = [modelParser modelWithJson:json error:error];
+                
+                if (model) {
+                    return model;
+                }
+            }
+        }
+        return nil;
+    }];
+    
+    req.responseParser = customParser;
+#else
     SCNModelResponseParser *responseParser = [SCNModelResponseParser parser];
     ///解析前会检查下JSON是否正确；
     responseParser.checkKeyPath = @"code";
@@ -263,6 +298,7 @@
     responseParser.modelName = @"TestModel";
     responseParser.modelKeyPath = @"content/entrance";
     req.responseParser = responseParser;
+#endif
     
     [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         

@@ -7,66 +7,63 @@
 //
 
 #import "SCNModelResponseParser.h"
-#import "SCNHeader.h"
-
-NSInteger SCNResponseErrCannotFindTargetJson = -9001; ///按照指定的keypath找不到目标json；
-
-@interface SCNModelResponseParser()
-
-@end
+#import "SCNModelParser.h"
 
 @implementation SCNModelResponseParser
-
-static Class <SCNModelParserProtocol> MParser;
+{
+    SCNModelParser *_modelParser;
+}
 
 + (void)registerModelParser:(Class<SCNModelParserProtocol>)parser
 {
-    MParser = parser;
+    [SCNModelParser registerModelParser:parser];
 }
 
-- (id)parseredObjectForResponse:(NSHTTPURLResponse *)response
-                           data:(NSData *)data
-                          error:(NSError *__autoreleasing *)error
+- (instancetype)init
 {
-    if (!MParser) {
-        NSAssert(NO, @"是不是忘记注册Model解析器了？");
+    self = [super init];
+    if (self) {
+        _modelParser = [SCNModelParser new];
     }
-    // 获取解析后的 JSON ；
-    id repJOSN = [super parseredObjectForResponse:response data:data error:error];
+    return self;
+}
+
+- (id)objectWithResponse:(NSHTTPURLResponse *)response data:(NSData *)data error:(NSError *__autoreleasing *)error
+{
+    id json = [super objectWithResponse:response data:data error:error];
     
-    if (!repJOSN) {
+    if (json) {
+        
+        id model = [_modelParser modelWithJson:json
+                                        error:error];
+        if (model) {
+            return model;
+        } else {
+            return nil;
+        }
+    } else {
         return nil;
     }
-    
-    id result = repJOSN;
-    //查找目标JSON
-    if (self.modelKeyPath.length > 0) {
-        result = [MParser fetchSubJSON:result keyPath:self.modelKeyPath];
-    }
-    
-    if (result) {
-        if (self.modelName.length > 0) {
-            //解析目标JSON
-            result = [MParser JSON2Model:result modelName:self.modelName];
-            //SCJSON2Model(result,self.modelName);
-        }else{
-            //不需要解析为Model；
-            result = [MParser JSON2StringValueJSON:result];
-            //SCJSON2StringJOSN(result);
-        }
-    }else{
-        ///如果传了error指针地址了
-        if(error){
-            ///result is nil;
-            NSDictionary *info = @{@"reason":@"【解析错误】找不到对应的Model",
-                                   @"origin":repJOSN};
-            
-            NSInteger code = SCNResponseErrCannotFindTargetJson;
-            
-            *error = SCNError(code,info);
-        }
-    }
-    return result;
+}
+
+- (NSString *)modelName
+{
+    return [_modelParser modelName];
+}
+
+- (void)setModelName:(NSString *)modelName
+{
+    [_modelParser setModelName:modelName];
+}
+
+- (NSString *)modelKeyPath
+{
+    return [_modelParser modelKeyPath];
+}
+
+- (void)setModelKeyPath:(NSString *)modelKeyPath
+{
+    [_modelParser setModelKeyPath:modelKeyPath];
 }
 
 @end

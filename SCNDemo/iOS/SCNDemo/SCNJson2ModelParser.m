@@ -1,15 +1,15 @@
 //
-//  SCNModelParser.m
+//  SCNJson2ModelParser.m
 //  SohuCoreFoundation
 //
 //  Created by 许乾隆 on 2017/5/19.
 //  Copyright © 2017年 sohu-inc. All rights reserved.
 //
 
-#import "SCNModelParser.h"
+#import "SCNJson2ModelParser.h"
 #import "SCJSONUtil.h"
 
-@implementation SCNModelParser
+@implementation SCNJson2ModelParser
 
 + (id)fetchSubJSON:(id)json keyPath:(NSString *)keypath
 {
