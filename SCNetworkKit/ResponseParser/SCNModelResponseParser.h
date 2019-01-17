@@ -13,6 +13,8 @@
 
 @property (nonatomic,copy) NSString *modelName;
 @property (nonatomic,copy) NSString *modelKeyPath;
+// for JSONUtil
+@property (nonatomic,strong) id refObj;
 
 + (void)registerModelParser:(Class<SCNModelParserProtocol>)parser;
 

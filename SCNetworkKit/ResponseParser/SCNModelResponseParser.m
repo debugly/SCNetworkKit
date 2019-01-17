@@ -66,4 +66,14 @@
     [_modelParser setModelKeyPath:modelKeyPath];
 }
 
+- (id)refObj
+{
+    return [_modelParser modelKeyPath];
+}
+
+- (void)setRefObj:(id)refObj
+{
+    [_modelParser setRefObj:refObj];
+}
+
 @end

@@ -38,8 +38,7 @@ static Class <SCNModelParserProtocol> MParser;
     if (result) {
         if (self.modelName.length > 0) {
             //解析目标JSON
-            result = [MParser JSON2Model:result modelName:self.modelName];
-            //SCJSON2Model(result,self.modelName);
+            result = [MParser JSON2Model:result modelName:self.modelName refObj:self.refObj];
         }else{
             //不需要解析为Model；
             result = [MParser JSON2StringValueJSON:result];
