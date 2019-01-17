@@ -58,7 +58,6 @@
 		DD99FD1421F0617E00584AC4 /* SCNHTTPParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNHTTPParser.h; sourceTree = "<group>"; };
 		DD99FD1521F0617E00584AC4 /* SCNJSONParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNJSONParser.h; sourceTree = "<group>"; };
 		DD99FD1621F0617E00584AC4 /* SCNJSONParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNJSONParser.m; sourceTree = "<group>"; };
-		DD99FD1921F06A4100584AC4 /* SCNModelParserProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNModelParserProtocol.h; sourceTree = "<group>"; };
 		DD99FD1A21F06A4100584AC4 /* SCNModelParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNModelParser.h; sourceTree = "<group>"; };
 		DD99FD1B21F06A4100584AC4 /* SCNModelParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNModelParser.m; sourceTree = "<group>"; };
 		DDBD2E5521C89901002CDA3C /* NSObject+SCCancelRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SCCancelRef.h"; sourceTree = "<group>"; };
@@ -124,6 +123,8 @@
 		DD4D1B0F21AB97890058C6AA /* SCNMacDemo */ = {
 			isa = PBXGroup;
 			children = (
+				DD4D1B5D21ABC53F0058C6AA /* SCJSONUtil */,
+				DDBD2E5321C89901002CDA3C /* SCNetworkKit */,
 				DD4D1B1021AB97890058C6AA /* AppDelegate.h */,
 				DD4D1B1121AB97890058C6AA /* AppDelegate.m */,
 				DD4D1B1621AB978A0058C6AA /* Assets.xcassets */,
@@ -132,8 +133,6 @@
 				DD4D1B1C21AB978A0058C6AA /* main.m */,
 				DD4D1B1821AB978A0058C6AA /* Main.storyboard */,
 				DD4D1B6721ABCF990058C6AA /* node.txt */,
-				DD4D1B5D21ABC53F0058C6AA /* SCJSONUtil */,
-				DDBD2E5321C89901002CDA3C /* SCNetworkKit */,
 				DD4D1B1E21AB978A0058C6AA /* SCNMacDemo.entitlements */,
 				DD4D1B6521ABC92A0058C6AA /* SCNJson2ModelParser.h */,
 				DD4D1B6421ABC92A0058C6AA /* SCNJson2ModelParser.m */,
@@ -160,7 +159,6 @@
 			children = (
 				DD99FD1A21F06A4100584AC4 /* SCNModelParser.h */,
 				DD99FD1B21F06A4100584AC4 /* SCNModelParser.m */,
-				DD99FD1921F06A4100584AC4 /* SCNModelParserProtocol.h */,
 				DD99FD1421F0617E00584AC4 /* SCNHTTPParser.h */,
 				DD99FD1321F0617E00584AC4 /* SCNHTTPParser.m */,
 				DD99FD1521F0617E00584AC4 /* SCNJSONParser.h */,

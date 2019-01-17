@@ -92,7 +92,6 @@
 		DD99FD2121F0756800584AC4 /* SCNHTTPParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNHTTPParser.m; sourceTree = "<group>"; };
 		DD99FD2221F0756800584AC4 /* SCNJSONParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNJSONParser.h; sourceTree = "<group>"; };
 		DD99FD2321F0756800584AC4 /* SCNModelParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNModelParser.m; sourceTree = "<group>"; };
-		DD99FD2421F0756800584AC4 /* SCNModelParserProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNModelParserProtocol.h; sourceTree = "<group>"; };
 		DD99FD2521F0756800584AC4 /* SCNHTTPParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNHTTPParser.h; sourceTree = "<group>"; };
 		DD99FD2621F0756800584AC4 /* SCNModelParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNModelParser.h; sourceTree = "<group>"; };
 		DD99FD2721F0756800584AC4 /* SCNJSONParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNJSONParser.m; sourceTree = "<group>"; };
@@ -187,7 +186,6 @@
 				DD99FD2121F0756800584AC4 /* SCNHTTPParser.m */,
 				DD99FD2221F0756800584AC4 /* SCNJSONParser.h */,
 				DD99FD2321F0756800584AC4 /* SCNModelParser.m */,
-				DD99FD2421F0756800584AC4 /* SCNModelParserProtocol.h */,
 				DD99FD2521F0756800584AC4 /* SCNHTTPParser.h */,
 				DD99FD2621F0756800584AC4 /* SCNModelParser.h */,
 				DD99FD2721F0756800584AC4 /* SCNJSONParser.m */,
