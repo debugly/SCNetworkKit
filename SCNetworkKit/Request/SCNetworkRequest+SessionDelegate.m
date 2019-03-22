@@ -39,6 +39,14 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
     [self updateTransferedData:bytesSent totalBytes:totalBytesSent totalBytesExpected:totalBytesExpectedToSend];
 }
 
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+didReceiveResponse:(NSURLResponse *)response
+ completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler
+{
+    [self onReceivedResponse:response];
+    completionHandler(NSURLSessionResponseAllow);
+}
+
 - (void)URLSession:(__unused NSURLSession *)session
           dataTask:(__unused NSURLSessionDataTask *)dataTask
     didReceiveData:(NSData *)data
@@ -82,8 +90,6 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
 //    self.downloadProgress.totalUnitCount = expectedTotalBytes;
 //    self.downloadProgress.completedUnitCount = fileOffset;
 //}
-
-
 
 - (void)URLSession:(NSURLSession *)session
       downloadTask:(NSURLSessionDownloadTask *)downloadTask

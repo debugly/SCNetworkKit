@@ -18,21 +18,24 @@
 
 @property(nonatomic) NSMutableDictionary *parameters;
 @property(nonatomic) NSMutableDictionary *headers;
-@property(nonatomic) NSMutableArray *completionHandlers;
-@property(nonatomic) NSMutableArray *progressChangedHandlers;
+@property(nonatomic) NSMutableArray <SCNetWorkHandler>*completionHandlers;
+@property(nonatomic) NSMutableArray <SCNetWorkProgressDidChangeHandler>*progressChangedHandlers;
+@property(nonatomic) NSMutableArray <SCNetWorkDidReceiveResponseHandler>*responseHandlers;
 #if TARGET_OS_IPHONE
 @property(nonatomic) UIBackgroundTaskIdentifier backgroundTask;
 #endif
 @property(nonatomic, readwrite) NSData *respData;
 @property(nonatomic, readwrite) NSURLSessionTask *task;
 @property(nonatomic, readwrite) NSUInteger taskIdentifier;
-@property(nonatomic, readwrite) NSHTTPURLResponse *response;
+@property(nonatomic, readwrite) NSURLResponse *response;
 ///存储session回调数据的
 @property(nonatomic, strong) NSMutableData *mutableData;
 //更新传输进度
 - (void)updateTransferedData:(int64_t)bytes
                   totalBytes:(int64_t)totalBytes
           totalBytesExpected:(int64_t)totalBytesExpected;
+//更新 response
+- (void)onReceivedResponse:(NSURLResponse *)response;
 - (NSMutableURLRequest *)makeURLRequest;
 - (void)updateState:(SCNKRequestState)state error:(NSError *)error;
 

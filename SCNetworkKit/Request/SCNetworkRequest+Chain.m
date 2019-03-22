@@ -42,4 +42,12 @@
     };
 }
 
+- (SCNetworkRequest *(^)(SCNetWorkDidReceiveResponseHandler handler))c_ReceivedResponseHandler
+{
+    return ^ SCNetworkRequest * (SCNetWorkDidReceiveResponseHandler handler){
+        [self addReceivedResponseHandler:handler];
+        return self;
+    };
+}
+
 @end

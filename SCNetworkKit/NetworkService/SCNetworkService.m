@@ -162,6 +162,17 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
 
 - (void)URLSession:(NSURLSession *)session
           dataTask:(NSURLSessionDataTask *)dataTask
+didReceiveResponse:(NSURLResponse *)response
+ completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler
+{
+    SCNetworkRequest *request = [self requestForTask:dataTask];
+    if (request) {
+        [request URLSession:session dataTask:dataTask didReceiveResponse:response completionHandler:completionHandler];
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session
+          dataTask:(NSURLSessionDataTask *)dataTask
     didReceiveData:(NSData *)data
 {
     SCNetworkRequest *request = [self requestForTask:dataTask];

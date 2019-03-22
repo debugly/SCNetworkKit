@@ -205,10 +205,17 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     }
 }
 
-- (void)addProgressChangedHandler:(SCNKProgressHandler)handler
+- (void)addProgressChangedHandler:(SCNetWorkProgressDidChangeHandler)handler
 {
     if (handler) {
         [self.progressChangedHandlers addObject:handler];
+    }
+}
+
+- (void)addReceivedResponseHandler:(SCNetWorkDidReceiveResponseHandler)handler
+{
+    if (handler) {
+        [self.responseHandlers addObject:handler];
     }
 }
 
@@ -218,6 +225,12 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         [self.task cancel];
         [self updateState:SCNKRequestStateCancelled error:nil];
     }
+}
+
+- (void)setDownloadFileTargetPath:(NSString *)downloadFileTargetPath
+{
+    _downloadFileTargetPath = [downloadFileTargetPath copy];
+    self.responseParser = nil;
 }
 
 - (SCNKRequestState)state
@@ -292,16 +305,28 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 #endif
     });
 }
+
 - (void)updateTransferedData:(int64_t)bytes
                   totalBytes:(int64_t)totalBytes
           totalBytesExpected:(int64_t)totalBytesExpected
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.progressChangedHandlers enumerateObjectsUsingBlock:^(_Nonnull SCNKProgressHandler handler, NSUInteger idx, BOOL *stop) {
+        [self.progressChangedHandlers enumerateObjectsUsingBlock:^(_Nonnull SCNetWorkProgressDidChangeHandler handler, NSUInteger idx, BOOL *stop) {
             handler(self,bytes,totalBytes,totalBytesExpected);
         }];
     });
 }
+
+- (void)onReceivedResponse:(NSURLResponse *)response
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.response = response;
+        [self.responseHandlers enumerateObjectsUsingBlock:^(SCNetWorkDidReceiveResponseHandler  _Nonnull handler, NSUInteger idx, BOOL * _Nonnull stop) {
+            handler(self,response);
+        }];
+    });
+}
+
 
 - (void)setTask:(NSURLSessionTask *)task
 {
@@ -348,6 +373,15 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         _progressChangedHandlers = [NSMutableArray array];
     }
     return _progressChangedHandlers;
+}
+
+- (NSMutableArray *)responseHandlers
+{
+    if(!_responseHandlers)
+    {
+        _responseHandlers = [NSMutableArray array];
+    }
+    return _responseHandlers;
 }
 
 - (NSMutableData *)mutableData

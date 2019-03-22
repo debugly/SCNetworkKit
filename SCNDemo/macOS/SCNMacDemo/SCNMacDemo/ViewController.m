@@ -207,6 +207,10 @@
         }
     }];
     
+    [req addReceivedResponseHandler:^(SCNetworkRequest *request, NSURLResponse *response) {
+        NSLog(@"response:%@",response);
+    }];
+    
     [[SCNetworkService sharedService]startRequest:req];
 }
 
@@ -223,12 +227,15 @@
     req
     .c_URL(kTestJSONApi)
     .c_ResponseParser(responseParser)
+    .c_ReceivedResponseHandler(^(SCNetworkRequest *request,NSURLResponse *response){
+        NSLog(@"response:%@",response);
+    })
     .c_CompletionHandler(^(SCNetworkRequest *request, id result, NSError *err) {
-        
         if (completion) {
             completion(result,err);
         }
     });
+    
     [[SCNetworkService sharedService]startRequest:req];
 }
 

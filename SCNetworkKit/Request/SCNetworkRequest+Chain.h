@@ -19,5 +19,7 @@
 - (SCNetworkRequest *(^)(id<SCNResponseParser> responseParser))c_ResponseParser;
 ///追加着陆回调
 - (SCNetworkRequest *(^)(SCNetWorkHandler handler))c_CompletionHandler;
+///追加请求响应回调
+- (SCNetworkRequest *(^)(SCNetWorkDidReceiveResponseHandler handler))c_ReceivedResponseHandler;
 
 @end

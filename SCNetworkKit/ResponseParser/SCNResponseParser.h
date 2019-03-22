@@ -10,7 +10,7 @@
 
 @protocol SCNResponseParser <NSObject>
 
-- (nullable id)objectWithResponse:(nullable NSHTTPURLResponse *)response
+- (nullable id)objectWithResponse:(nullable NSURLResponse *)response
                              data:(nullable NSData *)data
                             error:(NSError * _Nullable __autoreleasing *_Nullable)error;
 
