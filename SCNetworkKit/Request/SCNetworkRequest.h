@@ -30,6 +30,7 @@ typedef void(^SCNetWorkDidReceiveResponseHandler)(SCNetworkRequest *request,NSUR
 
 @interface SCNetworkRequest : NSObject<SCCancel>
 
+@property(nonatomic, copy) NSString *tag;
 @property(nonatomic, copy) NSString *urlString;
 ///default is SCNJSONResponseParser
 @property(nonatomic, strong) id<SCNResponseParser>responseParser;

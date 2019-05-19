@@ -170,11 +170,11 @@
 		DDBD2E5321C89901002CDA3C /* SCNetworkKit */ = {
 			isa = PBXGroup;
 			children = (
+				DDBD2E5C21C89901002CDA3C /* NetworkService */,
+				DDBD2E7221C89901002CDA3C /* Request */,
+				DDBD2E6121C89901002CDA3C /* ResponseParser */,
 				DDBD2E7C21C89901002CDA3C /* SCNetworkKit.h */,
 				DDBD2E5421C89901002CDA3C /* Util */,
-				DDBD2E5C21C89901002CDA3C /* NetworkService */,
-				DDBD2E6121C89901002CDA3C /* ResponseParser */,
-				DDBD2E7221C89901002CDA3C /* Request */,
 			);
 			name = SCNetworkKit;
 			path = ../../../../SCNetworkKit;

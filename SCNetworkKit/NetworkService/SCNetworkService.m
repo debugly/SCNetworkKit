@@ -47,7 +47,7 @@
     configure.HTTPCookieAcceptPolicy = NSHTTPCookieAcceptPolicyAlways;
     configure.HTTPShouldSetCookies = YES;
     configure.HTTPShouldUsePipelining = YES;
-    configure.HTTPMaximumConnectionsPerHost = 2;
+    //configure.HTTPMaximumConnectionsPerHost = 2; wifi default is 6;
     configure.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
     configure.URLCache = nil;
     
@@ -73,7 +73,12 @@
         self.taskRequestMap = [NSMutableDictionary dictionary];
         
         NSOperationQueue *delegateQueue =  [[NSOperationQueue alloc]init];
-        delegateQueue.maxConcurrentOperationCount = 3;
+        NSInteger count = 6;
+        if (configure.HTTPMaximumConnectionsPerHost > 0) {
+            count = configure.HTTPMaximumConnectionsPerHost * 2;
+        }
+        
+        delegateQueue.maxConcurrentOperationCount = count;
         self.session = [NSURLSession sessionWithConfiguration:configure
                                                      delegate:self
                                                 delegateQueue:delegateQueue];

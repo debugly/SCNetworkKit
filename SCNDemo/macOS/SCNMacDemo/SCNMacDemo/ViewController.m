@@ -22,6 +22,8 @@
 #define kTestDownloadApi @"http://localhost:3000/images/node.jpg"
 #define kTestDownloadApi2 @"http://debugly.github.io/repository/test.mp4"
 
+#define kTestDownloadApi3 @"http://localhost.charlesproxy.com:3000/movie/aa.rmvb"
+#define kTestDownloadApi4 @"http://localhost.charlesproxy.com/movie/aa.rmvb"
 
 #define __weakSelf   typeof(self)weakself = self;
 #define __strongSelf typeof(weakself)self = weakself;
@@ -32,7 +34,9 @@
 @interface ViewController ()
 
 @property (nonatomic, weak) NSView *indicator;
-@property (unsafe_unretained) IBOutlet NSTextView *textView;
+@property (nonatomic, weak) IBOutlet NSTextView *textView;
+@property (nonatomic, assign) int counter;
+@property (nonatomic, strong) NSMutableArray *serviceArr;
 
 @end
 
@@ -42,7 +46,103 @@
     [super viewDidLoad];
 
     // Do any additional setup after loading the view.
+    
+    [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+        NSLog(@"并发数：%d",self.counter);
+    }];
+}
 
+- (IBAction)testMutableSessionConcurrent:(id)sender
+{
+    static int i = 0;
+    ///每次点击发送 step 个请求；
+    static int step = 6;
+    /*
+     每次并发 6 个任务！wifi 时刚发达到最大并发限制！
+     */
+    SCNetworkService *service = [[SCNetworkService alloc] init];
+    if (!_serviceArr) {
+        _serviceArr = [NSMutableArray array];
+    }
+    [_serviceArr addObject:service];
+    
+    __weakSelf
+    for (int j = i ; j < i + step; j ++) {
+        //如果将url改为 kTestDownloadApi2,你会惊奇的发现，step改为 100 也没事，笔者测试发现，大约15s左右就能达到 100 个并发！这是因为 github 的 IP 比较多，所以看起来是没受到 6 个并发的限制一样，所以要理解清楚了，HTTPMaximumConnectionsPerHost 这一限制指的是主机，不是域名！更具体来讲是 IP + Port ！
+        NSString *url = kTestDownloadApi4;
+        SCNetworkRequest *get = [[SCNetworkRequest alloc]initWithURLString:url params:@{@"c":@(j)}];
+        NSString *name = [NSString stringWithFormat:@"m%d.mp4",j];
+        NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:name];
+        NSLog(@"download path:%@",path);
+        get.downloadFileTargetPath = path;
+        get.responseParser = nil;
+        [get addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+            NSLog(@"已完成");
+            __strongSelf
+            self.counter --;
+        }];
+        
+        [get addProgressChangedHandler:^(SCNetworkRequest *request, int64_t thisTransfered, int64_t totalBytesTransfered, int64_t totalBytesExpected) {
+            //收到数据后，认为连接建立成功，并发数 ++
+            __strongSelf
+            if (!request.tag) {
+                request.tag = @"1";
+                self.counter ++;
+            }
+        }];
+        
+        [service startRequest:get];
+    }
+    i += step;
+    
+}
+
+- (IBAction)testSingleSessionConcurrent:(id)sender
+{
+    static int i = 0;
+    ///每次点击发送 step 个请求；
+    static int step = 7;
+    /*
+     使用单利 service 意味着底层使用同一个 session；[SCNetworkService sharedService];
+     跟使用多个 service 的却别是，当请求连接的是同一主机时，最大连接数就会限制为HTTPMaximumConnectionsPerHost 指定的数量，在默认配置下使用 wifi 网络默认是 6 ！之前版本我设置的是 2; 从 1.0.12 开始解除这一限制，从而开启更大的并发数量！
+     */
+    
+    SCNetworkService *service = [SCNetworkService sharedService];
+    
+    __weakSelf
+    for (int j = i ; j < i + step; j ++) {
+        NSString *url = kTestDownloadApi4;
+        ///注释打开，则能达到 7 个并发，否者只能是 6 个而已；因为相同IP的不同端口被认为是不同的主机！
+//        if (j % 2 == 0) {
+//            url = kTestDownloadApi3;
+//        } else {
+//            url = kTestDownloadApi4;
+//        }
+        SCNetworkRequest *get = [[SCNetworkRequest alloc]initWithURLString:url params:@{@"c":@(j)}];
+        NSString *name = [NSString stringWithFormat:@"s%d.mp4",j];
+        NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:name];
+        NSLog(@"download path:%@",path);
+        get.downloadFileTargetPath = path;
+        get.responseParser = nil;
+        [get addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+            NSLog(@"已完成");
+            __strongSelf
+            self.counter --;
+        }];
+        
+        [get addProgressChangedHandler:^(SCNetworkRequest *request, int64_t thisTransfered, int64_t totalBytesTransfered, int64_t totalBytesExpected) {
+           //收到数据后，认为连接建立成功，并发数 ++
+            __strongSelf
+            if (!request.tag) {
+                request.tag = @"1";
+                self.counter ++;
+            }
+        }];
+    
+        [service startRequest:get];
+    }
+    i += step;
+    
 }
 
 - (void)showIndicator
