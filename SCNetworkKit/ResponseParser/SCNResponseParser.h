@@ -10,8 +10,8 @@
 
 @protocol SCNResponseParser <NSObject>
 
-- (nullable id)objectWithResponse:(nullable NSURLResponse *)response
-                             data:(nullable NSData *)data
-                            error:(NSError * _Nullable __autoreleasing *_Nullable)error;
+- (id)objectWithResponse:(NSURLResponse *)response
+                    data:(NSData *)data
+                   error:(NSError * __autoreleasing *)error;
 
 @end
