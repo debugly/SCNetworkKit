@@ -30,6 +30,8 @@
 @property(nonatomic, readwrite) NSURLResponse *response;
 ///存储session回调数据的
 @property(nonatomic, strong) NSMutableData *mutableData;
+@property(nonatomic, copy) void (^customRequestMaker)(const NSMutableURLRequest *);
+
 //更新传输进度
 - (void)updateTransferedData:(int64_t)bytes
                   totalBytes:(int64_t)totalBytes

@@ -424,7 +424,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 - (BOOL)isStreamHTTPBody
 {
-    return SCNKParameterEncodingFormData == self.parameterEncoding;
+    return SCNPostDataEncodingFormData == self.parameterEncoding;
 }
 
 - (void)makeFormDataHTTPBodyWithRequest:(NSMutableURLRequest *)createdRequest
@@ -446,7 +446,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     
     if ([self.formFileParts count] > 0) {
         ///强制设置为 FromData ！
-        self.parameterEncoding = SCNKParameterEncodingFormData;
+        self.parameterEncoding = SCNPostDataEncodingFormData;
     }
     
     {
@@ -455,7 +455,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         
         switch (self.parameterEncoding) {
                 
-            case SCNKParameterEncodingURL: {
+            case SCNPostDataEncodingURL: {
                 [createdRequest setValue:
                  [NSString stringWithFormat:@"application/x-www-form-urlencoded; charset=%@", charset]
                       forHTTPHeaderField:@"Content-Type"];
@@ -463,7 +463,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
                 [createdRequest setHTTPBody:[bodyStringFromParameters dataUsingEncoding:NSUTF8StringEncoding]];
             }
                 break;
-            case SCNKParameterEncodingJSON: {
+            case SCNPostDataEncodingJSON: {
                 [createdRequest setValue:
                  [NSString stringWithFormat:@"application/json; charset=%@", charset]
                       forHTTPHeaderField:@"Content-Type"];
@@ -471,7 +471,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
                 [createdRequest setHTTPBody:[bodyStringFromParameters dataUsingEncoding:NSUTF8StringEncoding]];
             }
                 break;
-            case SCNKParameterEncodingPlist: {
+            case SCNPostDataEncodingPlist: {
                 [createdRequest setValue:
                  [NSString stringWithFormat:@"application/x-plist; charset=%@", charset]
                       forHTTPHeaderField:@"Content-Type"];
@@ -479,14 +479,25 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
                 [createdRequest setHTTPBody:[bodyStringFromParameters dataUsingEncoding:NSUTF8StringEncoding]];
             }
                 break;
-            case SCNKParameterEncodingFormData:{
+            case SCNPostDataEncodingFormData:{
                 [self makeFormDataHTTPBodyWithRequest:createdRequest];
             }
                 break;
+            case SCNPostDataEncodingCustom:{
+                
+                if (self.customRequestMaker) {
+                    self.customRequestMaker(createdRequest);
+                }
+            }
         }
     }
     //    Accept-Encoding:gzip, deflate
     return createdRequest;
+}
+
+- (void)makeCustomRequest:(void (^)(const NSMutableURLRequest *))handler
+{
+    self.customRequestMaker = handler;
 }
 
 @end

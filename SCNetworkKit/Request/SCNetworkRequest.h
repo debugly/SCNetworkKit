@@ -83,16 +83,17 @@ typedef void(^SCNetWorkDidReceiveResponseHandler)(SCNetworkRequest *request,NSUR
 @end
 
 typedef enum : NSUInteger {
-    SCNKParameterEncodingURL,
-    SCNKParameterEncodingJSON,
-    SCNKParameterEncodingPlist,
-    SCNKParameterEncodingFormData,
-} SCNKParameterEncoding;
+    SCNPostDataEncodingURL,
+    SCNPostDataEncodingJSON,
+    SCNPostDataEncodingPlist,
+    SCNPostDataEncodingFormData,
+    SCNPostDataEncodingCustom,
+} SCNPostDataEncoding;
 
 @interface SCNetworkPostRequest : SCNetworkRequest
 
 //默认是: application/x-www-form-urlencoded
-@property(nonatomic,assign) SCNKParameterEncoding parameterEncoding;
+@property(nonatomic,assign) SCNPostDataEncoding parameterEncoding;
 /*
  需要通过表单上传的文件使用这个字段；
  支持多文件上传，数组里的每个元素均是一个文件；
@@ -101,13 +102,15 @@ typedef enum : NSUInteger {
 @property(nonatomic,strong) NSArray <SCNetworkFormFilePart *>* formFileParts;
 
 /* 添加URL query参数!!该方法会把参数追加到 URL 上，类似 GET 请求的参数拼！
- 当使用 parameterEncoding 是 SCNKParameterEncodingFormData 形式编码时,
+ 当使用 parameterEncoding 是 SCNPostDataEncodingFormData 形式编码时,
     (1. 指定 parameterEncoding)
     (2. formFileParts 不空，被强制指定)
  使用 addParameters 方法添加的参数会放到表单里！！
  反之，该方法和 addParameters 功能相同。
 */
 - (void)addQueryParameters:(NSDictionary *)ps;
+
+- (void)makeCustomRequest:(void(^)(const NSMutableURLRequest* request))handler;
 
 @end
 

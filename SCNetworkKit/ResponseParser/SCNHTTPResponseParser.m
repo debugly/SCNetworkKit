@@ -14,6 +14,11 @@
     SCNHTTPParser *_httpParser;
 }
 
++ (instancetype)parser
+{
+    return [self new];
+}
+
 - (instancetype)init
 {
     self = [super init];
