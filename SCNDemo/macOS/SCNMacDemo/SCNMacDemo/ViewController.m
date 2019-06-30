@@ -34,7 +34,12 @@
 @interface ViewController ()
 
 @property (nonatomic, weak) NSView *indicator;
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_12
+@property (nonatomic, assign) IBOutlet NSTextView *textView;
+#else
 @property (nonatomic, weak) IBOutlet NSTextView *textView;
+#endif
+
 @property (nonatomic, assign) int counter;
 @property (nonatomic, strong) NSMutableArray *serviceArr;
 
@@ -47,9 +52,13 @@
 
     // Do any additional setup after loading the view.
     
-    [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
-        NSLog(@"并发数：%d",self.counter);
-    }];
+    if (@available(macOS 10.12, *)) {
+        [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+            NSLog(@"并发数：%d",self.counter);
+        }];
+    } else {
+        // Fallback on earlier versions
+    }
 }
 
 - (IBAction)testMutableSessionConcurrent:(id)sender
@@ -460,7 +469,7 @@
 {
     NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
     SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestPostApi params:ps];
-    post.parameterEncoding = SCNKParameterEncodingURL;
+    post.parameterEncoding = SCNPostDataEncodingURL;
     [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
         if (completion) {
@@ -504,7 +513,7 @@
 {
     NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
     SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestUploadApi params:ps];
-    post.parameterEncoding = SCNKParameterEncodingFormData;
+    post.parameterEncoding = SCNPostDataEncodingFormData;
     [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
         if (completion) {

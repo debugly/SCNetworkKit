@@ -312,7 +312,7 @@
 - (void)testGetFileWithCompletion:(void(^)(NSString *path,NSError *err))completion progress:(void(^)(float p))progress
 {
     SCNetworkRequest *get = [[SCNetworkRequest alloc]initWithURLString:kTestDownloadApi2 params:nil];
-//    NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:@"node.jpg"];
+    //NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:@"node.jpg"];
     NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:@"test.mp4"];
     NSLog(@"download path:%@",path);
     get.downloadFileTargetPath = path;
@@ -355,7 +355,7 @@
 {
     NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
     SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestPostApi params:ps];
-    post.parameterEncoding = SCNKParameterEncodingURL;
+    post.parameterEncoding = SCNPostDataEncodingURL;
     [post addQueryParameters:@{
                                @"k3":@"v3",@"k4":@"v4"
                                }];
@@ -402,7 +402,7 @@
 {
     NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
     SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestUploadApi params:ps];
-    post.parameterEncoding = SCNKParameterEncodingFormData;
+    post.parameterEncoding = SCNPostDataEncodingFormData;
     [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
         if (completion) {
