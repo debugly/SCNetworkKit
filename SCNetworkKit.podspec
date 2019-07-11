@@ -54,6 +54,7 @@ Pod::Spec.new do |s|
   #
 
   s.author             = { "qianlongxu" => "qianlongxu@sohu-inc.com" }
+
   # Or just: s.author    = "qianlongxu"
   # s.authors            = { "qianlongxu" => "qianlongxu@sohu-inc.com" }
   # s.social_media_url   = "http://twitter.com/qianlongxu"
@@ -64,12 +65,9 @@ Pod::Spec.new do |s|
   #  the deployment target. You can optionally include the target after the platform.
   #
 
-  # s.platform     = :ios
-  # s.platform     = :ios, "7.0"
-
   #  When using multiple platforms
   s.ios.deployment_target = "7.0"
-  s.osx.deployment_target = "10.9"
+  s.osx.deployment_target = "10.10"
   # s.watchos.deployment_target = "2.0"
   # s.tvos.deployment_target = "9.0"
 
@@ -91,7 +89,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "SCNetworkKit/**/*.{h,m}"
+  s.source_files  = "SCNetworkKit/Classes/**/*.{h,m}"
   #s.exclude_files = "SCNetworkKit/Exclude"
 
   # s.public_header_files = "Classes/**/*.h"
