@@ -54,8 +54,8 @@
     if (@available(iOS 9.0,macOS 10.11,*)) {
         configure.shouldUseExtendedBackgroundIdleMode = YES;
     }
-    ///清理所有缓存；
-    [[NSURLCache sharedURLCache]removeAllCachedResponses];
+//    ///清理所有缓存；
+//    [[NSURLCache sharedURLCache]removeAllCachedResponses];
     
     self = [self initWithSessionConfiguration:configure];
     return self;
@@ -109,7 +109,18 @@
         //   [urlRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long) [formData length]] forHTTPHeaderField:@"Content-Length"];
         //  request.task = [self.session uploadTaskWithRequest:urlRequest fromData:formData];
     }else if(request.downloadFileTargetPath){
-        request.task = [self.session downloadTaskWithRequest:urlRequest];
+        NSData *resumeData = nil;
+        if (request.useBreakpointContinuous) {
+            NSString *resumeDataFilePath = [request resumeDataFilePath];
+            resumeData = [NSData dataWithContentsOfFile:resumeDataFilePath];
+        }
+        
+        if (resumeData) {
+            request.task = [self.session downloadTaskWithResumeData:resumeData];
+        } else {
+            request.task = [self.session downloadTaskWithRequest:urlRequest];
+        }
+        
     }else{
         request.task = [self.session dataTaskWithRequest:urlRequest];
     }

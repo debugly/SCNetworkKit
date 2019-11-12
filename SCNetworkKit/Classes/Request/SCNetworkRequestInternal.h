@@ -40,6 +40,8 @@
 - (void)onReceivedResponse:(NSURLResponse *)response;
 - (NSMutableURLRequest *)makeURLRequest;
 - (void)updateState:(SCNKRequestState)state error:(NSError *)error;
+///断点续传文件
+- (NSString *)resumeDataFilePath;
 
 @end
 

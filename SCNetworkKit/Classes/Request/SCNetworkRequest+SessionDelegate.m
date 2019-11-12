@@ -19,7 +19,7 @@ didCompleteWithError:(NSError *)error {
     
     if(error) {
         if(error.code == NSURLErrorCancelled){
-            [self updateState:SCNKRequestStateCancelled error:nil];
+            [self updateState:SCNKRequestStateCancelled error:error];
         }else{
             [self updateState:SCNKRequestStateError error:error];
         }
@@ -96,6 +96,13 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
 didFinishDownloadingToURL:(NSURL *)location
 {
     if (self.downloadFileTargetPath) {
+        
+        ///下载完成后移除断点文件
+        if (self.useBreakpointContinuous) {
+            NSString *resumeDataFile = [self resumeDataFilePath];
+            [[NSFileManager defaultManager] removeItemAtPath:resumeDataFile error:NULL];
+        }
+        
         NSError *fileManagerError = nil;
         NSURL *targetURL = [NSURL fileURLWithPath:self.downloadFileTargetPath];
         [[NSFileManager defaultManager] moveItemAtURL:location toURL:targetURL error:&fileManagerError];

@@ -246,10 +246,47 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     }
 }
 
+- (NSString *)resumeDataFilePath {
+    if (self.downloadFileTargetPath.length == 0) {
+        return nil;
+    }
+    NSString *folder = [self.downloadFileTargetPath stringByDeletingLastPathComponent];
+    BOOL isDir = NO;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:folder isDirectory:&isDir]) {
+        if (!isDir) {
+            [[NSFileManager defaultManager] removeItemAtPath:folder error:NULL];
+        }
+    } else {
+        [[NSFileManager defaultManager] createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:NULL];
+    }
+    NSString *fName = [self.downloadFileTargetPath lastPathComponent];
+    NSString *resumeFileName = [NSString stringWithFormat:@".dr_%@",fName];
+    NSString *resumeFilePath = [folder stringByAppendingPathComponent:resumeFileName];
+    return resumeFilePath;
+}
+
+- (void)_cancel
+{
+    if ([self.task isKindOfClass:[NSURLSessionDownloadTask class]]) {
+        if (self.useBreakpointContinuous) {
+            NSString * resumeFilePath = [self resumeDataFilePath];
+            if (resumeFilePath) {
+                NSURLSessionDownloadTask *downloadTask = (NSURLSessionDownloadTask *)self.task;
+                [downloadTask cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
+                    [resumeData writeToFile:resumeFilePath atomically:YES];
+                }];
+                return;
+            }
+        }
+    }
+    
+    [self.task cancel];
+}
+
 - (void)cancel
 {
     if (SCNKRequestStateStarted == self.state) {
-        [self.task cancel];
+        [self _cancel];
         [self updateState:SCNKRequestStateCancelled error:nil];
     }
 }
@@ -306,6 +343,18 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
                 });
             }else{
                 [self doFinishWithResult:self.respData error:nil];
+            }
+        }
+    }
+    
+    else if(SCNKRequestStateCancelled == state){
+        NSData *resumeData = error.userInfo[NSURLSessionDownloadTaskResumeData];
+        if (resumeData) {
+            if (self.useBreakpointContinuous) {
+                NSString * resumeFilePath = [self resumeDataFilePath];
+                if (resumeFilePath) {
+                    [resumeData writeToFile:resumeFilePath atomically:YES];
+                }
             }
         }
     }

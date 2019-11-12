@@ -38,6 +38,8 @@ typedef void(^SCNetWorkDidReceiveResponseHandler)(SCNetworkRequest *request,NSUR
 @property(nonatomic)NSTimeInterval timeoutInterval;
 ///设置下载文件路径（该操作会把responseParser置空）
 @property (nonatomic, copy) NSString *downloadFileTargetPath;
+///使用断点续传，默认不使用
+@property (nonatomic, assign) BOOL useBreakpointContinuous;
 ///仅当SCNetWorkDidReceiveResponseHandler回调后才能取到值
 @property (nonatomic, strong, readonly) NSURLResponse *response;
 //SCNetworkRequest默认UA格式如下:
