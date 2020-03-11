@@ -103,7 +103,13 @@ static id SCNRemoveJSONNullValues(id JSONObject) {
     //验证下服务器返回数据
     if (self.checkKeyPath && self.okValue) {
         id v = [json objectForKey:self.checkKeyPath];
-        BOOL isValidate = [[v description] isEqualToString:self.okValue];
+        ///兼容服务器不返回check字段的情况
+        if (!v){
+            v = @"";
+        } else {
+            v = [v description];
+        }
+        BOOL isValidate = [v isEqualToString:self.okValue];
         
         ///验证不通过
         if(!isValidate){

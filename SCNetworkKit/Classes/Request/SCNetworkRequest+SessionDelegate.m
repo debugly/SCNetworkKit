@@ -74,7 +74,7 @@ didReceiveResponse:(NSURLResponse *)response
 #pragma mark - NSURLSessionDownloadDelegate
 
 - (void)URLSession:(NSURLSession *)session
-      downloadTask:(NSURLSessionDownloadTask *)downloadTask
+      downloadTask:(NSURLSessionTask *)downloadTask
       didWriteData:(int64_t)bytesWritten
  totalBytesWritten:(int64_t)totalBytesWritten
 totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
@@ -96,12 +96,6 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
 didFinishDownloadingToURL:(NSURL *)location
 {
     if (self.downloadFileTargetPath) {
-        
-        ///下载完成后移除断点文件
-        if (self.useBreakpointContinuous) {
-            NSString *resumeDataFile = [self resumeDataFilePath];
-            [[NSFileManager defaultManager] removeItemAtPath:resumeDataFile error:NULL];
-        }
         
         NSError *fileManagerError = nil;
         NSURL *targetURL = [NSURL fileURLWithPath:self.downloadFileTargetPath];

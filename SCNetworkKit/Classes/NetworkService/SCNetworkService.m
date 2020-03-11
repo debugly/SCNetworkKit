@@ -18,6 +18,8 @@
 #import <UIKit/UIKit.h>
 #endif
 
+NSString *const SCNURLErrorDomain = @"com.sohu.sdk.scn";
+
 @interface SCNetworkService ()<NSURLSessionDelegate,NSURLSessionTaskDelegate,NSURLSessionDownloadDelegate>
 
 @property(nonatomic, strong) dispatch_queue_t taskSynzQueue;
@@ -109,19 +111,15 @@
         //   [urlRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long) [formData length]] forHTTPHeaderField:@"Content-Length"];
         //  request.task = [self.session uploadTaskWithRequest:urlRequest fromData:formData];
     }else if(request.downloadFileTargetPath){
-        NSData *resumeData = nil;
-        if (request.useBreakpointContinuous) {
-            NSString *resumeDataFilePath = [request resumeDataFilePath];
-            resumeData = [NSData dataWithContentsOfFile:resumeDataFilePath];
-        }
-        
-        if (resumeData) {
-            request.task = [self.session downloadTaskWithResumeData:resumeData];
+        if ([request isKindOfClass:[SCNetworkDownloadRequest class]]) {
+            SCNetworkDownloadRequest *downloadReq = (SCNetworkDownloadRequest *)request;
+            NSString *rangeField = [downloadReq rangeHeaderField];
+            [urlRequest addValue:rangeField forHTTPHeaderField:@"Range"];
+            request.task = [self.session dataTaskWithRequest:urlRequest];
         } else {
             request.task = [self.session downloadTaskWithRequest:urlRequest];
         }
-        
-    }else{
+    } else {
         request.task = [self.session dataTaskWithRequest:urlRequest];
     }
 
@@ -192,7 +190,15 @@ didReceiveResponse:(NSURLResponse *)response
     didReceiveData:(NSData *)data
 {
     SCNetworkRequest *request = [self requestForTask:dataTask];
-    if (request) {
+    if ([request isKindOfClass:[SCNetworkDownloadRequest class]]) {
+        SCNetworkDownloadRequest *downloadReq = (SCNetworkDownloadRequest *)request;
+        
+//        NSHTTPURLResponse *resp = dataTask.response;
+//        NSLog(@"====%@",[resp allHeaderFields]);
+        int64_t totalBytesWritten = [downloadReq didReceiveData:data];
+        [request URLSession:session downloadTask:dataTask didWriteData:data.length totalBytesWritten:totalBytesWritten totalBytesExpectedToWrite:dataTask.response.expectedContentLength];
+        
+    } else {
         [request URLSession:session dataTask:dataTask didReceiveData:data];
     }
 }
@@ -253,7 +259,7 @@ NSError * SCNError(NSInteger code,id info)
     }else{
         infoDic = info;
     }
-    return [[NSError alloc] initWithDomain:@"com.sohu.sdk.scn" code:code userInfo:infoDic];
+    return [[NSError alloc] initWithDomain:SCNURLErrorDomain code:code userInfo:infoDic];
 }
 
 NSError * SCNErrorWithOriginErr(NSError *originError,NSInteger newcode)

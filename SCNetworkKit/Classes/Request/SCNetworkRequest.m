@@ -246,47 +246,10 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     }
 }
 
-- (NSString *)resumeDataFilePath {
-    if (self.downloadFileTargetPath.length == 0) {
-        return nil;
-    }
-    NSString *folder = [self.downloadFileTargetPath stringByDeletingLastPathComponent];
-    BOOL isDir = NO;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:folder isDirectory:&isDir]) {
-        if (!isDir) {
-            [[NSFileManager defaultManager] removeItemAtPath:folder error:NULL];
-        }
-    } else {
-        [[NSFileManager defaultManager] createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:NULL];
-    }
-    NSString *fName = [self.downloadFileTargetPath lastPathComponent];
-    NSString *resumeFileName = [NSString stringWithFormat:@".dr_%@",fName];
-    NSString *resumeFilePath = [folder stringByAppendingPathComponent:resumeFileName];
-    return resumeFilePath;
-}
-
-- (void)_cancel
-{
-    if ([self.task isKindOfClass:[NSURLSessionDownloadTask class]]) {
-        if (self.useBreakpointContinuous) {
-            NSString * resumeFilePath = [self resumeDataFilePath];
-            if (resumeFilePath) {
-                NSURLSessionDownloadTask *downloadTask = (NSURLSessionDownloadTask *)self.task;
-                [downloadTask cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
-                    [resumeData writeToFile:resumeFilePath atomically:YES];
-                }];
-                return;
-            }
-        }
-    }
-    
-    [self.task cancel];
-}
-
 - (void)cancel
 {
     if (SCNKRequestStateStarted == self.state) {
-        [self _cancel];
+        [self.task cancel];
         [self updateState:SCNKRequestStateCancelled error:nil];
     }
 }
@@ -348,15 +311,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     }
     
     else if(SCNKRequestStateCancelled == state){
-        NSData *resumeData = error.userInfo[NSURLSessionDownloadTaskResumeData];
-        if (resumeData) {
-            if (self.useBreakpointContinuous) {
-                NSString * resumeFilePath = [self resumeDataFilePath];
-                if (resumeFilePath) {
-                    [resumeData writeToFile:resumeFilePath atomically:YES];
-                }
-            }
-        }
+        //SCNKRequestStateCancelled do nothing
     }
     
     else{
@@ -466,6 +421,58 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         _mutableData = [NSMutableData data];
     }
     return _mutableData;
+}
+
+@end
+
+
+@implementation SCNetworkDownloadRequest
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.responseParser = nil;
+    }
+    return self;
+}
+
+- (NSFileHandle *)fileHandler
+{
+    if(!_fileHandler){
+        NSParameterAssert(self.downloadFileTargetPath);
+        if (![[NSFileManager defaultManager]fileExistsAtPath:self.downloadFileTargetPath]) {
+            [[NSFileManager defaultManager] createFileAtPath:self.downloadFileTargetPath contents:nil attributes:NULL];
+        }
+        _fileHandler = [NSFileHandle fileHandleForUpdatingAtPath:self.downloadFileTargetPath];
+        NSParameterAssert(_fileHandler);
+        self.offset = [self.fileHandler seekToEndOfFile];
+    }
+    return _fileHandler;
+}
+
+- (NSString *)rangeHeaderField
+{
+    if (self.fileHandler) {
+        return [NSString stringWithFormat:@"bytes=%lld-",self.offset];
+    } else {
+        NSAssert(NO, @"why?");
+        return @"";
+    }
+}
+
+- (uint64_t)didReceiveData:(NSData *)data
+{
+    [self.fileHandler writeData:data];
+    self.offset += data.length;
+    return self.offset;
+}
+
+- (void)doFinishWithResult:(id)reslut error:(NSError *)error
+{
+    [self.fileHandler closeFile];
+    self.fileHandler = nil;
+    [super doFinishWithResult:reslut error:error];
 }
 
 @end

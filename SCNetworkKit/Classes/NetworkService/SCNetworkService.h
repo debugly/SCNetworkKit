@@ -14,6 +14,8 @@
 #import <Foundation/Foundation.h>
 #import "SCNetworkRequest.h"
 
+FOUNDATION_EXPORT NSString *const SCNURLErrorDomain;
+
 @interface SCNetworkService : NSObject
 
 ///可以指定 SessionConfiguration

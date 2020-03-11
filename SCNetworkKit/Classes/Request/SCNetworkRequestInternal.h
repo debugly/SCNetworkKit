@@ -40,8 +40,16 @@
 - (void)onReceivedResponse:(NSURLResponse *)response;
 - (NSMutableURLRequest *)makeURLRequest;
 - (void)updateState:(SCNKRequestState)state error:(NSError *)error;
-///断点续传文件
-- (NSString *)resumeDataFilePath;
+
+@end
+
+@interface SCNetworkDownloadRequest ()
+
+@property (nonatomic, strong) NSFileHandle *fileHandler;
+@property (nonatomic, assign) uint64_t offset;
+
+- (NSString *)rangeHeaderField;
+- (uint64_t)didReceiveData:(NSData *)data;
 
 @end
 
