@@ -180,6 +180,16 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         [headers setObject:ua forKey:@"User-Agent"];
     }
     
+    if (![headers objectForKey:@"Accept-Language"]) {
+        NSMutableArray *acceptLanguagesComponents = [NSMutableArray array];
+        [[NSLocale preferredLanguages] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            float q = 1.0f - (idx * 0.1f);
+            [acceptLanguagesComponents addObject:[NSString stringWithFormat:@"%@;q=%0.1g", obj, q]];
+            *stop = q <= 0.5f;
+        }];
+        [headers setObject:[acceptLanguagesComponents componentsJoinedByString:@", "] forKey:@"Accept-Language"];
+    }
+    
     ///指定了就设置下；否则走session里配置的时间
     if(self.timeoutInterval > 0){
         createdRequest.timeoutInterval = self.timeoutInterval;
