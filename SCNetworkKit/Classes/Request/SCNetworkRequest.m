@@ -527,7 +527,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     [createdRequest setHTTPBodyStream:inputStream];
     
     NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
-    [createdRequest setValue:[NSString stringWithFormat:@"multipart/form-data; charset=%@; boundary=%@",charset, SCNBoundary] forHTTPHeaderField:@"Content-Type"];
+    [createdRequest setValue:[NSString stringWithFormat:@"multipart/form-data; charset=%@; boundary=%@",charset, inputStream.boundary] forHTTPHeaderField:@"Content-Type"];
     [createdRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[inputStream contentLength]] forHTTPHeaderField:@"Content-Length"];
 }
 

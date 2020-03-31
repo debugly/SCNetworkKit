@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-FOUNDATION_EXPORT NSString * const SCNBoundary;
-
 @class SCNetworkFormFilePart;
 
 @interface SCNHTTPBodyStream : NSInputStream
+
+@property (nonatomic, copy, readonly) NSString * boundary;
 
 + (instancetype)bodyStreamWithParameters:(NSDictionary *)parameters formFileParts:(NSArray <SCNetworkFormFilePart *>*)formFileParts;
 

@@ -15,8 +15,6 @@
 #import <CoreServices/CoreServices.h>
 #endif
 
-NSString * const SCNBoundary = @"----Boundary0xKhTmLbOuNdArY";
-
 @interface SCNHTTPBodyStream()
 
 @property (nonatomic, strong) NSDictionary *parameters;
@@ -31,6 +29,8 @@ NSString * const SCNBoundary = @"----Boundary0xKhTmLbOuNdArY";
 @property (readwrite) NSStreamStatus streamStatus;
 @property (nonatomic, assign) BOOL isInitBody;
     
+@property (nonatomic, copy, readwrite) NSString * boundary;
+
 @end
 
 @implementation SCNHTTPBodyStream
@@ -57,9 +57,18 @@ NSString * const SCNBoundary = @"----Boundary0xKhTmLbOuNdArY";
                   forMode:(__unused NSString *)mode
 {}
 
-- (instancetype)initWithParameters:(NSDictionary *)parameters formFileParts:(NSArray<SCNetworkFormFilePart *> *)formFileParts
+- (instancetype)init
 {
     self = [super init];
+    if (self) {
+        self.boundary = [NSString stringWithFormat:@"Boundary+%08X%08X", arc4random(), arc4random()];
+    }
+    return self;
+}
+
+- (instancetype)initWithParameters:(NSDictionary *)parameters formFileParts:(NSArray<SCNetworkFormFilePart *> *)formFileParts
+{
+    self = [self init];
     if (self) {
         self.parameters = parameters;
         self.formFileParts = formFileParts;
@@ -86,7 +95,7 @@ NSString * const SCNBoundary = @"----Boundary0xKhTmLbOuNdArY";
         
         NSString *formattedKV = [NSString stringWithFormat:
                                  @"--%@\r\nContent-Disposition: form-data; name=\"%@\"\r\n\r\n%@",
-                                 SCNBoundary, key, obj];
+                                 self.boundary, key, obj];
         
         [beginBoundaryData appendData:[formattedKV dataUsingEncoding:NSUTF8StringEncoding]];
         [beginBoundaryData appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
@@ -149,7 +158,7 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
         
         NSString *formattedFileBoundary = [NSString stringWithFormat:
                                            @"--%@\r\nContent-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\nContent-Type: %@\r\n\r\n",
-                                           SCNBoundary,
+                                           self.boundary,
                                            name,
                                            fileName,
                                            mime];
@@ -172,7 +181,7 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
 
 - (NSData *)makeEndBoundaryData
 {
-    NSData *endBoundaryData = [[NSString stringWithFormat:@"--%@--\r\n", SCNBoundary] dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *endBoundaryData = [[NSString stringWithFormat:@"--%@--\r\n", self.boundary] dataUsingEncoding:NSUTF8StringEncoding];
     
     return endBoundaryData;
 }
