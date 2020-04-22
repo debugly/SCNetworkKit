@@ -1,5 +1,10 @@
 ## SCNetworkKit
 
+[![Version](https://img.shields.io/cocoapods/v/SCNetworkKit.svg?style=flat)](https://cocoapods.org/pods/SCNetworkKit)
+[![License](https://img.shields.io/cocoapods/l/SCNetworkKit.svg?style=flat)](https://cocoapods.org/pods/SCNetworkKit)
+[![Platform](https://img.shields.io/cocoapods/p/SCNetworkKit.svg?style=flat)](https://cocoapods.org/pods/SCNetworkKit)
+
+
 SCNetworkKit 是一个为自己项目打造的网络库，支持 iOS / macOS 平台。该库将 [MKNetworkKit](https://github.com/MugunthKumar/MKNetworkKit) 、[AFNetworking](https://github.com/AFNetworking/AFNetworking) 、[Masonry](https://github.com/desandro/masonry)、[ASIHTTPRequest](https://github.com/debugly/asi-http-request) 等库的优秀架构思想融入其中，结合项目实际情况逐渐演变而来。
 
 - 使用 Objective-C 语言编写
