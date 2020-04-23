@@ -28,7 +28,6 @@
 #import "SCNResponseParser.h"
 #import "SCNetworkKit.h"
 #import "NSDictionary+SCAddtions.h"
-#import "NSObject+SCCancelRef.h"
 #import "NSString+SCAddtions.h"
 #import "SCNHeader.h"
 

@@ -10,7 +10,6 @@
 
 #import "NSDictionary+SCAddtions.h"
 #import "NSString+SCAddtions.h"
-#import "NSObject+SCCancelRef.h"
 
 #import "SCNetworkService.h"
 #import "SCNetworkService+Shared.h"

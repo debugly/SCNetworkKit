@@ -1,13 +1,13 @@
 PODS:
   - SCJSONUtil (2.4.9)
-  - SCNetworkKit (1.0.13)
+  - SCNetworkKit (1.0.17)
 
 DEPENDENCIES:
-  - SCJSONUtil (~> 2.4.9)
+  - SCJSONUtil
   - SCNetworkKit (from `../../`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - SCJSONUtil
 
 EXTERNAL SOURCES:
@@ -16,8 +16,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   SCJSONUtil: d4a4f399612b97601757328ce4e7c2b34564bad1
-  SCNetworkKit: 100bc6789abe620c0c59b5f9acfd0008e4fdd40e
+  SCNetworkKit: 7b9bff62623a5530a9c3de1041e2d6d93707117d
 
-PODFILE CHECKSUM: 5f56db450836f9b3ebed4a0b5069c8fce3a01e1c
+PODFILE CHECKSUM: 024e0231386caa3f683d53f76e6dc98f3e19deb2
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.9.1

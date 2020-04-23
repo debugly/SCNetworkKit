@@ -10,7 +10,6 @@
  USE iOS7 new feature; NSURLSession
  */
 #import <Foundation/Foundation.h>
-#import "NSObject+SCCancelRef.h"
 #import "SCNResponseParser.h"
 
 typedef enum : NSUInteger {
@@ -28,7 +27,7 @@ typedef void(^SCNetWorkDidReceiveResponseHandler)(SCNetworkRequest *request,NSUR
 
 #pragma mark - GET 请求
 
-@interface SCNetworkRequest : NSObject<SCCancel>
+@interface SCNetworkRequest : NSObject
 
 @property(nonatomic, copy) NSString *tag;
 @property(nonatomic, copy) NSString *urlString;

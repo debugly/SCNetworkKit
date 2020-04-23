@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5A3B5116C16A0FDAD7D15910 /* Pods_SCNDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49B942AAFC48BD7034481003 /* Pods_SCNDemo.framework */; };
-		B409F3AC2119EE5700A70A75 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		B409F3AC2119EE5700A70A75 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
 		B409F3AE2119FD5000A70A75 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B409F3AD2119FD5000A70A75 /* logo.png */; };
 		B4EFA8192086420E00CAB557 /* node.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B4EFA8182086420E00CAB557 /* node.jpg */; };
 		B4F5B462208A295C00800E57 /* node.txt in Resources */ = {isa = PBXBuildFile; fileRef = B4F5B461208A295C00800E57 /* node.txt */; };
@@ -16,7 +16,6 @@
 		C342B27F1F217C54007F04FC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C342B27E1F217C54007F04FC /* AppDelegate.m */; };
 		C342B2821F217C54007F04FC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C342B2811F217C54007F04FC /* ViewController.m */; };
 		C342B2851F217C54007F04FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C342B2831F217C54007F04FC /* Main.storyboard */; };
-		C342B2871F217C54007F04FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C342B2861F217C54007F04FC /* Assets.xcassets */; };
 		C342B28A1F217C54007F04FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C342B2881F217C54007F04FC /* LaunchScreen.storyboard */; };
 		C37FB6901F21D66A0002ACB3 /* TestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C37FB68F1F21D66A0002ACB3 /* TestModel.m */; };
 		DD99FD1F21F0753500584AC4 /* SCNJson2ModelParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DD99FD1E21F0753500584AC4 /* SCNJson2ModelParser.m */; };
@@ -36,7 +35,6 @@
 		C342B2801F217C54007F04FC /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		C342B2811F217C54007F04FC /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		C342B2841F217C54007F04FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		C342B2861F217C54007F04FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C342B2891F217C54007F04FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C342B28B1F217C54007F04FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C37FB68E1F21D66A0002ACB3 /* TestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestModel.h; sourceTree = "<group>"; };
@@ -107,7 +105,6 @@
 				B4EFA8182086420E00CAB557 /* node.jpg */,
 				B409F3AD2119FD5000A70A75 /* logo.png */,
 				B4F5B461208A295C00800E57 /* node.txt */,
-				C342B2861F217C54007F04FC /* Assets.xcassets */,
 				C342B2881F217C54007F04FC /* LaunchScreen.storyboard */,
 				C342B28B1F217C54007F04FC /* Info.plist */,
 				C342B27A1F217C54007F04FC /* Supporting Files */,
@@ -186,8 +183,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C342B28A1F217C54007F04FC /* LaunchScreen.storyboard in Resources */,
-				C342B2871F217C54007F04FC /* Assets.xcassets in Resources */,
-				B409F3AC2119EE5700A70A75 /* (null) in Resources */,
+				B409F3AC2119EE5700A70A75 /* BuildFile in Resources */,
 				C342B2851F217C54007F04FC /* Main.storyboard in Resources */,
 				B409F3AE2119FD5000A70A75 /* logo.png in Resources */,
 				B4EFA8192086420E00CAB557 /* node.jpg in Resources */,
@@ -203,16 +199,12 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SCNDemo/Pods-SCNDemo-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/SCJSONUtil/SCJSONUtil.framework",
 				"${BUILT_PRODUCTS_DIR}/SCNetworkKit/SCNetworkKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCJSONUtil.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCNetworkKit.framework",

@@ -203,18 +203,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SCNMacDemo/Pods-SCNMacDemo-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/SCJSONUtil/SCJSONUtil.framework",
-				"${BUILT_PRODUCTS_DIR}/SCNetworkKit/SCNetworkKit.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-SCNMacDemo/Pods-SCNMacDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCJSONUtil.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCNetworkKit.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-SCNMacDemo/Pods-SCNMacDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
