@@ -384,6 +384,7 @@ NSURLSession 管理的网络请求结束后，会在 SCNetworkRequest 里处理�
 - 1.0.15 : 下载文件支持断点续传
 - 1.0.16 : 将下载逻辑抽取为单独的类
 - 1.0.17 : 移除自动取消支持，这一功能抽取为了单独的 [MRDeallocSubscriber](https://github.com/debugly/MRDeallocSubscriber) 模块，可通过block形式完成，使得网络库更加纯粹
+- 1.0.18 : 整理下载文件逻辑，使用单独的属性控制断点续传
 
 ## 完
 

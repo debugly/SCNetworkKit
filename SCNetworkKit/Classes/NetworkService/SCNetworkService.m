@@ -110,9 +110,9 @@ NSString *const SCNURLErrorDomain = @"com.sohu.sdk.scn";
         //   ///在这里设置下内容的长度，这个问题处理的不够优雅，但是提升了性能。。。
         //   [urlRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long) [formData length]] forHTTPHeaderField:@"Content-Length"];
         //  request.task = [self.session uploadTaskWithRequest:urlRequest fromData:formData];
-    }else if(request.downloadFileTargetPath){
-        if ([request isKindOfClass:[SCNetworkDownloadRequest class]]) {
-            SCNetworkDownloadRequest *downloadReq = (SCNetworkDownloadRequest *)request;
+    }else if ([request isKindOfClass:[SCNetworkDownloadRequest class]]) {
+        SCNetworkDownloadRequest *downloadReq = (SCNetworkDownloadRequest *)request;
+        if (downloadReq.useBreakpointContinuous) {
             NSString *rangeField = [downloadReq rangeHeaderField];
             [urlRequest addValue:rangeField forHTTPHeaderField:@"Range"];
             request.task = [self.session dataTaskWithRequest:urlRequest];

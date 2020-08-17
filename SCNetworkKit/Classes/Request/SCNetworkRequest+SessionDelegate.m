@@ -97,18 +97,21 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
       downloadTask:(NSURLSessionDownloadTask *)downloadTask
 didFinishDownloadingToURL:(NSURL *)location
 {
-    if (self.downloadFileTargetPath) {
-        
-        NSError *fileManagerError = nil;
-        NSURL *targetURL = [NSURL fileURLWithPath:self.downloadFileTargetPath];
-        [[NSFileManager defaultManager] moveItemAtURL:location toURL:targetURL error:&fileManagerError];
-        
-        ///已经存在的516错误？
-        if (fileManagerError.code == 516) {
+    if ([self isKindOfClass:[SCNetworkDownloadRequest class]]) {
+        SCNetworkDownloadRequest *download = (SCNetworkDownloadRequest *)self;
+        if (download.downloadFileTargetPath) {
             
-            [[NSFileManager defaultManager] removeItemAtURL:targetURL error:nil];
-            
+            NSError *fileManagerError = nil;
+            NSURL *targetURL = [NSURL fileURLWithPath:download.downloadFileTargetPath];
             [[NSFileManager defaultManager] moveItemAtURL:location toURL:targetURL error:&fileManagerError];
+            
+            ///已经存在的516错误？
+            if (fileManagerError.code == 516) {
+                
+                [[NSFileManager defaultManager] removeItemAtURL:targetURL error:nil];
+                
+                [[NSFileManager defaultManager] moveItemAtURL:location toURL:targetURL error:&fileManagerError];
+            }
         }
     }
 }

@@ -264,12 +264,6 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     }
 }
 
-- (void)setDownloadFileTargetPath:(NSString *)downloadFileTargetPath
-{
-    _downloadFileTargetPath = [downloadFileTargetPath copy];
-    self.responseParser = nil;
-}
-
 - (SCNKRequestState)state
 {
     return _state;
@@ -447,6 +441,17 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     return self;
 }
 
+- (void)dealloc
+{
+    [self.fileHandler synchronizeFile];
+}
+
+- (void)setDownloadFileTargetPath:(NSString *)downloadFileTargetPath
+{
+    _downloadFileTargetPath = [downloadFileTargetPath copy];
+    self.responseParser = nil;
+}
+
 - (NSFileHandle *)fileHandler
 {
     if(!_fileHandler){
@@ -482,6 +487,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 {
     [self.fileHandler closeFile];
     self.fileHandler = nil;
+    
     [super doFinishWithResult:reslut error:error];
 }
 

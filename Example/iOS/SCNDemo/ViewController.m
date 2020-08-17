@@ -310,12 +310,13 @@
 
 - (void)testGetFileWithCompletion:(void(^)(NSString *path,NSError *err))completion progress:(void(^)(float p))progress
 {
-    SCNetworkRequest *get = [[SCNetworkRequest alloc]initWithURLString:kTestDownloadApi2 params:nil];
+    SCNetworkDownloadRequest *get = [[SCNetworkDownloadRequest alloc]initWithURLString:kTestDownloadApi2 params:nil];
     //NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:@"node.jpg"];
     NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:@"test.mp4"];
     NSLog(@"download path:%@",path);
     get.downloadFileTargetPath = path;
-    get.responseParser = nil;
+    get.useBreakpointContinuous = YES;
+    
     [get addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
         if (completion) {

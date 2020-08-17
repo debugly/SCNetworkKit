@@ -35,8 +35,6 @@ typedef void(^SCNetWorkDidReceiveResponseHandler)(SCNetworkRequest *request,NSUR
 @property(nonatomic, strong) id<SCNResponseParser>responseParser;
 ///请求超时时间，默认60s
 @property(nonatomic)NSTimeInterval timeoutInterval;
-///设置下载文件路径（该操作会把默认responseParser置空）
-@property (nonatomic, copy) NSString *downloadFileTargetPath;
 ///仅当SCNetWorkDidReceiveResponseHandler回调后才能取到值
 @property (nonatomic, strong, readonly) NSURLResponse *response;
 //SCNetworkRequest默认UA格式如下，如果需要自定义UA可以在Header里添加 User-Agent 字段
@@ -68,8 +66,13 @@ typedef void(^SCNetWorkDidReceiveResponseHandler)(SCNetworkRequest *request,NSUR
 
 @end
 
-///支持断点续传
+///下载文件类
 @interface SCNetworkDownloadRequest : SCNetworkRequest
+
+///设置下载文件路径（该操作会把默认responseParser置空）
+@property (nonatomic, copy) NSString *downloadFileTargetPath;
+///使用断点续传，默认不使用 (对于一个没有启用断点续传的任务，然后启用，则从头开始下载！反之亦然！)
+@property (nonatomic, assign) BOOL useBreakpointContinuous;
 
 @end
 

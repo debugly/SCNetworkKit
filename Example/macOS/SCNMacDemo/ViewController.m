@@ -78,7 +78,7 @@
     for (int j = i ; j < i + step; j ++) {
         //如果将url改为 kTestDownloadApi2,你会惊奇的发现，step改为 100 也没事，笔者测试发现，大约15s左右就能达到 100 个并发！这是因为 github 的 IP 比较多，所以看起来是没受到 6 个并发的限制一样，所以要理解清楚了，HTTPMaximumConnectionsPerHost 这一限制指的是主机，不是域名！更具体来讲是 IP + Port ！
         NSString *url = kTestDownloadApi4;
-        SCNetworkRequest *get = [[SCNetworkRequest alloc]initWithURLString:url params:@{@"c":@(j)}];
+        SCNetworkDownloadRequest *get = [[SCNetworkDownloadRequest alloc]initWithURLString:url params:@{@"c":@(j)}];
         NSString *name = [NSString stringWithFormat:@"m%d.mp4",j];
         NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:name];
         NSLog(@"download path:%@",path);
@@ -126,7 +126,7 @@
 //        } else {
 //            url = kTestDownloadApi4;
 //        }
-        SCNetworkRequest *get = [[SCNetworkRequest alloc]initWithURLString:url params:@{@"c":@(j)}];
+        SCNetworkDownloadRequest *get = [[SCNetworkDownloadRequest alloc]initWithURLString:url params:@{@"c":@(j)}];
         NSString *name = [NSString stringWithFormat:@"s%d.mp4",j];
         NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:name];
         NSLog(@"download path:%@",path);
@@ -424,14 +424,14 @@
 
 - (void)testGetFileWithCompletion:(void(^)(NSString *path,NSError *err))completion progress:(void(^)(float p))progress
 {
-    SCNetworkRequest *get = [[SCNetworkRequest alloc]initWithURLString:kTestDownloadApi2 params:nil];
+    SCNetworkDownloadRequest *get = [[SCNetworkDownloadRequest alloc]initWithURLString:kTestDownloadApi2 params:nil];
     //    NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:@"node.jpg"];
     NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:@"test.mp4"];
     NSLog(@"download path:%@",path);
     get.downloadFileTargetPath = path;
+    get.useBreakpointContinuous = NO;
     get.responseParser = nil;
     [get addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
-        
         if (completion) {
             completion(path,err);
         }
