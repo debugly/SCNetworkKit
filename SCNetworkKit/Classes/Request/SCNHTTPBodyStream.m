@@ -39,22 +39,22 @@
 @synthesize delegate;
 @synthesize streamError;
 
-- (id)propertyForKey:(__unused NSString *)key {
+- (id)propertyForKey:(NSString *)key {
     return nil;
 }
 
-- (BOOL)setProperty:(__unused id)property
-             forKey:(__unused NSString *)key
+- (BOOL)setProperty:(id)property
+             forKey:(NSString *)key
 {
     return NO;
 }
 
-- (void)scheduleInRunLoop:(__unused NSRunLoop *)aRunLoop
-                  forMode:(__unused NSString *)mode
+- (void)scheduleInRunLoop:(NSRunLoop *)aRunLoop
+                  forMode:(NSString *)mode
 {}
 
-- (void)removeFromRunLoop:(__unused NSRunLoop *)aRunLoop
-                  forMode:(__unused NSString *)mode
+- (void)removeFromRunLoop:(NSRunLoop *)aRunLoop
+                  forMode:(NSString *)mode
 {}
 
 - (instancetype)init
@@ -242,8 +242,8 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
     self.streamStatus = NSStreamStatusClosed;
 }
 
-- (BOOL)getBuffer:(__unused uint8_t **)buffer
-           length:(__unused NSUInteger *)len
+- (BOOL)getBuffer:(uint8_t **)buffer
+           length:(NSUInteger *)len
 {
     return NO;
 }

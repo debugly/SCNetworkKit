@@ -11,7 +11,8 @@
 
 @implementation SCNetworkRequest (SessionDelegate)
 
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+- (void)URLSession:(NSURLSession *)session
+              task:(NSURLSessionTask *)task
 didCompleteWithError:(NSError *)error {
     
     self.respData = [NSData dataWithData:self.mutableData];
@@ -39,7 +40,8 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
     [self updateTransferedData:bytesSent totalBytes:totalBytesSent totalBytesExpected:totalBytesExpectedToSend];
 }
 
-- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+- (void)URLSession:(NSURLSession *)session
+          dataTask:(NSURLSessionDataTask *)dataTask
 didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler
 {
@@ -47,8 +49,8 @@ didReceiveResponse:(NSURLResponse *)response
     completionHandler(NSURLSessionResponseAllow);
 }
 
-- (void)URLSession:(__unused NSURLSession *)session
-          dataTask:(__unused NSURLSessionDataTask *)dataTask
+- (void)URLSession:(NSURLSession *)session
+          dataTask:(NSURLSessionDataTask *)dataTask
     didReceiveData:(NSData *)data
 {
     [self.mutableData appendData:data];

@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5A3B5116C16A0FDAD7D15910 /* Pods_SCNDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49B942AAFC48BD7034481003 /* Pods_SCNDemo.framework */; };
-		B409F3AC2119EE5700A70A75 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		B409F3AC2119EE5700A70A75 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		B409F3AE2119FD5000A70A75 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B409F3AD2119FD5000A70A75 /* logo.png */; };
 		B4EFA8192086420E00CAB557 /* node.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B4EFA8182086420E00CAB557 /* node.jpg */; };
 		B4F5B462208A295C00800E57 /* node.txt in Resources */ = {isa = PBXBuildFile; fileRef = B4F5B461208A295C00800E57 /* node.txt */; };
@@ -183,7 +183,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C342B28A1F217C54007F04FC /* LaunchScreen.storyboard in Resources */,
-				B409F3AC2119EE5700A70A75 /* BuildFile in Resources */,
+				B409F3AC2119EE5700A70A75 /* (null) in Resources */,
 				C342B2851F217C54007F04FC /* Main.storyboard in Resources */,
 				B409F3AE2119FD5000A70A75 /* logo.png in Resources */,
 				B4EFA8192086420E00CAB557 /* node.jpg in Resources */,
@@ -385,7 +385,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 797832FC63E2EAF60A26F8A1 /* Pods-SCNDemo.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				INFOPLIST_FILE = SCNDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -400,7 +399,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC83AB5A50D9613E989729AE /* Pods-SCNDemo.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				INFOPLIST_FILE = SCNDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

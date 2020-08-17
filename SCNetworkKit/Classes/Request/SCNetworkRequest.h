@@ -39,7 +39,7 @@ typedef void(^SCNetWorkDidReceiveResponseHandler)(SCNetworkRequest *request,NSUR
 @property (nonatomic, copy) NSString *downloadFileTargetPath;
 ///仅当SCNetWorkDidReceiveResponseHandler回调后才能取到值
 @property (nonatomic, strong, readonly) NSURLResponse *response;
-//SCNetworkRequest默认UA格式如下:
+//SCNetworkRequest默认UA格式如下，如果需要自定义UA可以在Header里添加 User-Agent 字段
 //%E6%90%9C%E7%8B%90%E8%A7%86%E9%A2%91/1 SCNDemo/1.0.8 (iPhone; iOS 11.4; Scale/2.00)
 //%E6%90%9C%E7%8B%90%E5%BD%B1%E9%9F%B3/1 SCNMacDemo/1.0.8 (Macintosh; Mac OS X Version 10.14.1 (Build 18B75))
 + (NSString *)defaultUA;
