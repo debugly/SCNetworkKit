@@ -10,11 +10,9 @@
 #if TARGET_OS_IPHONE
 #import <UIKit/UIApplication.h>
 #endif
+#import <Foundation/NSURLSession.h>
 
 @interface SCNetworkRequest ()
-{
-    SCNKRequestState _state;
-}
 
 @property(nonatomic) NSMutableDictionary *parameters;
 @property(nonatomic) NSMutableDictionary *headers;
@@ -24,11 +22,11 @@
 #if TARGET_OS_IPHONE
 @property(nonatomic) UIBackgroundTaskIdentifier backgroundTask;
 #endif
-@property(nonatomic, readwrite) NSData *respData;
+@property(nonatomic, readwrite) SCNKRequestState state;
 @property(nonatomic, readwrite) NSURLSessionTask *task;
 @property(nonatomic, readwrite) NSUInteger taskIdentifier;
-@property(nonatomic, readwrite) NSURLResponse *response;
-///存储session回调数据的
+@property(nonatomic, readwrite) NSHTTPURLResponse *response;
+///存储dataTask回调的数据，不包括文件下载续传类型
 @property(nonatomic, strong) NSMutableData *mutableData;
 @property(nonatomic, copy) void (^customRequestMaker)(const NSMutableURLRequest *);
 
@@ -37,16 +35,19 @@
                   totalBytes:(int64_t)totalBytes
           totalBytesExpected:(int64_t)totalBytesExpected;
 //更新 response
-- (void)onReceivedResponse:(NSURLResponse *)response;
+- (NSURLSessionResponseDisposition)onReceivedResponse:(NSHTTPURLResponse *)response;
 - (NSMutableURLRequest *)makeURLRequest;
 - (void)updateState:(SCNKRequestState)state error:(NSError *)error;
+- (uint64_t)didReceiveData:(NSData *)data;
 
 @end
 
 @interface SCNetworkDownloadRequest ()
 
 @property (nonatomic, strong) NSFileHandle *fileHandler;
-@property (nonatomic, assign) uint64_t offset;
+@property (nonatomic, assign) uint64_t startOffset;
+@property (nonatomic, assign) uint64_t currentOffset;
+@property (nonatomic, assign) BOOL badResponse;
 
 - (NSString *)rangeHeaderField;
 - (uint64_t)didReceiveData:(NSData *)data;

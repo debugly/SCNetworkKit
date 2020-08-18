@@ -8,27 +8,36 @@
 
 #import "SCNetworkRequest+SessionDelegate.h"
 #import "SCNetworkRequestInternal.h"
+#import "SCNUtil.h"
 
 @implementation SCNetworkRequest (SessionDelegate)
 
 - (void)URLSession:(NSURLSession *)session
               task:(NSURLSessionTask *)task
-didCompleteWithError:(NSError *)error {
-    
-    self.respData = [NSData dataWithData:self.mutableData];
-    self.response = (NSHTTPURLResponse*) task.response;
+didCompleteWithError:(NSError *)error
+{
+    self.response = (NSHTTPURLResponse*)task.response;
     
     if(error) {
         if(error.code == NSURLErrorCancelled){
-            [self updateState:SCNKRequestStateCancelled error:error];
+            //处理下下载时，返回404之类的错误，需要给上层一个回调！
+            if ([self isKindOfClass:[SCNetworkDownloadRequest class]]) {
+                SCNetworkDownloadRequest *downloadReq = (SCNetworkDownloadRequest *)self;
+                if (downloadReq.badResponse) {
+                    NSError *aError = SCNError(self.response.statusCode, self.response.allHeaderFields);
+                    [self updateState:SCNKRequestStateError error:aError];
+                } else {
+                    [self updateState:SCNKRequestStateCancelled error:error];
+                }
+            } else {
+                [self updateState:SCNKRequestStateCancelled error:error];
+            }
         }else{
             [self updateState:SCNKRequestStateError error:error];
         }
     }else{
         [self updateState:SCNKRequestStateCompleted error:nil];
     }
-    //clean
-    self.mutableData = nil;
 }
 
 - (void)URLSession:(NSURLSession *)session
@@ -45,15 +54,26 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
 didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler
 {
-    [self onReceivedResponse:response];
-    completionHandler(NSURLSessionResponseAllow);
+    //处理下载文件遇到 404 等情况
+    completionHandler([self onReceivedResponse:(NSHTTPURLResponse*)response]);
 }
 
 - (void)URLSession:(NSURLSession *)session
           dataTask:(NSURLSessionDataTask *)dataTask
     didReceiveData:(NSData *)data
 {
-    [self.mutableData appendData:data];
+    int64_t totalBytesWritten = [self didReceiveData:data];
+    
+    ///断点续传时使用 dataTask 来做的，因此这里调用下代理方法，回调下载进度
+    if ([self isKindOfClass:[SCNetworkDownloadRequest class]]) {
+        SCNetworkDownloadRequest *downloadReq = (SCNetworkDownloadRequest *)self;
+        //invoke the download progress.
+        [self URLSession:session
+            downloadTask:dataTask
+            didWriteData:data.length
+       totalBytesWritten:totalBytesWritten
+totalBytesExpectedToWrite:dataTask.response.expectedContentLength + downloadReq.startOffset];
+    }
 }
 
 - (void)URLSession:(NSURLSession *)session

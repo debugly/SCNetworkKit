@@ -7,17 +7,18 @@
 //
 
 #import "SCNetworkRequest.h"
+#import "SCNetworkRequestInternal.h"
 #import "NSDictionary+SCAddtions.h"
 #import "NSString+SCAddtions.h"
-#import "SCNetworkRequestInternal.h"
 #import "SCNJSONResponseParser.h"
+#import <sys/sysctl.h>
+#import "SCNHTTPBodyStream.h"
+#import "SCNUtil.h"
+
 #if TARGET_OS_IPHONE
 #import <UIKit/UIDevice.h>
 #import <UIKit/UIScreen.h>
 #endif
-#import <sys/sysctl.h>
-#import "SCNHTTPBodyStream.h"
-#import "SCNHeader.h"
 
 ///解析网络请求响应数据的队列
 static dispatch_queue_t SCN_Response_Parser_Queue() {
@@ -264,11 +265,6 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     }
 }
 
-- (SCNKRequestState)state
-{
-    return _state;
-}
-
 // 更新状态机，请求的开始和结束，都走这里
 - (void)updateState:(SCNKRequestState)state error:(NSError *)error
 {
@@ -299,28 +295,48 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     
     else if ((SCNKRequestStateCompleted == state) || (state == SCNKRequestStateError)){
         
-        if(error){
+        if (error) {
             [self doFinishWithResult:nil error:error];
-        }else{
+        } else {
+            NSData *data = [_mutableData copy];
             if (self.responseParser) {
                 dispatch_async(SCN_Response_Parser_Queue(), ^{
                     NSError *parserError = nil;
-                    id result = [self.responseParser objectWithResponse:self.response data:self.respData error:&parserError];
+                    id result = [self.responseParser objectWithResponse:self.response data:data error:&parserError];
                     [self doFinishWithResult:result error:parserError];
                 });
-            }else{
-                [self doFinishWithResult:self.respData error:nil];
+            } else {
+                [self doFinishWithResult:data error:nil];
             }
         }
     }
     
     else if(SCNKRequestStateCancelled == state){
         //SCNKRequestStateCancelled do nothing
+        
     }
     
     else{
         //SCNKRequestStateReady do nothing
     }
+}
+
+- (NSURLSessionResponseDisposition)onReceivedResponse:(NSHTTPURLResponse *)response
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.response = response;
+        [self.responseHandlers enumerateObjectsUsingBlock:^(SCNetWorkDidReceiveResponseHandler  _Nonnull handler, NSUInteger idx, BOOL * _Nonnull stop) {
+            handler(self,response);
+        }];
+    });
+    
+    return NSURLSessionResponseAllow;
+}
+
+- (uint64_t)didReceiveData:(NSData *)data
+{
+    [self.mutableData appendData:data];
+    return (uint64_t)[self.mutableData length];
 }
 
 - (void)doFinishWithResult:(id)reslut error:(NSError *)error
@@ -351,17 +367,6 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         }];
     });
 }
-
-- (void)onReceivedResponse:(NSURLResponse *)response
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.response = response;
-        [self.responseHandlers enumerateObjectsUsingBlock:^(SCNetWorkDidReceiveResponseHandler  _Nonnull handler, NSUInteger idx, BOOL * _Nonnull stop) {
-            handler(self,response);
-        }];
-    });
-}
-
 
 - (void)setTask:(NSURLSessionTask *)task
 {
@@ -430,6 +435,8 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 @end
 
 
+#pragma mark - SCNetworkDownloadRequest
+
 @implementation SCNetworkDownloadRequest
 
 - (instancetype)init
@@ -461,7 +468,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         }
         _fileHandler = [NSFileHandle fileHandleForUpdatingAtPath:self.downloadFileTargetPath];
         NSParameterAssert(_fileHandler);
-        self.offset = [self.fileHandler seekToEndOfFile];
+        self.currentOffset = [self.fileHandler seekToEndOfFile];
     }
     return _fileHandler;
 }
@@ -469,25 +476,46 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 - (NSString *)rangeHeaderField
 {
     if (self.fileHandler) {
-        return [NSString stringWithFormat:@"bytes=%lld-",self.offset];
+        //record the offset.
+        self.startOffset = self.currentOffset;
+        return [NSString stringWithFormat:@"bytes=%lld-",self.currentOffset];
     } else {
         NSAssert(NO, @"why?");
         return @"";
     }
 }
 
+#pragma mark - override super methods.
+
+- (NSURLSessionResponseDisposition)onReceivedResponse:(NSHTTPURLResponse *)response
+{
+    NSURLSessionResponseDisposition r = [super onReceivedResponse:response];
+    NSHTTPURLResponse *httpResp = (NSHTTPURLResponse *)response;
+    if (httpResp.statusCode >= 200 && httpResp.statusCode < 300) {
+        //let dataTask become downloadTask!
+        if (!self.useBreakpointContinuous) {
+            return NSURLSessionResponseBecomeDownload;
+        }
+        return r;
+    } else {
+        //cancel the bad response request!
+        self.badResponse = YES;
+        return NSURLSessionResponseCancel;
+    }
+}
+
 - (uint64_t)didReceiveData:(NSData *)data
 {
     [self.fileHandler writeData:data];
-    self.offset += data.length;
-    return self.offset;
+    self.currentOffset += data.length;
+    return self.currentOffset;
 }
 
 - (void)doFinishWithResult:(id)reslut error:(NSError *)error
 {
     [self.fileHandler closeFile];
     self.fileHandler = nil;
-    
+    //same as super finish.
     [super doFinishWithResult:reslut error:error];
 }
 

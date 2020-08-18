@@ -12,15 +12,13 @@
 #import "SCNetworkService.h"
 #import "SCNetworkRequestInternal.h"
 #import "SCNetworkRequest+SessionDelegate.h"
-#import "SCNHeader.h"
+#import "SCNUtil.h"
 
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
 #endif
 
-NSString *const SCNURLErrorDomain = @"com.sohu.sdk.scn";
-
-@interface SCNetworkService ()<NSURLSessionDelegate,NSURLSessionTaskDelegate,NSURLSessionDownloadDelegate>
+@interface SCNetworkService ()<NSURLSessionDelegate,NSURLSessionTaskDelegate,NSURLSessionDataDelegate,NSURLSessionDownloadDelegate>
 
 @property(nonatomic, strong) dispatch_queue_t taskSynzQueue;
 @property(nonatomic, strong) NSMutableDictionary *taskRequestMap;
@@ -85,7 +83,6 @@ NSString *const SCNURLErrorDomain = @"com.sohu.sdk.scn";
                                                      delegate:self
                                                 delegateQueue:delegateQueue];
     }
-    
     return self;
 }
 
@@ -117,7 +114,9 @@ NSString *const SCNURLErrorDomain = @"com.sohu.sdk.scn";
             [urlRequest addValue:rangeField forHTTPHeaderField:@"Range"];
             request.task = [self.session dataTaskWithRequest:urlRequest];
         } else {
-            request.task = [self.session downloadTaskWithRequest:urlRequest];
+            //downloadTask can't handle bad response such as 404.we use dataTask then become downloadTask!
+            //request.task = [self.session downloadTaskWithRequest:urlRequest];
+            request.task = [self.session dataTaskWithRequest:urlRequest];
         }
     } else {
         request.task = [self.session dataTaskWithRequest:urlRequest];
@@ -150,6 +149,8 @@ NSString *const SCNURLErrorDomain = @"com.sohu.sdk.scn";
     });
 }
 
+#pragma mark - NSURLSessionTaskDelegate
+
 - (void)URLSession:(NSURLSession *)session
               task:(NSURLSessionTask *)task
 didCompleteWithError:(NSError *)error {
@@ -174,6 +175,17 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
     }
 }
 
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+willPerformHTTPRedirection:(NSHTTPURLResponse *)response
+        newRequest:(NSURLRequest *)request
+ completionHandler:(void (^)(NSURLRequest *))completionHandler
+{
+//    NSLog(@"[%ld]:%@",(long)[response statusCode],request);
+    completionHandler(request);
+}
+
+#pragma mark - NSURLSessionDataDelegate
+
 - (void)URLSession:(NSURLSession *)session
           dataTask:(NSURLSessionDataTask *)dataTask
 didReceiveResponse:(NSURLResponse *)response
@@ -190,37 +202,25 @@ didReceiveResponse:(NSURLResponse *)response
     didReceiveData:(NSData *)data
 {
     SCNetworkRequest *request = [self requestForTask:dataTask];
-    if ([request isKindOfClass:[SCNetworkDownloadRequest class]]) {
-        SCNetworkDownloadRequest *downloadReq = (SCNetworkDownloadRequest *)request;
-        
-//        NSHTTPURLResponse *resp = dataTask.response;
-//        NSLog(@"====%@",[resp allHeaderFields]);
-        int64_t totalBytesWritten = [downloadReq didReceiveData:data];
-        [request URLSession:session downloadTask:dataTask didWriteData:data.length totalBytesWritten:totalBytesWritten totalBytesExpectedToWrite:dataTask.response.expectedContentLength];
-        
-    } else {
+    if (request) {
         [request URLSession:session dataTask:dataTask didReceiveData:data];
     }
 }
 
-//- (void)URLSession:(NSURLSession *)session
-//              task:(NSURLSessionTask *)task
-// needNewBodyStream:(void (^)(NSInputStream *bodyStream))completionHandler
-//{
-//    
-//}
-
-#pragma mark - NSURLSessionDownloadDelegate
-
 - (void)URLSession:(NSURLSession *)session
-      downloadTask:(NSURLSessionDownloadTask *)downloadTask
-didFinishDownloadingToURL:(NSURL *)location
+          dataTask:(NSURLSessionDataTask *)dataTask
+didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask
 {
-    SCNetworkRequest *request = [self requestForTask:downloadTask];
+    SCNetworkRequest *request = [self requestForTask:dataTask];
     if (request) {
-        [request URLSession:session downloadTask:downloadTask didFinishDownloadingToURL:location];
+        [self removeRequestMappingForTask:dataTask];
+        request.task = downloadTask;
+        [self assignMappingForRequest:request];
+        [downloadTask resume];
     }
 }
+
+#pragma mark - NSURLSessionDownloadDelegate
 
 - (void)URLSession:(NSURLSession *)session
       downloadTask:(NSURLSessionDownloadTask *)downloadTask
@@ -234,47 +234,21 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
     }
 }
 
+- (void)URLSession:(NSURLSession *)session
+      downloadTask:(NSURLSessionDownloadTask *)downloadTask
+didFinishDownloadingToURL:(NSURL *)location
+{
+    SCNetworkRequest *request = [self requestForTask:downloadTask];
+    if (request) {
+        [request URLSession:session downloadTask:downloadTask didFinishDownloadingToURL:location];
+    }
+}
+
+#pragma mark - NSURLSessionDelegate
+
 - (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error
 {
-    
-}
-
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
-willPerformHTTPRedirection:(NSHTTPURLResponse *)response
-        newRequest:(NSURLRequest *)request
- completionHandler:(void (^)(NSURLRequest *))completionHandler
-{
-//    NSLog(@"[%ld]:%@",(long)[response statusCode],request);
-    completionHandler(request);
-}
-    
-NSError * SCNError(NSInteger code,id info)
-{
-    if(!info){
-        info = @"未知错误";
-    }
-    NSDictionary *infoDic = nil;
-    if(![info isKindOfClass:[NSDictionary class]]){
-        infoDic = @{NSLocalizedDescriptionKey:info};
-    }else{
-        infoDic = info;
-    }
-    return [[NSError alloc] initWithDomain:SCNURLErrorDomain code:code userInfo:infoDic];
-}
-
-NSError * SCNErrorWithOriginErr(NSError *originError,NSInteger newcode)
-{
-    NSMutableDictionary *mulInfo = [NSMutableDictionary dictionary];
-    NSDictionary *originInfo = originError.userInfo;
-    if (originInfo) {
-        NSString *desc = originInfo[NSLocalizedDescriptionKey];
-        if (desc) {
-            [mulInfo setObject:desc forKey:@"origin-err"];
-        }
-        [mulInfo setObject:@(originError.code) forKey:@"origin-errcode"];
-    }
-    
-    return SCNError(newcode, mulInfo);
+    //TODO
 }
 
 @end

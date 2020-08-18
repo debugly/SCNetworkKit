@@ -50,14 +50,6 @@
     [super viewDidLoad];
 
     // Do any additional setup after loading the view.
-    
-    if (@available(macOS 10.12, *)) {
-        [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
-            NSLog(@"并发数：%d",self.counter);
-        }];
-    } else {
-        // Fallback on earlier versions
-    }
 }
 
 - (IBAction)testMutableSessionConcurrent:(id)sender
@@ -103,6 +95,13 @@
     }
     i += step;
     
+    if (@available(macOS 10.12, *)) {
+        [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+            NSLog(@"并发数：%d",self.counter);
+        }];
+    } else {
+        // Fallback on earlier versions
+    }
 }
 
 - (IBAction)testSingleSessionConcurrent:(id)sender
@@ -151,6 +150,13 @@
     }
     i += step;
     
+    if (@available(macOS 10.12, *)) {
+        [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+            NSLog(@"并发数：%d",self.counter);
+        }];
+    } else {
+        // Fallback on earlier versions
+    }
 }
 
 - (void)showIndicator
@@ -244,12 +250,12 @@
     [self testGetFileWithCompletion:^(NSString *path, NSError *err) {
         __strongSelf
         if (!err) {
-            self.textView.string = [NSString stringWithFormat:@"文件下载成功：%@",path];
-        }else{
-            self.textView.string = [err description];
+            self.textView.string = [NSString stringWithFormat:@"文件下载成功：\n%@",path];
+        } else {
+            self.textView.string = [NSString stringWithFormat:@"文件下载失败：\n%@",[err description]];
         }
         [self hiddenIndicator];
-    }progress:^(float p) {
+    } progress:^(float p) {
         __strongSelf
         self.textView.string = [NSString stringWithFormat:@"下载进度：%0.4f",p];
     }];
@@ -424,13 +430,12 @@
 
 - (void)testGetFileWithCompletion:(void(^)(NSString *path,NSError *err))completion progress:(void(^)(float p))progress
 {
-    SCNetworkDownloadRequest *get = [[SCNetworkDownloadRequest alloc]initWithURLString:kTestDownloadApi2 params:nil];
-    //    NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:@"node.jpg"];
-    NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:@"test.mp4"];
+    NSString *url = kTestDownloadApi3;
+    SCNetworkDownloadRequest *get = [[SCNetworkDownloadRequest alloc]initWithURLString:url params:nil];
+    NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:[url lastPathComponent]];
     NSLog(@"download path:%@",path);
     get.downloadFileTargetPath = path;
-    get.useBreakpointContinuous = NO;
-    get.responseParser = nil;
+    get.useBreakpointContinuous = YES;
     [get addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         if (completion) {
             completion(path,err);

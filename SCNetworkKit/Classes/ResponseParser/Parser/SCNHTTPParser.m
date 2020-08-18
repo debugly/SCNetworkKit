@@ -7,7 +7,7 @@
 //
 
 #import "SCNHTTPParser.h"
-#import "SCNHeader.h"
+#import "SCNUtil.h"
 
 @implementation SCNHTTPParser
 

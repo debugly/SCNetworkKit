@@ -29,7 +29,7 @@
 #import "SCNetworkKit.h"
 #import "NSDictionary+SCAddtions.h"
 #import "NSString+SCAddtions.h"
-#import "SCNHeader.h"
+#import "SCNUtil.h"
 
 FOUNDATION_EXPORT double SCNetworkKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char SCNetworkKitVersionString[];

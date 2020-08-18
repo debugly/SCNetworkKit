@@ -7,7 +7,7 @@
 //
 
 #import "SCNModelParser.h"
-#import "SCNHeader.h"
+#import "SCNUtil.h"
 
 @implementation SCNModelParser
 

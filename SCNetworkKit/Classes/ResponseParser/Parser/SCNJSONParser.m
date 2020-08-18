@@ -7,7 +7,7 @@
 //
 
 #import "SCNJSONParser.h"
-#import "SCNHeader.h"
+#import "SCNUtil.h"
 
 static id SCNRemoveJSONNullValues(id JSONObject) {
     ///数组
