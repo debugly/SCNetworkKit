@@ -1,5 +1,6 @@
 ## SCNetworkKit
 
+[![CI Status](https://img.shields.io/travis/debugly/SCNetworkKit.svg?style=flat)](https://travis-ci.org/debugly/SCNetworkKit)
 [![Version](https://img.shields.io/cocoapods/v/SCNetworkKit.svg?style=flat)](https://cocoapods.org/pods/SCNetworkKit)
 [![License](https://img.shields.io/cocoapods/l/SCNetworkKit.svg?style=flat)](https://cocoapods.org/pods/SCNetworkKit)
 [![Platform](https://img.shields.io/cocoapods/p/SCNetworkKit.svg?style=flat)](https://cocoapods.org/pods/SCNetworkKit)
