@@ -18,8 +18,19 @@
 		C342B2851F217C54007F04FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C342B2831F217C54007F04FC /* Main.storyboard */; };
 		C342B28A1F217C54007F04FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C342B2881F217C54007F04FC /* LaunchScreen.storyboard */; };
 		C37FB6901F21D66A0002ACB3 /* TestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C37FB68F1F21D66A0002ACB3 /* TestModel.m */; };
+		DD0FC9F224EE50DD000F1322 /* SCNDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DD0FC9F124EE50DD000F1322 /* SCNDemoTests.m */; };
 		DD99FD1F21F0753500584AC4 /* SCNJson2ModelParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DD99FD1E21F0753500584AC4 /* SCNJson2ModelParser.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DD0FC9F424EE50DD000F1322 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C342B26F1F217C54007F04FC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C342B2761F217C54007F04FC;
+			remoteInfo = SCNDemo;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		49B942AAFC48BD7034481003 /* Pods_SCNDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SCNDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -39,6 +50,9 @@
 		C342B28B1F217C54007F04FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C37FB68E1F21D66A0002ACB3 /* TestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestModel.h; sourceTree = "<group>"; };
 		C37FB68F1F21D66A0002ACB3 /* TestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestModel.m; sourceTree = "<group>"; };
+		DD0FC9EF24EE50DD000F1322 /* SCNDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SCNDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD0FC9F124EE50DD000F1322 /* SCNDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCNDemoTests.m; sourceTree = "<group>"; };
+		DD0FC9F324EE50DD000F1322 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DD99FD1D21F0753400584AC4 /* SCNJson2ModelParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNJson2ModelParser.h; sourceTree = "<group>"; };
 		DD99FD1E21F0753500584AC4 /* SCNJson2ModelParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNJson2ModelParser.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -49,6 +63,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A3B5116C16A0FDAD7D15910 /* Pods_SCNDemo.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD0FC9EC24EE50DD000F1322 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				C342B2791F217C54007F04FC /* SCNDemo */,
+				DD0FC9F024EE50DD000F1322 /* SCNDemoTests */,
 				C342B2781F217C54007F04FC /* Products */,
 				08C17C7DB317FF9F2B234EA4 /* Pods */,
 				31D37C40103147BB68233846 /* Frameworks */,
@@ -86,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				C342B2771F217C54007F04FC /* SCNDemo.app */,
+				DD0FC9EF24EE50DD000F1322 /* SCNDemoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -120,6 +143,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		DD0FC9F024EE50DD000F1322 /* SCNDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				DD0FC9F124EE50DD000F1322 /* SCNDemoTests.m */,
+				DD0FC9F324EE50DD000F1322 /* Info.plist */,
+			);
+			path = SCNDemoTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -142,6 +174,24 @@
 			productReference = C342B2771F217C54007F04FC /* SCNDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
+		DD0FC9EE24EE50DD000F1322 /* SCNDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD0FC9F824EE50DD000F1322 /* Build configuration list for PBXNativeTarget "SCNDemoTests" */;
+			buildPhases = (
+				DD0FC9EB24EE50DD000F1322 /* Sources */,
+				DD0FC9EC24EE50DD000F1322 /* Frameworks */,
+				DD0FC9ED24EE50DD000F1322 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DD0FC9F524EE50DD000F1322 /* PBXTargetDependency */,
+			);
+			name = SCNDemoTests;
+			productName = SCNDemoTests;
+			productReference = DD0FC9EF24EE50DD000F1322 /* SCNDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -155,6 +205,11 @@
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = 8YBM843B95;
 						ProvisioningStyle = Manual;
+					};
+					DD0FC9EE24EE50DD000F1322 = {
+						CreatedOnToolsVersion = 11.5;
+						ProvisioningStyle = Automatic;
+						TestTargetID = C342B2761F217C54007F04FC;
 					};
 				};
 			};
@@ -173,6 +228,7 @@
 			projectRoot = "";
 			targets = (
 				C342B2761F217C54007F04FC /* SCNDemo */,
+				DD0FC9EE24EE50DD000F1322 /* SCNDemoTests */,
 			);
 		};
 /* End PBXProject section */
@@ -188,6 +244,13 @@
 				B409F3AE2119FD5000A70A75 /* logo.png in Resources */,
 				B4EFA8192086420E00CAB557 /* node.jpg in Resources */,
 				B4F5B462208A295C00800E57 /* node.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD0FC9ED24EE50DD000F1322 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,7 +314,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD0FC9EB24EE50DD000F1322 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD0FC9F224EE50DD000F1322 /* SCNDemoTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DD0FC9F524EE50DD000F1322 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C342B2761F217C54007F04FC /* SCNDemo */;
+			targetProxy = DD0FC9F424EE50DD000F1322 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		C342B2831F217C54007F04FC /* Main.storyboard */ = {
@@ -411,6 +490,47 @@
 			};
 			name = Release;
 		};
+		DD0FC9F624EE50DD000F1322 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = SCNDemoTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = debugly.cn.SCNDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SCNDemo.app/SCNDemo";
+			};
+			name = Debug;
+		};
+		DD0FC9F724EE50DD000F1322 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = SCNDemoTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = debugly.cn.SCNDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SCNDemo.app/SCNDemo";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -428,6 +548,15 @@
 			buildConfigurations = (
 				C342B28F1F217C54007F04FC /* Debug */,
 				C342B2901F217C54007F04FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DD0FC9F824EE50DD000F1322 /* Build configuration list for PBXNativeTarget "SCNDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD0FC9F624EE50DD000F1322 /* Debug */,
+				DD0FC9F724EE50DD000F1322 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
