@@ -6,27 +6,29 @@
 [![Platform](https://img.shields.io/cocoapods/p/SCNetworkKit.svg?style=flat)](https://cocoapods.org/pods/SCNetworkKit)
 
 
-SCNetworkKit 是一个为自己项目打造的网络库，支持 iOS / macOS 平台。该库将 [MKNetworkKit](https://github.com/MugunthKumar/MKNetworkKit) 、[AFNetworking](https://github.com/AFNetworking/AFNetworking) 、[Masonry](https://github.com/desandro/masonry)、[ASIHTTPRequest](https://github.com/debugly/asi-http-request) 等库的优秀架构思想融入其中，结合项目实际情况逐渐演变而来。
+SCNetworkKit 是一个功能强大的网络库，支持 iOS / macOS 平台。在编写该库时参考了 [MKNetworkKit](https://github.com/MugunthKumar/MKNetworkKit) 、[AFNetworking](https://github.com/AFNetworking/AFNetworking) 、[Masonry](https://github.com/desandro/masonry)、[ASIHTTPRequest](https://github.com/debugly/asi-http-request) 等优秀开源项目架构的思想，结合了公司项目的实际情况进行逐步改造演变而来。
 
 - 使用 Objective-C 语言编写
-- 底层封装了 NSURLSession，因此最低支持 iOS 7.0 / OS X 10.9
-- 采用 Service + Request 分工模式(从 MKNetworkKit 学习而来)
-- 采用可配置的响应解析器模式，可以将数据异步解析为 JSON，Model，其中 Model 解析这块算是对 AFNetworking 响应解析模块学习的一个升华，按照自己的思路去完成的
-- 支持链式编程 (从 Masonry 学习而来)
-- 采用 Maker 方式精简对外公开的API长度，使用更方便(从 Masonry 学习而来)
-- 支持了 HTTPBodyStream，轻松搞定大文件上传；可以说是弥补了 MKNetworkKit 的一个缺憾
+- 底层封装了 NSURLSession，最低支持 iOS 7.0 / OS X 10.9
+- 采用 Service + Request 分工模式 (从 MKNetworkKit 学习而来)
+- 采用策略模式可配置响应解析器，可以将数据异步解析为 JSON，Model等对象，其中 Model 解析这块算是对 AFNetworking 响应解析模块学习的一个升华，按照自己的思路去完成的
+- 支持了链式编程，实质上是把 block 当做返回值实现的 (从 Masonry 学习而来)
+- 采用 Maker 方式精简对外公开的API长度，使用更方便 (从 Masonry 学习而来)
 - 自创自动取消机制，可将网络请求对象绑定到 x 对象上，当 x 销毁时将自动取消已经发起的网络请求（x 通常是 ViewController）
 - 请求完成，进度回调等完全 Block 化，不支持代理（个人偏爱 Block）
+- 基类支持基础的 GET 和没有 Body 的HTTP请求，带有 body 的 POST 请求则使用子类完成（从 ASIHTTPRequest 学习而来）
+- POST 子类支持了 HTTPBodyStream，轻松搞定大文件上传；弥补了 MKNetworkKit 的一个缺憾
+- 下载类支持断点续传，并且处理了 404 等特殊情况，不会将 404 时服务器响应的错误数据写入文件
 
 ## SCNetworkKit 演变过程
 
-2016 年我转向 iOS SDK 相关开发工作，为确保提供出去的 SDK 显得很专业，容易集成，防止出现类冲突等报错问题，所以要尽量避免依赖开源项目！我需要的第一个轮子就是网络请求框架，必须能够为 SDK 提供可靠的网络服务，该库的演变过程如下:
+2016 年我转向 iOS 平台 SDK 相关开发工作，为确保提供出去的 SDK 显得很专业，容易集成，防止出现类冲突等报错问题，所以绕道而行，尽量不去依赖开源项目！我造的第一个轮子就是网络请求库，必须能够为 SDK 提供可靠的网络服务，这个库的演变过程如下:
 
 `SVPNetworkKit` -> `SLNetworkKit` -> `SCNetworkKit`
 
-- SVPNetworkKit : 在做 SDK 之前为上传模块写的一个独立的网络请求模块，是完全基于 MKNetworkKit 的，毫不保留的说就是在 MKNetworkKit 之上修改而成，并没有一点创新。
-- SLNetworkKit : 转向 SDK 开发工作后，只有我一个，时间十分紧张，因此将 SVPNetworkKit 直接改名为 SLNetworkKit ，然后在此基础上进行修改。这个阶段主要支持了 Maker 形式的调用方式、抽取了响应解析模块、支持了Model解析、响应异步解析、自动取消等机制。
-- SCNetworkKit : 随着 SDK 业务的增多，并且集成灵活，可以选取某几个组合集成！因此迫切需要将原来的 SDK 抽取出来一个更加通用的底层依赖库，所有的 SDK 均要依赖于改库，SLNetworkKit 也包含在其中，故而修改其前缀为 SC ！这个阶段主要将 POST 请求抽取出来，支持了HTTPBodyStream，方便大文件上传！于 2017 年开源。
+- SVPNetworkKit : 在转向 SDK 开发之前为原项目的上传模块写的一个独立的网络请求模块，坦白讲当时看中了 MKNetworkKit 的精简，并且简单修改之后能够符合上传业务的需求。
+- SLNetworkKit : 转向 SDK 开发工作后，初期只有我一个人，由于 SDK 从 0 到 1，需要做很多基础支持和业务编写，工期十分的紧张，因此将 SVPNetworkKit 直接改名为 SLNetworkKit，然后在此基础上进行修改。这个阶段主要支持了 Maker 形式的调用方式、抽取了响应解析模块、支持了Model解析、响应异步解析、自动取消等机制。
+- SCNetworkKit : 随着 SDK 业务的增多，并且要求能够灵活选取某几个组合集成！因此迫切需要将原来 SDK 中的基础库进行下沉，形成一个更加通用的SC底层库，所有的 SDK 均依赖于该库。SLNetworkKit 便是其中之一，顺势改其前缀为 SC ！这个阶段主要支持了 Stream Body 的 POST 请求，方便大文件上传！于 2017 年开源。
 
 ## 目录结构
 
@@ -43,9 +45,9 @@ SCNetworkKit 是一个为自己项目打造的网络库，支持 iOS / macOS 平
 └── _config.yml
 ```
 
-- Example/iOS(macOS) : 包含了 iOS、macOS 平台配套调用示例和简单的Node 服务器
-- SCNetworkKit/Classes : 库源码
-- Example/Server : 使用 Express 库编写的服务器，主要为 Demo 提供 POST 请求支持，客户端上传的文件都放在 `Server/upload` 文件夹下面。
+- Example/iOS(macOS) : 包含了 iOS、macOS 平台配套调用示例
+- SCNetworkKit/Classes : 源码
+- Example/Server : 使用 Express 编写的简单 Node 服务器，主要为 Demo 提供 GET/POST 请求测试支持，客户端上传的文件都放在 `Server/upload` 文件夹下面。
     - 查看已经上传的文件: [http://localhost:3000/peek](http://localhost:3000/peek) 
     - 查看已经上传的文件（json形式）: [http://localhost:3000/peek?json=1](http://localhost:3000/peek?json=1) 
     - 使用浏览器上传的文件: [http://localhost:3000/](http://localhost:3000/) 
@@ -106,7 +108,7 @@ npm start
 下面演示如何通过配置不同的解析器，从而达到着陆 block 回调不同结果的效果:
 
 
-- 发送 GET请求，回调原始Data，不做解析
+- 发送 GET请求，回调原始 Data，不做解析
 
     ```objc
     SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:kTestJSONApi params:nil];
@@ -145,7 +147,7 @@ npm start
     [[SCNetworkService sharedService]startRequest:req];
     ```
 
-- 发送 GET请求，回调 Model 对象
+- 发送 GET 请求，回调 Model 对象
 
     ```objc
     SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:kTestJSONApi params:nil];
@@ -355,13 +357,13 @@ req.c_URL(@"http://debugly.cn/dist/json/test.json")
 NSURLSession 管理的网络请求结束后，会在 SCNetworkRequest 里处理响应数据，根据配置的 ResponseParser 去异步解析，最终在主线程里安全着陆；
 
 - SCNetworkRequest 从 start 开始被 Service 持有，直到着陆后 Service 不再持有，因此上层可以不持有 SCNetworkRequest 对象！如果要拥有 SCNetworkRequest 对象的指针，一般使用 weak 即可；
-
 - SCNetworkRequest 支持添加多个回调，回调顺序跟添加的顺序一样；
 - 注意添加回调的时候，不要让 SCNetworkRequest 持有你的对象，否则 SCNetworkRequest 会一直持有，直到着陆，虽然不会导致循环引用导致的内存泄漏，但是却“延长”了被持有对象的生命周期；
+- 该类默认发送 GET 请求，也可以修改 method 发送 POST 请求，但是只能发送不带 body 体的 POST 请求。
 
 ## SCNetworkPostRequest
 
-继承了 SCNetworkRequest，专门用于发送 POST 请求，支持四种编码方式:
+继承了 SCNetworkRequest，专门用于发送带有 body 体的 POST 请求，body 体内容支持四种编码方式:
 
 - SCNPostDataEncodingURL : application/x-www-form-urlencoded;
 - SCNPostDataEncodingJSON : application/json;
@@ -390,4 +392,4 @@ NSURLSession 管理的网络请求结束后，会在 SCNetworkRequest 里处理�
 
 ## 完
 
-由于该网络库是完全为自己业务服务的，因此不是所有的功能均支持，而是用到时再加，发现不合理就改，所以如果你使用了 SCNetworkKit ，发现功能缺失，可以提交 PR 或者联系我增加缺失的功能！
+由于该网络库是完全为自己业务服务的，因此不是所有的功能都很完善，而是用到时再加，发现不合理就改，所以如果你使用了 SCNetworkKit ，发现功能缺失，可以提交 PR 或者 Issue 给我！

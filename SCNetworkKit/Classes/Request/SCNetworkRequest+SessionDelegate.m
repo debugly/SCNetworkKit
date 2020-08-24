@@ -99,8 +99,8 @@ totalBytesExpectedToWrite:dataTask.response.expectedContentLength + downloadReq.
       downloadTask:(NSURLSessionTask *)downloadTask
       didWriteData:(int64_t)bytesWritten
  totalBytesWritten:(int64_t)totalBytesWritten
-totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
-    
+totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
+{    
     [self updateTransferedData:bytesWritten totalBytes:totalBytesWritten totalBytesExpected:totalBytesExpectedToWrite];
 }
 
