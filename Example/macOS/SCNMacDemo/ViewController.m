@@ -14,15 +14,23 @@
 #import "SCNJSONParser.h"
 #import "SCNModelParser.h"
 
-#define kTestJSONApi @"http://debugly.cn/repository/test.json"
-#define kTestUploadApi @"http://localhost:3000/upload-file"
-#define kTestPostApi @"http://localhost:3000/users"
+#define kUSECharles 0
 
-#define kTestDownloadApi @"http://localhost:3000/images/node.jpg"
+#if kUSECharles
+#define kLocalhost @"http://localhost.charlesproxy.com:3000"
+#else
+#define kLocalhost @"http://localhost:3000"
+#endif
+
+#define kTestJSONApi @"http://debugly.cn/repository/test.json"
+#define kTestUploadApi kLocalhost @"/upload-file"
+#define kTestPostApi kLocalhost   @"/users"
+
+#define kTestDownloadApi kLocalhost @"/images/node.jpg"
 #define kTestDownloadApi2 @"http://debugly.github.io/repository/test.mp4"
 
-#define kTestDownloadApi3 @"http://localhost.charlesproxy.com:3000/movie/aa.rmvb"
-#define kTestDownloadApi4 @"http://localhost.charlesproxy.com/movie/aa.rmvb"
+#define kTestDownloadApi3 kLocalhost @"/movie/aa.rmvb"
+#define kTestDownloadApi4 kLocalhost @"/movie/aa.rmvb"
 
 #define __weakSelf   typeof(self)weakself = self;
 #define __strongSelf typeof(weakself)self = weakself;
@@ -306,6 +314,20 @@
     }progress:^(float p) {
         __strongSelf
         self.textView.string = [NSString stringWithFormat:@"上传进度：%0.4f",p];
+    }];
+}
+
+- (IBAction)testBasicPost:(id)sender
+{
+    __weakSelf
+    [self testBasicPostWithCompletion:^(id json, NSError *err) {
+        __strongSelf
+        if (json) {
+            self.textView.string = [json description];
+        }else{
+            self.textView.string = [err description];
+        }
+        [self hiddenIndicator];
     }];
 }
 
@@ -600,11 +622,20 @@
     [[SCNetworkService sharedService]startRequest:post];
 }
 
-- (void)setRepresentedObject:(id)representedObject {
-    [super setRepresentedObject:representedObject];
-
-    // Update the view, if already loaded.
+- (void)testBasicPostWithCompletion:(void(^)(id json,NSError *err))completion
+{
+    NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
+    SCNetworkRequest *post = [[SCNetworkRequest alloc]initWithURLString:kTestPostApi params:ps];
+    
+    post.method = SCNetworkRequestPostMethod;
+    [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+        
+        if (completion) {
+            completion(result,err);
+        }
+    }];
+    
+    [[SCNetworkService sharedService]startRequest:post];
 }
-
 
 @end

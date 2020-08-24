@@ -130,6 +130,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     self = [self init];
     if (self) {
         self.urlString = aURL;
+        self.method = SCNetworkRequestGetMethod;
         if (params) {
             [self.parameters addEntriesFromDictionary:params];
         }
@@ -149,10 +150,10 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     return self;
 }
 
-- (NSMutableURLRequest *)makeURLRequest:(NSString *)urlString query:(NSDictionary *)query method:(NSString *)method
+- (NSMutableURLRequest *)makeURLRequest:(NSString *)urlString
+                                  query:(NSDictionary *)query
 {
     NSAssert(urlString, @"makeURLRequest:url不能为空");
-    NSAssert(method, @"makeURLRequest:method不能为空");
     
     NSURL *url = nil;
     
@@ -197,6 +198,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     }
     
     [createdRequest setAllHTTPHeaderFields:headers];
+    NSString *method = self.method == SCNetworkRequestGetMethod ? @"GET" : @"POST";
     [createdRequest setHTTPMethod:method];
     
     return createdRequest;
@@ -204,7 +206,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 - (NSMutableURLRequest* )makeURLRequest
 {    
-    NSMutableURLRequest *createdRequest = [self makeURLRequest:self.urlString query:self.parameters method:@"GET"];
+    NSMutableURLRequest *createdRequest = [self makeURLRequest:self.urlString query:self.parameters];
     
     return createdRequest;
 }
@@ -533,6 +535,11 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 @implementation SCNetworkPostRequest
 
+- (SCNetworkRequestMethod)method
+{
+    return SCNetworkRequestPostMethod;
+}
+
 - (NSMutableDictionary *)queryPs
 {
     if(!_queryPs)
@@ -569,7 +576,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 - (NSMutableURLRequest* )makeURLRequest
 {
-    NSMutableURLRequest *createdRequest = [self makeURLRequest:self.urlString query:self.queryPs method:@"POST"];
+    NSMutableURLRequest *createdRequest = [self makeURLRequest:self.urlString query:self.queryPs];
     
     if ([self.formFileParts count] > 0) {
         ///强制设置为 FromData ！

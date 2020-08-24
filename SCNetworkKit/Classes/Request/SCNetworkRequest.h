@@ -20,6 +20,11 @@ typedef enum : NSUInteger {
     SCNKRequestStateError,
 } SCNKRequestState;
 
+typedef enum : NSUInteger {
+    SCNetworkRequestGetMethod,
+    SCNetworkRequestPostMethod
+} SCNetworkRequestMethod;
+
 @class SCNetworkRequest;
 typedef void(^SCNetWorkHandler)(SCNetworkRequest *request,id result,NSError *err);
 typedef void(^SCNetWorkProgressDidChangeHandler)(SCNetworkRequest *request, int64_t thisTransfered, int64_t totalBytesTransfered, int64_t totalBytesExpected);
