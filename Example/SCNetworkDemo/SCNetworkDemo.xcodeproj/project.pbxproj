@@ -1,0 +1,736 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		063C7A538554D746DED1DD50 /* Pods_SCNetworkiOSDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D678265B9E75D2356648ACA9 /* Pods_SCNetworkiOSDemo.framework */; };
+		7D16677195F8BBD22BE06BC9 /* Pods_SCNetworkMacDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C213E40361F34A468A7A6A /* Pods_SCNetworkMacDemo.framework */; };
+		DDEF5D0624F3AF98006BF1BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D0524F3AF98006BF1BF /* AppDelegate.m */; };
+		DDEF5D0C24F3AF98006BF1BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D0B24F3AF98006BF1BF /* ViewController.m */; };
+		DDEF5D0F24F3AF98006BF1BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D0D24F3AF98006BF1BF /* Main.storyboard */; };
+		DDEF5D1124F3AF9B006BF1BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D1024F3AF9B006BF1BF /* Assets.xcassets */; };
+		DDEF5D1424F3AF9B006BF1BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D1224F3AF9B006BF1BF /* LaunchScreen.storyboard */; };
+		DDEF5D1724F3AF9B006BF1BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D1624F3AF9B006BF1BF /* main.m */; };
+		DDEF5D2324F3B0E4006BF1BF /* node.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D1C24F3B0E4006BF1BF /* node.jpg */; };
+		DDEF5D2424F3B0E4006BF1BF /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D1D24F3B0E4006BF1BF /* logo.png */; };
+		DDEF5D2524F3B0E4006BF1BF /* TestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D2024F3B0E4006BF1BF /* TestModel.m */; };
+		DDEF5D2624F3B0E4006BF1BF /* node.txt in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D2124F3B0E4006BF1BF /* node.txt */; };
+		DDEF5D2724F3B0E4006BF1BF /* SCNJson2ModelParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D2224F3B0E4006BF1BF /* SCNJson2ModelParser.m */; };
+		DDEF5D3024F3B1B1006BF1BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D2F24F3B1B1006BF1BF /* AppDelegate.m */; };
+		DDEF5D3324F3B1B1006BF1BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D3224F3B1B1006BF1BF /* ViewController.m */; };
+		DDEF5D3524F3B1B2006BF1BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D3424F3B1B2006BF1BF /* Assets.xcassets */; };
+		DDEF5D3824F3B1B2006BF1BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D3624F3B1B2006BF1BF /* Main.storyboard */; };
+		DDEF5D3B24F3B1B2006BF1BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D3A24F3B1B2006BF1BF /* main.m */; };
+		DDEF5D4024F3B203006BF1BF /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D1D24F3B0E4006BF1BF /* logo.png */; };
+		DDEF5D4324F3B328006BF1BF /* SCApiTester.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D4224F3B328006BF1BF /* SCApiTester.m */; };
+		DDEF5D4424F3B328006BF1BF /* SCApiTester.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D4224F3B328006BF1BF /* SCApiTester.m */; };
+		DDEF5D4524F3B4A4006BF1BF /* TestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D2024F3B0E4006BF1BF /* TestModel.m */; };
+		DDEF5D4624F3B4AA006BF1BF /* SCNJson2ModelParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D2224F3B0E4006BF1BF /* SCNJson2ModelParser.m */; };
+		DDEF5D4724F3B4B2006BF1BF /* node.txt in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D2124F3B0E4006BF1BF /* node.txt */; };
+		DDEF5D4824F3B4B5006BF1BF /* node.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D1C24F3B0E4006BF1BF /* node.jpg */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		029190B962589F74E52D8AFF /* Pods-SCNetworkMacDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SCNetworkMacDemo.debug.xcconfig"; path = "Target Support Files/Pods-SCNetworkMacDemo/Pods-SCNetworkMacDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		6A3D6AD310BEAC5A6277401F /* Pods-SCNetworkiOSDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SCNetworkiOSDemo.debug.xcconfig"; path = "Target Support Files/Pods-SCNetworkiOSDemo/Pods-SCNetworkiOSDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		7C251B9672A4C05B7E470A6A /* Pods-SCNetworkiOSDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SCNetworkiOSDemo.release.xcconfig"; path = "Target Support Files/Pods-SCNetworkiOSDemo/Pods-SCNetworkiOSDemo.release.xcconfig"; sourceTree = "<group>"; };
+		9752CA58F3AEE97A14A31417 /* Pods-SCNetworkMacDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SCNetworkMacDemo.release.xcconfig"; path = "Target Support Files/Pods-SCNetworkMacDemo/Pods-SCNetworkMacDemo.release.xcconfig"; sourceTree = "<group>"; };
+		A3C213E40361F34A468A7A6A /* Pods_SCNetworkMacDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SCNetworkMacDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D678265B9E75D2356648ACA9 /* Pods_SCNetworkiOSDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SCNetworkiOSDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDEF5D0124F3AF98006BF1BF /* SCNetworkiOSDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SCNetworkiOSDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDEF5D0424F3AF98006BF1BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		DDEF5D0524F3AF98006BF1BF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		DDEF5D0A24F3AF98006BF1BF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		DDEF5D0B24F3AF98006BF1BF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		DDEF5D0E24F3AF98006BF1BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DDEF5D1024F3AF9B006BF1BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DDEF5D1324F3AF9B006BF1BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		DDEF5D1524F3AF9B006BF1BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DDEF5D1624F3AF9B006BF1BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DDEF5D1C24F3B0E4006BF1BF /* node.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = node.jpg; path = ../../iOS/SCNDemo/node.jpg; sourceTree = "<group>"; };
+		DDEF5D1D24F3B0E4006BF1BF /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = ../../iOS/SCNDemo/logo.png; sourceTree = "<group>"; };
+		DDEF5D1E24F3B0E4006BF1BF /* TestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestModel.h; path = ../../iOS/SCNDemo/TestModel.h; sourceTree = "<group>"; };
+		DDEF5D1F24F3B0E4006BF1BF /* SCNJson2ModelParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SCNJson2ModelParser.h; path = ../../iOS/SCNDemo/SCNJson2ModelParser.h; sourceTree = "<group>"; };
+		DDEF5D2024F3B0E4006BF1BF /* TestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestModel.m; path = ../../iOS/SCNDemo/TestModel.m; sourceTree = "<group>"; };
+		DDEF5D2124F3B0E4006BF1BF /* node.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = node.txt; path = ../../iOS/SCNDemo/node.txt; sourceTree = "<group>"; };
+		DDEF5D2224F3B0E4006BF1BF /* SCNJson2ModelParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCNJson2ModelParser.m; path = ../../iOS/SCNDemo/SCNJson2ModelParser.m; sourceTree = "<group>"; };
+		DDEF5D2C24F3B1B1006BF1BF /* SCNetworkMacDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SCNetworkMacDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDEF5D2E24F3B1B1006BF1BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		DDEF5D2F24F3B1B1006BF1BF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		DDEF5D3124F3B1B1006BF1BF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		DDEF5D3224F3B1B1006BF1BF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		DDEF5D3424F3B1B2006BF1BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DDEF5D3724F3B1B2006BF1BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DDEF5D3924F3B1B2006BF1BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DDEF5D3A24F3B1B2006BF1BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DDEF5D3C24F3B1B2006BF1BF /* SCNetworkMacDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SCNetworkMacDemo.entitlements; sourceTree = "<group>"; };
+		DDEF5D4124F3B328006BF1BF /* SCApiTester.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCApiTester.h; sourceTree = "<group>"; };
+		DDEF5D4224F3B328006BF1BF /* SCApiTester.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCApiTester.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DDEF5CFE24F3AF98006BF1BF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				063C7A538554D746DED1DD50 /* Pods_SCNetworkiOSDemo.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDEF5D2924F3B1B1006BF1BF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D16677195F8BBD22BE06BC9 /* Pods_SCNetworkMacDemo.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		95AC581B5F2FAC49AFA0053C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6A3D6AD310BEAC5A6277401F /* Pods-SCNetworkiOSDemo.debug.xcconfig */,
+				7C251B9672A4C05B7E470A6A /* Pods-SCNetworkiOSDemo.release.xcconfig */,
+				029190B962589F74E52D8AFF /* Pods-SCNetworkMacDemo.debug.xcconfig */,
+				9752CA58F3AEE97A14A31417 /* Pods-SCNetworkMacDemo.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		9E80392CD979C7031040B6B4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D678265B9E75D2356648ACA9 /* Pods_SCNetworkiOSDemo.framework */,
+				A3C213E40361F34A468A7A6A /* Pods_SCNetworkMacDemo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DDEF5CF624F3ADD6006BF1BF = {
+			isa = PBXGroup;
+			children = (
+				DDEF5D1B24F3B0CE006BF1BF /* Common */,
+				DDEF5D0324F3AF98006BF1BF /* SCNetworkiOSDemo */,
+				DDEF5D2D24F3B1B1006BF1BF /* SCNetworkMacDemo */,
+				DDEF5D0224F3AF98006BF1BF /* Products */,
+				95AC581B5F2FAC49AFA0053C /* Pods */,
+				9E80392CD979C7031040B6B4 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		DDEF5D0224F3AF98006BF1BF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DDEF5D0124F3AF98006BF1BF /* SCNetworkiOSDemo.app */,
+				DDEF5D2C24F3B1B1006BF1BF /* SCNetworkMacDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DDEF5D0324F3AF98006BF1BF /* SCNetworkiOSDemo */ = {
+			isa = PBXGroup;
+			children = (
+				DDEF5D0424F3AF98006BF1BF /* AppDelegate.h */,
+				DDEF5D0524F3AF98006BF1BF /* AppDelegate.m */,
+				DDEF5D0A24F3AF98006BF1BF /* ViewController.h */,
+				DDEF5D0B24F3AF98006BF1BF /* ViewController.m */,
+				DDEF5D0D24F3AF98006BF1BF /* Main.storyboard */,
+				DDEF5D1024F3AF9B006BF1BF /* Assets.xcassets */,
+				DDEF5D1224F3AF9B006BF1BF /* LaunchScreen.storyboard */,
+				DDEF5D1524F3AF9B006BF1BF /* Info.plist */,
+				DDEF5D1624F3AF9B006BF1BF /* main.m */,
+			);
+			path = SCNetworkiOSDemo;
+			sourceTree = "<group>";
+		};
+		DDEF5D1B24F3B0CE006BF1BF /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				DDEF5D1D24F3B0E4006BF1BF /* logo.png */,
+				DDEF5D1C24F3B0E4006BF1BF /* node.jpg */,
+				DDEF5D2124F3B0E4006BF1BF /* node.txt */,
+				DDEF5D1F24F3B0E4006BF1BF /* SCNJson2ModelParser.h */,
+				DDEF5D2224F3B0E4006BF1BF /* SCNJson2ModelParser.m */,
+				DDEF5D1E24F3B0E4006BF1BF /* TestModel.h */,
+				DDEF5D2024F3B0E4006BF1BF /* TestModel.m */,
+				DDEF5D4124F3B328006BF1BF /* SCApiTester.h */,
+				DDEF5D4224F3B328006BF1BF /* SCApiTester.m */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		DDEF5D2D24F3B1B1006BF1BF /* SCNetworkMacDemo */ = {
+			isa = PBXGroup;
+			children = (
+				DDEF5D2E24F3B1B1006BF1BF /* AppDelegate.h */,
+				DDEF5D2F24F3B1B1006BF1BF /* AppDelegate.m */,
+				DDEF5D3124F3B1B1006BF1BF /* ViewController.h */,
+				DDEF5D3224F3B1B1006BF1BF /* ViewController.m */,
+				DDEF5D3424F3B1B2006BF1BF /* Assets.xcassets */,
+				DDEF5D3624F3B1B2006BF1BF /* Main.storyboard */,
+				DDEF5D3924F3B1B2006BF1BF /* Info.plist */,
+				DDEF5D3A24F3B1B2006BF1BF /* main.m */,
+				DDEF5D3C24F3B1B2006BF1BF /* SCNetworkMacDemo.entitlements */,
+			);
+			path = SCNetworkMacDemo;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DDEF5D0024F3AF98006BF1BF /* SCNetworkiOSDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDEF5D1824F3AF9B006BF1BF /* Build configuration list for PBXNativeTarget "SCNetworkiOSDemo" */;
+			buildPhases = (
+				AC1D43215C2EF509371A9374 /* [CP] Check Pods Manifest.lock */,
+				DDEF5CFD24F3AF98006BF1BF /* Sources */,
+				DDEF5CFE24F3AF98006BF1BF /* Frameworks */,
+				DDEF5CFF24F3AF98006BF1BF /* Resources */,
+				BDB7C480CECE33B980A9E9C5 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SCNetworkiOSDemo;
+			productName = SCNetworkiOSDemo;
+			productReference = DDEF5D0124F3AF98006BF1BF /* SCNetworkiOSDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DDEF5D2B24F3B1B1006BF1BF /* SCNetworkMacDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDEF5D3D24F3B1B2006BF1BF /* Build configuration list for PBXNativeTarget "SCNetworkMacDemo" */;
+			buildPhases = (
+				B9DD76208666F746C7C592C7 /* [CP] Check Pods Manifest.lock */,
+				DDEF5D2824F3B1B1006BF1BF /* Sources */,
+				DDEF5D2924F3B1B1006BF1BF /* Frameworks */,
+				DDEF5D2A24F3B1B1006BF1BF /* Resources */,
+				EF7191631612E028A1025329 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SCNetworkMacDemo;
+			productName = SCNetworkMacDemo;
+			productReference = DDEF5D2C24F3B1B1006BF1BF /* SCNetworkMacDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DDEF5CF724F3ADD6006BF1BF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1150;
+				TargetAttributes = {
+					DDEF5D0024F3AF98006BF1BF = {
+						CreatedOnToolsVersion = 11.5;
+					};
+					DDEF5D2B24F3B1B1006BF1BF = {
+						CreatedOnToolsVersion = 11.5;
+					};
+				};
+			};
+			buildConfigurationList = DDEF5CFA24F3ADD6006BF1BF /* Build configuration list for PBXProject "SCNetworkDemo" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DDEF5CF624F3ADD6006BF1BF;
+			productRefGroup = DDEF5D0224F3AF98006BF1BF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DDEF5D0024F3AF98006BF1BF /* SCNetworkiOSDemo */,
+				DDEF5D2B24F3B1B1006BF1BF /* SCNetworkMacDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DDEF5CFF24F3AF98006BF1BF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDEF5D1424F3AF9B006BF1BF /* LaunchScreen.storyboard in Resources */,
+				DDEF5D2424F3B0E4006BF1BF /* logo.png in Resources */,
+				DDEF5D2324F3B0E4006BF1BF /* node.jpg in Resources */,
+				DDEF5D1124F3AF9B006BF1BF /* Assets.xcassets in Resources */,
+				DDEF5D2624F3B0E4006BF1BF /* node.txt in Resources */,
+				DDEF5D0F24F3AF98006BF1BF /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDEF5D2A24F3B1B1006BF1BF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDEF5D4724F3B4B2006BF1BF /* node.txt in Resources */,
+				DDEF5D4824F3B4B5006BF1BF /* node.jpg in Resources */,
+				DDEF5D3524F3B1B2006BF1BF /* Assets.xcassets in Resources */,
+				DDEF5D3824F3B1B2006BF1BF /* Main.storyboard in Resources */,
+				DDEF5D4024F3B203006BF1BF /* logo.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		AC1D43215C2EF509371A9374 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SCNetworkiOSDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B9DD76208666F746C7C592C7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SCNetworkMacDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BDB7C480CECE33B980A9E9C5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SCNetworkiOSDemo/Pods-SCNetworkiOSDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SCNetworkiOSDemo/Pods-SCNetworkiOSDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SCNetworkiOSDemo/Pods-SCNetworkiOSDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EF7191631612E028A1025329 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SCNetworkMacDemo/Pods-SCNetworkMacDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SCNetworkMacDemo/Pods-SCNetworkMacDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SCNetworkMacDemo/Pods-SCNetworkMacDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DDEF5CFD24F3AF98006BF1BF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDEF5D2724F3B0E4006BF1BF /* SCNJson2ModelParser.m in Sources */,
+				DDEF5D0C24F3AF98006BF1BF /* ViewController.m in Sources */,
+				DDEF5D2524F3B0E4006BF1BF /* TestModel.m in Sources */,
+				DDEF5D0624F3AF98006BF1BF /* AppDelegate.m in Sources */,
+				DDEF5D1724F3AF9B006BF1BF /* main.m in Sources */,
+				DDEF5D4324F3B328006BF1BF /* SCApiTester.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDEF5D2824F3B1B1006BF1BF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDEF5D4624F3B4AA006BF1BF /* SCNJson2ModelParser.m in Sources */,
+				DDEF5D3324F3B1B1006BF1BF /* ViewController.m in Sources */,
+				DDEF5D4524F3B4A4006BF1BF /* TestModel.m in Sources */,
+				DDEF5D3B24F3B1B2006BF1BF /* main.m in Sources */,
+				DDEF5D3024F3B1B1006BF1BF /* AppDelegate.m in Sources */,
+				DDEF5D4424F3B328006BF1BF /* SCApiTester.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		DDEF5D0D24F3AF98006BF1BF /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DDEF5D0E24F3AF98006BF1BF /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		DDEF5D1224F3AF9B006BF1BF /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DDEF5D1324F3AF9B006BF1BF /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		DDEF5D3624F3B1B2006BF1BF /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DDEF5D3724F3B1B2006BF1BF /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DDEF5CFB24F3ADD6006BF1BF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		DDEF5CFC24F3ADD6006BF1BF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		DDEF5D1924F3AF9B006BF1BF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A3D6AD310BEAC5A6277401F /* Pods-SCNetworkiOSDemo.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = SCNetworkiOSDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = debugly.cn.SCNetworkiOSDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DDEF5D1A24F3AF9B006BF1BF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7C251B9672A4C05B7E470A6A /* Pods-SCNetworkiOSDemo.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = SCNetworkiOSDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = debugly.cn.SCNetworkiOSDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DDEF5D3E24F3B1B2006BF1BF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 029190B962589F74E52D8AFF /* Pods-SCNetworkMacDemo.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = SCNetworkMacDemo/SCNetworkMacDemo.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = SCNetworkMacDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = debugly.cn.SCNetworkMacDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		DDEF5D3F24F3B1B2006BF1BF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9752CA58F3AEE97A14A31417 /* Pods-SCNetworkMacDemo.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = SCNetworkMacDemo/SCNetworkMacDemo.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = SCNetworkMacDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = debugly.cn.SCNetworkMacDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DDEF5CFA24F3ADD6006BF1BF /* Build configuration list for PBXProject "SCNetworkDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDEF5CFB24F3ADD6006BF1BF /* Debug */,
+				DDEF5CFC24F3ADD6006BF1BF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DDEF5D1824F3AF9B006BF1BF /* Build configuration list for PBXNativeTarget "SCNetworkiOSDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDEF5D1924F3AF9B006BF1BF /* Debug */,
+				DDEF5D1A24F3AF9B006BF1BF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DDEF5D3D24F3B1B2006BF1BF /* Build configuration list for PBXNativeTarget "SCNetworkMacDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDEF5D3E24F3B1B2006BF1BF /* Debug */,
+				DDEF5D3F24F3B1B2006BF1BF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DDEF5CF724F3ADD6006BF1BF /* Project object */;
+}

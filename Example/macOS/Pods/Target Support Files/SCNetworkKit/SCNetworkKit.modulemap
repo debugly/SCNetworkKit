@@ -1,6 +1,0 @@
-framework module SCNetworkKit {
-  umbrella header "SCNetworkKit-umbrella.h"
-
-  export *
-  module * { export * }
-}

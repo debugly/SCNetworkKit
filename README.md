@@ -35,8 +35,7 @@ SCNetworkKit 是一个功能强大的网络库，支持 iOS / macOS 平台。在
 ```
 ├── Example
 │   ├── Server
-│   ├── iOS
-│   └── macOS
+│   └── SCNetworkDemo
 ├── LICENSE
 ├── README.md
 ├── SCNetworkKit
@@ -45,7 +44,7 @@ SCNetworkKit 是一个功能强大的网络库，支持 iOS / macOS 平台。在
 └── _config.yml
 ```
 
-- Example/iOS(macOS) : 包含了 iOS、macOS 平台配套调用示例
+- Example/SCNetworkDemo : 包含了 iOS、macOS 平台配套调用示例
 - SCNetworkKit/Classes : 源码
 - Example/Server : 使用 Express 编写的简单 Node 服务器，主要为 Demo 提供 GET/POST 请求测试支持，客户端上传的文件都放在 `Server/upload` 文件夹下面。
     - 查看已经上传的文件: [http://localhost:3000/peek](http://localhost:3000/peek) 

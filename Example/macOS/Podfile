@@ -1,8 +1,0 @@
-use_frameworks!
-
-platform :osx, '10.10'
-
-target 'SCNMacDemo' do
-  pod 'SCNetworkKit', :path => '../../'
-  pod 'SCJSONUtil'
-end
