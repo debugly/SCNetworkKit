@@ -15,23 +15,23 @@
 		DDEF5D1124F3AF9B006BF1BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D1024F3AF9B006BF1BF /* Assets.xcassets */; };
 		DDEF5D1424F3AF9B006BF1BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D1224F3AF9B006BF1BF /* LaunchScreen.storyboard */; };
 		DDEF5D1724F3AF9B006BF1BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D1624F3AF9B006BF1BF /* main.m */; };
-		DDEF5D2324F3B0E4006BF1BF /* node.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D1C24F3B0E4006BF1BF /* node.jpg */; };
-		DDEF5D2424F3B0E4006BF1BF /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D1D24F3B0E4006BF1BF /* logo.png */; };
-		DDEF5D2524F3B0E4006BF1BF /* TestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D2024F3B0E4006BF1BF /* TestModel.m */; };
-		DDEF5D2624F3B0E4006BF1BF /* node.txt in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D2124F3B0E4006BF1BF /* node.txt */; };
-		DDEF5D2724F3B0E4006BF1BF /* SCNJson2ModelParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D2224F3B0E4006BF1BF /* SCNJson2ModelParser.m */; };
 		DDEF5D3024F3B1B1006BF1BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D2F24F3B1B1006BF1BF /* AppDelegate.m */; };
 		DDEF5D3324F3B1B1006BF1BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D3224F3B1B1006BF1BF /* ViewController.m */; };
 		DDEF5D3524F3B1B2006BF1BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D3424F3B1B2006BF1BF /* Assets.xcassets */; };
 		DDEF5D3824F3B1B2006BF1BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D3624F3B1B2006BF1BF /* Main.storyboard */; };
 		DDEF5D3B24F3B1B2006BF1BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D3A24F3B1B2006BF1BF /* main.m */; };
-		DDEF5D4024F3B203006BF1BF /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D1D24F3B0E4006BF1BF /* logo.png */; };
 		DDEF5D4324F3B328006BF1BF /* SCApiTester.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D4224F3B328006BF1BF /* SCApiTester.m */; };
 		DDEF5D4424F3B328006BF1BF /* SCApiTester.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D4224F3B328006BF1BF /* SCApiTester.m */; };
-		DDEF5D4524F3B4A4006BF1BF /* TestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D2024F3B0E4006BF1BF /* TestModel.m */; };
-		DDEF5D4624F3B4AA006BF1BF /* SCNJson2ModelParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D2224F3B0E4006BF1BF /* SCNJson2ModelParser.m */; };
-		DDEF5D4724F3B4B2006BF1BF /* node.txt in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D2124F3B0E4006BF1BF /* node.txt */; };
-		DDEF5D4824F3B4B5006BF1BF /* node.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D1C24F3B0E4006BF1BF /* node.jpg */; };
+		DDEF5DAD24F4A2DB006BF1BF /* TestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5DA624F4A2DB006BF1BF /* TestModel.m */; };
+		DDEF5DAE24F4A2DB006BF1BF /* SCNJson2ModelParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5DA724F4A2DB006BF1BF /* SCNJson2ModelParser.m */; };
+		DDEF5DAF24F4A2DB006BF1BF /* node.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5DA824F4A2DB006BF1BF /* node.jpg */; };
+		DDEF5DB024F4A2DB006BF1BF /* node.txt in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5DAA24F4A2DB006BF1BF /* node.txt */; };
+		DDEF5DB124F4A2DB006BF1BF /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5DAC24F4A2DB006BF1BF /* logo.png */; };
+		DDEF5DB224F4A5D3006BF1BF /* SCNJson2ModelParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5DA724F4A2DB006BF1BF /* SCNJson2ModelParser.m */; };
+		DDEF5DB324F4A5D6006BF1BF /* TestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5DA624F4A2DB006BF1BF /* TestModel.m */; };
+		DDEF5DB424F4A5DB006BF1BF /* node.txt in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5DAA24F4A2DB006BF1BF /* node.txt */; };
+		DDEF5DB524F4A5DE006BF1BF /* node.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5DA824F4A2DB006BF1BF /* node.jpg */; };
+		DDEF5DB624F4A5E0006BF1BF /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5DAC24F4A2DB006BF1BF /* logo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,13 +51,6 @@
 		DDEF5D1324F3AF9B006BF1BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DDEF5D1524F3AF9B006BF1BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DDEF5D1624F3AF9B006BF1BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		DDEF5D1C24F3B0E4006BF1BF /* node.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = node.jpg; path = ../../iOS/SCNDemo/node.jpg; sourceTree = "<group>"; };
-		DDEF5D1D24F3B0E4006BF1BF /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = ../../iOS/SCNDemo/logo.png; sourceTree = "<group>"; };
-		DDEF5D1E24F3B0E4006BF1BF /* TestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestModel.h; path = ../../iOS/SCNDemo/TestModel.h; sourceTree = "<group>"; };
-		DDEF5D1F24F3B0E4006BF1BF /* SCNJson2ModelParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SCNJson2ModelParser.h; path = ../../iOS/SCNDemo/SCNJson2ModelParser.h; sourceTree = "<group>"; };
-		DDEF5D2024F3B0E4006BF1BF /* TestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestModel.m; path = ../../iOS/SCNDemo/TestModel.m; sourceTree = "<group>"; };
-		DDEF5D2124F3B0E4006BF1BF /* node.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = node.txt; path = ../../iOS/SCNDemo/node.txt; sourceTree = "<group>"; };
-		DDEF5D2224F3B0E4006BF1BF /* SCNJson2ModelParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCNJson2ModelParser.m; path = ../../iOS/SCNDemo/SCNJson2ModelParser.m; sourceTree = "<group>"; };
 		DDEF5D2C24F3B1B1006BF1BF /* SCNetworkMacDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SCNetworkMacDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDEF5D2E24F3B1B1006BF1BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DDEF5D2F24F3B1B1006BF1BF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -70,6 +63,13 @@
 		DDEF5D3C24F3B1B2006BF1BF /* SCNetworkMacDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SCNetworkMacDemo.entitlements; sourceTree = "<group>"; };
 		DDEF5D4124F3B328006BF1BF /* SCApiTester.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCApiTester.h; sourceTree = "<group>"; };
 		DDEF5D4224F3B328006BF1BF /* SCApiTester.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCApiTester.m; sourceTree = "<group>"; };
+		DDEF5DA624F4A2DB006BF1BF /* TestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestModel.m; sourceTree = "<group>"; };
+		DDEF5DA724F4A2DB006BF1BF /* SCNJson2ModelParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNJson2ModelParser.m; sourceTree = "<group>"; };
+		DDEF5DA824F4A2DB006BF1BF /* node.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = node.jpg; sourceTree = "<group>"; };
+		DDEF5DA924F4A2DB006BF1BF /* TestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestModel.h; sourceTree = "<group>"; };
+		DDEF5DAA24F4A2DB006BF1BF /* node.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = node.txt; sourceTree = "<group>"; };
+		DDEF5DAB24F4A2DB006BF1BF /* SCNJson2ModelParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNJson2ModelParser.h; sourceTree = "<group>"; };
+		DDEF5DAC24F4A2DB006BF1BF /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,13 +152,13 @@
 		DDEF5D1B24F3B0CE006BF1BF /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				DDEF5D1D24F3B0E4006BF1BF /* logo.png */,
-				DDEF5D1C24F3B0E4006BF1BF /* node.jpg */,
-				DDEF5D2124F3B0E4006BF1BF /* node.txt */,
-				DDEF5D1F24F3B0E4006BF1BF /* SCNJson2ModelParser.h */,
-				DDEF5D2224F3B0E4006BF1BF /* SCNJson2ModelParser.m */,
-				DDEF5D1E24F3B0E4006BF1BF /* TestModel.h */,
-				DDEF5D2024F3B0E4006BF1BF /* TestModel.m */,
+				DDEF5DAC24F4A2DB006BF1BF /* logo.png */,
+				DDEF5DA824F4A2DB006BF1BF /* node.jpg */,
+				DDEF5DAA24F4A2DB006BF1BF /* node.txt */,
+				DDEF5DAB24F4A2DB006BF1BF /* SCNJson2ModelParser.h */,
+				DDEF5DA724F4A2DB006BF1BF /* SCNJson2ModelParser.m */,
+				DDEF5DA924F4A2DB006BF1BF /* TestModel.h */,
+				DDEF5DA624F4A2DB006BF1BF /* TestModel.m */,
 				DDEF5D4124F3B328006BF1BF /* SCApiTester.h */,
 				DDEF5D4224F3B328006BF1BF /* SCApiTester.m */,
 			);
@@ -263,10 +263,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDEF5D1424F3AF9B006BF1BF /* LaunchScreen.storyboard in Resources */,
-				DDEF5D2424F3B0E4006BF1BF /* logo.png in Resources */,
-				DDEF5D2324F3B0E4006BF1BF /* node.jpg in Resources */,
+				DDEF5DAF24F4A2DB006BF1BF /* node.jpg in Resources */,
+				DDEF5DB124F4A2DB006BF1BF /* logo.png in Resources */,
+				DDEF5DB024F4A2DB006BF1BF /* node.txt in Resources */,
 				DDEF5D1124F3AF9B006BF1BF /* Assets.xcassets in Resources */,
-				DDEF5D2624F3B0E4006BF1BF /* node.txt in Resources */,
 				DDEF5D0F24F3AF98006BF1BF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -275,11 +275,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDEF5D4724F3B4B2006BF1BF /* node.txt in Resources */,
-				DDEF5D4824F3B4B5006BF1BF /* node.jpg in Resources */,
 				DDEF5D3524F3B1B2006BF1BF /* Assets.xcassets in Resources */,
+				DDEF5DB624F4A5E0006BF1BF /* logo.png in Resources */,
+				DDEF5DB524F4A5DE006BF1BF /* node.jpg in Resources */,
+				DDEF5DB424F4A5DB006BF1BF /* node.txt in Resources */,
 				DDEF5D3824F3B1B2006BF1BF /* Main.storyboard in Resources */,
-				DDEF5D4024F3B203006BF1BF /* logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,11 +371,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDEF5D2724F3B0E4006BF1BF /* SCNJson2ModelParser.m in Sources */,
 				DDEF5D0C24F3AF98006BF1BF /* ViewController.m in Sources */,
-				DDEF5D2524F3B0E4006BF1BF /* TestModel.m in Sources */,
 				DDEF5D0624F3AF98006BF1BF /* AppDelegate.m in Sources */,
 				DDEF5D1724F3AF9B006BF1BF /* main.m in Sources */,
+				DDEF5DAD24F4A2DB006BF1BF /* TestModel.m in Sources */,
+				DDEF5DAE24F4A2DB006BF1BF /* SCNJson2ModelParser.m in Sources */,
 				DDEF5D4324F3B328006BF1BF /* SCApiTester.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -384,11 +384,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDEF5D4624F3B4AA006BF1BF /* SCNJson2ModelParser.m in Sources */,
 				DDEF5D3324F3B1B1006BF1BF /* ViewController.m in Sources */,
-				DDEF5D4524F3B4A4006BF1BF /* TestModel.m in Sources */,
 				DDEF5D3B24F3B1B2006BF1BF /* main.m in Sources */,
 				DDEF5D3024F3B1B1006BF1BF /* AppDelegate.m in Sources */,
+				DDEF5DB324F4A5D6006BF1BF /* TestModel.m in Sources */,
+				DDEF5DB224F4A5D3006BF1BF /* SCNJson2ModelParser.m in Sources */,
 				DDEF5D4424F3B328006BF1BF /* SCApiTester.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
