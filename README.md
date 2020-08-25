@@ -388,6 +388,7 @@ NSURLSession 管理的网络请求结束后，会在 SCNetworkRequest 里处理�
 - 1.0.17 : 移除自动取消支持，这一功能抽取为了单独的 [MRDeallocSubscriber](https://github.com/debugly/MRDeallocSubscriber) 模块，可通过block形式完成，使得网络库更加纯粹
 - 1.0.18 : 整理下载文件逻辑，使用单独的属性控制断点续传，避免404等情况的响应数据写入文件
 - 1.0.19：基类支持发送不带 body 体的 POST 请求
+- 1.0.20：修复断点续传 Range 请求 416 问题
 
 ## 完
 

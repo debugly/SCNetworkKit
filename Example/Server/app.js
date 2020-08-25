@@ -2,6 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 var logger = require('morgan');
 // var multiparty = require('multiparty');
 
@@ -9,7 +10,6 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var uploadRouter = require('./routes/upload');
 var peekRouter = require('./routes/peek');
-
 var app = express();
 
 // view engine setup
@@ -21,6 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

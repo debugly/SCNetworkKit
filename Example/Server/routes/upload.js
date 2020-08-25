@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var query = require("querystring");
 var multiparty = require('multiparty');
 var util = require('util');
 var fs = require('fs');
@@ -13,8 +12,8 @@ router.post('/', function(req, res, next) {
     form.uploadDir = tmpDir;
 
     form.parse(req, function(err, fields, files) {
-      // console.log(util.inspect(fields, true));
-      // console.log(util.inspect(files, true));
+      console.log(util.inspect(fields, true));
+      console.log(util.inspect(files, true));
       
       ///将移除，移动文件封装成 promise.
       function rename(f){
@@ -67,7 +66,8 @@ router.post('/', function(req, res, next) {
         const result = {};
         result['status'] = 200;
         result['msg'] = 'received none files!';
-        result['ps'] = fields;
+        result['body'] = fields;
+        result['query'] = req.query;
         res.json(result);
       }
 
@@ -104,7 +104,8 @@ router.post('/', function(req, res, next) {
             const result = {};
             result['status'] = 200;
             result['msg'] = 'received ' + fileNameArr.length + ' files!';
-            result['ps'] = fields;
+            result['body'] = fields;
+            result['query'] = req.query;
             result['files'] = fileNameArr;
             res.json(result);
             // res.writeHead(200, {'content-type': 'application/json'});

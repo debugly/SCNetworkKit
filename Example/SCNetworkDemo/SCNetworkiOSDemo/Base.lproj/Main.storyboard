@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="bnC-mR-zw0">
-                                <rect key="frame" x="16" y="20" width="343" height="480"/>
+                                <rect key="frame" x="16" y="20" width="343" height="540"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uyq-pN-iPA">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="60"/>
@@ -126,12 +126,27 @@
                                             <action selector="postUploadFile:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gz9-Oj-aLf"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ht1-ib-YER">
+                                        <rect key="frame" x="0.0" y="480" width="343" height="60"/>
+                                        <color key="backgroundColor" red="0.98436206579999996" green="0.42863398790000001" blue="0.36512780189999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="15i-x2-xiV"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="hIt-Q2-jxi"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Post-Download File"/>
+                                        <connections>
+                                            <action selector="postDownloadFile:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oSK-Fu-pM8"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="03n-cG-XrR" firstAttribute="leading" secondItem="bnC-mR-zw0" secondAttribute="leading" id="1KI-pT-Blw"/>
                                     <constraint firstItem="KLF-Nc-tYK" firstAttribute="leading" secondItem="bnC-mR-zw0" secondAttribute="leading" id="4Gi-8T-Sby"/>
                                     <constraint firstItem="tek-NR-C6Q" firstAttribute="leading" secondItem="bnC-mR-zw0" secondAttribute="leading" id="8H9-MR-QSQ"/>
                                     <constraint firstAttribute="trailing" secondItem="KLF-Nc-tYK" secondAttribute="trailing" id="BaM-qn-2kK"/>
+                                    <constraint firstItem="ht1-ib-YER" firstAttribute="leading" secondItem="bnC-mR-zw0" secondAttribute="leading" id="HNU-Nc-BZA"/>
                                     <constraint firstAttribute="trailing" secondItem="aGO-zO-yyb" secondAttribute="trailing" id="JDT-VV-wJv"/>
                                     <constraint firstAttribute="trailing" secondItem="eaF-wi-O3k" secondAttribute="trailing" id="MS1-hf-Ah8"/>
                                     <constraint firstAttribute="trailing" secondItem="Uyq-pN-iPA" secondAttribute="trailing" id="PsJ-Zv-5NN"/>
@@ -141,13 +156,14 @@
                                     <constraint firstItem="Uyq-pN-iPA" firstAttribute="leading" secondItem="bnC-mR-zw0" secondAttribute="leading" id="cEl-kA-YMb"/>
                                     <constraint firstAttribute="trailing" secondItem="03n-cG-XrR" secondAttribute="trailing" id="oHv-LX-wEC"/>
                                     <constraint firstAttribute="trailing" secondItem="tek-NR-C6Q" secondAttribute="trailing" id="uve-Qy-H4z"/>
+                                    <constraint firstAttribute="trailing" secondItem="ht1-ib-YER" secondAttribute="trailing" id="vGE-5D-Me9"/>
                                     <constraint firstItem="7by-C8-Mig" firstAttribute="leading" secondItem="bnC-mR-zw0" secondAttribute="leading" id="w1F-3L-YuS"/>
                                     <constraint firstItem="aGO-zO-yyb" firstAttribute="leading" secondItem="bnC-mR-zw0" secondAttribute="leading" id="yWy-ry-Fuk"/>
                                     <constraint firstItem="3M6-NZ-jjh" firstAttribute="leading" secondItem="bnC-mR-zw0" secondAttribute="leading" id="zap-TE-DJM"/>
                                 </constraints>
                             </stackView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="jm1-MN-dEA">
-                                <rect key="frame" x="16" y="500" width="343" height="167"/>
+                                <rect key="frame" x="16" y="560" width="343" height="107"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>

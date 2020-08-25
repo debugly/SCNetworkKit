@@ -322,4 +322,32 @@
     [[SCNetworkService sharedService]startRequest:post];
 }
 
++ (void)postDownloadFileWithCompletion:(void(^)(NSString *path,NSError *err))completion progress:(void(^)(float p))progress
+{
+    NSString *url = kTestDownloadApi4;
+    SCNetworkDownloadRequest *post = [[SCNetworkDownloadRequest alloc]initWithURLString:url params:nil];
+    post.method = SCNetworkRequestPostMethod;
+    NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:[url lastPathComponent]];
+    NSLog(@"download path:%@",path);
+    post.downloadFileTargetPath = path;
+    post.useBreakpointContinuous = YES;
+    [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+        if (completion) {
+            completion(path,err);
+        }
+    }];
+    
+    [post addProgressChangedHandler:^(SCNetworkRequest *request, int64_t thisTransfered, int64_t totalBytesTransfered, int64_t totalBytesExpected) {
+        
+        if (totalBytesExpected > 0) {
+            float p = 1.0 * totalBytesTransfered / totalBytesExpected;
+            NSLog(@"download progress:%0.4f",p);
+            if (progress) {
+                progress(p);
+            }
+        }
+    }];
+    
+    [[SCNetworkService sharedService]startRequest:post];
+}
 @end

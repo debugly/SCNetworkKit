@@ -187,6 +187,24 @@
     }];
 }
 
+- (IBAction)postDownloadFile:(id)sender
+{
+    __weakSelf
+    ///
+    [SCApiTester postDownloadFileWithCompletion:^(id json, NSError *err) {
+        __strongSelf
+        if (json) {
+            self.textView.text = [json description];
+        }else{
+            self.textView.text = [err description];
+        }
+        [self hiddenIndicator];
+    }progress:^(float p) {
+        __strongSelf
+        self.textView.text = [NSString stringWithFormat:@"上传进度：%0.4f",p];
+    }];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

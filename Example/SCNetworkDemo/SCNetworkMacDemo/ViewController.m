@@ -308,4 +308,23 @@
     }];
 }
 
+- (IBAction)postDownloadFile:(id)sender
+{
+    __weakSelf
+    ///
+    [SCApiTester postDownloadFileWithCompletion:^(NSString *path, NSError *err) {
+        __strongSelf
+        if (!err) {
+            self.textView.string = [NSString stringWithFormat:@"文件下载成功：\n%@",path];
+        } else {
+            self.textView.string = [NSString stringWithFormat:@"文件下载失败：\n%@",[err description]];
+        }
+        [self hiddenIndicator];
+    }progress:^(float p) {
+        __strongSelf
+        self.textView.string = [NSString stringWithFormat:@"上传进度：%0.4f",p];
+    }];
+}
+
+
 @end
