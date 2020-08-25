@@ -23,11 +23,14 @@ didCompleteWithError:(NSError *)error
             //处理下下载时，返回404之类的错误，需要给上层一个回调！
             if ([self isKindOfClass:[SCNetworkDownloadRequest class]]) {
                 SCNetworkDownloadRequest *downloadReq = (SCNetworkDownloadRequest *)self;
-                if (downloadReq.badResponse) {
+                if (SCNetworkDownloadRecordBadResponse == downloadReq.recordCode) {
                     NSError *aError = SCNError(self.response.statusCode, self.response.allHeaderFields);
                     [self updateState:SCNKRequestStateError error:aError];
+                } else if (SCNetworkDownloadRecordAlreadyFinished == downloadReq.recordCode) {
+                    [self updateState:SCNKRequestStateCompleted error:nil];
                 } else {
-                    [self updateState:SCNKRequestStateCancelled error:error];
+                    NSError *aError = SCNError(self.response.statusCode, self.response.allHeaderFields);
+                    [self updateState:SCNKRequestStateCancelled error:aError];
                 }
             } else {
                 [self updateState:SCNKRequestStateCancelled error:error];

@@ -42,12 +42,18 @@
 
 @end
 
+typedef NS_ENUM(NSUInteger, SCNetworkDownloadRecordCode) {
+    SCNetworkDownloadRecordUnknown,
+    SCNetworkDownloadRecordBadResponse,
+    SCNetworkDownloadRecordAlreadyFinished,
+};
+
 @interface SCNetworkDownloadRequest ()
 
 @property (nonatomic, strong) NSFileHandle *fileHandler;
 @property (nonatomic, assign) uint64_t startOffset;
 @property (nonatomic, assign) uint64_t currentOffset;
-@property (nonatomic, assign) BOOL badResponse;
+@property (nonatomic, assign) SCNetworkDownloadRecordCode recordCode;
 
 - (NSString *)rangeHeaderField;
 - (uint64_t)didReceiveData:(NSData *)data;

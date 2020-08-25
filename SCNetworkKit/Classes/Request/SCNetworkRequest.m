@@ -419,15 +419,35 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 {
     NSURLSessionResponseDisposition r = [super onReceivedResponse:response];
     NSHTTPURLResponse *httpResp = (NSHTTPURLResponse *)response;
-    if (httpResp.statusCode >= 200 && httpResp.statusCode < 300) {
+    if(httpResp.statusCode == 416) {
+        NSString *range = [[httpResp allHeaderFields] objectForKey:@"Content-Range"];
+        NSArray *items = [range componentsSeparatedByString:@"/"];
+        NSString *maxLengthStr = [items lastObject];
+        if (maxLengthStr) {
+            long maxlenght = (long)[maxLengthStr longLongValue];
+            NSString *reqByteRange =  [self.task.originalRequest valueForHTTPHeaderField:@"Range"];
+            NSString *reqRange = [[reqByteRange componentsSeparatedByString:@"="] lastObject];
+            if (reqRange) {
+                NSString *beginStr = [[reqRange componentsSeparatedByString:@"-"] firstObject];
+                long begin = (long)[beginStr longLongValue];
+                if (maxlenght == begin) {
+                    self.recordCode = SCNetworkDownloadRecordAlreadyFinished;
+                    return NSURLSessionResponseCancel;
+                }
+            }
+        }
+        //
+        self.recordCode = SCNetworkDownloadRecordUnknown;
+        return NSURLSessionResponseCancel;
+    } else if (httpResp.statusCode >= 200 && httpResp.statusCode < 300) {
         //let dataTask become downloadTask!
         if (!self.useBreakpointContinuous) {
             return NSURLSessionResponseBecomeDownload;
         }
         return r;
     } else {
-        //cancel the bad response request!
-        self.badResponse = YES;
+        //record the special case; cancel the bad response request!
+        self.recordCode = SCNetworkDownloadRecordBadResponse;
         return NSURLSessionResponseCancel;
     }
 }
