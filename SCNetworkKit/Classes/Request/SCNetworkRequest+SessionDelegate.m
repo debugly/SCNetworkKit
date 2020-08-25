@@ -19,7 +19,7 @@ didCompleteWithError:(NSError *)error
     self.response = (NSHTTPURLResponse*)task.response;
     
     if(error) {
-        if(error.code == NSURLErrorCancelled){
+        if(error.code == NSURLErrorCancelled) {
             //处理下下载时，返回404之类的错误，需要给上层一个回调！
             if ([self isKindOfClass:[SCNetworkDownloadRequest class]]) {
                 SCNetworkDownloadRequest *downloadReq = (SCNetworkDownloadRequest *)self;
@@ -28,6 +28,9 @@ didCompleteWithError:(NSError *)error
                     [self updateState:SCNKRequestStateError error:aError];
                 } else if (SCNetworkDownloadRecordAlreadyFinished == downloadReq.recordCode) {
                     [self updateState:SCNKRequestStateCompleted error:nil];
+                } else if (SCNetworkDownloadRecordBadRangeRequest == downloadReq.recordCode) {
+                    NSError *aError = SCNError(self.response.statusCode, self.response.allHeaderFields);
+                    [self updateState:SCNKRequestStateError error:aError];
                 } else {
                     NSError *aError = SCNError(self.response.statusCode, self.response.allHeaderFields);
                     [self updateState:SCNKRequestStateCancelled error:aError];
@@ -35,10 +38,10 @@ didCompleteWithError:(NSError *)error
             } else {
                 [self updateState:SCNKRequestStateCancelled error:error];
             }
-        }else{
+        }else {
             [self updateState:SCNKRequestStateError error:error];
         }
-    }else{
+    } else {
         [self updateState:SCNKRequestStateCompleted error:nil];
     }
 }

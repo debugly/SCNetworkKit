@@ -45,6 +45,7 @@
 typedef NS_ENUM(NSUInteger, SCNetworkDownloadRecordCode) {
     SCNetworkDownloadRecordUnknown,
     SCNetworkDownloadRecordBadResponse,
+    SCNetworkDownloadRecordBadRangeRequest,
     SCNetworkDownloadRecordAlreadyFinished,
 };
 

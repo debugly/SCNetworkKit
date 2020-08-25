@@ -437,7 +437,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
             }
         }
         //
-        self.recordCode = SCNetworkDownloadRecordUnknown;
+        self.recordCode = SCNetworkDownloadRecordBadRangeRequest;
         return NSURLSessionResponseCancel;
     } else if (httpResp.statusCode >= 200 && httpResp.statusCode < 300) {
         //let dataTask become downloadTask!
