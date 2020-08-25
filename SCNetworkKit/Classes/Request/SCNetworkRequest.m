@@ -251,7 +251,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 - (NSURLSessionResponseDisposition)onReceivedResponse:(NSHTTPURLResponse *)response
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_sync_to_main_queue(^{
         self.response = response;
         [self.responseHandlers enumerateObjectsUsingBlock:^(SCNetWorkDidReceiveResponseHandler  _Nonnull handler, NSUInteger idx, BOOL * _Nonnull stop) {
             handler(self,response);

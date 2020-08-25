@@ -21,6 +21,20 @@ extern NSError * SCNError(NSInteger code,id info);
 #define __weakSelf_scn_   typeof(self)weakself = self;
 #define __strongSelf_scn_ typeof(weakself)self = weakself;
 
+///将block块里的代码在主队列中同步执行
+NS_INLINE
+void dispatch_sync_to_main_queue(dispatch_block_t block)
+{
+    if (!block) {
+        return;
+    }
+    if (0 == strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_queue()))) {
+        block();
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), block);
+    }
+}
+
 @interface SCNUtil : NSObject
 
 + (NSString *)defaultUA;
