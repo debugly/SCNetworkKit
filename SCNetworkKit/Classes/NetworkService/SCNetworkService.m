@@ -111,7 +111,9 @@
         SCNetworkDownloadRequest *downloadReq = (SCNetworkDownloadRequest *)request;
         if (downloadReq.useBreakpointContinuous) {
             NSString *rangeField = [downloadReq rangeHeaderField];
-            [urlRequest addValue:rangeField forHTTPHeaderField:@"Range"];
+            if (rangeField) {
+                [urlRequest addValue:rangeField forHTTPHeaderField:@"Range"];
+            }
             request.task = [self.session dataTaskWithRequest:urlRequest];
         } else {
             //downloadTask can't handle bad response such as 404.we use dataTask then become downloadTask!

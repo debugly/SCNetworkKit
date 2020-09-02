@@ -378,7 +378,8 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 - (void)dealloc
 {
-    [self.fileHandler synchronizeFile];
+    [_fileHandler synchronizeFile];
+    _fileHandler = nil;
 }
 
 - (void)setDownloadFileTargetPath:(NSString *)downloadFileTargetPath
@@ -396,7 +397,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         }
         _fileHandler = [NSFileHandle fileHandleForUpdatingAtPath:self.downloadFileTargetPath];
         NSParameterAssert(_fileHandler);
-        self.currentOffset = [self.fileHandler seekToEndOfFile];
+        self.currentOffset = [_fileHandler seekToEndOfFile];
     }
     return _fileHandler;
 }
@@ -409,7 +410,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         return [NSString stringWithFormat:@"bytes=%lld-",self.currentOffset];
     } else {
         NSAssert(NO, @"why?");
-        return @"";
+        return nil;
     }
 }
 
@@ -461,8 +462,8 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 - (void)doFinishWithResult:(id)reslut error:(NSError *)error
 {
-    [self.fileHandler closeFile];
-    self.fileHandler = nil;
+    [_fileHandler closeFile];
+    _fileHandler = nil;
     //same as super finish.
     [super doFinishWithResult:reslut error:error];
 }
