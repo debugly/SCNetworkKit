@@ -1,3 +1,4 @@
+
 //
 //  SCNetworkRequest.h
 //  SCNetWorkKit
@@ -10,7 +11,7 @@
  USE iOS7 new feature; NSURLSession
  */
 #import <Foundation/Foundation.h>
-#import "SCNResponseParser.h"
+#import "SCNResponseParserProtocol.h"
 
 typedef enum : NSUInteger {
     SCNKRequestStateReady,
@@ -41,7 +42,7 @@ typedef void(^SCNetWorkDidReceiveResponseHandler)(SCNetworkRequest *request,NSUR
 @property(nonatomic, copy) NSString *tag;
 @property(nonatomic, copy) NSString *urlString;
 ///default is SCNJSONResponseParser
-@property(nonatomic, strong) id<SCNResponseParser>responseParser;
+@property(nonatomic, strong) id<SCNResponseParserProtocol>responseParser;
 ///请求超时时间，默认60s
 @property(nonatomic)NSTimeInterval timeoutInterval;
 ///仅当SCNetWorkDidReceiveResponseHandler回调后才能取到值

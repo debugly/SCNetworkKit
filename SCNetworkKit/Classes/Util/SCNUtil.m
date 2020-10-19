@@ -9,7 +9,7 @@
 #import <sys/sysctl.h>
 #import "NSString+SCAddtions.h"
 
-NSString *const SCNURLErrorDomain = @"com.sohu.sdk.scn";
+NSString *const SCNErrorDomain = @"SCNetWorkKit";
 
 NSError * SCNError(NSInteger code,id info)
 {
@@ -22,7 +22,7 @@ NSError * SCNError(NSInteger code,id info)
     }else{
         infoDic = info;
     }
-    return [[NSError alloc] initWithDomain:SCNURLErrorDomain code:code userInfo:infoDic];
+    return [[NSError alloc] initWithDomain:SCNErrorDomain code:code userInfo:infoDic];
 }
 
 NSError * SCNErrorWithOriginErr(NSError *originError,NSInteger newcode)

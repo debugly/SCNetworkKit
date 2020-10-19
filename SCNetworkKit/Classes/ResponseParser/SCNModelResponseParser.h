@@ -7,7 +7,7 @@
 //
 
 #import "SCNJSONResponseParser.h"
-#import "SCNModelParserProtocol.h"
+#import "SCNJSON2ModelProtocol.h"
 
 @interface SCNModelResponseParser : SCNJSONResponseParser
 
@@ -16,6 +16,6 @@
 // for JSONUtil
 @property (nonatomic,strong) id refObj;
 
-+ (void)registerModelParser:(Class<SCNModelParserProtocol>)parser;
++ (void)registerModelParser:(Class<SCNJSON2ModelProtocol>)parser;
 
 @end

@@ -17,6 +17,4 @@
 ///不ok时的错误信息
 @property (nonatomic, copy) NSString *errMsgKeyPath;
 
-+ (instancetype)parser;
-
 @end

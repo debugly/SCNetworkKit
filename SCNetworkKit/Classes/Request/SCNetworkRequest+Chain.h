@@ -16,7 +16,7 @@
 ///追加参数
 - (SCNetworkRequest *(^)(NSDictionary *parameters))c_Parameters;
 ///设置响应解析器
-- (SCNetworkRequest *(^)(id<SCNResponseParser> responseParser))c_ResponseParser;
+- (SCNetworkRequest *(^)(id<SCNResponseParserProtocol> responseParser))c_ResponseParser;
 ///追加着陆回调
 - (SCNetworkRequest *(^)(SCNetWorkHandler handler))c_CompletionHandler;
 ///追加请求响应回调

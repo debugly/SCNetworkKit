@@ -8,9 +8,9 @@
 //之前对于响应数据的解析不够优雅，于是单独抽取一个类来做这件事
 
 #import <Foundation/Foundation.h>
-#import "SCNResponseParser.h"
+#import "SCNResponseParserProtocol.h"
 
-@interface SCNHTTPResponseParser : NSObject<SCNResponseParser>
+@interface SCNHTTPResponseParser : NSObject<SCNResponseParserProtocol>
 
 @property (nonatomic, copy) NSIndexSet *acceptableStatusCodes;
 @property (nonatomic, copy) NSSet <NSString *> *acceptableContentTypes;

@@ -1,6 +1,6 @@
 //
 //  SCNetworkRequest+SessionDelegate.h
-//  SohuCoreFoundation
+//  SCNetWorkKit
 //
 //  Created by 许乾隆 on 2017/11/14.
 //  Copyright © 2017年 sohu-inc. All rights reserved.

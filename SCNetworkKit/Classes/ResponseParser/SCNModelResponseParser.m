@@ -7,25 +7,60 @@
 //
 
 #import "SCNModelResponseParser.h"
-#import "SCNModelParser.h"
+#import "SCNUtil.h"
 
 @implementation SCNModelResponseParser
-{
-    SCNModelParser *_modelParser;
-}
 
-+ (void)registerModelParser:(Class<SCNModelParserProtocol>)parser
+static Class <SCNJSON2ModelProtocol> MParser;
+
++ (void)registerModelParser:(Class<SCNJSON2ModelProtocol>)parser
 {
-    [SCNModelParser registerModelParser:parser];
+    MParser = parser;
 }
 
 - (instancetype)init
 {
     self = [super init];
     if (self) {
-        _modelParser = [SCNModelParser new];
+        NSAssert(MParser, @"befor use SCNModelResponseParser must be call +[SCNModelResponseParser registerModelParser]!");
     }
     return self;
+}
+
+- (id)modelWithJson:(id)json error:(NSError *__autoreleasing *)error
+{
+    if (!json) {
+        return nil;
+    }
+    
+    id result = json;
+    //查找目标JSON
+    if (self.modelKeyPath.length > 0) {
+        result = [MParser fetchSubJSON:result keyPath:self.modelKeyPath];
+    }
+    
+    if (result) {
+        if (self.modelName.length > 0) {
+            //解析目标JSON
+            result = [MParser JSON2Model:result modelName:self.modelName refObj:self.refObj];
+        }else{
+            //不需要解析为Model；
+            result = [MParser JSON2StringValueJSON:result];
+            //SCJSON2StringJOSN(result);
+        }
+    }else{
+        ///如果传了error指针地址了
+        if(error){
+            ///result is nil;
+            NSDictionary *info = @{@"reason":@"【解析错误】找不到对应的Model",
+                                   @"origin":json};
+            
+            NSInteger code = SCNResponseErrCannotFindTargetJson;
+            
+            *error = SCNError(code,info);
+        }
+    }
+    return result;
 }
 
 - (id)objectWithResponse:(NSHTTPURLResponse *)response data:(NSData *)data error:(NSError *__autoreleasing *)error
@@ -34,8 +69,7 @@
     
     if (json) {
         
-        id model = [_modelParser modelWithJson:json
-                                        error:error];
+        id model = [self modelWithJson:json error:error];
         if (model) {
             return model;
         } else {
@@ -44,36 +78,6 @@
     } else {
         return nil;
     }
-}
-
-- (NSString *)modelName
-{
-    return [_modelParser modelName];
-}
-
-- (void)setModelName:(NSString *)modelName
-{
-    [_modelParser setModelName:modelName];
-}
-
-- (NSString *)modelKeyPath
-{
-    return [_modelParser modelKeyPath];
-}
-
-- (void)setModelKeyPath:(NSString *)modelKeyPath
-{
-    [_modelParser setModelKeyPath:modelKeyPath];
-}
-
-- (id)refObj
-{
-    return [_modelParser modelKeyPath];
-}
-
-- (void)setRefObj:(id)refObj
-{
-    [_modelParser setRefObj:refObj];
 }
 
 @end
