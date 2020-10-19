@@ -89,9 +89,7 @@ Pod::Spec.new do |s|
   #
 
   s.source_files  = "SCNetworkKit/Classes/**/*.{h,m}"
-  #s.exclude_files = "SCNetworkKit/Exclude"
-
-  # s.public_header_files = "Classes/**/*.h"
+  s.public_header_files = "SCNetworkKit/Classes/SCNetworkKit.h", "SCNetworkKit/Classes/Util/NSDictionary+SCAddtions.h", "SCNetworkKit/Classes/Util/NSString+SCAddtions.h", "SCNetworkKit/Classes/NetworkService/SCNetworkService*.h", "SCNetworkKit/Classes/Request/SCNetworkRequest.h", "SCNetworkKit/Classes/Request/SCNetworkRequest+Chain.h", "SCNetworkKit/Classes/ResponseParser/*.h"
 
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
