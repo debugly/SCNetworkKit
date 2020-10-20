@@ -2,8 +2,8 @@
 //  SCNJSON2ModelProtocol.h
 //  SCNetWorkKit
 //
-//  Created by 许乾隆 on 2017/5/19.
-//  Copyright © 2017年 sohu-inc. All rights reserved.
+//  Created by Matt Reach on 2017/5/19.
+//  Copyright © 2017年 debugly.cn. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

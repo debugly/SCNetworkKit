@@ -2,8 +2,8 @@
 //  SCNetworkRequest+Chain.m
 //  SCNetWorkKit
 //
-//  Created by xuqianlong on 2016/12/1.
-//  Copyright © 2016年 sohu-inc. All rights reserved.
+//  Created by Matt Reach on 2016/12/1.
+//  Copyright © 2016年 debugly.cn. All rights reserved.
 //
 
 #import "SCNetworkRequest+Chain.h"

@@ -2,8 +2,8 @@
 //  SCNBlockResponseParser.m
 //  SCNetWorkKit
 //
-//  Created by xuqianlong on 2017/6/13.
-//  Copyright © 2017年 sohu-inc. All rights reserved.
+//  Created by Matt Reach on 2017/6/13.
+//  Copyright © 2017年 debugly.cn. All rights reserved.
 //
 
 #import "SCNBlockResponseParser.h"

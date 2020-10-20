@@ -3,8 +3,8 @@
 //  SCNetworkRequest.h
 //  SCNetWorkKit
 //
-//  Created by qianlongxu on 16/4/26.
-//  Copyright © 2016年 sohu-inc. All rights reserved.
+//  Created by Matt Reach on 16/4/26.
+//  Copyright © 2016年 debugly.cn. All rights reserved.
 //
 /*
  Only support iOS 7+;

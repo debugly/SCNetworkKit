@@ -2,8 +2,8 @@
 //  SCNHTTPBodyStream.m
 //  SCNDemo
 //
-//  Created by 许乾隆 on 2018/3/19.
-//  Copyright © 2018年 xuqianlong. All rights reserved.
+//  Created by Matt Reach on 2018/3/19.
+//  Copyright © 2018年 debuly.cn. All rights reserved.
 //
 
 #import "SCNHTTPBodyStream.h"

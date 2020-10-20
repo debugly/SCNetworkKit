@@ -2,8 +2,8 @@
 //  SCNHTTPResponseParser.m
 //  SCNetWorkKit
 //
-//  Created by 许乾隆 on 2016/11/25.
-//  Copyright © 2016年 sohu-inc. All rights reserved.
+//  Created by Matt Reach on 2016/11/25.
+//  Copyright © 2016年 debugly.cn. All rights reserved.
 //
 
 #import "SCNHTTPResponseParser.h"

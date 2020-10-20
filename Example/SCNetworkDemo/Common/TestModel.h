@@ -2,8 +2,8 @@
 //  TestModel.h
 //  SCNetworkDemo
 //
-//  Created by xuqianlong on 2017/7/13.
-//  Copyright © 2017年 xuqianlong. All rights reserved.
+//  Created by Matt Reach on 2017/7/13.
+//  Copyright © 2017年 debuly.cn. All rights reserved.
 //
 // 解析框架会根据你指定的类型去解析！
 

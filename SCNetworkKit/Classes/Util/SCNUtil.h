@@ -2,8 +2,8 @@
 //  SCNUtil.h
 //  SCNetWorkKit
 //
-//  Created by 许乾隆 on 2020/8/18.
-//  Copyright © 2020年 sohu-inc. All rights reserved.
+//  Created by Matt Reach on 2020/8/18.
+//  Copyright © 2020年 debugly.cn. All rights reserved.
 //
 
 #ifndef SCNUtil_h
