@@ -11,8 +11,8 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSError * SCNErrorWithOriginErr(NSError *originError,NSInteger newcode);
-extern NSError * SCNError(NSInteger code,id info);
+FOUNDATION_EXPORT NSString *const SCNErrorDomain;
+FOUNDATION_EXPORT NSError * SCNError(NSInteger code,id info);
 
 #define SCNResponseErrCannotPassValidate -9000
 ///按照指定的keypath找不到目标json

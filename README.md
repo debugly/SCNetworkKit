@@ -157,7 +157,7 @@ npm start
     responseParser.okValue = @"0";
     ///根据服务器返回数据的格式和想要解析结构对应的Model配置解析器
     responseParser.modelName = @"TestModel";
-    responseParser.modelKeyPath = @"content/entrance";
+    responseParser.targetKeyPath = @"content/entrance";
     req.responseParser = responseParser;
     [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
@@ -296,7 +296,6 @@ req.c_URL(@"http://debugly.cn/dist/json/test.json")
     @protocol SCNModelParserProtocol <NSObject>
     
     @required;
-    + (id)fetchSubJSON:(id)json keyPath:(NSString *)keypath;
     + (id)JSON2Model:(id)json modelName:(NSString *)mName;
     
     @end
@@ -304,7 +303,6 @@ req.c_URL(@"http://debugly.cn/dist/json/test.json")
     @interface SCNModelResponseParser : SCNJSONResponseParser
     
     @property (nonatomic,copy) NSString *modelName;
-    @property (nonatomic,copy) NSString *modelKeyPath;
     
     + (void)registerModelParser:(Class<SCNModelParserProtocol>)parser;
     

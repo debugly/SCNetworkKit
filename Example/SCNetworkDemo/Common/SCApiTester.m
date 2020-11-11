@@ -84,7 +84,7 @@
     responseParser.okValue = @"0";
     ///根据服务器返回数据的格式和想要解析结构对应的Model配置解析器
     responseParser.modelName = @"TestModel";
-    responseParser.modelKeyPath = @"content/entrance";
+    responseParser.targetKeyPath = @"content/entrance";
     req.responseParser = responseParser;
     
     [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {

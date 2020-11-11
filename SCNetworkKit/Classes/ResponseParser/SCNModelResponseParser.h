@@ -9,13 +9,15 @@
 #import "SCNJSONResponseParser.h"
 #import "SCNJSON2ModelProtocol.h"
 
+FOUNDATION_EXPORT NSString *const SCNParserErrorKey_ModelName;
+
 @interface SCNModelResponseParser : SCNJSONResponseParser
 
 @property (nonatomic,copy) NSString *modelName;
-@property (nonatomic,copy) NSString *modelKeyPath;
 // for JSONUtil
 @property (nonatomic,strong) id refObj;
 
 + (void)registerModelParser:(Class<SCNJSON2ModelProtocol>)parser;
++ (Class<SCNJSON2ModelProtocol>)modelParser;
 
 @end

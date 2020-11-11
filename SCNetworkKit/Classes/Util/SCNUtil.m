@@ -9,7 +9,7 @@
 #import <sys/sysctl.h>
 #import "NSString+SCAddtions.h"
 
-NSString *const SCNErrorDomain = @"SCNetWorkKit";
+NSString *const SCNErrorDomain = @"com.debugly.SCNetWorkKit";
 
 NSError * SCNError(NSInteger code,id info)
 {
@@ -23,21 +23,6 @@ NSError * SCNError(NSInteger code,id info)
         infoDic = info;
     }
     return [[NSError alloc] initWithDomain:SCNErrorDomain code:code userInfo:infoDic];
-}
-
-NSError * SCNErrorWithOriginErr(NSError *originError,NSInteger newcode)
-{
-    NSMutableDictionary *mulInfo = [NSMutableDictionary dictionary];
-    NSDictionary *originInfo = originError.userInfo;
-    if (originInfo) {
-        NSString *desc = originInfo[NSLocalizedDescriptionKey];
-        if (desc) {
-            [mulInfo setObject:desc forKey:@"origin-err"];
-        }
-        [mulInfo setObject:@(originError.code) forKey:@"origin-errcode"];
-    }
-    
-    return SCNError(newcode, mulInfo);
 }
 
 
