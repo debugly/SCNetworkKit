@@ -27,13 +27,13 @@ NSString *const SCNParserErrorKey_ErrMsgValue = @"ErrMsgValue";
     return self;
 }
 
-- (id)removeJSONNullValues:(id)JSONObject
+- (id)removeJSONNullValues:(id)jsonObject
 {
     //数组
-    if ([JSONObject isKindOfClass:[NSArray class]]) {
+    if ([jsonObject isKindOfClass:[NSArray class]]) {
         
         NSMutableArray *mutableArray = [NSMutableArray array];
-        for (id value in (NSArray *)JSONObject) {
+        for (id value in (NSArray *)jsonObject) {
             //先处理下
             id handledValue = [self removeJSONNullValues:value];
             //处理完毕后，不空就添加
@@ -46,11 +46,11 @@ NSString *const SCNParserErrorKey_ErrMsgValue = @"ErrMsgValue";
         return  [mutableArray copy];
     }
     //字典
-    else if ([JSONObject isKindOfClass:[NSDictionary class]]) {
-        NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionaryWithDictionary:JSONObject];
-        for (id <NSCopying> key in [(NSDictionary *)JSONObject allKeys]) {
+    else if ([jsonObject isKindOfClass:[NSDictionary class]]) {
+        NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionaryWithDictionary:jsonObject];
+        for (id <NSCopying> key in [(NSDictionary *)jsonObject allKeys]) {
             
-            id value = (NSDictionary *)JSONObject[key];
+            id value = (NSDictionary *)jsonObject[key];
             
             if (!value || [value isEqual:[NSNull null]]) {
                 [mutableDictionary removeObjectForKey:key];
@@ -66,29 +66,29 @@ NSString *const SCNParserErrorKey_ErrMsgValue = @"ErrMsgValue";
         return [mutableDictionary copy];
     }
     
-    else if ((!JSONObject || [JSONObject isEqual:[NSNull null]])){
+    else if ((!jsonObject || [jsonObject isEqual:[NSNull null]])){
         return nil;
     }
     
-    return JSONObject;
+    return jsonObject;
 }
 
-- (id)findSubJSON:(NSDictionary *)JSON keyPath:(NSString *)keyPath
+- (id)findSubJSON:(NSDictionary *)json keyPath:(NSString *)keyPath
 {
     if (!keyPath || keyPath.length == 0) {
-        return JSON;
+        return json;
     }
     NSArray *pathArr = [keyPath componentsSeparatedByString:@"/"];
-    return [self findSubJSON:JSON keyPathArr:pathArr];
+    return [self findSubJSON:json keyPathArr:pathArr];
 }
 
-- (id)findSubJSON:(NSDictionary *)JSON keyPathArr:(NSArray *)pathArr
+- (id)findSubJSON:(NSDictionary *)json keyPathArr:(NSArray *)pathArr
 {
-    if (!JSON) {
+    if (!json) {
         return nil;
     }
     if (!pathArr || pathArr.count == 0) {
-        return JSON;
+        return json;
     }
     NSMutableArray *pathArr2 = [NSMutableArray arrayWithArray:pathArr];
     
@@ -96,11 +96,11 @@ NSString *const SCNParserErrorKey_ErrMsgValue = @"ErrMsgValue";
         [pathArr2 removeObjectAtIndex:0];
     }
     if ([pathArr2 firstObject]) {
-        JSON = [JSON objectForKey:[pathArr2 firstObject]];
+        json = [json objectForKey:[pathArr2 firstObject]];
         [pathArr2 removeObjectAtIndex:0];
-        return [self findSubJSON:JSON keyPathArr:pathArr2];
+        return [self findSubJSON:json keyPathArr:pathArr2];
     }else{
-        return JSON;
+        return json;
     }
 }
 
@@ -183,7 +183,7 @@ NSString *const SCNParserErrorKey_ErrMsgValue = @"ErrMsgValue";
         }
     }
     
-    //查找目标JSON
+    //查找目标json
     if (self.targetKeyPath.length > 0) {
         json = [self findSubJSON:json keyPath:self.targetKeyPath];
     }
@@ -194,8 +194,6 @@ NSString *const SCNParserErrorKey_ErrMsgValue = @"ErrMsgValue";
             *error = SCNError(NSURLErrorCannotParseResponse, userInfo);
         }
     }
-    
-    return json;
     
     return json;
 }
