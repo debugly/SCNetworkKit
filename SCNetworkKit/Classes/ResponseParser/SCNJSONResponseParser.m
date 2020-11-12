@@ -164,7 +164,15 @@ NSString *const SCNParserErrorKey_ErrMsgValue = @"ErrMsgValue";
                             [info setObject:message forKey:SCNParserErrorKey_ErrMsgValue];
                         }
                     }
-                    *error = SCNError(NSURLErrorCannotParseResponse,info);
+                    NSInteger code = NSNotFound;
+                    //use checkKeyPath value as error code;
+                    if ([v respondsToSelector:@selector(intValue)]) {
+                        code = [v intValue];
+                    }
+                    if (code == NSNotFound) {
+                        code = SCNResponseErrCannotPassValidate;
+                    }
+                    *error = SCNError(code,info);
                 }
                 return nil;
             }
