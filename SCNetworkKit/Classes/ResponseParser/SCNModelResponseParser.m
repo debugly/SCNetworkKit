@@ -13,14 +13,14 @@ NSString *const SCNParserErrorKey_ModelName = @"ModelName";
 
 @implementation SCNModelResponseParser
 
-static Class <SCNJSON2ModelProtocol> MParser;
+static Class <SCNModelParserProtocol> MParser;
 
-+ (void)registerModelParser:(Class<SCNJSON2ModelProtocol>)parser
++ (void)registerModelParser:(Class<SCNModelParserProtocol>)parser
 {
     MParser = parser;
 }
 
-+ (Class<SCNJSON2ModelProtocol>)modelParser
++ (Class<SCNModelParserProtocol>)modelParser
 {
     return MParser;
 }

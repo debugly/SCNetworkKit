@@ -8,8 +8,8 @@
 // 实现了 SCNetworkKit 里的 JSON 转 Model 解析协议！
 
 #import <Foundation/Foundation.h>
-#import "SCNJSON2ModelProtocol.h"
+#import "SCNModelParserProtocol.h"
 
-@interface SCNJson2ModelParser : NSObject<SCNJSON2ModelProtocol>
+@interface SCNJson2ModelParser : NSObject<SCNModelParserProtocol>
 
 @end

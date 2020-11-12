@@ -1,5 +1,5 @@
 //
-//  SCNJSON2ModelProtocol.h
+//  SCNModelParserProtocol.h
 //  SCNetWorkKit
 //
 //  Created by Matt Reach on 2017/5/19.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol SCNJSON2ModelProtocol <NSObject>
+@protocol SCNModelParserProtocol <NSObject>
 
 @required;
 + (id)JSON2Model:(id)json modelName:(NSString *)mName refObj:(id)refObj;
