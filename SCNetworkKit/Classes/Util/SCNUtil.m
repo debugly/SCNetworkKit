@@ -9,7 +9,7 @@
 #import <sys/sysctl.h>
 #import "NSString+SCAddtions.h"
 
-NSString *const SCNErrorDomain = @"com.debugly.SCNetWorkKit";
+NSString *const SCNetworkKitErrorDomain = @"com.debugly.SCNetWorkKit";
 
 NSError * SCNError(NSInteger code,id info)
 {
@@ -22,7 +22,7 @@ NSError * SCNError(NSInteger code,id info)
     }else{
         infoDic = info;
     }
-    return [[NSError alloc] initWithDomain:SCNErrorDomain code:code userInfo:infoDic];
+    return [[NSError alloc] initWithDomain:SCNetworkKitErrorDomain code:code userInfo:infoDic];
 }
 
 

@@ -11,7 +11,7 @@
 #import <Foundation/Foundation.h>
 #import "SCNetworkRequest.h"
 
-FOUNDATION_EXPORT NSString *const SCNErrorDomain;
+FOUNDATION_EXPORT NSString *const SCNetworkKitErrorDomain;
 
 @interface SCNetworkService : NSObject
 

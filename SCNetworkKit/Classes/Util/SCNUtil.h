@@ -11,7 +11,7 @@
 
 #import <Foundation/Foundation.h>
 
-FOUNDATION_EXPORT NSString *const SCNErrorDomain;
+FOUNDATION_EXPORT NSString *const SCNetworkKitErrorDomain;
 FOUNDATION_EXPORT NSError * SCNError(NSInteger code,id info);
 
 #define SCNResponseErrCannotPassValidate -9000
