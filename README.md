@@ -388,6 +388,7 @@ NSURLSession 管理的网络请求结束后，会在 SCNetworkRequest 里处理�
 - 1.0.19：基类支持发送不带 body 体的 POST 请求
 - 1.0.20：修复断点续传 Range 请求 416 问题
 - 1.0.21：修复下载类重写 getter 导致的调用堆栈溢出问题
+- 1.0.22：修复使用Model解析默认将 JOSN 里的值转成 String 问题
 
 ## 完
 
