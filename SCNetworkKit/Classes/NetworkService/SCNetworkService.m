@@ -20,9 +20,9 @@
 
 @interface SCNetworkService ()<NSURLSessionDelegate,NSURLSessionTaskDelegate,NSURLSessionDataDelegate,NSURLSessionDownloadDelegate>
 
-@property(nonatomic, strong) dispatch_queue_t taskSynzQueue;
-@property(nonatomic, strong) NSMutableDictionary *taskRequestMap;
-@property(nonatomic, strong) NSURLSession *session;
+@property (nonatomic, strong) dispatch_queue_t taskSynzQueue;
+@property (nonatomic, strong) NSMutableDictionary *taskRequestMap;
+@property (nonatomic, strong) NSURLSession *session;
 
 @end
 

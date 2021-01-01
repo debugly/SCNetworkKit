@@ -39,28 +39,26 @@ typedef void(^SCNetWorkDidReceiveResponseHandler)(SCNetworkRequest *request,NSUR
 
 @interface SCNetworkRequest : NSObject
 
-@property(nonatomic, copy) NSString *tag;
-@property(nonatomic, copy) NSString *urlString;
+@property (nonatomic, copy) NSString *tag;
 ///default is SCNJSONResponseParser
-@property(nonatomic, strong) id<SCNResponseParserProtocol>responseParser;
+@property (nonatomic, strong) id<SCNResponseParserProtocol>responseParser;
 ///请求超时时间，默认60s
-@property(nonatomic)NSTimeInterval timeoutInterval;
+@property (nonatomic)NSTimeInterval timeoutInterval;
 ///仅当SCNetWorkDidReceiveResponseHandler回调后才能取到值
 @property (nonatomic, strong, readonly) NSHTTPURLResponse *response;
 ///the request's state
-@property(nonatomic, readonly) SCNKRequestState state;
+@property (nonatomic, readonly) SCNKRequestState state;
 ///default is get; when use post can't contain body!
-@property(nonatomic, assign) SCNetworkRequestMethod method;
- 
-- (instancetype)initWithURLString:(NSString *)aURL
-                           params:(NSDictionary *)params;
+@property (nonatomic, assign) SCNetworkRequestMethod method;
 
-//添加参数，如果是POST的form-data请求，则参数会放到表单里！GET请求直接拼接到URL上！
-- (void)addParameters:(NSDictionary *)ps;
-///当前已经添加的参数；
-- (NSDictionary *)ps;
-///清理请求参数
-- (void)clearPS;
+///初始化方法传入的参数，会给下面两个属性直接赋值
+- (instancetype)initWithURLString:(NSString *)aURL
+                           params:(id)params;
+
+@property (nonatomic, copy) NSString *urlString;
+///POST:放到body里；GET:拼接到URL上
+@property (nonatomic, strong) id parameters;
+
 ///add HTTP Header
 - (void)addHeaders:(NSDictionary *)hs;
 ///invoked on main thread,on the request finished
@@ -88,12 +86,12 @@ typedef void(^SCNetWorkDidReceiveResponseHandler)(SCNetworkRequest *request,NSUR
 
 @interface SCNetworkFormFilePart : NSObject
 
-@property(nonatomic,copy) NSString *mime;//文本类型
-@property(nonatomic,copy) NSString *fileName;//上传文件名
-@property(nonatomic,copy) NSString *name;//表单的名称，默认为 "file"
+@property (nonatomic,copy) NSString *mime;//文本类型
+@property (nonatomic,copy) NSString *fileName;//上传文件名
+@property (nonatomic,copy) NSString *name;//表单的名称，默认为 "file"
 ///上传文件的时候，小文件可以使用 data，大文件要使用 fileURL，省得内存暂用过大！
-@property(nonatomic,copy) NSString *fileURL;//文件地址，此时可以不传fileName和mime，内部自动推断
-@property(nonatomic,strong) NSData *data;//二进制数据，必须传fileName和mime，内部不能推断
+@property (nonatomic,copy) NSString *fileURL;//文件地址，此时可以不传fileName和mime，内部自动推断
+@property (nonatomic,strong) NSData *data;//二进制数据，必须传fileName和mime，内部不能推断
 
 @end
 
@@ -108,13 +106,13 @@ typedef enum : NSUInteger {
 @interface SCNetworkPostRequest : SCNetworkRequest
 
 //默认是: application/x-www-form-urlencoded
-@property(nonatomic,assign) SCNPostDataEncoding parameterEncoding;
+@property (nonatomic,assign) SCNPostDataEncoding parameterEncoding;
 /*
  需要通过表单上传的文件使用这个字段；
  支持多文件上传，数组里的每个元素均是一个文件；
  formFileParts 一旦被赋值，则parameterEncoding会强制使用multipart/form-data编码！
  */
-@property(nonatomic,strong) NSArray <SCNetworkFormFilePart *>* formFileParts;
+@property (nonatomic,strong) NSArray <SCNetworkFormFilePart *>* formFileParts;
 
 /* 添加URL query参数!!该方法会把参数追加到 URL 上，类似 GET 请求的参数拼！
  当使用 parameterEncoding 是 SCNPostDataEncodingFormData 形式编码时,

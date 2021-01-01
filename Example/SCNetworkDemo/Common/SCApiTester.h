@@ -37,6 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)postNoBodyWithCompletion:(void(^)(id json,NSError *err))completion;
 + (void)postURLEncodeWithCompletion:(void(^)(id json,NSError *err))completion;
++ (void)postJSONWithCompletion:(void(^)(id json,NSError *err))completion;
 + (void)postFormDataWithCompletion:(void(^)(id json,NSError *err))completion;
 + (void)postUploadFileWithCompletion:(void(^)(id json,NSError *err))completion progress:(void(^)(float p))progress;
 + (void)postDownloadFileWithCompletion:(void(^)(NSString *path,NSError *err))completion progress:(void(^)(float p))progress;

@@ -37,19 +37,16 @@
     responseParser.okValue = @"0";
     
     ///support chain
-    SCNetworkRequest *req = [[SCNetworkRequest alloc]init];
-    
-    req
-    .c_URL(kTestJSONApi)
-    .c_ResponseParser(responseParser)
-    .c_ReceivedResponseHandler(^(SCNetworkRequest *request,NSURLResponse *response){
+    SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:kTestJSONApi params:nil];
+    req.responseParser = responseParser;
+    [req addReceivedResponseHandler:^(SCNetworkRequest *request, NSURLResponse *response) {
         NSLog(@"response:%@",response);
-    })
-    .c_CompletionHandler(^(SCNetworkRequest *request, id result, NSError *err) {
+    }];
+    [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         if (completion) {
             completion(result,err);
         }
-    });
+    }];
     
     [[SCNetworkService sharedService]startRequest:req];
 }
@@ -158,6 +155,33 @@
     NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
     SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestPostApi params:ps];
     post.parameterEncoding = SCNPostDataEncodingURL;
+    [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+        
+        if (completion) {
+            completion(result,err);
+        }
+    }];
+    
+    [[SCNetworkService sharedService]startRequest:post];
+}
+
+//POST /users HTTP/1.1
+//Host: localhost.charlesproxy.com:3000
+//Content-Type: application/json; charset=utf-8
+//Connection: keep-alive
+//Accept: */*
+//User-Agent: SCNetworkiOSDemo/1 SCNetworkiOSDemo/1.0 (iPhone; iOS 14.3; Scale/2.00)
+//Accept-Language: en;q=1
+//Content-Length: 76
+//Accept-Encoding: gzip, deflate
+//
+//[{"date":"2021-01-01 15:55:37 +0000","name":"Matt Reach","k2":"v2","k1":"v1"}]
+
++ (void)postJSONWithCompletion:(void(^)(id json,NSError *err))completion
+{
+    NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
+    SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestPostApi params:@[ps]];
+    post.parameterEncoding = SCNPostDataEncodingJSON;
     [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
         if (completion) {
@@ -290,7 +314,7 @@
     SCNetworkDownloadRequest *post = [[SCNetworkDownloadRequest alloc]initWithURLString:url params:nil];
     post.method = SCNetworkRequestPostMethod;
     NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:[url lastPathComponent]];
-    NSLog(@"download path:%@",path);
+
     post.downloadFileTargetPath = path;
     post.useBreakpointContinuous = YES;
     [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
@@ -303,7 +327,7 @@
         
         if (totalBytesExpected > 0) {
             float p = 1.0 * totalBytesTransfered / totalBytesExpected;
-            NSLog(@"download progress:%0.4f",p);
+            
             if (progress) {
                 progress(p);
             }

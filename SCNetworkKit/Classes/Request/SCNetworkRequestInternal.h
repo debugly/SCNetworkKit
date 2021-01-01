@@ -14,21 +14,20 @@
 
 @interface SCNetworkRequest ()
 
-@property(nonatomic) NSMutableDictionary *parameters;
-@property(nonatomic) NSMutableDictionary *headers;
-@property(nonatomic) NSMutableArray <SCNetWorkHandler>*completionHandlers;
-@property(nonatomic) NSMutableArray <SCNetWorkProgressDidChangeHandler>*progressChangedHandlers;
-@property(nonatomic) NSMutableArray <SCNetWorkDidReceiveResponseHandler>*responseHandlers;
+@property (nonatomic) NSMutableDictionary *headers;
+@property (nonatomic) NSMutableArray <SCNetWorkHandler>*completionHandlers;
+@property (nonatomic) NSMutableArray <SCNetWorkProgressDidChangeHandler>*progressChangedHandlers;
+@property (nonatomic) NSMutableArray <SCNetWorkDidReceiveResponseHandler>*responseHandlers;
 #if TARGET_OS_IPHONE
-@property(nonatomic) UIBackgroundTaskIdentifier backgroundTask;
+@property (nonatomic) UIBackgroundTaskIdentifier backgroundTask;
 #endif
-@property(nonatomic, readwrite) SCNKRequestState state;
-@property(nonatomic, readwrite) NSURLSessionTask *task;
-@property(nonatomic, readwrite) NSUInteger taskIdentifier;
-@property(nonatomic, readwrite) NSHTTPURLResponse *response;
+@property (nonatomic, readwrite) SCNKRequestState state;
+@property (nonatomic, readwrite) NSURLSessionTask *task;
+@property (nonatomic, readwrite) NSUInteger taskIdentifier;
+@property (nonatomic, readwrite) NSHTTPURLResponse *response;
 ///存储dataTask回调的数据，不包括文件下载续传类型
-@property(nonatomic, strong) NSMutableData *mutableData;
-@property(nonatomic, copy) void (^customRequestMaker)(const NSMutableURLRequest *);
+@property (nonatomic, strong) NSMutableData *mutableData;
+@property (nonatomic, copy) void (^customRequestMaker)(const NSMutableURLRequest *);
 
 //更新传输进度
 - (void)updateTransferedData:(int64_t)bytes

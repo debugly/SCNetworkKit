@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		063C7A538554D746DED1DD50 /* Pods_SCNetworkiOSDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D678265B9E75D2356648ACA9 /* Pods_SCNetworkiOSDemo.framework */; };
 		7D16677195F8BBD22BE06BC9 /* Pods_SCNetworkMacDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C213E40361F34A468A7A6A /* Pods_SCNetworkMacDemo.framework */; };
+		DDB7EF64259F75AD005624D6 /* SectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB7EF63259F75AD005624D6 /* SectionModel.m */; };
+		DDB7EF69259F75BC005624D6 /* RowModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB7EF68259F75BC005624D6 /* RowModel.m */; };
 		DDEF5D0624F3AF98006BF1BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D0524F3AF98006BF1BF /* AppDelegate.m */; };
 		DDEF5D0C24F3AF98006BF1BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF5D0B24F3AF98006BF1BF /* ViewController.m */; };
 		DDEF5D0F24F3AF98006BF1BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDEF5D0D24F3AF98006BF1BF /* Main.storyboard */; };
@@ -41,6 +43,10 @@
 		9752CA58F3AEE97A14A31417 /* Pods-SCNetworkMacDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SCNetworkMacDemo.release.xcconfig"; path = "Target Support Files/Pods-SCNetworkMacDemo/Pods-SCNetworkMacDemo.release.xcconfig"; sourceTree = "<group>"; };
 		A3C213E40361F34A468A7A6A /* Pods_SCNetworkMacDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SCNetworkMacDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D678265B9E75D2356648ACA9 /* Pods_SCNetworkiOSDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SCNetworkiOSDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDB7EF62259F75AD005624D6 /* SectionModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SectionModel.h; sourceTree = "<group>"; };
+		DDB7EF63259F75AD005624D6 /* SectionModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SectionModel.m; sourceTree = "<group>"; };
+		DDB7EF67259F75BC005624D6 /* RowModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RowModel.h; sourceTree = "<group>"; };
+		DDB7EF68259F75BC005624D6 /* RowModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RowModel.m; sourceTree = "<group>"; };
 		DDEF5D0124F3AF98006BF1BF /* SCNetworkiOSDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SCNetworkiOSDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDEF5D0424F3AF98006BF1BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DDEF5D0524F3AF98006BF1BF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -140,6 +146,10 @@
 				DDEF5D0524F3AF98006BF1BF /* AppDelegate.m */,
 				DDEF5D0A24F3AF98006BF1BF /* ViewController.h */,
 				DDEF5D0B24F3AF98006BF1BF /* ViewController.m */,
+				DDB7EF62259F75AD005624D6 /* SectionModel.h */,
+				DDB7EF63259F75AD005624D6 /* SectionModel.m */,
+				DDB7EF67259F75BC005624D6 /* RowModel.h */,
+				DDB7EF68259F75BC005624D6 /* RowModel.m */,
 				DDEF5D0D24F3AF98006BF1BF /* Main.storyboard */,
 				DDEF5D1024F3AF9B006BF1BF /* Assets.xcassets */,
 				DDEF5D1224F3AF9B006BF1BF /* LaunchScreen.storyboard */,
@@ -375,7 +385,9 @@
 				DDEF5D0624F3AF98006BF1BF /* AppDelegate.m in Sources */,
 				DDEF5D1724F3AF9B006BF1BF /* main.m in Sources */,
 				DDEF5DAD24F4A2DB006BF1BF /* TestModel.m in Sources */,
+				DDB7EF64259F75AD005624D6 /* SectionModel.m in Sources */,
 				DDEF5DAE24F4A2DB006BF1BF /* SCNJson2ModelParser.m in Sources */,
+				DDB7EF69259F75BC005624D6 /* RowModel.m in Sources */,
 				DDEF5D4324F3B328006BF1BF /* SCApiTester.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

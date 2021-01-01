@@ -38,15 +38,13 @@
     return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 
--(NSString*)sc_plistEncodedKeyValueString
+- (NSString*)sc_plistEncodedKeyValueString
 {
     NSError *error = nil;
     NSData *data = [NSPropertyListSerialization dataWithPropertyList:self
                                                               format:NSPropertyListXMLFormat_v1_0
                                                              options:0 error:&error];
-    
     return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
-
 
 @end

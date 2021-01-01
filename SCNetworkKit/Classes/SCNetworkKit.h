@@ -22,5 +22,3 @@
 #import <SCNetworkKit/SCNJSONResponseParser.h>
 #import <SCNetworkKit/SCNModelResponseParser.h>
 #import <SCNetworkKit/SCNBlockResponseParser.h>
-// chain
-#import <SCNetworkKit/SCNetworkRequest+Chain.h>

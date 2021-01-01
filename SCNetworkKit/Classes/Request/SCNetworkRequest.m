@@ -51,15 +51,12 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 }
 
 - (instancetype)initWithURLString:(NSString *)aURL
-                           params:(NSDictionary *)params
+                           params:(id)params
 {
     self = [self init];
     if (self) {
         self.urlString = aURL;
-        self.method = SCNetworkRequestGetMethod;
-        if (params) {
-            [self.parameters addEntriesFromDictionary:params];
-        }
+        self.parameters = params;
     }
     return self;
 }
@@ -69,6 +66,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     self = [super init];
     if (self) {
         self.responseParser = [SCNJSONResponseParser new];
+        self.method = SCNetworkRequestGetMethod;
 #if TARGET_OS_IPHONE
         self.backgroundTask = UIBackgroundTaskInvalid;
 #endif
@@ -135,26 +133,6 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     NSMutableURLRequest *createdRequest = [self makeURLRequest:self.urlString query:self.parameters];
     
     return createdRequest;
-}
-
-- (void)addParameters:(NSDictionary *)ps
-{
-    if (ps) {
-        [self.parameters addEntriesFromDictionary:ps];
-    }
-}
-
-- (NSDictionary *)ps
-{
-    return [self.parameters copy];
-}
-
-///清理请求参数
-- (void)clearPS
-{
-    if (self.parameters.count > 0) {
-        [self.parameters removeAllObjects];
-    }
 }
 
 - (void)addHeaders:(NSDictionary *)hs
@@ -306,15 +284,6 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 #pragma mark 
 #pragma mark - lazy getters
-
-- (NSMutableDictionary *)parameters
-{
-    if(!_parameters)
-    {
-        _parameters = [NSMutableDictionary dictionary];
-    }
-    return _parameters;
-}
 
 - (NSMutableDictionary *)headers
 {
@@ -476,7 +445,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 @interface SCNetworkPostRequest()
 
-@property(nonatomic) NSMutableDictionary *queryPs;
+@property (nonatomic) NSMutableDictionary *queryPs;
 
 @end
 
@@ -531,7 +500,6 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     }
     
     {
-        NSString *bodyStringFromParameters = nil;
         NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
         
         switch (self.parameterEncoding) {
@@ -540,32 +508,52 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
                 [createdRequest setValue:
                  [NSString stringWithFormat:@"application/x-www-form-urlencoded; charset=%@", charset]
                       forHTTPHeaderField:@"Content-Type"];
-                bodyStringFromParameters = [self.parameters sc_urlEncodedKeyValueString];
-                [createdRequest setHTTPBody:[bodyStringFromParameters dataUsingEncoding:NSUTF8StringEncoding]];
+                if (self.parameters) {
+                    NSString *bodyStringFromParameters = [self.parameters sc_urlEncodedKeyValueString];
+                    [createdRequest setHTTPBody:[bodyStringFromParameters dataUsingEncoding:NSUTF8StringEncoding]];
+                }
             }
                 break;
             case SCNPostDataEncodingJSON: {
                 [createdRequest setValue:
                  [NSString stringWithFormat:@"application/json; charset=%@", charset]
                       forHTTPHeaderField:@"Content-Type"];
-                bodyStringFromParameters = [self.parameters sc_jsonEncodedKeyValueString];
-                [createdRequest setHTTPBody:[bodyStringFromParameters dataUsingEncoding:NSUTF8StringEncoding]];
+                if (self.parameters) {
+                    NSError *error = nil;
+                    NSData *data = [NSJSONSerialization dataWithJSONObject:self.parameters
+                                                                   options:0 // non-pretty printing
+                                                                     error:&error];
+                    if (error) {
+                        return nil;
+                    } else {
+                        [createdRequest setHTTPBody:data];
+                    }
+                }
             }
                 break;
             case SCNPostDataEncodingPlist: {
                 [createdRequest setValue:
                  [NSString stringWithFormat:@"application/x-plist; charset=%@", charset]
                       forHTTPHeaderField:@"Content-Type"];
-                bodyStringFromParameters = [self.parameters sc_plistEncodedKeyValueString];
-                [createdRequest setHTTPBody:[bodyStringFromParameters dataUsingEncoding:NSUTF8StringEncoding]];
+                if (self.parameters) {
+                    NSError *error = nil;
+                    NSData *data = [NSPropertyListSerialization dataWithPropertyList:self.parameters
+                                                                              format:NSPropertyListXMLFormat_v1_0
+                                                                             options:0
+                                                                               error:&error];
+                    if (error) {
+                        return nil;
+                    } else {
+                        [createdRequest setHTTPBody:data];
+                    }
+                }
             }
                 break;
-            case SCNPostDataEncodingFormData:{
+            case SCNPostDataEncodingFormData: {
                 [self makeFormDataHTTPBodyWithRequest:createdRequest];
             }
                 break;
-            case SCNPostDataEncodingCustom:{
-                
+            case SCNPostDataEncodingCustom: {
                 if (self.customRequestMaker) {
                     self.customRequestMaker(createdRequest);
                 }
@@ -576,7 +564,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     return createdRequest;
 }
 
-- (void)makeCustomRequest:(void (^)(const NSMutableURLRequest *))handler
+- (void)makeCustomRequest:(void(^)(const NSMutableURLRequest *))handler
 {
     self.customRequestMaker = handler;
 }
