@@ -18,7 +18,7 @@
 #import <UIKit/UIScreen.h>
 #endif
 
-///解析网络请求响应数据的队列
+//解析网络请求响应数据的队列
 static dispatch_queue_t SCN_Response_Parser_Queue() {
     static dispatch_queue_t scn_response_parser_queue;
     static dispatch_once_t onceToken;
@@ -100,7 +100,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     NSMutableURLRequest *createdRequest = [NSMutableURLRequest requestWithURL:url];
     
     NSMutableDictionary *headers = [[NSMutableDictionary alloc]initWithDictionary:self.headers];
-    ///没有指定UA时，设置默认的；
+    //没有指定UA时，设置默认的；
     if (![headers objectForKey:@"User-Agent"]) {
         NSString *ua = [SCNUtil defaultUA];
         [headers setObject:ua forKey:@"User-Agent"];
@@ -116,7 +116,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         [headers setObject:[acceptLanguagesComponents componentsJoinedByString:@", "] forKey:@"Accept-Language"];
     }
     
-    ///指定了就设置下；否则走session里配置的时间
+    //指定了就设置下；否则走session里配置的时间
     if(self.timeoutInterval > 0){
         createdRequest.timeoutInterval = self.timeoutInterval;
     }
@@ -495,7 +495,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     NSMutableURLRequest *createdRequest = [self makeURLRequest:self.urlString query:self.queryPs];
     
     if ([self.formFileParts count] > 0) {
-        ///强制设置为 FromData ！
+        //强制设置为 FromData ！
         self.parameterEncoding = SCNPostDataEncodingFormData;
     }
     
