@@ -13,7 +13,7 @@
 + (void)getRequestWithDataCompletion:(void(^)(NSData *data,NSError *err))completion
 {
     SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:kTestJSONApi params:nil];
-    ///因为默认解析器是SCNJSONResponseParser；会解析成JSON对象；所以这里不指定解析器，让框架返回data！
+    //因为默认解析器是SCNJSONResponseParser；会解析成JSON对象；所以这里不指定解析器，让框架返回data！
     req.responseParser = nil;
     [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
@@ -32,11 +32,11 @@
 + (void)getRequestWithJSONCompletion:(void(^)(id json, NSError *err))completion
 {
     SCNJSONResponseParser *responseParser = [SCNJSONResponseParser parser];
-    ///框架会检查接口返回的 code 是不是 0 ，如果不是 0 ，那么返回给你一个err，并且result是 nil;
+    //框架会检查接口返回的 code 是不是 0 ，如果不是 0 ，那么返回给你一个err，并且result是 nil;
     responseParser.checkKeyPath = @"code";
     responseParser.okValue = @"0";
     
-    ///support chain
+    //support chain
     SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:kTestJSONApi params:nil];
     req.responseParser = responseParser;
     [req addReceivedResponseHandler:^(SCNetworkRequest *request, NSURLResponse *response) {
@@ -51,10 +51,30 @@
     [[SCNetworkService sharedService]startRequest:req];
 }
 
++ (void)getRequestWithParams:(NSDictionary *)params completion:(void (^)(id _Nonnull, NSError * _Nonnull))completion
+{
+    SCNJSONResponseParser *responseParser = [SCNJSONResponseParser parser];
+    //框架会检查接口返回的 status 是不是 200 ，如果不是 200 ，那么返回给你一个err，并且result是 nil;
+    responseParser.checkKeyPath = @"status";
+    responseParser.okValue = @"200";
+    
+    //support chain
+    SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:kTestJSONApi2 params:params];
+    req.responseParser = responseParser;
+    
+    [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+        if (completion) {
+            completion(result,err);
+        }
+    }];
+    
+    [[SCNetworkService sharedService]startRequest:req];
+}
+
 + (void)getRequestWithModelCompletion:(void(^)(NSArray <TestModel *>*arr, NSError *err))completion
 {
     /*
-     ////服务器响应数据结构////
+     ///服务器响应数据结构///
      
      {   code = 0;
      content =     {
@@ -76,10 +96,10 @@
     SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:kTestJSONApi params:nil];
 
     SCNModelResponseParser *responseParser = [SCNModelResponseParser parser];
-    ///解析前会检查下JSON是否正确；
+    //解析前会检查下JSON是否正确；
     responseParser.checkKeyPath = @"code";
     responseParser.okValue = @"0";
-    ///根据服务器返回数据的格式和想要解析结构对应的Model配置解析器
+    //根据服务器返回数据的格式和想要解析结构对应的Model配置解析器
     responseParser.modelName = @"TestModel";
     responseParser.targetKeyPath = @"content/entrance";
     req.responseParser = responseParser;
@@ -153,7 +173,13 @@
 + (void)postURLEncodeWithCompletion:(void(^)(id json,NSError *err))completion
 {
     NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
+    
+    NSMutableArray *arr = [NSMutableArray array];
+    [arr addObject:@"Matt"];
+    [arr addObject:@"Reach"];
+    
     SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestPostApi params:ps];
+    
     post.parameterEncoding = SCNPostDataEncodingURL;
     [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         

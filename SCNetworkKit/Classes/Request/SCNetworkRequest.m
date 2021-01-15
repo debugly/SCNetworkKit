@@ -74,26 +74,41 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     return self;
 }
 
+- (NSString *)_makeUrlEncodeingData:(id)parameters
+{
+    NSMutableArray *mutablePairs = [NSMutableArray array];
+    NSArray <NSDictionary *>*paris = SCNQueryPairsFromKeyAndValue(nil, parameters);
+    for (NSDictionary *pair in paris) {
+        [mutablePairs addObject:[pair sc_urlEncodedKeyValueString]];
+    }
+    
+    NSString *bodyStr = [mutablePairs componentsJoinedByString:@"&"];
+    
+    if (!bodyStr) {
+        bodyStr = @"";
+    }
+    
+    return bodyStr;
+}
+
 - (NSMutableURLRequest *)makeURLRequest:(NSString *)urlString
-                                  query:(NSDictionary *)query
+                                  query:(NSDictionary *)parameters
 {
     NSAssert(urlString, @"makeURLRequest:url不能为空");
     
-    NSURL *url = nil;
+    NSString *queryStr = [self _makeUrlEncodeingData:parameters];
     
-    if (query.count > 0) {
-        if (NSNotFound != [urlString rangeOfString:@"?"].location) {
-            NSString *join = @"&";
-            if ([urlString hasSuffix:@"&"]) {
-                join = @"";
-            }
-            url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@", urlString,join,[query sc_urlEncodedKeyValueString]]];
-        } else {
-            url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@", urlString,[query sc_urlEncodedKeyValueString]]];
+    if (NSNotFound != [urlString rangeOfString:@"?"].location) {
+        NSString *join = @"&";
+        if ([urlString hasSuffix:@"&"]) {
+            join = @"";
         }
+        urlString = [NSString stringWithFormat:@"%@%@%@", urlString,join,queryStr];
     } else {
-        url = [NSURL URLWithString:urlString];
+        urlString = [NSString stringWithFormat:@"%@?%@", urlString,queryStr];
     }
+    
+    NSURL *url = [NSURL URLWithString:urlString];
     
     NSAssert(url, @"makeURLRequest:url不合法");
     
@@ -508,9 +523,10 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
                 [createdRequest setValue:
                  [NSString stringWithFormat:@"application/x-www-form-urlencoded; charset=%@", charset]
                       forHTTPHeaderField:@"Content-Type"];
-                if (self.parameters) {
-                    NSString *bodyStringFromParameters = [self.parameters sc_urlEncodedKeyValueString];
-                    [createdRequest setHTTPBody:[bodyStringFromParameters dataUsingEncoding:NSUTF8StringEncoding]];
+                NSString *bodyStr = [self _makeUrlEncodeingData:self.parameters];
+                NSData *body = [bodyStr dataUsingEncoding:NSUTF8StringEncoding];
+                if (body) {
+                    [createdRequest setHTTPBody:body];
                 }
             }
                 break;

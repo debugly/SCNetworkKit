@@ -35,6 +35,8 @@ void dispatch_sync_to_main_queue(dispatch_block_t block)
     }
 }
 
+NSArray<NSDictionary *>* SCNQueryPairsFromKeyAndValue(NSString *lastKey,id value);
+
 @interface SCNUtil : NSObject
 
 + (NSString *)defaultUA;

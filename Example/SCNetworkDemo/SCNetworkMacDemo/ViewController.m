@@ -213,6 +213,34 @@
     }];
 }
 
+- (IBAction)getJSONWithParameters:(id)sender
+{
+    [self showIndicator];
+    ///发送网路请求，框架将JSON对象返回给我
+    __weakSelf
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    NSMutableArray *arr = [NSMutableArray array];
+    [arr addObject:@"Matt"];
+    [arr addObject:@"Reach"];
+    [parameters setValue:arr forKey:@"aArrKey"];
+    NSMutableSet *set = [NSMutableSet set];
+    [set addObject:@"Hello"];
+    [set addObject:@"World"];
+    [parameters setValue:set forKey:@"aSetKey"];
+    [parameters setValue:@"aValue" forKey:@"aKey"];
+    
+    [SCApiTester getRequestWithParams:parameters completion:^(id _Nonnull json, NSError * _Nonnull err) {
+        __strongSelf
+        if (json) {
+            self.textView.string = [json description];
+        }else{
+            self.textView.string = [err description];
+        }
+        [self hiddenIndicator];
+    }];
+}
+
 - (IBAction)getModel:(id)sender
 {
     __weakSelf

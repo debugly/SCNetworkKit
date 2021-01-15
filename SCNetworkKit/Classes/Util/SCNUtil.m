@@ -25,6 +25,34 @@ NSError * SCNError(NSInteger code,id info)
     return [[NSError alloc] initWithDomain:SCNetworkKitErrorDomain code:code userInfo:infoDic];
 }
 
+NSArray<NSDictionary *>* SCNQueryPairsFromKeyAndValue(NSString *lastKey,id value)
+{
+    NSMutableArray *r = [NSMutableArray array];
+    
+    if ([value isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *dic = value;
+        [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+            NSString *aKey = lastKey ? [NSString stringWithFormat:@"%@[%@]", lastKey, key] : key;
+            [r addObjectsFromArray:SCNQueryPairsFromKeyAndValue(aKey, obj)];
+        }];
+    } else if ([value isKindOfClass:[NSArray class]]){
+        for (id obj in value) {
+            NSString *aKey = [NSString stringWithFormat:@"%@[]", lastKey];
+            [r addObjectsFromArray:SCNQueryPairsFromKeyAndValue(aKey, obj)];
+        }
+    } else if ([value isKindOfClass:[NSSet class]]){
+        for (id obj in value) {
+            [r addObjectsFromArray:SCNQueryPairsFromKeyAndValue(lastKey, obj)];
+        }
+    } else {
+        if (value) {
+            NSDictionary *dic = [NSDictionary dictionaryWithObject:value forKey:[NSString stringWithFormat:@"%@", lastKey]];
+            [r addObject:dic];
+        }
+    }
+    
+    return r;
+}
 
 @implementation SCNUtil
 
