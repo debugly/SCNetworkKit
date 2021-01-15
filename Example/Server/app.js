@@ -6,10 +6,11 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 // var multiparty = require('multiparty');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var indexRouter  = require('./routes/index');
+var usersRouter  = require('./routes/users');
 var uploadRouter = require('./routes/upload');
-var peekRouter = require('./routes/peek');
+var peekRouter   = require('./routes/peek');
+var testRouter    = require('./routes/test');
 var app = express();
 
 // view engine setup
@@ -27,6 +28,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/upload-file',uploadRouter);
 app.use('/peek',peekRouter);
+app.use('/test',testRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
