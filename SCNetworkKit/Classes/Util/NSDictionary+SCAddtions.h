@@ -11,7 +11,5 @@
 @interface NSDictionary (SCAddtions)
 
 - (NSString *)sc_urlEncodedKeyValueString;
-- (NSString *)sc_jsonEncodedKeyValueString;
-- (NSString *)sc_plistEncodedKeyValueString;
 
 @end
