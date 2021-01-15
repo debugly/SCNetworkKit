@@ -70,7 +70,7 @@ didReceiveResponse:(NSURLResponse *)response
 {
     int64_t totalBytesWritten = [self didReceiveData:data];
     
-    ///断点续传时使用 dataTask 来做的，因此这里调用下代理方法，回调下载进度
+    //断点续传时使用 dataTask 来做的，因此这里调用下代理方法，回调下载进度
     if ([self isKindOfClass:[SCNetworkDownloadRequest class]]) {
         SCNetworkDownloadRequest *downloadReq = (SCNetworkDownloadRequest *)self;
         //invoke the download progress.
@@ -131,7 +131,7 @@ didFinishDownloadingToURL:(NSURL *)location
             NSURL *targetURL = [NSURL fileURLWithPath:download.downloadFileTargetPath];
             [[NSFileManager defaultManager] moveItemAtURL:location toURL:targetURL error:&fileManagerError];
             
-            ///已经存在的516错误？
+            //已经存在的516错误？
             if (fileManagerError.code == 516) {
                 
                 [[NSFileManager defaultManager] removeItemAtURL:targetURL error:nil];

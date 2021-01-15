@@ -80,7 +80,7 @@ NSError * SCNError(NSInteger code,id info)
         if (!displayName) {
             displayName = bundleName;
         }
-        ///有可能是中文，必须编码！
+        //有可能是中文，必须编码！
         displayName = [displayName sc_urlEncodedString];
         NSString *vk = (__bridge NSString *) kCFBundleVersionKey;
         NSString *buildNum = infoDic[vk];

@@ -37,11 +37,11 @@
         configure.discretionary = YES;
     }
     configure.networkServiceType = NSURLNetworkServiceTypeDefault;
-    ///数据请求超时时间
+    //数据请求超时时间
     configure.timeoutIntervalForRequest = 60;
-    ///资源请求超时时间
+    //资源请求超时时间
     configure.timeoutIntervalForResource = 60;
-    ///允许移动网络访问
+    //允许移动网络访问
     configure.allowsCellularAccess = YES;
     configure.HTTPCookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     configure.HTTPCookieAcceptPolicy = NSHTTPCookieAcceptPolicyAlways;
@@ -54,7 +54,7 @@
     if (@available(iOS 9.0,macOS 10.11,*)) {
         configure.shouldUseExtendedBackgroundIdleMode = YES;
     }
-//    ///清理所有缓存；
+//    //清理所有缓存；
 //    [[NSURLCache sharedURLCache]removeAllCachedResponses];
     
     self = [self initWithSessionConfiguration:configure];
@@ -100,11 +100,11 @@
 //    }];
     
     SCNetworkPostRequest *postRequest = (SCNetworkPostRequest *)request;
-    ///只有post请求，使用form-data的才走StreamRequest
+    //只有post请求，使用form-data的才走StreamRequest
     if ([postRequest isKindOfClass:[SCNetworkPostRequest class]] && [postRequest isStreamHTTPBody]) {
         request.task = [self.session uploadTaskWithStreamedRequest:urlRequest];
         //   NSData *formData = [request multipartFormData];
-        //   ///在这里设置下内容的长度，这个问题处理的不够优雅，但是提升了性能。。。
+        //   //在这里设置下内容的长度，这个问题处理的不够优雅，但是提升了性能。。。
         //   [urlRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long) [formData length]] forHTTPHeaderField:@"Content-Length"];
         //  request.task = [self.session uploadTaskWithRequest:urlRequest fromData:formData];
     }else if ([request isKindOfClass:[SCNetworkDownloadRequest class]]) {

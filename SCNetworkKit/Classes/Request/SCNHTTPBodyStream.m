@@ -129,7 +129,7 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
 
 - (NSArray *)makeFileOrBinaryBoundaryArray
 {
-    ///计算之前清空下
+    //计算之前清空下
     __block NSUInteger totalURLFileSize = 0;
     NSMutableArray *fileBoundaryArray = [NSMutableArray array];
     
@@ -165,9 +165,9 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
         
         NSData *data = [formattedFileBoundary dataUsingEncoding:NSUTF8StringEncoding];
     
-        ///kv
+        //kv
         [fileBoundaryArray addObject:data];
-        ///file data or file path
+        //file data or file path
         if (part.fileURL) {
             [fileBoundaryArray addObject:part.fileURL];
         }else{
@@ -271,7 +271,7 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
             [self.inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
             [self.inputStream open];
         }else{
-            ///读取下一个
+            //读取下一个
             [self prepareInputStream];
         }
     }
@@ -283,7 +283,7 @@ static inline NSString * SCNContentTypeForPathExtension(NSString *extension) {
     
     while (numberOfBytesRead < wantReadLength) {
         
-        ///读完了
+        //读完了
         if ([self.formParts count] == 0) {
             return numberOfBytesRead;
         }
