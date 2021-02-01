@@ -75,7 +75,7 @@ typedef void(^SCNetWorkDidReceiveResponseHandler)(SCNetworkRequest *request,NSUR
 ///下载文件类
 @interface SCNetworkDownloadRequest : SCNetworkRequest
 
-///设置下载文件路径（该操作会把默认responseParser置空）
+///设置下载文件路径（该操作会把默认responseParser置空）；如果父目录不存在会自动创建
 @property (nonatomic, copy) NSString *downloadFileTargetPath;
 ///使用断点续传，默认不使用 (对于一个没有启用断点续传的任务，然后启用，则从头开始下载！反之亦然！)
 @property (nonatomic, assign) BOOL useBreakpointContinuous;

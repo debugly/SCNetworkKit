@@ -368,7 +368,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 - (void)setDownloadFileTargetPath:(NSString *)downloadFileTargetPath
 {
-    _downloadFileTargetPath = [downloadFileTargetPath copy];
+    _downloadFileTargetPath = downloadFileTargetPath;
     self.responseParser = nil;
 }
 
@@ -377,6 +377,10 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     if(!_fileHandler){
         NSParameterAssert(self.downloadFileTargetPath);
         if (![[NSFileManager defaultManager]fileExistsAtPath:self.downloadFileTargetPath]) {
+            NSString *dir = [self.downloadFileTargetPath stringByDeletingLastPathComponent];
+            if (dir) {
+                [[NSFileManager defaultManager] createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:NULL];
+            }
             [[NSFileManager defaultManager] createFileAtPath:self.downloadFileTargetPath contents:nil attributes:NULL];
         }
         _fileHandler = [NSFileHandle fileHandleForUpdatingAtPath:self.downloadFileTargetPath];

@@ -126,17 +126,21 @@ didFinishDownloadingToURL:(NSURL *)location
     if ([self isKindOfClass:[SCNetworkDownloadRequest class]]) {
         SCNetworkDownloadRequest *download = (SCNetworkDownloadRequest *)self;
         if (download.downloadFileTargetPath) {
-            
-            NSError *fileManagerError = nil;
+            NSError *err = nil;
             NSURL *targetURL = [NSURL fileURLWithPath:download.downloadFileTargetPath];
-            [[NSFileManager defaultManager] moveItemAtURL:location toURL:targetURL error:&fileManagerError];
-            
-            //已经存在的516错误？
-            if (fileManagerError.code == 516) {
-                
+            [[NSFileManager defaultManager] moveItemAtURL:location toURL:targetURL error:&err];
+            //516:文件已经存在
+            if (err.code == NSFileWriteFileExistsError) {
                 [[NSFileManager defaultManager] removeItemAtURL:targetURL error:nil];
-                
-                [[NSFileManager defaultManager] moveItemAtURL:location toURL:targetURL error:&fileManagerError];
+                [[NSFileManager defaultManager] moveItemAtURL:location toURL:targetURL error:&err];
+            }
+            //4:文件夹不存在
+            else if (err.code == NSFileNoSuchFileError) {
+                NSString *dir = [download.downloadFileTargetPath stringByDeletingLastPathComponent];
+                if (dir) {
+                    [[NSFileManager defaultManager] createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:NULL];
+                    [[NSFileManager defaultManager] moveItemAtURL:location toURL:targetURL error:&err];
+                }
             }
         }
     }

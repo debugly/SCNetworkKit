@@ -117,7 +117,8 @@
 {
     NSString *url = kTestDownloadApi;
     SCNetworkDownloadRequest *get = [[SCNetworkDownloadRequest alloc]initWithURLString:url params:nil];
-    NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:[url lastPathComponent]];
+    NSString *path = [NSTemporaryDirectory() stringByAppendingPathComponent:@"abc"];
+    path = [path stringByAppendingPathComponent:[url lastPathComponent]];
     NSLog(@"download path:%@",path);
     get.downloadFileTargetPath = path;
     get.useBreakpointContinuous = YES;
