@@ -390,6 +390,7 @@ NSURLSession 管理的网络请求结束后，会在 SCNetworkRequest 里处理�
 - 1.0.21：修复下载类重写 getter 导致的调用堆栈溢出问题
 - 1.0.22：修复使用Model解析默认将 JOSN 里的值转成 String 问题
 - 1.0.23: 下载文件时自动创建父级目录，避免下载出错
+- 1.0.24: 支持通过 NSURLRequest 初始化请求对象
 
 ## 完
 
