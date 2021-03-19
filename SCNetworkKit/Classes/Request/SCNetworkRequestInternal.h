@@ -12,9 +12,12 @@
 #endif
 #import <Foundation/NSURLSession.h>
 
-@interface SCNetworkRequest ()
+@interface SCNetworkBasicRequest()
+{
+@protected
+    NSURLRequest *_urlRequest;
+}
 
-@property (nonatomic) NSMutableDictionary *headers;
 @property (nonatomic) NSMutableArray <SCNetWorkHandler>*completionHandlers;
 @property (nonatomic) NSMutableArray <SCNetWorkProgressDidChangeHandler>*progressChangedHandlers;
 @property (nonatomic) NSMutableArray <SCNetWorkDidReceiveResponseHandler>*responseHandlers;
@@ -26,8 +29,7 @@
 @property (nonatomic, readwrite) NSUInteger taskIdentifier;
 @property (nonatomic, readwrite) NSHTTPURLResponse *response;
 ///存储dataTask回调的数据，不包括文件下载续传类型
-@property (nonatomic, strong) NSMutableData *mutableData;
-@property (nonatomic, copy) void (^customRequestMaker)(const NSMutableURLRequest *);
+@property (nonatomic) NSMutableData *mutableData;
 
 //更新传输进度
 - (void)updateTransferedData:(int64_t)bytes
@@ -35,9 +37,18 @@
           totalBytesExpected:(int64_t)totalBytesExpected;
 //更新 response
 - (NSURLSessionResponseDisposition)onReceivedResponse:(NSHTTPURLResponse *)response;
-- (NSMutableURLRequest *)makeURLRequest;
 - (void)updateState:(SCNKRequestState)state error:(NSError *)error;
 - (uint64_t)didReceiveData:(NSData *)data;
+
+@end
+
+@interface SCNetworkRequest ()
+
+@property (nonatomic) NSMutableDictionary *headers;
+@property (nonatomic, copy) void (^customRequestMaker)(const NSMutableURLRequest *);
+
+- (NSMutableURLRequest *)_makeURLRequest:(NSString *)urlString
+                                   query:(NSDictionary *)parameters;
 
 @end
 
@@ -55,7 +66,6 @@ typedef NS_ENUM(NSUInteger, SCNetworkDownloadRecordCode) {
 @property (nonatomic, assign) uint64_t currentOffset;
 @property (nonatomic, assign) SCNetworkDownloadRecordCode recordCode;
 
-- (NSString *)rangeHeaderField;
 - (uint64_t)didReceiveData:(NSData *)data;
 
 @end

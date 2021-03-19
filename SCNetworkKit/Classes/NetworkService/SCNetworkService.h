@@ -19,6 +19,6 @@ FOUNDATION_EXPORT NSString *const SCNetworkKitErrorDomain;
 - (instancetype)initWithSessionConfiguration:(NSURLSessionConfiguration *)configure;
 
 ///开始请求；
-- (void)startRequest:(SCNetworkRequest *)request;
+- (void)startRequest:(__kindof SCNetworkBasicRequest *)request;
 
 @end

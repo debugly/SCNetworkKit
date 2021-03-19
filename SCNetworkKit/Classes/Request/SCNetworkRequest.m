@@ -29,34 +29,13 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     return scn_response_parser_queue;
 }
 
+@implementation SCNetworkBasicRequest
 
-@implementation SCNetworkRequest
-
-- (NSString *)description
-{
-    return [[[self makeURLRequest]URL]description];
-}
-
-- (void)dealloc
-{
-    [self cancel];
-#if TARGET_OS_IPHONE
-    if (@available(iOS 9.0, *)) {} else {
-        if (self.backgroundTask != UIBackgroundTaskInvalid) {
-            [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTask];
-            self.backgroundTask = UIBackgroundTaskInvalid;
-        }
-    }
-#endif
-}
-
-- (instancetype)initWithURLString:(NSString *)aURL
-                           params:(id)params
+- (instancetype)initWithURLRequest:(NSURLRequest *)aReq
 {
     self = [self init];
     if (self) {
-        self.urlString = aURL;
-        self.parameters = params;
+        _urlRequest = aReq;
     }
     return self;
 }
@@ -74,87 +53,27 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     return self;
 }
 
-- (NSString *)_makeUrlEncodeingData:(id)parameters
+- (NSURLRequest *)urlRequest
 {
-    NSMutableArray *mutablePairs = [NSMutableArray array];
-    NSArray <NSDictionary *>*paris = SCNQueryPairsFromKeyAndValue(nil, parameters);
-    for (NSDictionary *pair in paris) {
-        [mutablePairs addObject:[pair sc_urlEncodedKeyValueString]];
-    }
-    
-    NSString *bodyStr = [mutablePairs componentsJoinedByString:@"&"];
-    
-    if (!bodyStr) {
-        bodyStr = @"";
-    }
-    
-    return bodyStr;
+    return _urlRequest;
 }
 
-- (NSMutableURLRequest *)makeURLRequest:(NSString *)urlString
-                                  query:(NSDictionary *)parameters
+- (NSString *)description
 {
-    NSAssert(urlString, @"makeURLRequest:url不能为空");
-    
-    NSString *queryStr = [self _makeUrlEncodeingData:parameters];
-    
-    if (NSNotFound != [urlString rangeOfString:@"?"].location) {
-        NSString *join = @"&";
-        if ([urlString hasSuffix:@"&"]) {
-            join = @"";
+    return [[self.urlRequest URL]description];
+}
+
+- (void)dealloc
+{
+    [self cancel];
+#if TARGET_OS_IPHONE
+    if (@available(iOS 9.0, *)) {} else {
+        if (self.backgroundTask != UIBackgroundTaskInvalid) {
+            [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTask];
+            self.backgroundTask = UIBackgroundTaskInvalid;
         }
-        urlString = [NSString stringWithFormat:@"%@%@%@", urlString,join,queryStr];
-    } else {
-        urlString = [NSString stringWithFormat:@"%@?%@", urlString,queryStr];
     }
-    
-    NSURL *url = [NSURL URLWithString:urlString];
-    
-    NSAssert(url, @"makeURLRequest:url不合法");
-    
-    NSMutableURLRequest *createdRequest = [NSMutableURLRequest requestWithURL:url];
-    
-    NSMutableDictionary *headers = [[NSMutableDictionary alloc]initWithDictionary:self.headers];
-    //没有指定UA时，设置默认的；
-    if (![headers objectForKey:@"User-Agent"]) {
-        NSString *ua = [SCNUtil defaultUA];
-        [headers setObject:ua forKey:@"User-Agent"];
-    }
-    
-    if (![headers objectForKey:@"Accept-Language"]) {
-        NSMutableArray *acceptLanguagesComponents = [NSMutableArray array];
-        [[NSLocale preferredLanguages] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            float q = 1.0f - (idx * 0.1f);
-            [acceptLanguagesComponents addObject:[NSString stringWithFormat:@"%@;q=%0.1g", obj, q]];
-            *stop = q <= 0.5f;
-        }];
-        [headers setObject:[acceptLanguagesComponents componentsJoinedByString:@", "] forKey:@"Accept-Language"];
-    }
-    
-    //指定了就设置下；否则走session里配置的时间
-    if(self.timeoutInterval > 0){
-        createdRequest.timeoutInterval = self.timeoutInterval;
-    }
-    
-    [createdRequest setAllHTTPHeaderFields:headers];
-    NSString *method = self.method == SCNetworkRequestGetMethod ? @"GET" : @"POST";
-    [createdRequest setHTTPMethod:method];
-    
-    return createdRequest;
-}
-
-- (NSMutableURLRequest* )makeURLRequest
-{    
-    NSMutableURLRequest *createdRequest = [self makeURLRequest:self.urlString query:self.parameters];
-    
-    return createdRequest;
-}
-
-- (void)addHeaders:(NSDictionary *)hs
-{
-    if (hs) {
-        [self.headers addEntriesFromDictionary:hs];
-    }
+#endif
 }
 
 - (void)addCompletionHandler:(SCNetWorkHandler)handler
@@ -297,17 +216,8 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     }
 }
 
-#pragma mark 
+#pragma mark
 #pragma mark - lazy getters
-
-- (NSMutableDictionary *)headers
-{
-    if(!_headers)
-    {
-        _headers = [NSMutableDictionary dictionary];
-    }
-    return _headers;
-}
 
 - (NSMutableArray *)completionHandlers
 {
@@ -346,6 +256,100 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 @end
 
+@implementation SCNetworkRequest
+
+- (instancetype)initWithURLString:(NSString *)aURL
+                           params:(id)params
+{
+    self = [self init];
+    if (self) {
+        self.urlString = aURL;
+        self.parameters = params;
+    }
+    return self;
+}
+
+- (NSMutableURLRequest *)_makeURLRequest:(NSString *)urlString
+                                   query:(NSDictionary *)parameters
+{
+    NSAssert(urlString, @"makeURLRequest:url不能为空");
+    NSString *queryStr = [SCNUtil makeUrlEncodeingString:parameters];
+    
+    if (NSNotFound != [urlString rangeOfString:@"?"].location) {
+        NSString *join = @"&";
+        if ([urlString hasSuffix:@"&"]) {
+            join = @"";
+        }
+        urlString = [NSString stringWithFormat:@"%@%@%@", urlString,join,queryStr];
+    } else {
+        urlString = [NSString stringWithFormat:@"%@?%@", urlString,queryStr];
+    }
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    
+    NSAssert(url, @"makeURLRequest:url不合法");
+    
+    NSMutableURLRequest *createdRequest = [NSMutableURLRequest requestWithURL:url];
+    
+    NSMutableDictionary *headers = [[NSMutableDictionary alloc]initWithDictionary:self.headers];
+    //没有指定UA时，设置默认的；
+    if (![headers objectForKey:@"User-Agent"]) {
+        NSString *ua = [SCNUtil defaultUA];
+        [headers setObject:ua forKey:@"User-Agent"];
+    }
+    
+    if (![headers objectForKey:@"Accept-Language"]) {
+        NSMutableArray *acceptLanguagesComponents = [NSMutableArray array];
+        [[NSLocale preferredLanguages] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            float q = 1.0f - (idx * 0.1f);
+            [acceptLanguagesComponents addObject:[NSString stringWithFormat:@"%@;q=%0.1g", obj, q]];
+            *stop = q <= 0.5f;
+        }];
+        [headers setObject:[acceptLanguagesComponents componentsJoinedByString:@", "] forKey:@"Accept-Language"];
+    }
+    
+    //指定了就设置下；否则走session里配置的时间
+    if(self.timeoutInterval > 0){
+        createdRequest.timeoutInterval = self.timeoutInterval;
+    }
+    
+    [createdRequest setAllHTTPHeaderFields:headers];
+    NSString *method = self.method == SCNetworkRequestGetMethod ? @"GET" : @"POST";
+    [createdRequest setHTTPMethod:method];
+    
+    return createdRequest;
+}
+
+#pragma mark - override super methods.
+
+- (NSURLRequest *)urlRequest
+{
+    if (!_urlRequest) {
+        _urlRequest = [self _makeURLRequest:self.urlString query:self.parameters];
+    }
+    return _urlRequest;
+}
+
+- (void)addHeaders:(NSDictionary *)hs
+{
+    if (hs) {
+        [self.headers addEntriesFromDictionary:hs];
+    }
+}
+
+#pragma mark
+#pragma mark - lazy getters
+
+- (NSMutableDictionary *)headers
+{
+    if(!_headers)
+    {
+        _headers = [NSMutableDictionary dictionary];
+    }
+    return _headers;
+}
+
+@end
 
 #pragma mark - SCNetworkDownloadRequest
 
@@ -403,6 +407,21 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 }
 
 #pragma mark - override super methods.
+
+- (NSURLRequest *)urlRequest
+{
+    if (!_urlRequest) {
+        NSMutableURLRequest *createdRequest = [self _makeURLRequest:self.urlString query:self.parameters];
+        if (self.useBreakpointContinuous) {
+            NSString *rangeField = [self rangeHeaderField];
+            if (rangeField) {
+                [createdRequest addValue:rangeField forHTTPHeaderField:@"Range"];
+            }
+        }
+        _urlRequest = createdRequest;
+    }
+    return _urlRequest;
+}
 
 - (NSURLSessionResponseDisposition)onReceivedResponse:(NSHTTPURLResponse *)response
 {
@@ -509,79 +528,84 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 #pragma mark - 覆盖 makeURLRequest 方法
 
-- (NSMutableURLRequest* )makeURLRequest
+- (NSURLRequest *)urlRequest
 {
-    NSMutableURLRequest *createdRequest = [self makeURLRequest:self.urlString query:self.queryPs];
-    
-    if ([self.formFileParts count] > 0) {
-        //强制设置为 FromData ！
-        self.parameterEncoding = SCNPostDataEncodingFormData;
-    }
-    
-    {
-        NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
+    if (!_urlRequest) {
         
-        switch (self.parameterEncoding) {
-                
-            case SCNPostDataEncodingURL: {
-                [createdRequest setValue:
-                 [NSString stringWithFormat:@"application/x-www-form-urlencoded; charset=%@", charset]
-                      forHTTPHeaderField:@"Content-Type"];
-                NSString *bodyStr = [self _makeUrlEncodeingData:self.parameters];
-                NSData *body = [bodyStr dataUsingEncoding:NSUTF8StringEncoding];
-                if (body) {
-                    [createdRequest setHTTPBody:body];
-                }
+        if ([self.formFileParts count] > 0) {
+            //强制设置为 FromData ！
+            self.parameterEncoding = SCNPostDataEncodingFormData;
+        }
+        
+        NSMutableURLRequest *createdRequest = [self _makeURLRequest:self.urlString query:self.queryPs];
+        [self makeURLRequestBody:createdRequest];
+        _urlRequest = createdRequest;
+    }
+    return _urlRequest;
+}
+
+- (void)makeURLRequestBody:(NSMutableURLRequest*)createdRequest
+{
+    NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
+    
+    switch (self.parameterEncoding) {
+            
+        case SCNPostDataEncodingURL: {
+            [createdRequest setValue:
+             [NSString stringWithFormat:@"application/x-www-form-urlencoded; charset=%@", charset]
+                  forHTTPHeaderField:@"Content-Type"];
+            NSString *bodyStr = [SCNUtil makeUrlEncodeingString:self.parameters];
+            NSData *body = [bodyStr dataUsingEncoding:NSUTF8StringEncoding];
+            if (body) {
+                [createdRequest setHTTPBody:body];
             }
-                break;
-            case SCNPostDataEncodingJSON: {
-                [createdRequest setValue:
-                 [NSString stringWithFormat:@"application/json; charset=%@", charset]
-                      forHTTPHeaderField:@"Content-Type"];
-                if (self.parameters) {
-                    NSError *error = nil;
-                    NSData *data = [NSJSONSerialization dataWithJSONObject:self.parameters
-                                                                   options:0 // non-pretty printing
-                                                                     error:&error];
-                    if (error) {
-                        return nil;
-                    } else {
-                        [createdRequest setHTTPBody:data];
-                    }
-                }
-            }
-                break;
-            case SCNPostDataEncodingPlist: {
-                [createdRequest setValue:
-                 [NSString stringWithFormat:@"application/x-plist; charset=%@", charset]
-                      forHTTPHeaderField:@"Content-Type"];
-                if (self.parameters) {
-                    NSError *error = nil;
-                    NSData *data = [NSPropertyListSerialization dataWithPropertyList:self.parameters
-                                                                              format:NSPropertyListXMLFormat_v1_0
-                                                                             options:0
-                                                                               error:&error];
-                    if (error) {
-                        return nil;
-                    } else {
-                        [createdRequest setHTTPBody:data];
-                    }
-                }
-            }
-                break;
-            case SCNPostDataEncodingFormData: {
-                [self makeFormDataHTTPBodyWithRequest:createdRequest];
-            }
-                break;
-            case SCNPostDataEncodingCustom: {
-                if (self.customRequestMaker) {
-                    self.customRequestMaker(createdRequest);
+        }
+            break;
+        case SCNPostDataEncodingJSON: {
+            [createdRequest setValue:
+             [NSString stringWithFormat:@"application/json; charset=%@", charset]
+                  forHTTPHeaderField:@"Content-Type"];
+            if (self.parameters) {
+                NSError *error = nil;
+                NSData *data = [NSJSONSerialization dataWithJSONObject:self.parameters
+                                                               options:0 // non-pretty printing
+                                                                 error:&error];
+                if (error) {
+                    NSLog(@"encoding json:%@ failed:%@",self.parameters,error);
+                } else {
+                    [createdRequest setHTTPBody:data];
                 }
             }
         }
+            break;
+        case SCNPostDataEncodingPlist: {
+            [createdRequest setValue:
+             [NSString stringWithFormat:@"application/x-plist; charset=%@", charset]
+                  forHTTPHeaderField:@"Content-Type"];
+            if (self.parameters) {
+                NSError *error = nil;
+                NSData *data = [NSPropertyListSerialization dataWithPropertyList:self.parameters
+                                                                          format:NSPropertyListXMLFormat_v1_0
+                                                                         options:0
+                                                                           error:&error];
+                if (error) {
+                    NSLog(@"encoding plist:%@ failed:%@",self.parameters,error);
+                } else {
+                    [createdRequest setHTTPBody:data];
+                }
+            }
+        }
+            break;
+        case SCNPostDataEncodingFormData: {
+            [self makeFormDataHTTPBodyWithRequest:createdRequest];
+        }
+            break;
+        case SCNPostDataEncodingCustom: {
+            if (self.customRequestMaker) {
+                self.customRequestMaker(createdRequest);
+            }
+        }
     }
-    //    Accept-Encoding:gzip, deflate
-    return createdRequest;
 }
 
 - (void)makeCustomRequest:(void(^)(const NSMutableURLRequest *))handler

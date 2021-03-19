@@ -8,6 +8,7 @@
 #import "SCNUtil.h"
 #import <sys/sysctl.h>
 #import "NSString+SCAddtions.h"
+#import "NSDictionary+SCAddtions.h"
 
 NSString *const SCNetworkKitErrorDomain = @"com.debugly.SCNetWorkKit";
 
@@ -127,6 +128,23 @@ NSArray<NSDictionary *>* SCNQueryPairsFromKeyAndValue(NSString *lastKey,id value
 #endif
     });
     return ua;
+}
+
++ (NSString *)makeUrlEncodeingString:(id)parameters
+{
+    NSMutableArray *mutablePairs = [NSMutableArray array];
+    NSArray <NSDictionary *>*paris = SCNQueryPairsFromKeyAndValue(nil, parameters);
+    for (NSDictionary *pair in paris) {
+        [mutablePairs addObject:[pair sc_urlEncodedKeyValueString]];
+    }
+    
+    NSString *kvStr = [mutablePairs componentsJoinedByString:@"&"];
+    
+    if (!kvStr) {
+        kvStr = @"";
+    }
+    
+    return kvStr;
 }
 
 @end

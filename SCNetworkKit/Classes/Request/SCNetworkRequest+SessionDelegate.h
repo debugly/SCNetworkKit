@@ -8,7 +8,7 @@
 
 #import "SCNetworkRequest.h"
 
-@interface SCNetworkRequest (SessionDelegate)
+@interface SCNetworkBasicRequest (SessionDelegate)
 
 - (void)URLSession:(NSURLSession *)session
               task:(NSURLSessionTask *)task

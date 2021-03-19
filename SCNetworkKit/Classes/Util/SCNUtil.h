@@ -40,6 +40,7 @@ NSArray<NSDictionary *>* SCNQueryPairsFromKeyAndValue(NSString *lastKey,id value
 @interface SCNUtil : NSObject
 
 + (NSString *)defaultUA;
++ (NSString *)makeUrlEncodeingString:(id)parameters;
 
 @end
 

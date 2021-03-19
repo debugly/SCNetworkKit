@@ -173,14 +173,14 @@
 
 + (void)postURLEncodeWithCompletion:(void(^)(id json,NSError *err))completion
 {
-    NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
+    NSDictionary *ps = @{@"name":@"Matt Reach",@"key":@"body params",@"date":[[NSDate new]description]};
     
     NSMutableArray *arr = [NSMutableArray array];
     [arr addObject:@"Matt"];
     [arr addObject:@"Reach"];
     
     SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestPostApi params:ps];
-    
+    [post addQueryParameters:@{@"key":@"query params"}];
     post.parameterEncoding = SCNPostDataEncodingURL;
     [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
@@ -208,6 +208,7 @@
 {
     NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
     SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestPostApi params:@[ps]];
+    [post addQueryParameters:@{@"key":@"query params"}];
     post.parameterEncoding = SCNPostDataEncodingJSON;
     [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
@@ -252,6 +253,7 @@
 {
     NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
     SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestUploadApi params:ps];
+    [post addQueryParameters:@{@"key":@"query params"}];
     post.parameterEncoding = SCNPostDataEncodingFormData;
     [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
@@ -302,7 +304,7 @@
 {
     NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
     SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestUploadApi params:ps];
-    
+    [post addQueryParameters:@{@"key":@"query params"}];
     SCNetworkFormFilePart *filePart = [SCNetworkFormFilePart new];
     NSString *fileURL = [[NSBundle mainBundle]pathForResource:@"logo" ofType:@"png"];
     filePart.data = [[NSData alloc]initWithContentsOfFile:fileURL];
@@ -338,7 +340,8 @@
 + (void)postDownloadFileWithCompletion:(void(^)(NSString *path,NSError *err))completion progress:(void(^)(float p))progress
 {
     NSString *url = kTestDownloadApi4;
-    SCNetworkDownloadRequest *post = [[SCNetworkDownloadRequest alloc]initWithURLString:url params:nil];
+    NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
+    SCNetworkDownloadRequest *post = [[SCNetworkDownloadRequest alloc]initWithURLString:url params:ps];
     post.method = SCNetworkRequestPostMethod;
     NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:[url lastPathComponent]];
 

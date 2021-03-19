@@ -86,9 +86,9 @@
     return self;
 }
 
-- (void)startRequest:(SCNetworkRequest *)request
+- (void)startRequest:(__kindof SCNetworkBasicRequest *)request
 {
-    NSMutableURLRequest * urlRequest = [request makeURLRequest];
+    NSURLRequest * urlRequest = request.urlRequest;
     if(!request || !urlRequest) {
         NSAssert((request && urlRequest),
                  @"Request is nil, check your URL and other parameters you use to build your request");
@@ -108,18 +108,10 @@
         //   [urlRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long) [formData length]] forHTTPHeaderField:@"Content-Length"];
         //  request.task = [self.session uploadTaskWithRequest:urlRequest fromData:formData];
     }else if ([request isKindOfClass:[SCNetworkDownloadRequest class]]) {
-        SCNetworkDownloadRequest *downloadReq = (SCNetworkDownloadRequest *)request;
-        if (downloadReq.useBreakpointContinuous) {
-            NSString *rangeField = [downloadReq rangeHeaderField];
-            if (rangeField) {
-                [urlRequest addValue:rangeField forHTTPHeaderField:@"Range"];
-            }
-            request.task = [self.session dataTaskWithRequest:urlRequest];
-        } else {
-            //downloadTask can't handle bad response such as 404.we use dataTask then become downloadTask!
-            //request.task = [self.session downloadTaskWithRequest:urlRequest];
-            request.task = [self.session dataTaskWithRequest:urlRequest];
-        }
+        //SCNetworkDownloadRequest *downloadReq = (SCNetworkDownloadRequest *)request;
+        //downloadTask can't handle bad response such as 404.we use dataTask then become downloadTask!
+        //request.task = [self.session downloadTaskWithRequest:urlRequest];
+        request.task = [self.session dataTaskWithRequest:urlRequest];
     } else {
         request.task = [self.session dataTaskWithRequest:urlRequest];
     }

@@ -10,7 +10,7 @@
 #import "SCNetworkRequestInternal.h"
 #import "SCNUtil.h"
 
-@implementation SCNetworkRequest (SessionDelegate)
+@implementation SCNetworkBasicRequest (SessionDelegate)
 
 - (void)URLSession:(NSURLSession *)session
               task:(NSURLSessionTask *)task

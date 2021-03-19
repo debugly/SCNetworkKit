@@ -6,10 +6,11 @@
 //  Created by Matt Reach on 16/4/26.
 //  Copyright © 2016年 debugly.cn. All rights reserved.
 //
-/*
- Only support iOS 7+;
- USE iOS7 new feature; NSURLSession
- */
+
+//SCNetworkRequest默认UA格式如下，如果需要自定义UA可以在Header里添加 User-Agent 字段
+//%E6%90%9C%E7%8B%90%E8%A7%86%E9%A2%91/1 SCNDemo/1.0.8 (iPhone; iOS 11.4; Scale/2.00)
+//%E6%90%9C%E7%8B%90%E5%BD%B1%E9%9F%B3/1 SCNMacDemo/1.0.8 (Macintosh; Mac OS X Version 10.14.1 (Build 18B75))
+
 #import <Foundation/Foundation.h>
 #import "SCNResponseParserProtocol.h"
 
@@ -26,18 +27,16 @@ typedef enum : NSUInteger {
     SCNetworkRequestPostMethod
 } SCNetworkRequestMethod;
 
-@class SCNetworkRequest;
-typedef void(^SCNetWorkHandler)(SCNetworkRequest *request,id result,NSError *err);
-typedef void(^SCNetWorkProgressDidChangeHandler)(SCNetworkRequest *request, int64_t thisTransfered, int64_t totalBytesTransfered, int64_t totalBytesExpected);
-typedef void(^SCNetWorkDidReceiveResponseHandler)(SCNetworkRequest *request,NSURLResponse *response);
+@class SCNetworkBasicRequest;
+typedef void(^SCNetWorkHandler)(__kindof SCNetworkBasicRequest *req,id result,NSError *err);
+typedef void(^SCNetWorkProgressDidChangeHandler)(__kindof SCNetworkBasicRequest *req, int64_t thisTransfered, int64_t totalBytesTransfered, int64_t totalBytesExpected);
+typedef void(^SCNetWorkDidReceiveResponseHandler)(__kindof SCNetworkBasicRequest *req,NSURLResponse *resp);
 
-#pragma mark - GET 请求
+#pragma mark - 基础请求
 
-//SCNetworkRequest默认UA格式如下，如果需要自定义UA可以在Header里添加 User-Agent 字段
-//%E6%90%9C%E7%8B%90%E8%A7%86%E9%A2%91/1 SCNDemo/1.0.8 (iPhone; iOS 11.4; Scale/2.00)
-//%E6%90%9C%E7%8B%90%E5%BD%B1%E9%9F%B3/1 SCNMacDemo/1.0.8 (Macintosh; Mac OS X Version 10.14.1 (Build 18B75))
+API_AVAILABLE(macos(10.10),ios(7.0))
 
-@interface SCNetworkRequest : NSObject
+@interface SCNetworkBasicRequest : NSObject
 
 @property (nonatomic, copy) NSString *tag;
 ///default is SCNJSONResponseParser
@@ -51,7 +50,24 @@ typedef void(^SCNetWorkDidReceiveResponseHandler)(SCNetworkRequest *request,NSUR
 ///default is get; when use post can't contain body!
 @property (nonatomic, assign) SCNetworkRequestMethod method;
 
-///初始化方法传入的参数，会给下面两个属性直接赋值
+@property (nonatomic, readonly) NSURLRequest *urlRequest;
+
+///init with a urlrequest
+- (instancetype)initWithURLRequest:(NSURLRequest *)aReq;
+///invoked on main thread,on the request finished
+- (void)addCompletionHandler:(SCNetWorkHandler)handler;
+///invoked on main thread,on downlaod or upload progress changed
+- (void)addProgressChangedHandler:(SCNetWorkProgressDidChangeHandler)handler;
+///invoked on main thread,on received the response
+- (void)addReceivedResponseHandler:(SCNetWorkDidReceiveResponseHandler)handler;
+///cancel the request
+- (void)cancel;
+
+@end
+
+@interface SCNetworkRequest : SCNetworkBasicRequest
+
+///该初始化方法传入的参数，会给下面两个属性直接赋值
 - (instancetype)initWithURLString:(NSString *)aURL
                            params:(id)params;
 
@@ -61,14 +77,6 @@ typedef void(^SCNetWorkDidReceiveResponseHandler)(SCNetworkRequest *request,NSUR
 
 ///add HTTP Header
 - (void)addHeaders:(NSDictionary *)hs;
-///invoked on main thread,on the request finished
-- (void)addCompletionHandler:(SCNetWorkHandler)handler;
-///invoked on main thread,on downlaod or upload progress changed
-- (void)addProgressChangedHandler:(SCNetWorkProgressDidChangeHandler)handler;
-///invoked on main thread,on received the response
-- (void)addReceivedResponseHandler:(SCNetWorkDidReceiveResponseHandler)handler;
-///cancel the request
-- (void)cancel;
 
 @end
 
