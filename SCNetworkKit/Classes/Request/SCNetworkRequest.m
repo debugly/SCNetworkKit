@@ -33,8 +33,12 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 - (instancetype)initWithURLRequest:(NSURLRequest *)aReq
 {
-    self = [self init];
+    self = [super init];
     if (self) {
+        self.responseParser = [SCNJSONResponseParser new];
+#if TARGET_OS_IPHONE
+        self.backgroundTask = UIBackgroundTaskInvalid;
+#endif
         _urlRequest = aReq;
     }
     return self;
@@ -42,15 +46,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 - (instancetype)init
 {
-    self = [super init];
-    if (self) {
-        self.responseParser = [SCNJSONResponseParser new];
-        self.method = SCNetworkRequestGetMethod;
-#if TARGET_OS_IPHONE
-        self.backgroundTask = UIBackgroundTaskInvalid;
-#endif
-    }
-    return self;
+    return [self initWithURLRequest:nil];
 }
 
 - (NSURLRequest *)urlRequest
@@ -261,10 +257,11 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 - (instancetype)initWithURLString:(NSString *)aURL
                            params:(id)params
 {
-    self = [self init];
+    self = [super initWithURLRequest:nil];
     if (self) {
         self.urlString = aURL;
         self.parameters = params;
+        self.method = SCNetworkRequestGetMethod;
     }
     return self;
 }

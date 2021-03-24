@@ -42,24 +42,26 @@ API_AVAILABLE(macos(10.10),ios(7.0))
 ///default is SCNJSONResponseParser
 @property (nonatomic, strong) id<SCNResponseParserProtocol>responseParser;
 ///请求超时时间，默认60s
-@property (nonatomic)NSTimeInterval timeoutInterval;
+@property (nonatomic) NSTimeInterval timeoutInterval;
 ///仅当SCNetWorkDidReceiveResponseHandler回调后才能取到值
 @property (nonatomic, strong, readonly) NSHTTPURLResponse *response;
 ///the request's state
 @property (nonatomic, readonly) SCNKRequestState state;
-///default is get; when use post can't contain body!
-@property (nonatomic, assign) SCNetworkRequestMethod method;
 
-@property (nonatomic, readonly) NSURLRequest *urlRequest;
+@property (nonatomic, strong) NSURLRequest *urlRequest;
 
-///init with a urlrequest
-- (instancetype)initWithURLRequest:(NSURLRequest *)aReq;
-///invoked on main thread,on the request finished
+///init with a urlRequest
+- (instancetype)initWithURLRequest:(NSURLRequest *)aReq NS_DESIGNATED_INITIALIZER;
+
+//---- invoked on main thread,support add multiple times
+///when the request finished
 - (void)addCompletionHandler:(SCNetWorkHandler)handler;
-///invoked on main thread,on downlaod or upload progress changed
+///invoked on main thread,when downlaod or upload progress did change
 - (void)addProgressChangedHandler:(SCNetWorkProgressDidChangeHandler)handler;
-///invoked on main thread,on received the response
+///invoked on main thread,when received the response
 - (void)addReceivedResponseHandler:(SCNetWorkDidReceiveResponseHandler)handler;
+//---- invoked on main thread,support add multiple times
+
 ///cancel the request
 - (void)cancel;
 
@@ -67,13 +69,16 @@ API_AVAILABLE(macos(10.10),ios(7.0))
 
 @interface SCNetworkRequest : SCNetworkBasicRequest
 
+- (instancetype)initWithURLRequest:(NSURLRequest *)aReq NS_UNAVAILABLE;
 ///该初始化方法传入的参数，会给下面两个属性直接赋值
 - (instancetype)initWithURLString:(NSString *)aURL
-                           params:(id)params;
+                           params:(id)params NS_DESIGNATED_INITIALIZER;
 
 @property (nonatomic, copy) NSString *urlString;
-///POST:放到body里；GET:拼接到URL上
+///拼接到URL上的参数
 @property (nonatomic, strong) id parameters;
+///default is get; when use post can't contain body!
+@property (nonatomic, assign) SCNetworkRequestMethod method;
 
 ///add HTTP Header
 - (void)addHeaders:(NSDictionary *)hs;
@@ -97,9 +102,9 @@ API_AVAILABLE(macos(10.10),ios(7.0))
 @property (nonatomic,copy) NSString *mime;//文本类型
 @property (nonatomic,copy) NSString *fileName;//上传文件名
 @property (nonatomic,copy) NSString *name;//表单的名称，默认为 "file"
-///上传文件的时候，小文件可以使用 data，大文件要使用 fileURL，省得内存暂用过大！
-@property (nonatomic,copy) NSString *fileURL;//文件地址，此时可以不传fileName和mime，内部自动推断
-@property (nonatomic,strong) NSData *data;//二进制数据，必须传fileName和mime，内部不能推断
+///上传文件的时候，小文件可以使用 data，大文件要使用 fileURL，省得内存占用过大！
+@property (nonatomic,copy) NSString *fileURL;//文件地址（传了该值时可以不传fileName和mime，内部自动推断）
+@property (nonatomic,strong) NSData *data;//二进制数据（必须传fileName和mime，内部不能推断）
 
 @end
 
