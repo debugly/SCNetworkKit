@@ -11,16 +11,15 @@
 //%E6%90%9C%E7%8B%90%E8%A7%86%E9%A2%91/1 SCNDemo/1.0.8 (iPhone; iOS 11.4; Scale/2.00)
 //%E6%90%9C%E7%8B%90%E5%BD%B1%E9%9F%B3/1 SCNMacDemo/1.0.8 (Macintosh; Mac OS X Version 10.14.1 (Build 18B75))
 
-#import <Foundation/Foundation.h>
 #import "SCNResponseParserProtocol.h"
 
 typedef enum : NSUInteger {
-    SCNKRequestStateReady,
-    SCNKRequestStateStarted,
-    SCNKRequestStateCancelled,
-    SCNKRequestStateCompleted,
-    SCNKRequestStateError,
-} SCNKRequestState;
+    SCNRequestStateReady,
+    SCNRequestStateStarted,
+    SCNRequestStateCancelled,
+    SCNRequestStateCompleted,
+    SCNRequestStateError,
+} SCNRequestState;
 
 typedef enum : NSUInteger {
     SCNetworkRequestGetMethod,
@@ -46,7 +45,7 @@ API_AVAILABLE(macos(10.10),ios(7.0))
 ///仅当SCNetWorkDidReceiveResponseHandler回调后才能取到值
 @property (nonatomic, strong, readonly) NSHTTPURLResponse *response;
 ///the request's state
-@property (nonatomic, readonly) SCNKRequestState state;
+@property (nonatomic, readonly) SCNRequestState state;
 
 @property (nonatomic, strong) NSURLRequest *urlRequest;
 
@@ -109,33 +108,33 @@ API_AVAILABLE(macos(10.10),ios(7.0))
 @end
 
 typedef enum : NSUInteger {
-    SCNPostDataEncodingURL,
-    SCNPostDataEncodingJSON,
-    SCNPostDataEncodingPlist,
-    SCNPostDataEncodingFormData,
-    SCNPostDataEncodingCustom,
-} SCNPostDataEncoding;
+    SCNPostBodyEncodingURL,
+    SCNPostBodyEncodingJSON,
+    SCNPostBodyEncodingPlist,
+    SCNPostBodyEncodingFormData,
+    SCNPostBodyEncodingCustom,
+} SCNPostBodyEncoding;
 
 @interface SCNetworkPostRequest : SCNetworkRequest
 
 //默认是: application/x-www-form-urlencoded
-@property (nonatomic,assign) SCNPostDataEncoding parameterEncoding;
+@property (nonatomic,assign) SCNPostBodyEncoding bodyEncoding;
 /*
  需要通过表单上传的文件使用这个字段；
  支持多文件上传，数组里的每个元素均是一个文件；
- formFileParts 一旦被赋值，则parameterEncoding会强制使用multipart/form-data编码！
+ formFileParts 一旦被赋值，则bodyEncoding会强制使用multipart/form-data编码！
  */
 @property (nonatomic,strong) NSArray <SCNetworkFormFilePart *>* formFileParts;
 
-/* 添加URL query参数!!该方法会把参数追加到 URL 上，类似 GET 请求的参数拼！
- 当使用 parameterEncoding 是 SCNPostDataEncodingFormData 形式编码时,
-    (1. 指定 parameterEncoding)
-    (2. formFileParts 不空，被强制指定)
- 使用 addParameters 方法添加的参数会放到表单里！！
- 反之，该方法和 addParameters 功能相同。
+/*
+ 使用 addParameters 方法添加的参数会放到 Body 体里！！
+ 如果要把参数追加到 URL 上，类似 GET 请求拼接的参数，请用此方法！
 */
 - (void)addQueryParameters:(NSDictionary *)ps;
 
+/*
+ 当 bodyEncoding 为 SCNPostBodyEncodingCustom 时，通过这个回调构造 body 体
+ */
 - (void)makeCustomRequest:(void(^)(const NSMutableURLRequest* request))handler;
 
 @end

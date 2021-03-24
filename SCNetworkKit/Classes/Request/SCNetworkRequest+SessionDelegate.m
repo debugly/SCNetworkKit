@@ -25,24 +25,24 @@ didCompleteWithError:(NSError *)error
                 SCNetworkDownloadRequest *downloadReq = (SCNetworkDownloadRequest *)self;
                 if (SCNetworkDownloadRecordBadResponse == downloadReq.recordCode) {
                     NSError *aError = SCNError(self.response.statusCode, self.response.allHeaderFields);
-                    [self updateState:SCNKRequestStateError error:aError];
+                    [self updateState:SCNRequestStateError error:aError];
                 } else if (SCNetworkDownloadRecordAlreadyFinished == downloadReq.recordCode) {
-                    [self updateState:SCNKRequestStateCompleted error:nil];
+                    [self updateState:SCNRequestStateCompleted error:nil];
                 } else if (SCNetworkDownloadRecordBadRangeRequest == downloadReq.recordCode) {
                     NSError *aError = SCNError(self.response.statusCode, self.response.allHeaderFields);
-                    [self updateState:SCNKRequestStateError error:aError];
+                    [self updateState:SCNRequestStateError error:aError];
                 } else {
                     NSError *aError = SCNError(self.response.statusCode, self.response.allHeaderFields);
-                    [self updateState:SCNKRequestStateCancelled error:aError];
+                    [self updateState:SCNRequestStateCancelled error:aError];
                 }
             } else {
-                [self updateState:SCNKRequestStateCancelled error:error];
+                [self updateState:SCNRequestStateCancelled error:error];
             }
         }else {
-            [self updateState:SCNKRequestStateError error:error];
+            [self updateState:SCNRequestStateError error:error];
         }
     } else {
-        [self updateState:SCNKRequestStateCompleted error:nil];
+        [self updateState:SCNRequestStateCompleted error:nil];
     }
 }
 

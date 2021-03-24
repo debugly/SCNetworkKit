@@ -181,7 +181,7 @@
     
     SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestPostApi params:ps];
     [post addQueryParameters:@{@"key":@"query params"}];
-    post.parameterEncoding = SCNPostDataEncodingURL;
+    post.bodyEncoding = SCNPostBodyEncodingURL;
     [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
         if (completion) {
@@ -209,7 +209,7 @@
     NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
     SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestPostApi params:@[ps]];
     [post addQueryParameters:@{@"key":@"query params"}];
-    post.parameterEncoding = SCNPostDataEncodingJSON;
+    post.bodyEncoding = SCNPostBodyEncodingJSON;
     [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
         if (completion) {
@@ -254,7 +254,7 @@
     NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
     SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestUploadApi params:ps];
     [post addQueryParameters:@{@"key":@"query params"}];
-    post.parameterEncoding = SCNPostDataEncodingFormData;
+    post.bodyEncoding = SCNPostBodyEncodingFormData;
     [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
         if (completion) {

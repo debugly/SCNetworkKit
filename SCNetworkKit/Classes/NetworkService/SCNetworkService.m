@@ -117,7 +117,7 @@
     }
 
     [self assignMappingForRequest:request];
-    [request updateState:SCNKRequestStateStarted error:nil];
+    [request updateState:SCNRequestStateStarted error:nil];
 }
 
 - (SCNetworkRequest *)requestForTask:(NSURLSessionTask *)task

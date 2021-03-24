@@ -24,7 +24,7 @@
 #if TARGET_OS_IPHONE
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundTask;
 #endif
-@property (nonatomic, readwrite) SCNKRequestState state;
+@property (nonatomic, readwrite) SCNRequestState state;
 @property (nonatomic, readwrite) NSURLSessionTask *task;
 @property (nonatomic, readwrite) NSUInteger taskIdentifier;
 @property (nonatomic, readwrite) NSHTTPURLResponse *response;
@@ -37,7 +37,7 @@
           totalBytesExpected:(int64_t)totalBytesExpected;
 //更新 response
 - (NSURLSessionResponseDisposition)onReceivedResponse:(NSHTTPURLResponse *)response;
-- (void)updateState:(SCNKRequestState)state error:(NSError *)error;
+- (void)updateState:(SCNRequestState)state error:(NSError *)error;
 - (uint64_t)didReceiveData:(NSData *)data;
 
 @end

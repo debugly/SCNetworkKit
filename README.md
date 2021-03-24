@@ -243,7 +243,7 @@ npm start
     ```objc
     NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
     SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestUploadApi params:ps];
-    post.parameterEncoding = SCNPostDataEncodingFormData;
+    post.parameterEncoding = SCNPostBodyEncodingFormData;
     [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         
         if (completion) {
@@ -362,12 +362,12 @@ NSURLSession 管理的网络请求结束后，会在 SCNetworkRequest 里处理�
 
 继承了 SCNetworkRequest，专门用于发送带有 body 体的 POST 请求，body 体内容支持四种编码方式:
 
-- SCNPostDataEncodingURL : application/x-www-form-urlencoded;
-- SCNPostDataEncodingJSON : application/json;
-- SCNPostDataEncodingPlist : application/x-plist;
-- SCNPostDataEncodingFormData : multipart/form-data;
+- SCNPostBodyEncodingURL : application/x-www-form-urlencoded;
+- SCNPostBodyEncodingJSON : application/json;
+- SCNPostBodyEncodingPlist : application/x-plist;
+- SCNPostBodyEncodingFormData : multipart/form-data;
 
-只有使用 SCNPostDataEncodingFormData 方式的请求会采用 HTTPBodyStream ！
+只有使用 SCNPostBodyEncodingFormData 方式的请求会采用 HTTPBodyStream ！
 
 ## 版本
 

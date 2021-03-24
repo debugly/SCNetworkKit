@@ -95,18 +95,18 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 - (void)cancel
 {
-    if (SCNKRequestStateStarted == self.state) {
+    if (SCNRequestStateStarted == self.state) {
         [self.task cancel];
-        [self updateState:SCNKRequestStateCancelled error:nil];
+        [self updateState:SCNRequestStateCancelled error:nil];
     }
 }
 
 // 更新状态机，请求的开始和结束，都走这里
-- (void)updateState:(SCNKRequestState)state error:(NSError *)error
+- (void)updateState:(SCNRequestState)state error:(NSError *)error
 {
     _state = state;
     
-    if (SCNKRequestStateStarted == state) {
+    if (SCNRequestStateStarted == state) {
         
         [self.task resume];
 #if TARGET_OS_IPHONE
@@ -129,7 +129,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 #endif
     }
     
-    else if ((SCNKRequestStateCompleted == state) || (state == SCNKRequestStateError)){
+    else if ((SCNRequestStateCompleted == state) || (state == SCNRequestStateError)){
         
         if (error) {
             [self doFinishWithResult:nil error:error];
@@ -147,13 +147,13 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         }
     }
     
-    else if(SCNKRequestStateCancelled == state){
-        //SCNKRequestStateCancelled do nothing
+    else if(SCNRequestStateCancelled == state){
+        //SCNRequestStateCancelled do nothing
         
     }
     
     else{
-        //SCNKRequestStateReady do nothing
+        //SCNRequestStateReady do nothing
     }
 }
 
@@ -509,7 +509,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 - (BOOL)isStreamHTTPBody
 {
-    return SCNPostDataEncodingFormData == self.parameterEncoding;
+    return SCNPostBodyEncodingFormData == self.bodyEncoding;
 }
 
 - (void)makeFormDataHTTPBodyWithRequest:(NSMutableURLRequest *)createdRequest
@@ -531,9 +531,8 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         
         if ([self.formFileParts count] > 0) {
             //强制设置为 FromData ！
-            self.parameterEncoding = SCNPostDataEncodingFormData;
+            self.bodyEncoding = SCNPostBodyEncodingFormData;
         }
-        
         NSMutableURLRequest *createdRequest = [self _makeURLRequest:self.urlString query:self.queryPs];
         [self makeURLRequestBody:createdRequest];
         _urlRequest = createdRequest;
@@ -545,9 +544,9 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 {
     NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
     
-    switch (self.parameterEncoding) {
+    switch (self.bodyEncoding) {
             
-        case SCNPostDataEncodingURL: {
+        case SCNPostBodyEncodingURL: {
             [createdRequest setValue:
              [NSString stringWithFormat:@"application/x-www-form-urlencoded; charset=%@", charset]
                   forHTTPHeaderField:@"Content-Type"];
@@ -558,7 +557,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
             }
         }
             break;
-        case SCNPostDataEncodingJSON: {
+        case SCNPostBodyEncodingJSON: {
             [createdRequest setValue:
              [NSString stringWithFormat:@"application/json; charset=%@", charset]
                   forHTTPHeaderField:@"Content-Type"];
@@ -575,7 +574,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
             }
         }
             break;
-        case SCNPostDataEncodingPlist: {
+        case SCNPostBodyEncodingPlist: {
             [createdRequest setValue:
              [NSString stringWithFormat:@"application/x-plist; charset=%@", charset]
                   forHTTPHeaderField:@"Content-Type"];
@@ -593,11 +592,11 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
             }
         }
             break;
-        case SCNPostDataEncodingFormData: {
+        case SCNPostBodyEncodingFormData: {
             [self makeFormDataHTTPBodyWithRequest:createdRequest];
         }
             break;
-        case SCNPostDataEncodingCustom: {
+        case SCNPostBodyEncodingCustom: {
             if (self.customRequestMaker) {
                 self.customRequestMaker(createdRequest);
             }
