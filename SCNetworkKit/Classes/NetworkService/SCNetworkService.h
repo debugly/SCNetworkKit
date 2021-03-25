@@ -16,7 +16,9 @@ FOUNDATION_EXPORT NSString *const SCNetworkKitErrorDomain;
 @interface SCNetworkService : NSObject
 
 ///可以指定 SessionConfiguration
-- (instancetype)initWithSessionConfiguration:(NSURLSessionConfiguration *)configure;
+- (instancetype)initWithSessionConfiguration:(NSURLSessionConfiguration *)configure NS_DESIGNATED_INITIALIZER;
+
++ (NSURLSessionConfiguration *)defaultSessionConfiguration;
 
 ///开始请求；
 - (void)startRequest:(__kindof SCNetworkBasicRequest *)request;

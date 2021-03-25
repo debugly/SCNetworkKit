@@ -30,6 +30,7 @@ typedef enum : NSUInteger {
 typedef void(^SCNetWorkHandler)(__kindof SCNetworkBasicRequest *req,id result,NSError *err);
 typedef void(^SCNetWorkProgressDidChangeHandler)(__kindof SCNetworkBasicRequest *req, int64_t thisTransfered, int64_t totalBytesTransfered, int64_t totalBytesExpected);
 typedef void(^SCNetWorkDidReceiveResponseHandler)(__kindof SCNetworkBasicRequest *req,NSURLResponse *resp);
+typedef void(^SCNetWorkDidReceiveDataHandler)(__kindof SCNetworkBasicRequest *req,NSData *data);
 
 #pragma mark - 基础请求
 
@@ -60,6 +61,9 @@ API_AVAILABLE(macos(10.10),ios(7.0))
 ///invoked on main thread,when received the response
 - (void)addReceivedResponseHandler:(SCNetWorkDidReceiveResponseHandler)handler;
 //---- invoked on main thread,support add multiple times
+
+/// reveive response data,invoked multiple times on sub thread usually
+- (void)addReceivedDataHandler:(SCNetWorkDidReceiveDataHandler)handler;
 
 ///cancel the request
 - (void)cancel;

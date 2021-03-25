@@ -14,13 +14,17 @@
 
 @interface SCNetworkBasicRequest()
 {
+@private
+    NSDictionary *_allHandlers;
 @protected
     NSURLRequest *_urlRequest;
 }
 
-@property (nonatomic) NSMutableArray <SCNetWorkHandler>*completionHandlers;
-@property (nonatomic) NSMutableArray <SCNetWorkProgressDidChangeHandler>*progressChangedHandlers;
-@property (nonatomic) NSMutableArray <SCNetWorkDidReceiveResponseHandler>*responseHandlers;
+- (NSMutableArray <SCNetWorkHandler>*) completionHandlers;
+- (NSMutableArray <SCNetWorkProgressDidChangeHandler>*) progressChangedHandlers;
+- (NSMutableArray <SCNetWorkDidReceiveResponseHandler>*) responseHandlers;
+- (NSMutableArray <SCNetWorkDidReceiveDataHandler>*) dataHandlers;
+
 #if TARGET_OS_IPHONE
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundTask;
 #endif
@@ -29,16 +33,12 @@
 @property (nonatomic, readwrite) NSUInteger taskIdentifier;
 @property (nonatomic, readwrite) NSHTTPURLResponse *response;
 ///存储dataTask回调的数据，不包括文件下载续传类型
-@property (nonatomic) NSMutableData *mutableData;
+@property (nonatomic) NSMutableData *respBuffer;
 
-//更新传输进度
-- (void)updateTransferedData:(int64_t)bytes
-                  totalBytes:(int64_t)totalBytes
-          totalBytesExpected:(int64_t)totalBytesExpected;
 //更新 response
 - (NSURLSessionResponseDisposition)onReceivedResponse:(NSHTTPURLResponse *)response;
 - (void)updateState:(SCNRequestState)state error:(NSError *)error;
-- (uint64_t)didReceiveData:(NSData *)data;
+- (void)didReceiveResponseData:(NSData *)data;
 
 @end
 
@@ -66,12 +66,19 @@ typedef NS_ENUM(NSUInteger, SCNetworkDownloadRecordCode) {
 @property (nonatomic, assign) uint64_t currentOffset;
 @property (nonatomic, assign) SCNetworkDownloadRecordCode recordCode;
 
-- (uint64_t)didReceiveData:(NSData *)data;
+//更新下载进度
+- (void)updateTransferedData:(int64_t)bytes
+                  totalBytes:(int64_t)totalBytes
+          totalBytesExpected:(int64_t)totalBytesExpected;
 
 @end
 
 @interface SCNetworkPostRequest()
 
 - (BOOL)isStreamHTTPBody;
+//更新上传进度
+- (void)updateTransferedData:(int64_t)bytes
+                  totalBytes:(int64_t)totalBytes
+          totalBytesExpected:(int64_t)totalBytesExpected;
 
 @end

@@ -11,7 +11,7 @@
  */
 #import "SCNetworkService.h"
 #import "SCNetworkRequestInternal.h"
-#import "SCNetworkRequest+SessionDelegate.h"
+#import "SCNetworkRequest+Landing.h"
 #import "SCNUtil.h"
 
 #if TARGET_OS_IPHONE
@@ -21,6 +21,7 @@
 @interface SCNetworkService ()<NSURLSessionDelegate,NSURLSessionTaskDelegate,NSURLSessionDataDelegate,NSURLSessionDownloadDelegate>
 
 @property (nonatomic, strong) dispatch_queue_t taskSynzQueue;
+@property (nonatomic, strong) NSOperationQueue *delegateQueue;
 @property (nonatomic, strong) NSMutableDictionary *taskRequestMap;
 @property (nonatomic, strong) NSURLSession *session;
 
@@ -28,12 +29,12 @@
 
 @implementation SCNetworkService
 
-- (instancetype)init
++ (NSURLSessionConfiguration *)defaultSessionConfiguration
 {
     NSURLSessionConfiguration *configure = nil;
     configure = [NSURLSessionConfiguration defaultSessionConfiguration];
     
-    if (@available(ios 7.0,macOS 10.10, *)) {
+    if (@available(ios 7.0, macOS 10.10, *)) {
         configure.discretionary = YES;
     }
     configure.networkServiceType = NSURLNetworkServiceTypeDefault;
@@ -48,15 +49,18 @@
     configure.HTTPShouldSetCookies = YES;
     configure.HTTPShouldUsePipelining = YES;
     //configure.HTTPMaximumConnectionsPerHost = 2; wifi default is 6;
-    configure.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
-    configure.URLCache = nil;
+    //configure.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+    //configure.URLCache = nil;
     
     if (@available(iOS 9.0,macOS 10.11,*)) {
         configure.shouldUseExtendedBackgroundIdleMode = YES;
     }
-//    //清理所有缓存；
-//    [[NSURLCache sharedURLCache]removeAllCachedResponses];
-    
+    return configure;
+}
+
+- (instancetype)init
+{
+    NSURLSessionConfiguration * configure = [[self class] defaultSessionConfiguration];
     self = [self initWithSessionConfiguration:configure];
     return self;
 }
@@ -82,6 +86,7 @@
         self.session = [NSURLSession sessionWithConfiguration:configure
                                                      delegate:self
                                                 delegateQueue:delegateQueue];
+        self.delegateQueue = delegateQueue;
     }
     return self;
 }
@@ -89,7 +94,7 @@
 - (void)startRequest:(__kindof SCNetworkBasicRequest *)request
 {
     NSURLRequest * urlRequest = request.urlRequest;
-    if(!request || !urlRequest) {
+    if (!request || !urlRequest) {
         NSAssert((request && urlRequest),
                  @"Request is nil, check your URL and other parameters you use to build your request");
         return;
@@ -107,7 +112,7 @@
         //   //在这里设置下内容的长度，这个问题处理的不够优雅，但是提升了性能。。。
         //   [urlRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long) [formData length]] forHTTPHeaderField:@"Content-Length"];
         //  request.task = [self.session uploadTaskWithRequest:urlRequest fromData:formData];
-    }else if ([request isKindOfClass:[SCNetworkDownloadRequest class]]) {
+    } else if ([request isKindOfClass:[SCNetworkDownloadRequest class]]) {
         //SCNetworkDownloadRequest *downloadReq = (SCNetworkDownloadRequest *)request;
         //downloadTask can't handle bad response such as 404.we use dataTask then become downloadTask!
         //request.task = [self.session downloadTaskWithRequest:urlRequest];
@@ -120,16 +125,16 @@
     [request updateState:SCNRequestStateStarted error:nil];
 }
 
-- (SCNetworkRequest *)requestForTask:(NSURLSessionTask *)task
+- (__kindof SCNetworkBasicRequest *)requestForTask:(NSURLSessionTask *)task
 {
-    __block SCNetworkRequest *request = nil;
+    __block __kindof SCNetworkBasicRequest *request = nil;
     dispatch_sync(self.taskSynzQueue, ^{
         request = [self.taskRequestMap objectForKey:@(task.taskIdentifier)];
     });
     return request;
 }
 
-- (void)assignMappingForRequest:(SCNetworkRequest *)request
+- (void)assignMappingForRequest:(__kindof SCNetworkBasicRequest *)request
 {
     dispatch_sync(self.taskSynzQueue, ^{
         [self.taskRequestMap setObject:request forKey:@(request.task.taskIdentifier)];
@@ -149,9 +154,9 @@
               task:(NSURLSessionTask *)task
 didCompleteWithError:(NSError *)error {
     
-    SCNetworkRequest *request = [self requestForTask:task];
+    __kindof SCNetworkBasicRequest *request = [self requestForTask:task];
     if (request) {
-        [request URLSession:session task:task didCompleteWithError:error];
+        [request didCompleteWithError:error resp:(NSHTTPURLResponse *)task.response];
         [self removeRequestMappingForTask:task];
     }
     [[NSURLCache sharedURLCache]removeCachedResponseForRequest:task.currentRequest];
@@ -163,9 +168,9 @@ didCompleteWithError:(NSError *)error {
     totalBytesSent:(int64_t)totalBytesSent
 totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
 {
-    SCNetworkRequest *request = [self requestForTask:task];
-    if (request) {
-        [request URLSession:session task:task didSendBodyData:bytesSent totalBytesSent:totalBytesSent totalBytesExpectedToSend:totalBytesExpectedToSend];
+    SCNetworkPostRequest *request = [self requestForTask:task];
+    if ([request isKindOfClass:[SCNetworkPostRequest class]]) {
+        [request didSendBodyData:bytesSent totalBytesSent:totalBytesSent totalBytesExpectedToSend:totalBytesExpectedToSend];
     }
 }
 
@@ -174,7 +179,6 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
         newRequest:(NSURLRequest *)request
  completionHandler:(void (^)(NSURLRequest *))completionHandler
 {
-//    NSLog(@"[%ld]:%@",(long)[response statusCode],request);
     completionHandler(request);
 }
 
@@ -185,9 +189,9 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
 didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler
 {
-    SCNetworkRequest *request = [self requestForTask:dataTask];
+    __kindof SCNetworkBasicRequest *request = [self requestForTask:dataTask];
     if (request) {
-        [request URLSession:session dataTask:dataTask didReceiveResponse:response completionHandler:completionHandler];
+        [request didReceiveResponse:response completionHandler:completionHandler];
     }
 }
 
@@ -195,9 +199,9 @@ didReceiveResponse:(NSURLResponse *)response
           dataTask:(NSURLSessionDataTask *)dataTask
     didReceiveData:(NSData *)data
 {
-    SCNetworkRequest *request = [self requestForTask:dataTask];
+    __kindof SCNetworkBasicRequest *request = [self requestForTask:dataTask];
     if (request) {
-        [request URLSession:session dataTask:dataTask didReceiveData:data];
+        [request didReceiveData:data];
     }
 }
 
@@ -205,7 +209,7 @@ didReceiveResponse:(NSURLResponse *)response
           dataTask:(NSURLSessionDataTask *)dataTask
 didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask
 {
-    SCNetworkRequest *request = [self requestForTask:dataTask];
+    __kindof SCNetworkBasicRequest *request = [self requestForTask:dataTask];
     if (request) {
         [self removeRequestMappingForTask:dataTask];
         request.task = downloadTask;
@@ -222,9 +226,9 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask
  totalBytesWritten:(int64_t)totalBytesWritten
 totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
 {
-    SCNetworkRequest *request = [self requestForTask:downloadTask];
-    if (request) {
-        [request URLSession:session downloadTask:downloadTask didWriteData:bytesWritten totalBytesWritten:totalBytesWritten totalBytesExpectedToWrite:totalBytesExpectedToWrite];
+    SCNetworkDownloadRequest *request = [self requestForTask:downloadTask];
+    if ([request isKindOfClass:[SCNetworkDownloadRequest class]]) {
+        [request updateTransferedData:bytesWritten totalBytes:totalBytesWritten totalBytesExpected:totalBytesExpectedToWrite];
     }
 }
 
@@ -232,17 +236,19 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
       downloadTask:(NSURLSessionDownloadTask *)downloadTask
 didFinishDownloadingToURL:(NSURL *)location
 {
-    SCNetworkRequest *request = [self requestForTask:downloadTask];
-    if (request) {
-        [request URLSession:session downloadTask:downloadTask didFinishDownloadingToURL:location];
+    SCNetworkDownloadRequest *request = [self requestForTask:downloadTask];
+    if ([request isKindOfClass:[SCNetworkDownloadRequest class]]) {
+        [request didFinishDownloadingToURL:location];
     }
 }
 
-#pragma mark - NSURLSessionDelegate
-
 - (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error
 {
-    //TODO
+    if (error) {
+        self.session = [NSURLSession sessionWithConfiguration:session.configuration
+                                                     delegate:self
+                                                delegateQueue:self.delegateQueue];
+    }
 }
 
 @end

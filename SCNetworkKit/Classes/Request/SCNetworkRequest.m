@@ -29,6 +29,11 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     return scn_response_parser_queue;
 }
 
+static NSString *const KCompletionHandlerKey = @"completion";
+static NSString *const KProgressHandlerKey = @"progress";
+static NSString *const KResponseHandlerKey = @"response";
+static NSString *const KDataHandlerKey = @"data";
+
 @implementation SCNetworkBasicRequest
 
 - (instancetype)initWithURLRequest:(NSURLRequest *)aReq
@@ -40,6 +45,12 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         self.backgroundTask = UIBackgroundTaskInvalid;
 #endif
         _urlRequest = aReq;
+        _allHandlers = @{
+            KCompletionHandlerKey : [NSMutableArray array],
+            KProgressHandlerKey : [NSMutableArray array],
+            KResponseHandlerKey : [NSMutableArray array],
+            KDataHandlerKey : [NSMutableArray array]
+        };
     }
     return self;
 }
@@ -93,6 +104,14 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     }
 }
 
+- (void)addReceivedDataHandler:(SCNetWorkDidReceiveDataHandler)handler
+{
+    if (handler) {
+        [self.dataHandlers addObject:handler];
+    }
+}
+
+
 - (void)cancel
 {
     if (SCNRequestStateStarted == self.state) {
@@ -107,7 +126,6 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     _state = state;
     
     if (SCNRequestStateStarted == state) {
-        
         [self.task resume];
 #if TARGET_OS_IPHONE
         if (@available(iOS 9.0, *)) {} else {
@@ -127,14 +145,11 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
             }
         }
 #endif
-    }
-    
-    else if ((SCNRequestStateCompleted == state) || (state == SCNRequestStateError)){
-        
+    } else if ((SCNRequestStateCompleted == state) || (state == SCNRequestStateError)) {
         if (error) {
             [self doFinishWithResult:nil error:error];
         } else {
-            NSData *data = [_mutableData copy];
+            NSData *data = [_respBuffer copy];
             if (self.responseParser) {
                 dispatch_async(SCN_Response_Parser_Queue(), ^{
                     NSError *parserError = nil;
@@ -145,14 +160,9 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
                 [self doFinishWithResult:data error:nil];
             }
         }
-    }
-    
-    else if(SCNRequestStateCancelled == state){
+    } else if(SCNRequestStateCancelled == state) {
         //SCNRequestStateCancelled do nothing
-        
-    }
-    
-    else{
+    } else{
         //SCNRequestStateReady do nothing
     }
 }
@@ -169,10 +179,12 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     return NSURLSessionResponseAllow;
 }
 
-- (uint64_t)didReceiveData:(NSData *)data
+- (void)didReceiveResponseData:(NSData *)data
 {
-    [self.mutableData appendData:data];
-    return (uint64_t)[self.mutableData length];
+    [self.respBuffer appendData:data];
+    [self.dataHandlers enumerateObjectsUsingBlock:^(SCNetWorkDidReceiveDataHandler  _Nonnull handler, NSUInteger idx, BOOL * _Nonnull stop) {
+        handler(self,data);
+    }];
 }
 
 - (void)doFinishWithResult:(id)reslut error:(NSError *)error
@@ -193,17 +205,6 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     });
 }
 
-- (void)updateTransferedData:(int64_t)bytes
-                  totalBytes:(int64_t)totalBytes
-          totalBytesExpected:(int64_t)totalBytesExpected
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.progressChangedHandlers enumerateObjectsUsingBlock:^(_Nonnull SCNetWorkProgressDidChangeHandler handler, NSUInteger idx, BOOL *stop) {
-            handler(self,bytes,totalBytes,totalBytesExpected);
-        }];
-    });
-}
-
 - (void)setTask:(NSURLSessionTask *)task
 {
     if (_task != task) {
@@ -212,42 +213,34 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     }
 }
 
-#pragma mark
 #pragma mark - lazy getters
 
-- (NSMutableArray *)completionHandlers
+- (NSMutableArray<void (^)(__kindof SCNetworkBasicRequest *, id, NSError *)> *)completionHandlers
 {
-    if(!_completionHandlers)
-    {
-        _completionHandlers = [NSMutableArray array];
-    }
-    return _completionHandlers;
+    return _allHandlers[KCompletionHandlerKey];
 }
 
-- (NSMutableArray *)progressChangedHandlers
+- (NSMutableArray<void (^)(__kindof SCNetworkBasicRequest *, int64_t, int64_t, int64_t)> *)progressChangedHandlers
 {
-    if(!_progressChangedHandlers)
-    {
-        _progressChangedHandlers = [NSMutableArray array];
-    }
-    return _progressChangedHandlers;
+    return _allHandlers[KProgressHandlerKey];
 }
 
-- (NSMutableArray *)responseHandlers
+- (NSMutableArray<void (^)(__kindof SCNetworkBasicRequest *, NSURLResponse *)> *)responseHandlers
 {
-    if(!_responseHandlers)
-    {
-        _responseHandlers = [NSMutableArray array];
-    }
-    return _responseHandlers;
+    return _allHandlers[KResponseHandlerKey];;
 }
 
-- (NSMutableData *)mutableData
+- (NSMutableArray<void (^)(__kindof SCNetworkBasicRequest *, NSData *)> *)dataHandlers
 {
-    if (!_mutableData) {
-        _mutableData = [NSMutableData data];
+    return _allHandlers[KDataHandlerKey];;
+}
+
+- (NSMutableData *)respBuffer
+{
+    if (!_respBuffer) {
+        _respBuffer = [NSMutableData data];
     }
-    return _mutableData;
+    return _respBuffer;
 }
 
 @end
@@ -334,7 +327,6 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     }
 }
 
-#pragma mark
 #pragma mark - lazy getters
 
 - (NSMutableDictionary *)headers
@@ -403,7 +395,18 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     }
 }
 
-#pragma mark - override super methods.
+- (void)updateTransferedData:(int64_t)bytes
+                  totalBytes:(int64_t)totalBytes
+          totalBytesExpected:(int64_t)totalBytesExpected
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.progressChangedHandlers enumerateObjectsUsingBlock:^(_Nonnull SCNetWorkProgressDidChangeHandler handler, NSUInteger idx, BOOL *stop) {
+            handler(self,bytes,totalBytes,totalBytesExpected);
+        }];
+    });
+}
+
+#pragma mark - override super's methods.
 
 - (NSURLRequest *)urlRequest
 {
@@ -457,11 +460,16 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     }
 }
 
-- (uint64_t)didReceiveData:(NSData *)data
+- (void)didReceiveResponseData:(NSData *)data
 {
     [self.fileHandler writeData:data];
     self.currentOffset += data.length;
-    return self.currentOffset;
+    int64_t totalBytesWritten = self.currentOffset;
+    [self.dataHandlers enumerateObjectsUsingBlock:^(SCNetWorkDidReceiveDataHandler  _Nonnull handler, NSUInteger idx, BOOL * _Nonnull stop) {
+        handler(self,data);
+    }];
+    //invoke the download progress.
+    [self updateTransferedData:data.length totalBytes:totalBytesWritten totalBytesExpected:self.response.expectedContentLength + self.startOffset];
 }
 
 - (void)doFinishWithResult:(id)reslut error:(NSError *)error
@@ -523,7 +531,18 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     [createdRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[inputStream contentLength]] forHTTPHeaderField:@"Content-Length"];
 }
 
-#pragma mark - 覆盖 makeURLRequest 方法
+- (void)updateTransferedData:(int64_t)bytes
+                  totalBytes:(int64_t)totalBytes
+          totalBytesExpected:(int64_t)totalBytesExpected
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.progressChangedHandlers enumerateObjectsUsingBlock:^(_Nonnull SCNetWorkProgressDidChangeHandler handler, NSUInteger idx, BOOL *stop) {
+            handler(self,bytes,totalBytes,totalBytesExpected);
+        }];
+    });
+}
+
+#pragma mark - override super's method
 
 - (NSURLRequest *)urlRequest
 {
