@@ -121,7 +121,7 @@
     path = [path stringByAppendingPathComponent:[url lastPathComponent]];
     NSLog(@"download path:%@",path);
     get.downloadFileTargetPath = path;
-    get.useBreakpointContinuous = YES;
+    get.useBreakpointContinuous = NO;
     [get addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         if (completion) {
             completion(path,err);

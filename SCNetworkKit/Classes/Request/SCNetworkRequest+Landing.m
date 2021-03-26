@@ -64,7 +64,7 @@
     totalBytesSent:(int64_t)totalBytesSent
 totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
 {
-    [self updateTransferedData:bytesSent totalBytes:totalBytesSent totalBytesExpected:totalBytesExpectedToSend];
+    [self updateUploadTransfered:bytesSent totalBytes:totalBytesSent totalBytesExpected:totalBytesExpectedToSend];
 }
 
 @end

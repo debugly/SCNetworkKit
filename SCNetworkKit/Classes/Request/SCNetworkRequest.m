@@ -90,13 +90,6 @@ static NSString *const KDataHandlerKey = @"data";
     }
 }
 
-- (void)addProgressChangedHandler:(SCNetWorkProgressDidChangeHandler)handler
-{
-    if (handler) {
-        [self.progressChangedHandlers addObject:handler];
-    }
-}
-
 - (void)addReceivedResponseHandler:(SCNetWorkDidReceiveResponseHandler)handler
 {
     if (handler) {
@@ -111,7 +104,6 @@ static NSString *const KDataHandlerKey = @"data";
     }
 }
 
-
 - (void)cancel
 {
     if (SCNRequestStateStarted == self.state) {
@@ -123,7 +115,11 @@ static NSString *const KDataHandlerKey = @"data";
 // 更新状态机，请求的开始和结束，都走这里
 - (void)updateState:(SCNRequestState)state error:(NSError *)error
 {
-    _state = state;
+    if (self.state == SCNRequestStateCancelled) {
+        return;
+    }
+    
+    self.state = state;
     
     if (SCNRequestStateStarted == state) {
         [self.task resume];
@@ -160,15 +156,19 @@ static NSString *const KDataHandlerKey = @"data";
                 [self doFinishWithResult:data error:nil];
             }
         }
-    } else if(SCNRequestStateCancelled == state) {
+    } else if (SCNRequestStateCancelled == state) {
         //SCNRequestStateCancelled do nothing
-    } else{
+    } else {
         //SCNRequestStateReady do nothing
     }
 }
 
 - (NSURLSessionResponseDisposition)onReceivedResponse:(NSHTTPURLResponse *)response
 {
+    if (self.state != SCNRequestStateStarted) {
+        return NSURLSessionResponseCancel;
+    }
+    
     dispatch_sync_to_main_queue(^{
         self.response = response;
         [self.responseHandlers enumerateObjectsUsingBlock:^(SCNetWorkDidReceiveResponseHandler  _Nonnull handler, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -181,16 +181,29 @@ static NSString *const KDataHandlerKey = @"data";
 
 - (void)didReceiveResponseData:(NSData *)data
 {
-    [self.respBuffer appendData:data];
-    [self.dataHandlers enumerateObjectsUsingBlock:^(SCNetWorkDidReceiveDataHandler  _Nonnull handler, NSUInteger idx, BOOL * _Nonnull stop) {
-        handler(self,data);
-    }];
+    if (self.state != SCNRequestStateStarted) {
+        return;
+    }
+    
+    BOOL append = YES;
+    
+    if ([self.dataHandlers count] > 0) {
+        __block BOOL needAppend = NO;
+        [self.dataHandlers enumerateObjectsUsingBlock:^(SCNetWorkDidReceiveDataHandler _Nonnull handler, NSUInteger idx, BOOL * _Nonnull stop) {
+            needAppend |= handler(self,data);
+        }];
+        
+        append = needAppend;
+    }
+    
+    if (append) {
+        [self.respBuffer appendData:data];
+    }
 }
 
 - (void)doFinishWithResult:(id)reslut error:(NSError *)error
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        
         [self.completionHandlers enumerateObjectsUsingBlock:^(_Nonnull SCNetWorkHandler handler, NSUInteger idx, BOOL * _Nonnull stop) {
             handler(self,reslut,error);
         }];
@@ -220,11 +233,6 @@ static NSString *const KDataHandlerKey = @"data";
     return _allHandlers[KCompletionHandlerKey];
 }
 
-- (NSMutableArray<void (^)(__kindof SCNetworkBasicRequest *, int64_t, int64_t, int64_t)> *)progressChangedHandlers
-{
-    return _allHandlers[KProgressHandlerKey];
-}
-
 - (NSMutableArray<void (^)(__kindof SCNetworkBasicRequest *, NSURLResponse *)> *)responseHandlers
 {
     return _allHandlers[KResponseHandlerKey];;
@@ -246,6 +254,15 @@ static NSString *const KDataHandlerKey = @"data";
 @end
 
 @implementation SCNetworkRequest
+
+- (instancetype)initWithURLRequest:(NSURLRequest *)aReq
+{
+    self = [super initWithURLRequest:aReq];
+    if (self) {
+        
+    }
+    return self;
+}
 
 - (instancetype)initWithURLString:(NSString *)aURL
                            params:(id)params
@@ -369,6 +386,9 @@ static NSString *const KDataHandlerKey = @"data";
 {
     if(!_fileHandler){
         NSParameterAssert(self.downloadFileTargetPath);
+        if (!self.useBreakpointContinuous) {
+            [[NSFileManager defaultManager] removeItemAtPath:self.downloadFileTargetPath error:nil];
+        }
         if (![[NSFileManager defaultManager]fileExistsAtPath:self.downloadFileTargetPath]) {
             NSString *dir = [self.downloadFileTargetPath stringByDeletingLastPathComponent];
             if (dir) {
@@ -395,9 +415,16 @@ static NSString *const KDataHandlerKey = @"data";
     }
 }
 
-- (void)updateTransferedData:(int64_t)bytes
-                  totalBytes:(int64_t)totalBytes
-          totalBytesExpected:(int64_t)totalBytesExpected
+- (void)addProgressChangedHandler:(SCNetWorkProgressDidChangeHandler)handler
+{
+    if (handler) {
+        [self.progressChangedHandlers addObject:handler];
+    }
+}
+
+- (void)updateDownloadTransfered:(int64_t)bytes
+                      totalBytes:(int64_t)totalBytes
+              totalBytesExpected:(int64_t)totalBytesExpected
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.progressChangedHandlers enumerateObjectsUsingBlock:^(_Nonnull SCNetWorkProgressDidChangeHandler handler, NSUInteger idx, BOOL *stop) {
@@ -406,19 +433,28 @@ static NSString *const KDataHandlerKey = @"data";
     });
 }
 
+- (NSMutableArray<void (^)(__kindof SCNetworkBasicRequest *, int64_t, int64_t, int64_t)> *)progressChangedHandlers
+{
+    return _allHandlers[KProgressHandlerKey];
+}
+
 #pragma mark - override super's methods.
 
 - (NSURLRequest *)urlRequest
 {
     if (!_urlRequest) {
-        NSMutableURLRequest *createdRequest = [self _makeURLRequest:self.urlString query:self.parameters];
-        if (self.useBreakpointContinuous) {
-            NSString *rangeField = [self rangeHeaderField];
-            if (rangeField) {
-                [createdRequest addValue:rangeField forHTTPHeaderField:@"Range"];
+        _urlRequest = [self _makeURLRequest:self.urlString query:self.parameters];
+    }
+    if (self.useBreakpointContinuous) {
+        NSString *rangeField = [self rangeHeaderField];
+        if (rangeField) {
+            NSMutableURLRequest *createdRequest = (NSMutableURLRequest *)_urlRequest;
+            if (![_urlRequest isKindOfClass:[NSMutableURLRequest class]]) {
+                createdRequest = [_urlRequest mutableCopy];
             }
+            [createdRequest addValue:rangeField forHTTPHeaderField:@"Range"];
+            _urlRequest = createdRequest;
         }
-        _urlRequest = createdRequest;
     }
     return _urlRequest;
 }
@@ -426,6 +462,10 @@ static NSString *const KDataHandlerKey = @"data";
 - (NSURLSessionResponseDisposition)onReceivedResponse:(NSHTTPURLResponse *)response
 {
     NSURLSessionResponseDisposition r = [super onReceivedResponse:response];
+    if (r == NSURLSessionResponseCancel) {
+        return r;
+    }
+    
     NSHTTPURLResponse *httpResp = (NSHTTPURLResponse *)response;
     if(httpResp.statusCode == 416) {
         NSString *range = [[httpResp allHeaderFields] objectForKey:@"Content-Range"];
@@ -449,10 +489,9 @@ static NSString *const KDataHandlerKey = @"data";
         return NSURLSessionResponseCancel;
     } else if (httpResp.statusCode >= 200 && httpResp.statusCode < 300) {
         //let dataTask become downloadTask!
-        if (!self.useBreakpointContinuous) {
-            return NSURLSessionResponseBecomeDownload;
-        }
-        return r;
+        return NSURLSessionResponseAllow;
+        //not use downloadtask,because we can't get data,we're addReceivedDataHandler will not work!!
+        //return NSURLSessionResponseBecomeDownload;
     } else {
         //record the special case; cancel the bad response request!
         self.recordCode = SCNetworkDownloadRecordBadResponse;
@@ -469,7 +508,7 @@ static NSString *const KDataHandlerKey = @"data";
         handler(self,data);
     }];
     //invoke the download progress.
-    [self updateTransferedData:data.length totalBytes:totalBytesWritten totalBytesExpected:self.response.expectedContentLength + self.startOffset];
+    [self updateDownloadTransfered:data.length totalBytes:totalBytesWritten totalBytesExpected:self.response.expectedContentLength + self.startOffset];
 }
 
 - (void)doFinishWithResult:(id)reslut error:(NSError *)error
@@ -531,9 +570,16 @@ static NSString *const KDataHandlerKey = @"data";
     [createdRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[inputStream contentLength]] forHTTPHeaderField:@"Content-Length"];
 }
 
-- (void)updateTransferedData:(int64_t)bytes
-                  totalBytes:(int64_t)totalBytes
-          totalBytesExpected:(int64_t)totalBytesExpected
+- (void)addProgressChangedHandler:(SCNetWorkProgressDidChangeHandler)handler
+{
+    if (handler) {
+        [self.progressChangedHandlers addObject:handler];
+    }
+}
+
+- (void)updateUploadTransfered:(int64_t)bytes
+                    totalBytes:(int64_t)totalBytes
+            totalBytesExpected:(int64_t)totalBytesExpected
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.progressChangedHandlers enumerateObjectsUsingBlock:^(_Nonnull SCNetWorkProgressDidChangeHandler handler, NSUInteger idx, BOOL *stop) {
@@ -542,12 +588,16 @@ static NSString *const KDataHandlerKey = @"data";
     });
 }
 
+- (NSMutableArray<void (^)(__kindof SCNetworkBasicRequest *, int64_t, int64_t, int64_t)> *)progressChangedHandlers
+{
+    return _allHandlers[KProgressHandlerKey];
+}
+
 #pragma mark - override super's method
 
 - (NSURLRequest *)urlRequest
 {
     if (!_urlRequest) {
-        
         if ([self.formFileParts count] > 0) {
             //强制设置为 FromData ！
             self.bodyEncoding = SCNPostBodyEncodingFormData;

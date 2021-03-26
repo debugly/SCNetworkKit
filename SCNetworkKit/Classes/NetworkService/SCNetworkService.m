@@ -228,7 +228,7 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
 {
     SCNetworkDownloadRequest *request = [self requestForTask:downloadTask];
     if ([request isKindOfClass:[SCNetworkDownloadRequest class]]) {
-        [request updateTransferedData:bytesWritten totalBytes:totalBytesWritten totalBytesExpected:totalBytesExpectedToWrite];
+        [request updateDownloadTransfered:bytesWritten totalBytes:totalBytesWritten totalBytesExpected:totalBytesExpectedToWrite];
     }
 }
 

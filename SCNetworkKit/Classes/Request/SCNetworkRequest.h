@@ -29,8 +29,8 @@ typedef enum : NSUInteger {
 @class SCNetworkBasicRequest;
 typedef void(^SCNetWorkHandler)(__kindof SCNetworkBasicRequest *req,id result,NSError *err);
 typedef void(^SCNetWorkProgressDidChangeHandler)(__kindof SCNetworkBasicRequest *req, int64_t thisTransfered, int64_t totalBytesTransfered, int64_t totalBytesExpected);
-typedef void(^SCNetWorkDidReceiveResponseHandler)(__kindof SCNetworkBasicRequest *req,NSURLResponse *resp);
-typedef void(^SCNetWorkDidReceiveDataHandler)(__kindof SCNetworkBasicRequest *req,NSData *data);
+typedef void(^SCNetWorkDidReceiveResponseHandler)(__kindof SCNetworkBasicRequest *req,NSHTTPURLResponse *resp);
+typedef BOOL(^SCNetWorkDidReceiveDataHandler)(__kindof SCNetworkBasicRequest *req,NSData *data);
 
 #pragma mark - 基础请求
 
@@ -46,7 +46,7 @@ API_AVAILABLE(macos(10.10),ios(7.0))
 ///仅当SCNetWorkDidReceiveResponseHandler回调后才能取到值
 @property (nonatomic, strong, readonly) NSHTTPURLResponse *response;
 ///the request's state
-@property (nonatomic, readonly) SCNRequestState state;
+@property (atomic, readonly) SCNRequestState state;
 
 @property (nonatomic, strong) NSURLRequest *urlRequest;
 
@@ -56,13 +56,15 @@ API_AVAILABLE(macos(10.10),ios(7.0))
 //---- invoked on main thread,support add multiple times
 ///when the request finished
 - (void)addCompletionHandler:(SCNetWorkHandler)handler;
-///invoked on main thread,when downlaod or upload progress did change
-- (void)addProgressChangedHandler:(SCNetWorkProgressDidChangeHandler)handler;
 ///invoked on main thread,when received the response
 - (void)addReceivedResponseHandler:(SCNetWorkDidReceiveResponseHandler)handler;
 //---- invoked on main thread,support add multiple times
 
-/// reveive response data,invoked multiple times on sub thread usually
+/** reveive response data,invoked multiple times on sub thread usually;
+ handler's return value:
+    YES: internal buffer append the data;
+    NO: internal buffer ignore the data; in the case CompletionHandler's result parameter is empty data!
+ */
 - (void)addReceivedDataHandler:(SCNetWorkDidReceiveDataHandler)handler;
 
 ///cancel the request
@@ -72,15 +74,15 @@ API_AVAILABLE(macos(10.10),ios(7.0))
 
 @interface SCNetworkRequest : SCNetworkBasicRequest
 
-- (instancetype)initWithURLRequest:(NSURLRequest *)aReq NS_UNAVAILABLE;
+- (instancetype)initWithURLRequest:(NSURLRequest *)aReq NS_DESIGNATED_INITIALIZER;
 ///该初始化方法传入的参数，会给下面两个属性直接赋值
 - (instancetype)initWithURLString:(NSString *)aURL
                            params:(id)params NS_DESIGNATED_INITIALIZER;
-
+// if use -[initWithURLRequest:] the urlString will be nil!
 @property (nonatomic, copy) NSString *urlString;
-///拼接到URL上的参数
+///append to urlString use k=v&k1=v1; if use -[initWithURLRequest:] the urlString will be nil!
 @property (nonatomic, strong) id parameters;
-///default is get; when use post can't contain body!
+///default is get; when use post can't contain body! if use -[initWithURLRequest:] not work!
 @property (nonatomic, assign) SCNetworkRequestMethod method;
 
 ///add HTTP Header
@@ -95,6 +97,9 @@ API_AVAILABLE(macos(10.10),ios(7.0))
 @property (nonatomic, copy) NSString *downloadFileTargetPath;
 ///使用断点续传，默认不使用 (对于一个没有启用断点续传的任务，然后启用，则从头开始下载！反之亦然！)
 @property (nonatomic, assign) BOOL useBreakpointContinuous;
+
+///invoked on main thread when downlaod progress did change;support add multiple times
+- (void)addProgressChangedHandler:(SCNetWorkProgressDidChangeHandler)handler;
 
 @end
 
@@ -129,6 +134,9 @@ typedef enum : NSUInteger {
  formFileParts 一旦被赋值，则bodyEncoding会强制使用multipart/form-data编码！
  */
 @property (nonatomic,strong) NSArray <SCNetworkFormFilePart *>* formFileParts;
+
+///invoked on main thread when downlaod progress did change;support add multiple times
+- (void)addProgressChangedHandler:(SCNetWorkProgressDidChangeHandler)handler;
 
 /*
  使用 addParameters 方法添加的参数会放到 Body 体里！！

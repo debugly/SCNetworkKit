@@ -14,21 +14,19 @@
 
 @interface SCNetworkBasicRequest()
 {
-@private
-    NSDictionary *_allHandlers;
 @protected
     NSURLRequest *_urlRequest;
+    NSDictionary *_allHandlers;
 }
 
 - (NSMutableArray <SCNetWorkHandler>*) completionHandlers;
-- (NSMutableArray <SCNetWorkProgressDidChangeHandler>*) progressChangedHandlers;
 - (NSMutableArray <SCNetWorkDidReceiveResponseHandler>*) responseHandlers;
 - (NSMutableArray <SCNetWorkDidReceiveDataHandler>*) dataHandlers;
 
 #if TARGET_OS_IPHONE
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundTask;
 #endif
-@property (nonatomic, readwrite) SCNRequestState state;
+@property (atomic, readwrite) SCNRequestState state;
 @property (nonatomic, readwrite) NSURLSessionTask *task;
 @property (nonatomic, readwrite) NSUInteger taskIdentifier;
 @property (nonatomic, readwrite) NSHTTPURLResponse *response;
@@ -66,19 +64,21 @@ typedef NS_ENUM(NSUInteger, SCNetworkDownloadRecordCode) {
 @property (nonatomic, assign) uint64_t currentOffset;
 @property (nonatomic, assign) SCNetworkDownloadRecordCode recordCode;
 
+- (NSMutableArray <SCNetWorkProgressDidChangeHandler>*) progressChangedHandlers;
 //更新下载进度
-- (void)updateTransferedData:(int64_t)bytes
-                  totalBytes:(int64_t)totalBytes
-          totalBytesExpected:(int64_t)totalBytesExpected;
+- (void)updateDownloadTransfered:(int64_t)bytes
+                      totalBytes:(int64_t)totalBytes
+              totalBytesExpected:(int64_t)totalBytesExpected;
 
 @end
 
 @interface SCNetworkPostRequest()
 
 - (BOOL)isStreamHTTPBody;
+- (NSMutableArray <SCNetWorkProgressDidChangeHandler>*) progressChangedHandlers;
 //更新上传进度
-- (void)updateTransferedData:(int64_t)bytes
-                  totalBytes:(int64_t)totalBytes
-          totalBytesExpected:(int64_t)totalBytesExpected;
+- (void)updateUploadTransfered:(int64_t)bytes
+                    totalBytes:(int64_t)totalBytes
+            totalBytesExpected:(int64_t)totalBytesExpected;
 
 @end
