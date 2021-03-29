@@ -58,14 +58,13 @@ API_AVAILABLE(macos(10.10),ios(7.0))
 - (void)addCompletionHandler:(SCNetWorkHandler)handler;
 ///invoked on main thread,when received the response
 - (void)addReceivedResponseHandler:(SCNetWorkDidReceiveResponseHandler)handler;
-//---- invoked on main thread,support add multiple times
-
-/** reveive response data,invoked multiple times on sub thread usually;
+/** reveive response data,invoked multiple times usually;
  handler's return value:
     YES: internal buffer append the data;
     NO: internal buffer ignore the data; in the case CompletionHandler's result parameter is empty data!
  */
 - (void)addReceivedDataHandler:(SCNetWorkDidReceiveDataHandler)handler;
+//---- invoked on main thread,support add multiple times
 
 ///cancel the request
 - (void)cancel;

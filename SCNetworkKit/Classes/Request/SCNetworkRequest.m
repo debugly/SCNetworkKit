@@ -128,7 +128,7 @@ static NSString *const KDataHandlerKey = @"data";
             if (self.backgroundTask == UIBackgroundTaskInvalid) {
                 __weakSelf_scn_
                 self.backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-                    dispatch_async(dispatch_get_main_queue(), ^{
+                    dispatch_sync_to_main_queue(^{
                         __strongSelf_scn_
                         if (self.backgroundTask != UIBackgroundTaskInvalid)
                         {
@@ -185,15 +185,16 @@ static NSString *const KDataHandlerKey = @"data";
         return;
     }
     
-    BOOL append = YES;
+    __block BOOL append = YES;
     
     if ([self.dataHandlers count] > 0) {
-        __block BOOL needAppend = NO;
-        [self.dataHandlers enumerateObjectsUsingBlock:^(SCNetWorkDidReceiveDataHandler _Nonnull handler, NSUInteger idx, BOOL * _Nonnull stop) {
-            needAppend |= handler(self,data);
-        }];
-        
-        append = needAppend;
+        dispatch_sync_to_main_queue(^{
+            __block BOOL needAppend = NO;
+            [self.dataHandlers enumerateObjectsUsingBlock:^(SCNetWorkDidReceiveDataHandler _Nonnull handler, NSUInteger idx, BOOL * _Nonnull stop) {
+                needAppend |= handler(self,data);
+            }];
+            append = needAppend;
+        });
     }
     
     if (append) {
@@ -203,7 +204,7 @@ static NSString *const KDataHandlerKey = @"data";
 
 - (void)doFinishWithResult:(id)reslut error:(NSError *)error
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_sync_to_main_queue(^{
         [self.completionHandlers enumerateObjectsUsingBlock:^(_Nonnull SCNetWorkHandler handler, NSUInteger idx, BOOL * _Nonnull stop) {
             handler(self,reslut,error);
         }];
@@ -426,7 +427,7 @@ static NSString *const KDataHandlerKey = @"data";
                       totalBytes:(int64_t)totalBytes
               totalBytesExpected:(int64_t)totalBytesExpected
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_sync_to_main_queue(^{
         [self.progressChangedHandlers enumerateObjectsUsingBlock:^(_Nonnull SCNetWorkProgressDidChangeHandler handler, NSUInteger idx, BOOL *stop) {
             handler(self,bytes,totalBytes,totalBytesExpected);
         }];
@@ -504,9 +505,15 @@ static NSString *const KDataHandlerKey = @"data";
     [self.fileHandler writeData:data];
     self.currentOffset += data.length;
     int64_t totalBytesWritten = self.currentOffset;
-    [self.dataHandlers enumerateObjectsUsingBlock:^(SCNetWorkDidReceiveDataHandler  _Nonnull handler, NSUInteger idx, BOOL * _Nonnull stop) {
-        handler(self,data);
-    }];
+    
+    if ([self.dataHandlers count] > 0) {
+        dispatch_sync_to_main_queue(^{
+            [self.dataHandlers enumerateObjectsUsingBlock:^(SCNetWorkDidReceiveDataHandler  _Nonnull handler, NSUInteger idx, BOOL * _Nonnull stop) {
+                handler(self,data);
+            }];
+        });
+    }
+    
     //invoke the download progress.
     [self updateDownloadTransfered:data.length totalBytes:totalBytesWritten totalBytesExpected:self.response.expectedContentLength + self.startOffset];
 }
@@ -581,7 +588,7 @@ static NSString *const KDataHandlerKey = @"data";
                     totalBytes:(int64_t)totalBytes
             totalBytesExpected:(int64_t)totalBytesExpected
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_sync_to_main_queue(^{
         [self.progressChangedHandlers enumerateObjectsUsingBlock:^(_Nonnull SCNetWorkProgressDidChangeHandler handler, NSUInteger idx, BOOL *stop) {
             handler(self,bytes,totalBytes,totalBytesExpected);
         }];
