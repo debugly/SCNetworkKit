@@ -8,6 +8,7 @@
 
 #import "SCNetworkRequest.h"
 #import "SCNetworkRequestInternal.h"
+#import "SCNetworkRequest+Landing.h"
 #import "NSDictionary+SCAddtions.h"
 #import "SCNJSONResponseParser.h"
 #import "SCNHTTPBodyStream.h"
@@ -385,19 +386,30 @@ static NSString *const KDataHandlerKey = @"data";
 
 - (NSFileHandle *)fileHandler
 {
-    if(!_fileHandler){
+    if (!_fileHandler) {
         NSParameterAssert(self.downloadFileTargetPath);
-        if (!self.useBreakpointContinuous) {
-            [[NSFileManager defaultManager] removeItemAtPath:self.downloadFileTargetPath error:nil];
-        }
-        if (![[NSFileManager defaultManager]fileExistsAtPath:self.downloadFileTargetPath]) {
-            NSString *dir = [self.downloadFileTargetPath stringByDeletingLastPathComponent];
-            if (dir) {
-                [[NSFileManager defaultManager] createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:NULL];
+        //使用断点续传，则使用指定路径的文件
+        if (self.useBreakpointContinuous) {
+            if (![[NSFileManager defaultManager] fileExistsAtPath:self.downloadFileTargetPath]) {
+                NSString *dir = [self.downloadFileTargetPath stringByDeletingLastPathComponent];
+                if (dir) {
+                    [[NSFileManager defaultManager] createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:NULL];
+                }
+                [[NSFileManager defaultManager] createFileAtPath:self.downloadFileTargetPath contents:nil attributes:NULL];
+                _fileHandler = [NSFileHandle fileHandleForUpdatingAtPath:self.downloadFileTargetPath];
             }
-            [[NSFileManager defaultManager] createFileAtPath:self.downloadFileTargetPath contents:nil attributes:NULL];
+        } else {
+            //不使用时则创建临时文件，下载完毕后，把临时文件移动到目标位置，防止下载不全，而上层逻辑直接使用导致的问题
+            [[NSFileManager defaultManager] removeItemAtPath:self.downloadFileTargetPath error:nil];
+            NSString *fileName = [self.downloadFileTargetPath lastPathComponent];
+            NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
+            if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+                [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+            }
+            [[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:NULL];
+            self.tempFilePath = filePath;
+            _fileHandler = [NSFileHandle fileHandleForUpdatingAtPath:filePath];
         }
-        _fileHandler = [NSFileHandle fileHandleForUpdatingAtPath:self.downloadFileTargetPath];
         NSParameterAssert(_fileHandler);
         self.currentOffset = [_fileHandler seekToEndOfFile];
     }
@@ -521,6 +533,17 @@ static NSString *const KDataHandlerKey = @"data";
 - (void)doFinishWithResult:(id)reslut error:(NSError *)error
 {
     [_fileHandler closeFile];
+    if (error && self.tempFilePath.length > 0 ) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [[NSFileManager defaultManager] removeItemAtPath:self.tempFilePath error:nil];
+        });
+    }
+    
+    if (!error && self.tempFilePath.length > 0 && ![self.tempFilePath isEqualToString:self.downloadFileTargetPath]) {
+        NSURL *url = [NSURL fileURLWithPath:self.tempFilePath];
+        [self didFinishDownloadingToURL:url];
+    }
+    
     _fileHandler = nil;
     //same as super finish.
     [super doFinishWithResult:reslut error:error];

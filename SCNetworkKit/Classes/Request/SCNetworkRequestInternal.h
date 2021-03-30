@@ -60,6 +60,7 @@ typedef NS_ENUM(NSUInteger, SCNetworkDownloadRecordCode) {
 @interface SCNetworkDownloadRequest ()
 
 @property (nonatomic, strong) NSFileHandle *fileHandler;
+@property (nonatomic, copy) NSString *tempFilePath;
 @property (nonatomic, assign) uint64_t startOffset;
 @property (nonatomic, assign) uint64_t currentOffset;
 @property (nonatomic, assign) SCNetworkDownloadRecordCode recordCode;
