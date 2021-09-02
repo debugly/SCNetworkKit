@@ -60,7 +60,18 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 
 - (NSString *)description
 {
-    return [[self.urlRequest URL]description];
+    NSString *url = [[self.urlRequest URL]description];
+    NSString *method = [[self.urlRequest HTTPMethod] uppercaseString];
+    if ([method isEqualToString:@"GET"]) {
+        return [NSString stringWithFormat:@"GET:%@",url];
+    } else {
+        NSData *body = [self.urlRequest HTTPBody];
+        NSString *bodyStr = [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding];
+        if (!bodyStr) {
+            bodyStr = @"";
+        }
+        return [NSString stringWithFormat:@"%@:%@[%@]",method,url,bodyStr];
+    }
 }
 
 - (void)dealloc

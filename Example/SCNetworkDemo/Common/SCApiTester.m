@@ -13,7 +13,7 @@
 + (void)startReq:(__kindof SCNetworkBasicRequest *)request
 {
     [request addCompletionHandler:^(__kindof SCNetworkBasicRequest *req, id result, NSError *err) {
-        NSLog(@"耗时:%0.2fms",req.endStamp - req.startStamp);
+        NSLog(@"%@耗时:%0.2fms",req,req.endStamp - req.startStamp);
     }];
     
     [[SCNetworkService sharedService]startRequest:request];
