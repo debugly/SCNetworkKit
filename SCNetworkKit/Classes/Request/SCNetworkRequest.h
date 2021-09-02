@@ -39,6 +39,10 @@ API_AVAILABLE(macos(10.10),ios(7.0))
 @interface SCNetworkBasicRequest : NSObject
 
 @property (nonatomic, copy) NSString *tag;
+//请求发起和结束时间戳，距离1970年的毫秒数
+@property (nonatomic, assign) NSTimeInterval startStamp;
+@property (nonatomic, assign) NSTimeInterval endStamp;
+
 ///default is SCNJSONResponseParser
 @property (nonatomic, strong) id<SCNResponseParserProtocol>responseParser;
 ///请求超时时间，默认60s

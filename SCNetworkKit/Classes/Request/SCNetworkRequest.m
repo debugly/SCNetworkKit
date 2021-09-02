@@ -108,10 +108,10 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 // 更新状态机，请求的开始和结束，都走这里
 - (void)updateState:(SCNKRequestState)state error:(NSError *)error
 {
-    _state = state;
+    self.state = state;
     
     if (SCNKRequestStateStarted == state) {
-        
+        self.startStamp = [[NSDate date] timeIntervalSince1970];
         [self.task resume];
 #if TARGET_OS_IPHONE
         if (@available(iOS 9.0, *)) {} else {
@@ -133,8 +133,8 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 #endif
     }
     
-    else if ((SCNKRequestStateCompleted == state) || (state == SCNKRequestStateError)){
-        
+    else if ((SCNKRequestStateCompleted == state) || (state == SCNKRequestStateError)) {
+        self.endStamp = [[NSDate date] timeIntervalSince1970];
         if (error) {
             [self doFinishWithResult:nil error:error];
         } else {
@@ -151,12 +151,12 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         }
     }
     
-    else if(SCNKRequestStateCancelled == state){
+    else if(SCNKRequestStateCancelled == state) {
         //SCNKRequestStateCancelled do nothing
         
     }
     
-    else{
+    else {
         //SCNKRequestStateReady do nothing
     }
 }

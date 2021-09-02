@@ -10,6 +10,15 @@
 
 @implementation SCApiTester
 
++ (void)startReq:(__kindof SCNetworkBasicRequest *)request
+{
+    [request addCompletionHandler:^(__kindof SCNetworkBasicRequest *req, id result, NSError *err) {
+        NSLog(@"耗时:%0.2fms",req.endStamp - req.startStamp);
+    }];
+    
+    [[SCNetworkService sharedService]startRequest:request];
+}
+
 + (void)getRequestWithDataCompletion:(void(^)(NSData *data,NSError *err))completion
 {
     SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:kTestJSONApi params:nil];
@@ -26,7 +35,7 @@
         NSLog(@"response:%@",response);
     }];
     
-    [[SCNetworkService sharedService]startRequest:req];
+    [self startReq:req];
 }
 
 + (void)getRequestWithJSONCompletion:(void(^)(id json, NSError *err))completion
@@ -48,7 +57,7 @@
         }
     }];
     
-    [[SCNetworkService sharedService]startRequest:req];
+    [self startReq:req];
 }
 
 + (void)getRequestWithParams:(NSDictionary *)params completion:(void (^)(id _Nonnull, NSError * _Nonnull))completion
@@ -68,7 +77,7 @@
         }
     }];
     
-    [[SCNetworkService sharedService]startRequest:req];
+    [self startReq:req];
 }
 
 + (void)getRequestWithModelCompletion:(void(^)(NSArray <TestModel *>*arr, NSError *err))completion
@@ -110,7 +119,8 @@
             completion(result,err);
         }
     }];
-    [[SCNetworkService sharedService]startRequest:req];
+    
+    [self startReq:req];
 }
 
 + (void)getFileWithCompletion:(void(^)(NSString *path,NSError *err))completion progress:(void(^)(float p))progress
@@ -139,7 +149,7 @@
         }
     }];
     
-    [[SCNetworkService sharedService]startRequest:get];
+    [self startReq:get];
 }
 
 + (void)postNoBodyWithCompletion:(void(^)(id json,NSError *err))completion
@@ -155,7 +165,7 @@
         }
     }];
     
-    [[SCNetworkService sharedService]startRequest:post];
+    [self startReq:post];
 }
 
 
@@ -189,7 +199,7 @@
         }
     }];
     
-    [[SCNetworkService sharedService]startRequest:post];
+    [self startReq:post];
 }
 
 //POST /users HTTP/1.1
@@ -217,7 +227,7 @@
         }
     }];
     
-    [[SCNetworkService sharedService]startRequest:post];
+    [self startReq:post];
 }
 
 //POST /upload-file HTTP/1.1
@@ -262,7 +272,7 @@
         }
     }];
     
-    [[SCNetworkService sharedService]startRequest:post];
+    [self startReq:post];
 }
 
 //POST /upload-file HTTP/1.1
@@ -334,7 +344,7 @@
         }
     }];
     
-    [[SCNetworkService sharedService]startRequest:post];
+    [self startReq:post];
 }
 
 + (void)postDownloadFileWithCompletion:(void(^)(NSString *path,NSError *err))completion progress:(void(^)(float p))progress
@@ -364,6 +374,7 @@
         }
     }];
     
-    [[SCNetworkService sharedService]startRequest:post];
+    [self startReq:post];
 }
+
 @end
