@@ -9,14 +9,14 @@
 Pod::Spec.new do |s|
 
   s.name         = "SCNetworkKit"
-  s.version      = "1.0.24"
+  s.version      = "1.0.25"
   s.summary      = "SCNetworkKit is a simple but powerful iOS and OS X networking framework."
   s.description  = <<-DESC
                   SCNetworkKit is a simple but powerful iOS and OS X networking framework,based on NSURLSession and NSURLSessionConfiguration, written by Objective-C, Support iOS 7+ ;
                    DESC
   s.homepage     = "http://debugly.cn/SCNetworkKit/"
   s.license      = { :type => "MIT", :file => "LICENSE" }
-  s.author             = { "qianlongxu" => "qianlongxu@gmai.com" }
+  s.author             = { "qianlongxu" => "qianlongxu@gmail.com" }
   s.ios.deployment_target = "7.0"
   s.osx.deployment_target = "10.10"
   s.source       = { :git => "https://github.com/debugly/SCNetworkKit.git", :tag => "#{s.version}" }
