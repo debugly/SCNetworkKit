@@ -41,7 +41,7 @@
                                        @"url":[response URL]
                                        };
             
-            validationError = SCNError(NSURLErrorCannotDecodeContentData, userInfo);
+            validationError = SCNError(SCNResponseParserError_ContentTypeInvalidate, userInfo);
             
             responseIsValid = NO;
         }

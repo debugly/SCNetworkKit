@@ -41,7 +41,7 @@ static Class <SCNModelParserProtocol> MParser;
                                        NSLocalizedFailureReasonErrorKey:@"can't convert target json to model",
                                        SCNParserErrorKey_RawJSON:json,
                                        SCNParserErrorKey_ModelName:self.modelName};
-                *errp = SCNError(NSURLErrorCannotParseResponse, info);
+                *errp = SCNError(SCNResponseParserError_ConvertModelFailed, info);
             }
         }
         return model;

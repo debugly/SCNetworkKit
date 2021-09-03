@@ -116,7 +116,7 @@ NSString *const SCNParserErrorKey_ErrMsgValue = @"ErrMsgValue";
     {
         if(error){
             NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"zero data"};
-            *error = SCNError(NSURLErrorZeroByteResource, userInfo);
+            *error = SCNError(SCNResponseParserError_EmptyData, userInfo);
         }
         return nil;
     }
@@ -132,7 +132,7 @@ NSString *const SCNParserErrorKey_ErrMsgValue = @"ErrMsgValue";
             if (!userInfo) {
                 userInfo = @{NSLocalizedDescriptionKey : @"parser data to json failed."};
             }
-            *error = SCNError(NSURLErrorCannotParseResponse,userInfo);
+            *error = SCNError(SCNResponseParserError_SerializationFailed,userInfo);
         }
         return nil;
     }
@@ -170,7 +170,7 @@ NSString *const SCNParserErrorKey_ErrMsgValue = @"ErrMsgValue";
                         code = [v intValue];
                     }
                     if (code == NSNotFound) {
-                        code = SCNResponseErrCannotPassValidate;
+                        code = SCNResponseParserError_CheckValueInvalidate;
                     }
                     *error = SCNError(code,info);
                 }
@@ -185,7 +185,7 @@ NSString *const SCNParserErrorKey_ErrMsgValue = @"ErrMsgValue";
                 [info setObject:self.checkKeyPath forKey:SCNParserErrorKey_CheckKeyPath];
                 [info setObject:self.okValue forKey:SCNParserErrorKey_OkValue];
                 [info setObject:json forKey:SCNParserErrorKey_RawJSON];
-                *error = SCNError(NSURLErrorCannotParseResponse,info);
+                *error = SCNError(SCNResponseParserError_IsNotDictionary,info);
             }
             return nil;
         }
@@ -199,7 +199,7 @@ NSString *const SCNParserErrorKey_ErrMsgValue = @"ErrMsgValue";
     if(!json){
         if (error && ! *error) {
             NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"can't find target json"};
-            *error = SCNError(NSURLErrorCannotParseResponse, userInfo);
+            *error = SCNError(SCNResponseParserError_NoTargetData, userInfo);
         }
     }
     
