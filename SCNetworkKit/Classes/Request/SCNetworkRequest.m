@@ -58,27 +58,6 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     return _urlRequest;
 }
 
-- (NSString *)description
-{
-    NSString *url = [[self.urlRequest URL]description];
-    NSString *method = [[self.urlRequest HTTPMethod] uppercaseString];
-    if ([method isEqualToString:@"GET"]) {
-        return [NSString stringWithFormat:@"GET:%@",url];
-    } else {
-        NSString *bodyStr = nil;
-        if ([self isKindOfClass:[SCNetworkPostRequest class]] && [((SCNetworkPostRequest*)self) isStreamHTTPBody]) {
-            bodyStr = @"stream body";
-        } else {
-            NSData *body = [self.urlRequest HTTPBody];
-            bodyStr = [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding];
-            if (!bodyStr) {
-                bodyStr = @"";
-            }
-        }
-        return [NSString stringWithFormat:@"%@:%@[%@]",method,url,bodyStr];
-    }
-}
-
 - (void)dealloc
 {
     [self cancel];
@@ -352,6 +331,14 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     if (hs) {
         [self.headers addEntriesFromDictionary:hs];
     }
+}
+
+#pragma mark - description
+- (NSString *)description
+{
+    NSString *url = [[self.urlRequest URL]description];
+    NSString *method = [[self.urlRequest HTTPMethod] uppercaseString];
+    return [NSString stringWithFormat:@"%@:%@", method, url];
 }
 
 #pragma mark
@@ -630,6 +617,24 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
 - (void)makeCustomRequest:(void(^)(const NSMutableURLRequest *))handler
 {
     self.customRequestMaker = handler;
+}
+
+#pragma mark - description
+- (NSString *)description
+{
+    NSString *url = [[self.urlRequest URL]description];
+    NSString *method = [[self.urlRequest HTTPMethod] uppercaseString];
+    NSString *bodyStr = nil;
+    if ([self isStreamHTTPBody]) {
+        bodyStr = @"stream body";
+    } else {
+        NSData *body = [self.urlRequest HTTPBody];
+        bodyStr = [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding];
+        if (!bodyStr) {
+            bodyStr = @"";
+        }
+    }
+    return [NSString stringWithFormat:@"%@:%@[%@]",method,url,bodyStr];
 }
 
 @end
