@@ -66,14 +66,14 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
         return [NSString stringWithFormat:@"GET:%@",url];
     } else {
         NSString *bodyStr = nil;
-        if ([self isKindOfClass:[SCNetworkPostRequest class]] && [((SCNetworkPostRequest*)self) isStreamHTTPBody]) {
-            bodyStr = @"stream body";
-        } else {
+        if ([self.urlRequest HTTPBody]) {
             NSData *body = [self.urlRequest HTTPBody];
             bodyStr = [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding];
             if (!bodyStr) {
                 bodyStr = @"";
             }
+        } else if ([self.urlRequest HTTPBodyStream]) {
+            bodyStr = "stream body";
         }
         return [NSString stringWithFormat:@"%@:%@[%@]",method,url,bodyStr];
     }
