@@ -54,8 +54,8 @@
     if (@available(iOS 9.0,macOS 10.11,*)) {
         configure.shouldUseExtendedBackgroundIdleMode = YES;
     }
-//    //清理所有缓存；
-//    [[NSURLCache sharedURLCache]removeAllCachedResponses];
+    //清理所有缓存；
+    //[[NSURLCache sharedURLCache]removeAllCachedResponses];
     
     self = [self initWithSessionConfiguration:configure];
     return self;
@@ -94,25 +94,28 @@
                  @"Request is nil, check your URL and other parameters you use to build your request");
         return;
     }
-    //__NSCFLocalDataTask
-//    Completion handler blocks are not supported in background sessions. Use a delegate instead.
-//    NSURLSessionDataTask *task = [self.defaultSession dataTaskWithRequest:urlRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-//    }];
+    /*
+         __NSCFLocalDataTask
+         Completion handler blocks are not supported in background sessions. Use a delegate instead.
+         NSURLSessionDataTask *task = [self.defaultSession dataTaskWithRequest:urlRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+         }];
+     */
     
-    SCNetworkPostRequest *postRequest = (SCNetworkPostRequest *)request;
-    //只有post请求，使用form-data的才走StreamRequest
-    if ([postRequest isKindOfClass:[SCNetworkPostRequest class]] && [postRequest isStreamHTTPBody]) {
+    //目前只有post请求，并且使用form-data格式的才走StreamRequest
+    if ([urlRequest HTTPBodyStream]) {
+        /*
+         NSData *formData = [request multipartFormData];
+         //在这里设置下内容的长度，这个问题处理的不够优雅，但是提升了性能。。。
+         [urlRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long) [formData length]] forHTTPHeaderField:@"Content-Length"];
+          request.task = [self.session uploadTaskWithRequest:urlRequest fromData:formData];
+         */
         request.task = [self.session uploadTaskWithStreamedRequest:urlRequest];
-        //   NSData *formData = [request multipartFormData];
-        //   //在这里设置下内容的长度，这个问题处理的不够优雅，但是提升了性能。。。
-        //   [urlRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long) [formData length]] forHTTPHeaderField:@"Content-Length"];
-        //  request.task = [self.session uploadTaskWithRequest:urlRequest fromData:formData];
-    }else if ([request isKindOfClass:[SCNetworkDownloadRequest class]]) {
-        //SCNetworkDownloadRequest *downloadReq = (SCNetworkDownloadRequest *)request;
-        //downloadTask can't handle bad response such as 404.we use dataTask then become downloadTask!
-        //request.task = [self.session downloadTaskWithRequest:urlRequest];
-        request.task = [self.session dataTaskWithRequest:urlRequest];
     } else {
+        /*
+         SCNetworkDownloadRequest *downloadReq = (SCNetworkDownloadRequest *)request;
+         //downloadTask can't handle bad response such as 404.we use dataTask then become downloadTask!
+         request.task = [self.session downloadTaskWithRequest:urlRequest];
+         */
         request.task = [self.session dataTaskWithRequest:urlRequest];
     }
 

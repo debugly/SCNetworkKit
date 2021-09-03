@@ -73,7 +73,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
                 bodyStr = @"";
             }
         } else if ([self.urlRequest HTTPBodyStream]) {
-            bodyStr = "stream body";
+            bodyStr = @"stream body";
         }
         return [NSString stringWithFormat:@"%@:%@[%@]",method,url,bodyStr];
     }
@@ -525,11 +525,6 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     if (ps) {
         [self.queryPs addEntriesFromDictionary:ps];
     }
-}
-
-- (BOOL)isStreamHTTPBody
-{
-    return SCNPostDataEncodingFormData == self.parameterEncoding;
 }
 
 - (void)makeFormDataHTTPBodyWithRequest:(NSMutableURLRequest *)createdRequest

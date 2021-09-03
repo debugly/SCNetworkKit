@@ -69,9 +69,3 @@ typedef NS_ENUM(NSUInteger, SCNetworkDownloadRecordCode) {
 - (uint64_t)didReceiveData:(NSData *)data;
 
 @end
-
-@interface SCNetworkPostRequest()
-
-- (BOOL)isStreamHTTPBody;
-
-@end
