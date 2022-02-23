@@ -16,6 +16,7 @@ typedef enum : NSUInteger {
     SCNResponseParserError_SerializationFailed       = -5004,   //json解析失败
     SCNResponseParserError_NoTargetData              = -5005,   //没有目标数据
     SCNResponseParserError_ConvertModelFailed        = -5006,   //转model失败
+    SCNResponseParserError_HTTPStatusNotOK           = -5007,   //HTTP状态码非 OK
 } SCNResponseParserErrorCode;
 
 @protocol SCNResponseParserProtocol <NSObject>

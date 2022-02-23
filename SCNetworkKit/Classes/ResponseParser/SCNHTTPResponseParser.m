@@ -52,7 +52,7 @@
                                        @"url":[response URL],
                                        };
             
-            validationError = SCNError(response.statusCode, userInfo);
+            validationError = SCNError(SCNResponseParserError_HTTPStatusNotOK, userInfo);
             
             responseIsValid = NO;
         }
