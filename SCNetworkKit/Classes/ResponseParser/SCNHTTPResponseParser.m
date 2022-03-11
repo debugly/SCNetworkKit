@@ -48,7 +48,7 @@
         
         if (self.acceptableStatusCodes && ![self.acceptableStatusCodes containsIndex:(NSUInteger)response.statusCode] && [response URL]) {
             NSDictionary *userInfo = @{
-                                       @"statusCode": [NSString stringWithFormat:@"【网络错误】HTTP错误码: (%ld)", (long)response.statusCode],
+                                       @"statusCode": @(response.statusCode),
                                        @"url":[response URL],
                                        };
             
