@@ -482,25 +482,30 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     NSError *writeError = nil;
     
     if (@available(iOS 13.0, macOS 10.15, *)) {
-        [self.fileHandler writeData:data error:&writeError];
+        if (![self.fileHandler writeData:data error:nil]) {
+            writeError = SCNError(SCNResponseParserError_WirteDataFailed, @{
+                NSLocalizedDescriptionKey : @"Failed to write attachment data to filehandle",
+            });
+        }
     } else {
         @try {
             [self.fileHandler writeData:data];
         } @catch (NSException *exception) {
-            NSDictionary *info = @{
+            writeError = SCNError(SCNResponseParserError_WirteDataFailed, @{
                 NSLocalizedDescriptionKey : @"Failed to write attachment data to filehandle",
-            };
-            writeError = SCNError(SCNResponseParserError_WirteDataFailed, info);
+            });
         }
     }
     
     if (!writeError) {
         self.currentOffset += data.length;
-        return self.currentOffset;
     } else {
         NSLog(@"Write data into fileHandler:%@, failed with error:%@", self.fileHandler, writeError);
-        return 0;
+        [self.task cancel];
+        [self updateState:SCNKRequestStateError error:writeError];
     }
+    
+    return self.currentOffset;
 }
 
 - (void)doFinishWithResult:(id)reslut error:(NSError *)error
