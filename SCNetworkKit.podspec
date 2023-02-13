@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SCNetworkKit"
-  s.version      = "1.0.27"
+  s.version      = "1.0.30"
   s.summary      = "SCNetworkKit is a simple but powerful iOS and OS X networking framework."
   s.description  = <<-DESC
                   SCNetworkKit is a simple but powerful iOS and OS X networking framework,based on NSURLSession and NSURLSessionConfiguration, written by Objective-C, Support iOS 7+ ;
