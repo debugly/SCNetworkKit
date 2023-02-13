@@ -377,6 +377,8 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     self = [super init];
     if (self) {
         self.responseParser = nil;
+        self.lastWriteDataTime = 0;
+        self.speedLimit = 0;
     }
     return self;
 }

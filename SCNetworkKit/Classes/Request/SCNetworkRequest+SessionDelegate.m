@@ -108,6 +108,22 @@ totalBytesExpectedToWrite:dataTask.response.expectedContentLength + downloadReq.
 totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
 {    
     [self updateTransferedData:bytesWritten totalBytes:totalBytesWritten totalBytesExpected:totalBytesExpectedToWrite];
+
+    if ([self isKindOfClass:[SCNetworkDownloadRequest class]]) {
+        SCNetworkDownloadRequest *downloadRequest = (SCNetworkDownloadRequest *)self;
+        if (downloadRequest.speedLimit > 0) {
+            NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
+            NSTimeInterval interval = now - downloadRequest.lastWriteDataTime;
+            downloadRequest.lastWriteDataTime = now;
+            int64_t speed = bytesWritten / interval;
+            if (speed > downloadRequest.speedLimit) {
+                [downloadTask suspend];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [downloadTask resume];
+                });
+            }
+        }
+    }
 }
 
 //- (void)URLSession:(NSURLSession *)session
