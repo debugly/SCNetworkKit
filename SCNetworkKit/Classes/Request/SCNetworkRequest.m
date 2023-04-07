@@ -19,7 +19,7 @@
 #endif
 
 //解析网络请求响应数据的队列
-static dispatch_queue_t SCN_Response_Parser_Queue() {
+static dispatch_queue_t SCN_Response_Parser_Queue(void) {
     static dispatch_queue_t scn_response_parser_queue;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -377,6 +377,8 @@ static dispatch_queue_t SCN_Response_Parser_Queue() {
     self = [super init];
     if (self) {
         self.responseParser = nil;
+        self.lastWriteDataTime = 0;
+        self.speedLimit = 0;
     }
     return self;
 }

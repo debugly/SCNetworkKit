@@ -65,6 +65,8 @@ typedef NS_ENUM(NSUInteger, SCNetworkDownloadRecordCode) {
 @property (nonatomic, assign) uint64_t startOffset;
 @property (nonatomic, assign) uint64_t currentOffset;
 @property (nonatomic, assign) SCNetworkDownloadRecordCode recordCode;
+//record last write data timestamp
+@property (nonatomic, assign) NSTimeInterval lastWriteDataTime;
 
 - (uint64_t)didReceiveData:(NSData *)data;
 
