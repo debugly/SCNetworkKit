@@ -5,11 +5,10 @@
 [![License](https://img.shields.io/cocoapods/l/SCNetworkKit.svg?style=flat)](https://cocoapods.org/pods/SCNetworkKit)
 [![Platform](https://img.shields.io/cocoapods/p/SCNetworkKit.svg?style=flat)](https://cocoapods.org/pods/SCNetworkKit)
 
-
 SCNetworkKit 是一个功能强大的网络库，支持 iOS / macOS 平台。在编写该库时参考了 [MKNetworkKit](https://github.com/MugunthKumar/MKNetworkKit) 、[AFNetworking](https://github.com/AFNetworking/AFNetworking) 、[Masonry](https://github.com/desandro/masonry)、[ASIHTTPRequest](https://github.com/debugly/asi-http-request) 等优秀开源项目架构的思想，结合了公司项目的实际情况进行逐步改造演变而来。
 
 - 使用 Objective-C 语言编写
-- 底层封装了 NSURLSession，最低支持 iOS 7.0 / OS X 10.9
+- 底层封装了 NSURLSession，最低支持 iOS 11.0 / OS X 10.11
 - 采用 Service + Request 分工模式 (从 MKNetworkKit 学习而来)
 - 采用策略模式可配置响应解析器，可以将数据异步解析为 JSON，Model等对象，其中 Model 解析这块算是对 AFNetworking 响应解析模块学习的一个升华，按照自己的思路去完成的
 - 支持了链式编程，实质上是把 block 当做返回值实现的 (从 Masonry 学习而来)
@@ -22,7 +21,7 @@ SCNetworkKit 是一个功能强大的网络库，支持 iOS / macOS 平台。在
 
 ## SCNetworkKit 演变过程
 
-2016 年我转向 iOS 平台 SDK 相关开发工作，为确保提供出去的 SDK 显得很专业，容易集成，防止出现类冲突等报错问题，所以绕道而行，尽量不去依赖开源项目！我造的第一个轮子就是网络请求库，必须能够为 SDK 提供可靠的网络服务，这个库的演变过程如下:
+2016 年我转向 iOS 平台 SDK 相关开发工作，为确保提供出去的 SDK 足够专业，容易集成，防止出现类冲突等报错问题，所以尽量不去依赖主流的开源项目！我造的第一个轮子就是网络请求库，必须能够为 SDK 提供可靠的网络服务，这个库的命名演变过程如下:
 
 `SVPNetworkKit` -> `SLNetworkKit` -> `SCNetworkKit`
 
@@ -47,9 +46,9 @@ SCNetworkKit 是一个功能强大的网络库，支持 iOS / macOS 平台。在
 - Example/SCNetworkDemo : 包含了 iOS、macOS 平台配套调用示例
 - SCNetworkKit/Classes : 源码
 - Example/Server : 使用 Express 编写的简单 Node 服务器，主要为 Demo 提供 GET/POST 请求测试支持，客户端上传的文件都放在 `Server/upload` 文件夹下面。
-    - 查看已经上传的文件: [http://localhost:3000/peek](http://localhost:3000/peek) 
-    - 查看已经上传的文件（json形式）: [http://localhost:3000/peek?json=1](http://localhost:3000/peek?json=1) 
-    - 使用浏览器上传的文件: [http://localhost:3000/](http://localhost:3000/) 
+  - 查看已经上传的文件: [http://localhost:3000/peek](http://localhost:3000/peek) 
+  - 查看已经上传的文件（json形式）: [http://localhost:3000/peek?json=1](http://localhost:3000/peek?json=1) 
+  - 使用浏览器上传的文件: [http://localhost:3000/](http://localhost:3000/) 
 
 Server 使用方法:
 
@@ -64,20 +63,19 @@ npm start
 ## 安装方式
 
 - 使用 CocoaPods 安装
-
-    ```
-    source 'https://github.com/CocoaPods/Specs.git'
-    platform :ios, '7.0'
-    
-    target 'TargetName' do
-    pod 'SCNetworkKit'
-    end
-    ```
+  
+  ```
+  source 'https://github.com/CocoaPods/Specs.git'
+  platform :ios, '11.0'
+  
+  target 'TargetName' do
+  pod 'SCNetworkKit'
+  end
+  ```
 
 - 使用源码
-
+  
     下载最新 [release](https://github.com/debugly/SCNetworkKit/tags) 代码，找到 SCNetworkKit 目录，拖到工程里即可。
-
 
 ## 使用范例
 
@@ -89,11 +87,11 @@ npm start
   content =     {
      entrance =         (
          {
-	         isFlagship = 0;
-	         name = "\U65f6\U5c1a\U6f6e\U65f6\U5c1a";
-	         pic = "http://pic12.shangpin.com/e/s/15/03/03/20150303151320537363-10-10.jpg";
-	         refContent = "http://m.shangpin.com/meet/185";
-	         type = 5;
+             isFlagship = 0;
+             name = "\U65f6\U5c1a\U6f6e\U65f6\U5c1a";
+             pic = "http://pic12.shangpin.com/e/s/15/03/03/20150303151320537363-10-10.jpg";
+             refContent = "http://m.shangpin.com/meet/185";
+             type = 5;
          },
          {
             //....
@@ -101,158 +99,156 @@ npm start
        )
      }
  }
-
 ```
 
 下面演示如何通过配置不同的解析器，从而达到着陆 block 回调不同结果的效果:
 
-
 - 发送 GET请求，回调原始 Data，不做解析
-
-    ```objc
-    SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:kTestJSONApi params:nil];
-    ///因为默认解析器是SCNJSONResponseParser；会解析成JSON对象；所以这里不指定解析器，让框架返回data！
-    req.responseParser = nil;
-    [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
-        
-        if (completion) {
-            completion(result,err);
-        }
-    }];
-    
-    [[SCNetworkService sharedService]startRequest:req];
-    ```
+  
+  ```objc
+  SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:kTestJSONApi params:nil];
+  ///因为默认解析器是SCNJSONResponseParser；会解析成JSON对象；所以这里不指定解析器，让框架返回data！
+  req.responseParser = nil;
+  [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+  
+      if (completion) {
+          completion(result,err);
+      }
+  }];
+  
+  [[SCNetworkService sharedService]startRequest:req];
+  ```
 
 - 发送 GET请求，回调 JOSN 对象
-
-    ```objc
-    SCNJSONResponseParser *responseParser = [SCNJSONResponseParser parser];
-    ///框架会检查接口返回的 code 是不是 0 ，如果不是 0 ，那么返回给你一个err，并且result是 nil;
-    responseParser.checkKeyPath = @"code";
-    responseParser.okValue = @"0";
-    
-    ///support chain
-    SCNetworkRequest *req = [[SCNetworkRequest alloc]init];
-    
-    req
-    .c_URL(kTestJSONApi)
-    .c_ResponseParser(responseParser)
-    .c_CompletionHandler(^(SCNetworkRequest *request, id result, NSError *err) {
-        
-        if (completion) {
-            completion(result,err);
-        }
-    });
-    [[SCNetworkService sharedService]startRequest:req];
-    ```
+  
+  ```objc
+  SCNJSONResponseParser *responseParser = [SCNJSONResponseParser parser];
+  ///框架会检查接口返回的 code 是不是 0 ，如果不是 0 ，那么返回给你一个err，并且result是 nil;
+  responseParser.checkKeyPath = @"code";
+  responseParser.okValue = @"0";
+  
+  ///support chain
+  SCNetworkRequest *req = [[SCNetworkRequest alloc]init];
+  
+  req
+  .c_URL(kTestJSONApi)
+  .c_ResponseParser(responseParser)
+  .c_CompletionHandler(^(SCNetworkRequest *request, id result, NSError *err) {
+  
+      if (completion) {
+          completion(result,err);
+      }
+  });
+  [[SCNetworkService sharedService]startRequest:req];
+  ```
 
 - 发送 GET 请求，回调 Model 对象
-
-    ```objc
-    SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:kTestJSONApi params:nil];
-    
-    SCNModelResponseParser *responseParser = [SCNModelResponseParser parser];
-    ///解析前会检查下JSON是否正确；
-    responseParser.checkKeyPath = @"code";
-    responseParser.okValue = @"0";
-    ///根据服务器返回数据的格式和想要解析结构对应的Model配置解析器
-    responseParser.modelName = @"TestModel";
-    responseParser.targetKeyPath = @"content/entrance";
-    req.responseParser = responseParser;
-    [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
-        
-        if (completion) {
-            completion(result,err);
-        }
-    }];
-    [[SCNetworkService sharedService]startRequest:req];
-    ```
+  
+  ```objc
+  SCNetworkRequest *req = [[SCNetworkRequest alloc]initWithURLString:kTestJSONApi params:nil];
+  
+  SCNModelResponseParser *responseParser = [SCNModelResponseParser parser];
+  ///解析前会检查下JSON是否正确；
+  responseParser.checkKeyPath = @"code";
+  responseParser.okValue = @"0";
+  ///根据服务器返回数据的格式和想要解析结构对应的Model配置解析器
+  responseParser.modelName = @"TestModel";
+  responseParser.targetKeyPath = @"content/entrance";
+  req.responseParser = responseParser;
+  [req addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+  
+      if (completion) {
+          completion(result,err);
+      }
+  }];
+  [[SCNetworkService sharedService]startRequest:req];
+  ```
 
 由于上面有 JSON 转 Model 的过程，因此在使用之前需要注册一个对应的解析器，你可以到 demo 里搜下 **[SCNModelResponseParser registerModelParser:[SCNModelParser class]];** 具体看下究竟。
 
 - 文件下载
-
-    ```objc
-    SCNetworkRequest *get = [[SCNetworkRequest alloc]initWithURLString:kTestDownloadApi2 params:nil];
-    //NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:@"node.jpg"];
-    NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:@"test.mp4"];
-    NSLog(@"download path:%@",path);
-    get.downloadFileTargetPath = path;
-    get.responseParser = nil;
-    [get addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
-        
-        if (completion) {
-            completion(path,err);
-        }
-    }];
-    
-    [get addProgressChangedHandler:^(SCNetworkRequest *request, int64_t thisTransfered, int64_t totalBytesTransfered, int64_t totalBytesExpected) {
-        
-        if (totalBytesExpected > 0) {
-            float p = 1.0 * totalBytesTransfered / totalBytesExpected;
-            NSLog(@"download progress:%0.4f",p);
-            if (progress) {
-                progress(p);
-            }
-        }
-    }];
-    
-    [[SCNetworkService sharedService]startRequest:get];
-    ```
+  
+  ```objc
+  SCNetworkRequest *get = [[SCNetworkRequest alloc]initWithURLString:kTestDownloadApi2 params:nil];
+  //NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:@"node.jpg"];
+  NSString *path = [NSTemporaryDirectory()stringByAppendingPathComponent:@"test.mp4"];
+  NSLog(@"download path:%@",path);
+  get.downloadFileTargetPath = path;
+  get.responseParser = nil;
+  [get addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+  
+      if (completion) {
+          completion(path,err);
+      }
+  }];
+  
+  [get addProgressChangedHandler:^(SCNetworkRequest *request, int64_t thisTransfered, int64_t totalBytesTransfered, int64_t totalBytesExpected) {
+  
+      if (totalBytesExpected > 0) {
+          float p = 1.0 * totalBytesTransfered / totalBytesExpected;
+          NSLog(@"download progress:%0.4f",p);
+          if (progress) {
+              progress(p);
+          }
+      }
+  }];
+  
+  [[SCNetworkService sharedService]startRequest:get];
+  ```
 
 - 文件上传
-
-    ```objc
-    NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
-    SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestUploadApi params:ps];
-    
-    SCNetworkFormFilePart *filePart = [SCNetworkFormFilePart new];
-    NSString *fileURL = [[NSBundle mainBundle]pathForResource:@"logo" ofType:@"png"];
-    filePart.data = [[NSData alloc]initWithContentsOfFile:fileURL];
-    filePart.fileName = @"logo.png";
-    filePart.mime = @"image/jpg";
-    filePart.name = @"logo";
-    
-    SCNetworkFormFilePart *filePart2 = [SCNetworkFormFilePart new];
-    filePart2.fileURL = [[NSBundle mainBundle]pathForResource:@"node" ofType:@"txt"];
-    
-    post.formFileParts = @[filePart,filePart2];
-    [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
-        
-        if (completion) {
-            completion(result,err);
-        }
-    }];
-    
-    [post addProgressChangedHandler:^(SCNetworkRequest *request, int64_t thisTransfered, int64_t totalBytesTransfered, int64_t totalBytesExpected) {
-        
-        if (totalBytesExpected > 0) {
-            float p = 1.0 * totalBytesTransfered / totalBytesExpected;
-            NSLog(@"upload progress:%0.4f",p);
-            if (progress) {
-                progress(p);
-            }
-        }
-    }];
-
-    [[SCNetworkService sharedService]startRequest:post];
-    ```
+  
+  ```objc
+  NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
+  SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestUploadApi params:ps];
+  
+  SCNetworkFormFilePart *filePart = [SCNetworkFormFilePart new];
+  NSString *fileURL = [[NSBundle mainBundle]pathForResource:@"logo" ofType:@"png"];
+  filePart.data = [[NSData alloc]initWithContentsOfFile:fileURL];
+  filePart.fileName = @"logo.png";
+  filePart.mime = @"image/jpg";
+  filePart.name = @"logo";
+  
+  SCNetworkFormFilePart *filePart2 = [SCNetworkFormFilePart new];
+  filePart2.fileURL = [[NSBundle mainBundle]pathForResource:@"node" ofType:@"txt"];
+  
+  post.formFileParts = @[filePart,filePart2];
+  [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+  
+      if (completion) {
+          completion(result,err);
+      }
+  }];
+  
+  [post addProgressChangedHandler:^(SCNetworkRequest *request, int64_t thisTransfered, int64_t totalBytesTransfered, int64_t totalBytesExpected) {
+  
+      if (totalBytesExpected > 0) {
+          float p = 1.0 * totalBytesTransfered / totalBytesExpected;
+          NSLog(@"upload progress:%0.4f",p);
+          if (progress) {
+              progress(p);
+          }
+      }
+  }];
+  
+  [[SCNetworkService sharedService]startRequest:post];
+  ```
 
 - 通过表单POST数据
-
-    ```objc
-    NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
-    SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestUploadApi params:ps];
-    post.parameterEncoding = SCNPostDataEncodingFormData;
-    [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
-        
-        if (completion) {
-            completion(result,err);
-        }
-    }];
-    
-    [[SCNetworkService sharedService]startRequest:post];
-    ```
+  
+  ```objc
+  NSDictionary *ps = @{@"name":@"Matt Reach",@"k1":@"v1",@"k2":@"v2",@"date":[[NSDate new]description]};
+  SCNetworkPostRequest *post = [[SCNetworkPostRequest alloc]initWithURLString:kTestUploadApi params:ps];
+  post.parameterEncoding = SCNPostDataEncodingFormData;
+  [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
+  
+      if (completion) {
+          completion(result,err);
+      }
+  }];
+  
+  [[SCNetworkService sharedService]startRequest:post];
+  ```
 
 ## 链式编程
 
@@ -261,22 +257,21 @@ SCNJSONResponseParser *responseParser = [SCNJSONResponseParser parser];
 ///框架会检查接口返回的 code 是不是 0 ，如果不是 0 ，那么返回给你一个err，并且result是 nil;
 responseParser.checkKeyPath = @"code";
 responseParser.okValue = @"0";
-    
+
 ///support chain
-    
+
 SCNetworkRequest *req = [[SCNetworkRequest alloc]init];
-    
+
 req.c_URL(@"http://debugly.cn/dist/json/test.json")
    .c_ResponseParser(responseParser);
    .c_CompletionHandler(^(SCNetworkRequest *request, id result, NSError *err) {
-        
+
             if (completion) {
                 completion(result);
             }
        });
 [[SCNetworkService sharedService]sendRequest:req];
 ```
-
 
 ## 架构设计
 
@@ -291,51 +286,52 @@ req.c_URL(@"http://debugly.cn/dist/json/test.json")
 功能强大的同时要顾及到扩展性，本框架支持很多扩展，以响应解析为例，你可以继续创建你想要的解析器；可以使用你喜欢的 JOSN 转 Model 框架来做解析；可以让网络库解析更多格式的图片；这些都是可以做到的，并且还很简单。
 
 - 由于框架配备了支持 JSON 转 Model 的 SCNModelResponseParser 响应解析器，那么就不得不依赖于 JSON 转 Model 的框架，考虑到项目中很可能已经有了这样的框架，因此并没有将这块逻辑写死，而是采用注册的方式，来扩展 SCN 的能力！所以使用 Model 解析器之前必须注册 一个用于将 JOSN 转为 Model 的类，该类实现 SCNModelParserProtocol 协议！为了方便，最好是在APP启动后就注册，或者创建 Service 的时候创建，以免使用的时候还没注册，导致崩溃！
+  
+  ```objc
+  @protocol SCNModelParserProtocol <NSObject>
+  
+  @required;
+  + (id)JSON2Model:(id)json modelName:(NSString *)mName;
+  
+  @end
+  
+  @interface SCNModelResponseParser : SCNJSONResponseParser
+  
+  @property (nonatomic,copy) NSString *modelName;
+  
+  + (void)registerModelParser:(Class<SCNModelParserProtocol>)parser;
+  
+  @end
+  ```
 
-    ```objc
-    @protocol SCNModelParserProtocol <NSObject>
-    
-    @required;
-    + (id)JSON2Model:(id)json modelName:(NSString *)mName;
-    
-    @end
-    
-    @interface SCNModelResponseParser : SCNJSONResponseParser
-    
-    @property (nonatomic,copy) NSString *modelName;
-    
-    + (void)registerModelParser:(Class<SCNModelParserProtocol>)parser;
+我在 demo 里面使用的是我的另外一个轮子：[SCJSONUtil](https://github.com/debugly/SCJSONUtil) ；具体实现可查看demo。
+
+- 图片解析器默认支持 png、jpg 图片格式，当下 webp 格式由于体积更小，很多厂商开始使用，我的 SDK 里也用到了这个格式，因此我在 SDK 里注册了解析 webp 的解析类；
+  
+  ```objc
+  @protocol SCNImageParserProtocol <NSObject>
+  
+  @required;
+  + (UIImage *)imageWithData:(NSData *)data scale:(CGFloat)scale;
+  
+  @end
+  
+  ///默认支持png 和 jpg；可通过注册的方式扩展！
+  @interface SCNImageResponseParser : SCNHTTPResponseParser
+  ```
+  
+    /**
+     注册新的图片解析器和对应的类型
+  
+     @param parser 解析器
+     @param mime 支持的类型
+     */
+  
+  + (void)registerParser:(Class<SCNImageParserProtocol>)parser forMime:(NSString *)mime;
     
     @end
     
     ```
-
-我在 demo 里面使用的是我的另外一个轮子：[SCJSONUtil](https://github.com/debugly/SCJSONUtil) ；具体实现可查看demo。
-
-
-- 图片解析器默认支持 png、jpg 图片格式，当下 webp 格式由于体积更小，很多厂商开始使用，我的 SDK 里也用到了这个格式，因此我在 SDK 里注册了解析 webp 的解析类；
-
-    ```objc
-    @protocol SCNImageParserProtocol <NSObject>
-    
-    @required;
-    + (UIImage *)imageWithData:(NSData *)data scale:(CGFloat)scale;
-    
-    @end
-    
-    ///默认支持png 和 jpg；可通过注册的方式扩展！
-    @interface SCNImageResponseParser : SCNHTTPResponseParser
-    
-    
-    /**
-     注册新的图片解析器和对应的类型
-    
-     @param parser 解析器
-     @param mime 支持的类型
-     */
-    + (void)registerParser:(Class<SCNImageParserProtocol>)parser forMime:(NSString *)mime;
-    
-    @end
     
     ```
 
@@ -392,6 +388,7 @@ NSURLSession 管理的网络请求结束后，会在 SCNetworkRequest 里处理�
 - 1.0.23: 下载文件时自动创建父级目录，避免下载出错
 - 1.0.24: 支持通过 NSURLRequest 初始化请求对象
 - 1.0.25: 修复参数字典为空时会在请求后面拼接?或者&的问题
+- 1.0.26: 支持下载限速功能
 
 ## 完
 
