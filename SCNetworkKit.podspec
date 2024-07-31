@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SCNetworkKit"
-  s.version      = "1.0.30"
+  s.version      = "1.0.32"
   s.summary      = "SCNetworkKit is a simple but powerful iOS and OS X networking framework."
   s.description  = <<-DESC
                   SCNetworkKit is a simple but powerful iOS and OS X networking framework,based on NSURLSession and NSURLSessionConfiguration, written by Objective-C, Support iOS 7+ ;
@@ -19,6 +19,7 @@ Pod::Spec.new do |s|
   s.author             = { "qianlongxu" => "qianlongxu@gmail.com" }
   s.ios.deployment_target = "7.0"
   s.osx.deployment_target = "10.10"
+  s.tvos.deployment_target = "12.0"
   s.source       = { :git => "https://github.com/debugly/SCNetworkKit.git", :tag => "#{s.version}" }
   s.source_files  = "SCNetworkKit/Classes/**/*.{h,m}"
   s.public_header_files = "SCNetworkKit/Classes/SCNetworkKit.h", "SCNetworkKit/Classes/Util/NSDictionary+SCAddtions.h", "SCNetworkKit/Classes/Util/NSString+SCAddtions.h", "SCNetworkKit/Classes/NetworkService/SCNetworkService*.h", "SCNetworkKit/Classes/Request/SCNetworkRequest.h", "SCNetworkKit/Classes/ResponseParser/*.h"
