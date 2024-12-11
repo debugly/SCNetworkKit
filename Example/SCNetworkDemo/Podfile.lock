@@ -1,6 +1,6 @@
 PODS:
   - SCJSONUtil (2.5.2)
-  - SCNetworkKit (1.0.26)
+  - SCNetworkKit (1.0.33)
 
 DEPENDENCIES:
   - SCJSONUtil
@@ -16,7 +16,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   SCJSONUtil: c4ab28a8d976ddf57f4b9f27a8f795f1166c9593
-  SCNetworkKit: 38cd4075c43f71030dab6ce69c2d0ccd349d155d
+  SCNetworkKit: d70a7e0c854ff20a8690524ed2ecf41beadbb1af
 
 PODFILE CHECKSUM: 9120efb6f105af6d89aad920d156c216adb37e9f
 

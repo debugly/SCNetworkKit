@@ -93,6 +93,8 @@ API_AVAILABLE(macos(10.10),ios(7.0))
 @property (nonatomic, assign) BOOL useBreakpointContinuous;
 ///限速值，单位 bytes，默认 0 不限速
 @property (nonatomic, assign) int64_t speedLimit;
+///最近一次写入数据时间戳
+@property (nonatomic, assign) NSTimeInterval lastWriteDataTime;
 
 @end
 

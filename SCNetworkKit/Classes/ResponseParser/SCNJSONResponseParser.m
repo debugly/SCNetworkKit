@@ -22,7 +22,7 @@ NSString *const SCNParserErrorKey_ErrMsgValue = @"ErrMsgValue";
     self = [super init];
     if (self) {
         self.autoRemovesNullValues = YES;
-        self.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"application/javascript",@"text/json",@"text/javascript",@"text/plain",@"text/html", nil];
+        self.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"application/javascript",@"application/octet-stream",@"text/json",@"text/javascript",@"text/plain",@"text/html", nil];
     }
     return self;
 }
