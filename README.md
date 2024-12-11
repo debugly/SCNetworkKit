@@ -389,6 +389,7 @@ NSURLSession 管理的网络请求结束后，会在 SCNetworkRequest 里处理�
 - 1.0.24: 支持通过 NSURLRequest 初始化请求对象
 - 1.0.25: 修复参数字典为空时会在请求后面拼接?或者&的问题
 - 1.0.26: 支持下载限速功能
+- 1.0.27: JSON解析checkKeyPath支持多级路径
 
 ## 完
 

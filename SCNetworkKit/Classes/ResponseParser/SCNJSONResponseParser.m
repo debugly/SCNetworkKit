@@ -145,7 +145,7 @@ NSString *const SCNParserErrorKey_ErrMsgValue = @"ErrMsgValue";
     //验证下服务器返回数据
     if (self.checkKeyPath && self.okValue) {
         if ([json isKindOfClass:[NSDictionary class]]) {
-            id v = [json valueForKeyPath:self.checkKeyPath];
+            id v = [self findSubJSON:json keyPath:self.checkKeyPath];
             BOOL isValidate = [[v description] isEqualToString:self.okValue];
             //验证不通过
             if(!isValidate){
