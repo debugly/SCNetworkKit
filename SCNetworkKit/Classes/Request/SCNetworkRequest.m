@@ -289,19 +289,21 @@ static dispatch_queue_t SCN_Response_Parser_Queue(void) {
                                    query:(NSDictionary *)parameters
 {
     NSAssert(urlString, @"makeURLRequest:url不能为空");
-    NSString *queryStr = [SCNUtil makeUrlEncodeingString:parameters];
-    if (queryStr.length > 0) {
-        if (NSNotFound != [urlString rangeOfString:@"?"].location) {
-            NSString *join = @"&";
-            if ([urlString hasSuffix:@"&"]) {
-                join = @"";
+    if (parameters) {
+        NSString *queryStr = [SCNUtil makeUrlEncodeingString:parameters];
+        if (queryStr.length > 0) {
+            if (NSNotFound != [urlString rangeOfString:@"?"].location) {
+                NSString *join = @"&";
+                if ([urlString hasSuffix:@"&"]) {
+                    join = @"";
+                }
+                urlString = [NSString stringWithFormat:@"%@%@%@", urlString,join,queryStr];
+            } else {
+                urlString = [NSString stringWithFormat:@"%@?%@", urlString,queryStr];
             }
-            urlString = [NSString stringWithFormat:@"%@%@%@", urlString,join,queryStr];
-        } else {
-            urlString = [NSString stringWithFormat:@"%@?%@", urlString,queryStr];
         }
     }
-
+    
     NSURL *url = [NSURL URLWithString:urlString];
     
     NSAssert(url, @"makeURLRequest:url不合法");

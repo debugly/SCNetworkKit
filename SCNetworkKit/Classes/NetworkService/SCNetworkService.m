@@ -23,6 +23,7 @@
 @property (nonatomic, strong) dispatch_queue_t taskSynzQueue;
 @property (nonatomic, strong) NSMutableDictionary *taskRequestMap;
 @property (nonatomic, strong) NSURLSession *session;
+@property (nonatomic, copy) BOOL (^willSendRequestBlcok)(__kindof SCNetworkBasicRequest *);
 
 @end
 
@@ -86,8 +87,21 @@
     return self;
 }
 
+- (void)willSendRequest:(BOOL (^)(__kindof SCNetworkBasicRequest *))block
+{
+    self.willSendRequestBlcok = block;
+}
+
 - (void)startRequest:(__kindof SCNetworkBasicRequest *)request
 {
+    if (self.willSendRequestBlcok) {
+        BOOL send = self.willSendRequestBlcok(request);
+        if (!send) {
+            [request cancel];
+            return;
+        }
+    }
+    
     NSURLRequest * urlRequest = request.urlRequest;
     if(!request || !urlRequest) {
         NSAssert((request && urlRequest),

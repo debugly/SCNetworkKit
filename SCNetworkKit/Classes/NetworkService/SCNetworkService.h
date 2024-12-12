@@ -20,5 +20,7 @@ FOUNDATION_EXPORT NSString *const SCNetworkKitErrorDomain;
 
 ///开始请求；
 - (void)startRequest:(__kindof SCNetworkBasicRequest *)request;
+///将要发送请求，可以在发送前修改这个 request, 返回 NO 将取消此次请求
+- (void)willSendRequest:(BOOL(^)(__kindof SCNetworkBasicRequest *request))block;
 
 @end
