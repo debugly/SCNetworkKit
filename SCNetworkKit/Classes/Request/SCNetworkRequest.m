@@ -290,7 +290,14 @@ static dispatch_queue_t SCN_Response_Parser_Queue(void) {
 {
     NSAssert(urlString, @"makeURLRequest:url不能为空");
     if (parameters) {
-        NSString *queryStr = [SCNUtil makeUrlEncodeingString:parameters];
+        NSURLComponents *com = [[NSURLComponents alloc] initWithString:urlString];
+        NSMutableDictionary *rmDuplicates = [NSMutableDictionary dictionaryWithDictionary:parameters];
+        for (NSURLQueryItem *item in [com queryItems]) {
+            if ([rmDuplicates objectForKey:item.name]) {
+                [rmDuplicates removeObjectForKey:item.name];
+            }
+        }
+        NSString *queryStr = [SCNUtil makeUrlEncodeingString:rmDuplicates];
         if (queryStr.length > 0) {
             if (NSNotFound != [urlString rangeOfString:@"?"].location) {
                 NSString *join = @"&";
