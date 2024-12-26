@@ -166,12 +166,10 @@ static dispatch_queue_t SCN_Response_Parser_Queue(void) {
             }
         }
     }
-    
     else if(SCNKRequestStateCancelled == state) {
-        //SCNKRequestStateCancelled do nothing
-        
+        //SCNKRequestStateCancelled need clean
+        [self doCancel];
     }
-    
     else {
         //SCNKRequestStateReady do nothing
     }
@@ -212,6 +210,24 @@ static dispatch_queue_t SCN_Response_Parser_Queue(void) {
 #endif
     });
 }
+
+- (void)doCancel
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.completionHandlers = nil;
+        self.progressChangedHandlers = nil;
+        self.responseHandlers = nil;
+#if TARGET_OS_IPHONE
+        if (@available(iOS 9.0, *)) {} else {
+            if (self.backgroundTask != UIBackgroundTaskInvalid) {
+                [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTask];
+                self.backgroundTask = UIBackgroundTaskInvalid;
+            }
+        }
+#endif
+    });
+}
+
 
 - (void)updateTransferedData:(int64_t)bytes
                   totalBytes:(int64_t)totalBytes
