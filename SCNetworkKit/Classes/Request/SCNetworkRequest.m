@@ -200,6 +200,9 @@ static dispatch_queue_t SCN_Response_Parser_Queue(void) {
         [self.completionHandlers enumerateObjectsUsingBlock:^(_Nonnull SCNetWorkHandler handler, NSUInteger idx, BOOL * _Nonnull stop) {
             handler(self,reslut,error);
         }];
+        self.completionHandlers = nil;
+        self.progressChangedHandlers = nil;
+        self.responseHandlers = nil;
 #if TARGET_OS_IPHONE
         if (@available(iOS 9.0, *)) {} else {
             if (self.backgroundTask != UIBackgroundTaskInvalid) {
