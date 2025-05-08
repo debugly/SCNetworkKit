@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum : NSUInteger {
+typedef enum : NSInteger {
     SCNResponseParserError_ContentTypeInvalidate     = -5000,   //类型不支持
     SCNResponseParserError_CheckValueInvalidate      = -5001,   //CheckPath返回值没有
     SCNResponseParserError_IsNotDictionary           = -5002,   //服务端返回数据不是字典
