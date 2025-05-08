@@ -396,6 +396,7 @@ NSURLSession 管理的网络请求结束后，会在 SCNetworkRequest 里处理�
 - 1.0.31: JSON响应解析器默认包含 application/octet-stream 类型
 - 1.0.32: 支持 tvOS 平台
 - 1.0.33: 取消时清理相关的block,避免持有捕获对象
+- 1.0.34: 解决与 C++ 混编报错
 
 ## 完
 
