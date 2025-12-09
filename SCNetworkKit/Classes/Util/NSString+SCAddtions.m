@@ -14,7 +14,7 @@
 - (NSString *)sc_urlEncodedString
 {
     NSString *encodedString = nil;
-    NSString *needPercentCharacters = @"?!@#$^&%*+,:;='\"`<>()[]{}/\\| ";
+    NSString *needPercentCharacters = @"?!@#$^&%*+,:;='\"`<>()[]{}/\\| \n\r\t";
     
     if (@available(iOS 9.0,macos 10.11,*)) {
         NSCharacterSet *notAllowedCharacters = [NSCharacterSet characterSetWithCharactersInString:needPercentCharacters];
