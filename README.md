@@ -1,11 +1,8 @@
 ## SCNetworkKit
 
-[![CI Status](https://img.shields.io/travis/debugly/SCNetworkKit.svg?style=flat)](https://travis-ci.org/debugly/SCNetworkKit)
-[![Version](https://img.shields.io/cocoapods/v/SCNetworkKit.svg?style=flat)](https://cocoapods.org/pods/SCNetworkKit)
-[![License](https://img.shields.io/cocoapods/l/SCNetworkKit.svg?style=flat)](https://cocoapods.org/pods/SCNetworkKit)
-[![Platform](https://img.shields.io/cocoapods/p/SCNetworkKit.svg?style=flat)](https://cocoapods.org/pods/SCNetworkKit)
+<img src="https://img.shields.io/badge/License-MIT-blue.svg"> <img src="https://img.shields.io/badge/Platform-%20iOS%20macOS%20tvOS%20-blue.svg">
 
-SCNetworkKit 是一个功能强大的网络库，支持 iOS / macOS 平台。在编写该库时参考了 [MKNetworkKit](https://github.com/MugunthKumar/MKNetworkKit) 、[AFNetworking](https://github.com/AFNetworking/AFNetworking) 、[Masonry](https://github.com/desandro/masonry)、[ASIHTTPRequest](https://github.com/debugly/asi-http-request) 等优秀开源项目架构的思想，结合了公司项目的实际情况进行逐步改造演变而来。
+SCNetworkKit 是一个功能强大的网络库，支持 iOS / macOS / tvOS 平台。在编写该库时参考了 [MKNetworkKit](https://github.com/MugunthKumar/MKNetworkKit) 、[AFNetworking](https://github.com/AFNetworking/AFNetworking) 、[Masonry](https://github.com/desandro/masonry)、[ASIHTTPRequest](https://github.com/debugly/asi-http-request) 等优秀开源项目的架构思想，结合了公司项目的实际情况逐步改造演变而来。
 
 - 使用 Objective-C 语言编写
 - 底层封装了 NSURLSession，最低支持 iOS 11.0 / OS X 10.11
@@ -65,17 +62,16 @@ npm start
 - 使用 CocoaPods 安装
   
   ```
-  source 'https://github.com/CocoaPods/Specs.git'
   platform :ios, '11.0'
   
   target 'TargetName' do
-  pod 'SCNetworkKit'
+      pod 'SCNetworkKit'
   end
   ```
 
 - 使用源码
   
-    下载最新 [release](https://github.com/debugly/SCNetworkKit/tags) 代码，找到 SCNetworkKit 目录，拖到工程里即可。
+ 下载最新 [release](https://github.com/debugly/SCNetworkKit/tags) 代码，找到 SCNetworkKit 目录，拖到工程里即可。
 
 ## 使用范例
 
@@ -277,10 +273,6 @@ req.c_URL(@"http://debugly.cn/dist/json/test.json")
 
 - 综合参考了 MKNetwork2.0 和 AFNetwork 2.0 的设计，吸取了他们的精华，去掉了冗余的设计，融入了自己的想法，将网络请求抽象为 Request 对象，并由 Service 管理，Service 为 Request 分配代理对象 --- 处理传输数据、请求结束，请求失败等事件，请求结束后通过改变 Rquest 的 state 属性，告知 Request 请求结束，然后根据配置的响应解析器，异步解析数据，结果可能是 data, string, json, model, image 等等；最终通过我们添加到 Request 对象上的 completionBlock 回调给调用层。
 
-设计图:
-
-<img src="http://debugly.cn/images/SCNetworkKit/SCNetworkKit.png">
-
 ## 采用注册的方式解耦和
 
 功能强大的同时要顾及到扩展性，本框架支持很多扩展，以响应解析为例，你可以继续创建你想要的解析器；可以使用你喜欢的 JOSN 转 Model 框架来做解析；可以让网络库解析更多格式的图片；这些都是可以做到的，并且还很简单。
@@ -398,6 +390,3 @@ NSURLSession 管理的网络请求结束后，会在 SCNetworkRequest 里处理�
 - 1.0.33: 取消时清理相关的block,避免持有捕获对象
 - 1.0.34: 解决与 C++ 混编报错
 - 1.0.35: 解决换行符未编码问题
-## 完
-
-由于该网络库是完全为自己业务服务的，因此不是所有的功能都很完善，而是用到时再加，发现不合理就改，所以如果你使用了 SCNetworkKit ，发现功能缺失，可以提交 PR 或者 Issue 给我！
