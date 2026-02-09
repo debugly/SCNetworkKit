@@ -14,6 +14,8 @@
 #import <Foundation/Foundation.h>
 #import "SCNResponseParserProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef enum : NSUInteger {
     SCNKRequestStateReady,
     SCNKRequestStateStarted,
@@ -28,25 +30,25 @@ typedef enum : NSUInteger {
 } SCNetworkRequestMethod;
 
 @class SCNetworkBasicRequest;
-typedef void(^SCNetWorkHandler)(__kindof SCNetworkBasicRequest *req,id result,NSError *err);
+typedef void(^SCNetWorkHandler)(__kindof SCNetworkBasicRequest *req, id _Nullable result, NSError * _Nullable err);
 typedef void(^SCNetWorkProgressDidChangeHandler)(__kindof SCNetworkBasicRequest *req, int64_t thisTransfered, int64_t totalBytesTransfered, int64_t totalBytesExpected);
-typedef void(^SCNetWorkDidReceiveResponseHandler)(__kindof SCNetworkBasicRequest *req,NSURLResponse *resp);
+typedef void(^SCNetWorkDidReceiveResponseHandler)(__kindof SCNetworkBasicRequest *req, NSURLResponse *resp);
 
 #pragma mark - 基础请求
 
 API_AVAILABLE(macos(10.10),ios(7.0))
 
 @interface SCNetworkBasicRequest : NSObject
-
-@property (nonatomic, copy) NSString *tag;
-//请求发起和结束时间戳，距离1970年的毫秒数
+///自定义tag
+@property (nonatomic, copy, nullable) NSString *tag;
+///请求发起的时间戳，距离1970年的毫秒数
 @property (nonatomic, assign) NSTimeInterval startStamp;
+///请求结束的时间戳，距离1970年的毫秒数
 @property (nonatomic, assign) NSTimeInterval endStamp;
-
-///default is SCNJSONResponseParser
-@property (nonatomic, strong) id<SCNResponseParserProtocol>responseParser;
 ///请求超时时间，默认60s
-@property (nonatomic)NSTimeInterval timeoutInterval;
+@property (nonatomic, assign) NSTimeInterval timeoutInterval;
+///default is SCNJSONResponseParser
+@property (nonatomic, strong, nullable) id<SCNResponseParserProtocol>responseParser;
 ///仅当SCNetWorkDidReceiveResponseHandler回调后才能取到值
 @property (nonatomic, strong, readonly) NSHTTPURLResponse *response;
 ///the request's state
@@ -73,24 +75,26 @@ API_AVAILABLE(macos(10.10),ios(7.0))
 
 ///该初始化方法传入的参数，会给下面两个属性直接赋值
 - (instancetype)initWithURLString:(NSString *)aURL
-                           params:(id)params;
+                           params:(id _Nullable)params;
 
-@property (nonatomic, copy) NSString *urlString;
+@property (nonatomic, copy, nullable) NSString *urlString;
 ///POST:放到body里；GET:拼接到URL上
-@property (nonatomic, strong) id parameters;
+@property (nonatomic, strong, nullable) id parameters;
 
 ///add HTTP Header
 - (void)addHeaders:(NSDictionary *)hs;
 
 @end
 
-///下载文件类
+///下载文件类，默认responseParser为空
 @interface SCNetworkDownloadRequest : SCNetworkRequest
 
-///设置下载文件路径（该操作会把默认responseParser置空）；如果父目录不存在会自动创建
+///设置下载文件路径，如果父目录不存在会自动创建
 @property (nonatomic, copy) NSString *downloadFileTargetPath;
-///使用断点续传，默认不使用 (对于一个没有启用断点续传的任务，然后启用，则从头开始下载！反之亦然！)
+///使用断点续传，默认为 NO；当不起用时，内部则将data task转成 dwonload task
 @property (nonatomic, assign) BOOL useBreakpointContinuous;
+///仅当 useBreakpointContinuous 为 true 时生效
+@property (nonatomic, assign) BOOL useTmpFile;
 ///限速值，单位 bytes，默认 0 不限速
 @property (nonatomic, assign) int64_t speedLimit;
 
@@ -100,12 +104,12 @@ API_AVAILABLE(macos(10.10),ios(7.0))
 
 @interface SCNetworkFormFilePart : NSObject
 
-@property (nonatomic,copy) NSString *mime;//文本类型
-@property (nonatomic,copy) NSString *fileName;//上传文件名
-@property (nonatomic,copy) NSString *name;//表单的名称，默认为 "file"
+@property (nonatomic, copy) NSString *mime;//文本类型
+@property (nonatomic, copy) NSString *fileName;//上传文件名
+@property (nonatomic, copy) NSString *name;//表单的名称，默认为 "file"
 ///上传文件的时候，小文件可以使用 data，大文件要使用 fileURL，省得内存暂用过大！
-@property (nonatomic,copy) NSString *fileURL;//文件地址，此时可以不传fileName和mime，内部自动推断
-@property (nonatomic,strong) NSData *data;//二进制数据，必须传fileName和mime，内部不能推断
+@property (nonatomic, copy) NSString *fileURL;//文件地址，此时可以不传fileName和mime，内部自动推断
+@property (nonatomic, strong) NSData *data;//二进制数据，必须传fileName和mime，内部不能推断
 
 @end
 
@@ -120,13 +124,13 @@ typedef enum : NSUInteger {
 @interface SCNetworkPostRequest : SCNetworkRequest
 
 //默认是: application/x-www-form-urlencoded
-@property (nonatomic,assign) SCNPostDataEncoding parameterEncoding;
+@property (nonatomic, assign) SCNPostDataEncoding parameterEncoding;
 /*
  需要通过表单上传的文件使用这个字段；
  支持多文件上传，数组里的每个元素均是一个文件；
  formFileParts 一旦被赋值，则parameterEncoding会强制使用multipart/form-data编码！
  */
-@property (nonatomic,strong) NSArray <SCNetworkFormFilePart *>* formFileParts;
+@property (nonatomic, strong, nullable) NSArray <SCNetworkFormFilePart *>* formFileParts;
 
 /* 添加URL query参数!!该方法会把参数追加到 URL 上，类似 GET 请求的参数拼！
  当使用 parameterEncoding 是 SCNPostDataEncodingFormData 形式编码时,
@@ -141,3 +145,4 @@ typedef enum : NSUInteger {
 
 @end
 
+NS_ASSUME_NONNULL_END

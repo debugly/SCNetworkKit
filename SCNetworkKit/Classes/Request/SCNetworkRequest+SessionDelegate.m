@@ -38,7 +38,7 @@ didCompleteWithError:(NSError *)error
             } else {
                 [self updateState:SCNKRequestStateCancelled error:error];
             }
-        }else {
+        } else {
             [self updateState:SCNKRequestStateError error:error];
         }
     } else {

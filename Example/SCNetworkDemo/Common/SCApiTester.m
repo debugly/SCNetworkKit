@@ -357,6 +357,8 @@
 
     post.downloadFileTargetPath = path;
     post.useBreakpointContinuous = YES;
+    post.useTmpFile = YES;
+    
     [post addCompletionHandler:^(SCNetworkRequest *request, id result, NSError *err) {
         if (completion) {
             completion(path,err);

@@ -180,7 +180,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue(void) {
     dispatch_sync_to_main_queue(^{
         self.response = response;
         [self.responseHandlers enumerateObjectsUsingBlock:^(SCNetWorkDidReceiveResponseHandler  _Nonnull handler, NSUInteger idx, BOOL * _Nonnull stop) {
-            handler(self,response);
+            handler(self, response);
         }];
     });
     
@@ -407,6 +407,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue(void) {
         self.responseParser = nil;
         self.lastWriteDataTime = 0;
         self.speedLimit = 0;
+        self.useTmpFile = NO;
     }
     return self;
 }
@@ -417,24 +418,28 @@ static dispatch_queue_t SCN_Response_Parser_Queue(void) {
     _fileHandler = nil;
 }
 
-- (void)setDownloadFileTargetPath:(NSString *)downloadFileTargetPath
+- (NSString *)dstPath
 {
-    _downloadFileTargetPath = downloadFileTargetPath;
-    self.responseParser = nil;
+    NSParameterAssert(self.downloadFileTargetPath);
+    NSString *dstPath = self.downloadFileTargetPath;
+    if (self.useTmpFile) {
+        dstPath = [dstPath stringByAppendingPathExtension:@"tmp"];
+    }
+    return dstPath;
 }
 
 - (NSFileHandle *)fileHandler
 {
     if(!_fileHandler){
-        NSParameterAssert(self.downloadFileTargetPath);
-        if (![[NSFileManager defaultManager]fileExistsAtPath:self.downloadFileTargetPath]) {
+        NSString *dstPath = [self dstPath];
+        if (![[NSFileManager defaultManager]fileExistsAtPath:dstPath]) {
             NSString *dir = [self.downloadFileTargetPath stringByDeletingLastPathComponent];
             if (dir) {
                 [[NSFileManager defaultManager] createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:NULL];
             }
-            [[NSFileManager defaultManager] createFileAtPath:self.downloadFileTargetPath contents:nil attributes:NULL];
+            [[NSFileManager defaultManager] createFileAtPath:dstPath contents:nil attributes:NULL];
         }
-        _fileHandler = [NSFileHandle fileHandleForUpdatingAtPath:self.downloadFileTargetPath];
+        _fileHandler = [NSFileHandle fileHandleForUpdatingAtPath:dstPath];
         NSParameterAssert(_fileHandler);
         self.currentOffset = [_fileHandler seekToEndOfFile];
     }
@@ -542,6 +547,21 @@ static dispatch_queue_t SCN_Response_Parser_Queue(void) {
 {
     [_fileHandler closeFile];
     _fileHandler = nil;
+    
+    NSString *dstPath = [self dstPath];
+    if (![self.downloadFileTargetPath isEqualToString:dstPath]) {
+        NSError *err = nil;
+        [[NSFileManager defaultManager] moveItemAtPath:dstPath toPath:self.downloadFileTargetPath error:&err];
+        //516:文件已经存在
+        if (err.code == NSFileWriteFileExistsError) {
+            [[NSFileManager defaultManager] removeItemAtPath:self.downloadFileTargetPath error:nil];
+            err = nil;
+            [[NSFileManager defaultManager] moveItemAtPath:dstPath toPath:self.downloadFileTargetPath error:&err];
+        }
+        if (err) {
+            NSLog(@"moveItem failed with error:%@", err);
+        }
+    }
     //same as super finish.
     [super doFinishWithResult:reslut error:error];
 }
@@ -567,8 +587,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue(void) {
 
 - (NSMutableDictionary *)queryPs
 {
-    if(!_queryPs)
-    {
+    if(!_queryPs) {
         _queryPs = [NSMutableDictionary dictionary];
     }
     return _queryPs;
