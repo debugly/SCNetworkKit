@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "SCNResponseParserProtocol.h"
 
-typedef id(^SCNParserBlock)(NSHTTPURLResponse *response,NSData *data,NSError * __autoreleasing *error);
+NS_ASSUME_NONNULL_BEGIN
+
+typedef id _Nullable (^SCNParserBlock)(NSHTTPURLResponse *response, NSData * _Nullable data, NSError * __autoreleasing * _Nullable error);
 
 @interface SCNBlockResponseParser : NSObject<SCNResponseParserProtocol>
 
@@ -18,3 +20,5 @@ typedef id(^SCNParserBlock)(NSHTTPURLResponse *response,NSData *data,NSError * _
 + (instancetype)blockParserWithCustomProcess:(SCNParserBlock)block;
 
 @end
+
+NS_ASSUME_NONNULL_END

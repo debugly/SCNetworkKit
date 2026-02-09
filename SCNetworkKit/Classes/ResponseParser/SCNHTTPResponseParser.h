@@ -10,11 +10,15 @@
 #import <Foundation/Foundation.h>
 #import "SCNResponseParserProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SCNHTTPResponseParser : NSObject<SCNResponseParserProtocol>
 
-@property (nonatomic, copy) NSIndexSet *acceptableStatusCodes;
-@property (nonatomic, copy) NSSet <NSString *> *acceptableContentTypes;
+@property (nonatomic, copy, nullable) NSIndexSet *acceptableStatusCodes;
+@property (nonatomic, copy, nullable) NSSet <NSString *> *acceptableContentTypes;
 
 + (instancetype)parser;
 
 @end
+
+NS_ASSUME_NONNULL_END

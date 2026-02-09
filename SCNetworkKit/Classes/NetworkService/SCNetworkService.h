@@ -11,6 +11,8 @@
 #import <Foundation/Foundation.h>
 #import "SCNetworkRequest.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 FOUNDATION_EXPORT NSString *const SCNetworkKitErrorDomain;
 
 @interface SCNetworkService : NSObject
@@ -24,3 +26,5 @@ FOUNDATION_EXPORT NSString *const SCNetworkKitErrorDomain;
 - (void)willSendRequest:(BOOL(^)(__kindof SCNetworkBasicRequest *request))block;
 
 @end
+
+NS_ASSUME_NONNULL_END
