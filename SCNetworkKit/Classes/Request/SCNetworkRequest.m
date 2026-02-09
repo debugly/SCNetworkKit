@@ -31,15 +31,6 @@ static dispatch_queue_t SCN_Response_Parser_Queue(void) {
 
 @implementation SCNetworkBasicRequest
 
-- (instancetype)initWithURLRequest:(NSURLRequest *)aReq
-{
-    self = [self init];
-    if (self) {
-        _urlRequest = aReq;
-    }
-    return self;
-}
-
 - (instancetype)init
 {
     self = [super init];
@@ -49,6 +40,15 @@ static dispatch_queue_t SCN_Response_Parser_Queue(void) {
 #if TARGET_OS_IPHONE
         self.backgroundTask = UIBackgroundTaskInvalid;
 #endif
+    }
+    return self;
+}
+
+- (instancetype)initWithURLRequest:(NSURLRequest *)aReq
+{
+    self = [self init];
+    if (self) {
+        _urlRequest = aReq;
     }
     return self;
 }
@@ -296,7 +296,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue(void) {
 - (instancetype)initWithURLString:(NSString *)aURL
                            params:(id)params
 {
-    self = [self init];
+    self = [super init];
     if (self) {
         self.urlString = aURL;
         self.parameters = params;
@@ -400,14 +400,37 @@ static dispatch_queue_t SCN_Response_Parser_Queue(void) {
 
 @implementation SCNetworkDownloadRequest
 
+- (void)setup
+{
+    self.responseParser = nil;
+    self.lastWriteDataTime = 0;
+    self.speedLimit = 0;
+    self.useTmpFile = NO;
+}
+
 - (instancetype)init
 {
     self = [super init];
     if (self) {
-        self.responseParser = nil;
-        self.lastWriteDataTime = 0;
-        self.speedLimit = 0;
-        self.useTmpFile = NO;
+        [self setup];
+    }
+    return self;
+}
+
+- (instancetype)initWithURLRequest:(NSURLRequest *)aReq
+{
+    self = [super initWithURLRequest:aReq];
+    if (self) {
+        [self setup];
+    }
+    return self;
+}
+
+- (instancetype)initWithURLString:(NSString *)aURL params:(id)params
+{
+    self = [super initWithURLString:aURL params:params];
+    if (self) {
+        [self setup];
     }
     return self;
 }

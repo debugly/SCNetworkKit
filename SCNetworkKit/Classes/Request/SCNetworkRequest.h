@@ -58,6 +58,7 @@ API_AVAILABLE(macos(10.10),ios(7.0))
 
 @property (nonatomic, readonly) NSURLRequest *urlRequest;
 
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
 ///init with a urlrequest
 - (instancetype)initWithURLRequest:(NSURLRequest *)aReq;
 ///invoked on main thread,on the request finished
