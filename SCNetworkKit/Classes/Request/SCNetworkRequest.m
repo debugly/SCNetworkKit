@@ -572,7 +572,7 @@ static dispatch_queue_t SCN_Response_Parser_Queue(void) {
     _fileHandler = nil;
     
     NSString *dstPath = [self dstPath];
-    if (![self.downloadFileTargetPath isEqualToString:dstPath]) {
+    if (dstPath && ![self.downloadFileTargetPath isEqualToString:dstPath]) {
         NSError *err = nil;
         [[NSFileManager defaultManager] moveItemAtPath:dstPath toPath:self.downloadFileTargetPath error:&err];
         //516:文件已经存在
